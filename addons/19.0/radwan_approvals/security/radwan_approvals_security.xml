@@ -1,0 +1,73 @@
+<odoo>
+    <record id="radwan_approval_request_rule_company" model="ir.rule">
+        <field name="name">radwan.approval.request.rule.company</field>
+        <field name="model_id" ref="model_radwan_approval_request"/>
+        <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+    </record>
+
+    <record id="radwan_approval_request_rule_user" model="ir.rule">
+        <field name="name">radwan.approval.request.rule.user</field>
+        <field name="model_id" ref="model_radwan_approval_request"/>
+        <field name="domain_force">['|', ('request_owner_id', '=', user.id), ('approver_ids.user_id', '=', user.id)]</field>
+        <field name="groups" eval="[(4, ref('radwan_approvals_group_user'))]"/>
+    </record>
+
+    <record id="radwan_approval_request_rule_manager" model="ir.rule">
+        <field name="name">radwan.approval.request.rule.manager</field>
+        <field name="model_id" ref="model_radwan_approval_request"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4, ref('radwan_approvals_group_manager'))]"/>
+    </record>
+
+    <record id="radwan_approval_category_rule_company" model="ir.rule">
+        <field name="name">radwan.approval.category.rule.company</field>
+        <field name="model_id" ref="model_radwan_approval_category"/>
+        <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+    </record>
+
+    <record id="radwan_approval_category_approver_rule_company" model="ir.rule">
+        <field name="name">radwan.approval.category.approver.rule.company</field>
+        <field name="model_id" ref="model_radwan_approval_category_approver"/>
+        <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+    </record>
+
+    <record id="radwan_approver_rule_company" model="ir.rule">
+        <field name="name">radwan.approver.rule.company</field>
+        <field name="model_id" ref="model_radwan_approver"/>
+        <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+    </record>
+
+    <record id="radwan_approver_rule_user" model="ir.rule">
+        <field name="name">radwan.approver.rule.user</field>
+        <field name="model_id" ref="model_radwan_approver"/>
+        <field name="domain_force">['|', ('request_id.request_owner_id', '=', user.id), ('user_id', '=', user.id)]</field>
+        <field name="groups" eval="[(4, ref('radwan_approvals_group_user'))]"/>
+    </record>
+
+    <record id="radwan_approver_rule_manager" model="ir.rule">
+        <field name="name">radwan.approver.rule.manager</field>
+        <field name="model_id" ref="model_radwan_approver"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4, ref('radwan_approvals_group_manager'))]"/>
+    </record>
+
+    <record id="radwan_approval_product_line_rule_company" model="ir.rule">
+        <field name="name">radwan.approval.product.line.rule.company</field>
+        <field name="model_id" ref="model_radwan_approval_product_line"/>
+        <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+    </record>
+
+    <record id="radwan_approval_product_line_rule_user" model="ir.rule">
+        <field name="name">radwan.approval.product.line.rule.user</field>
+        <field name="model_id" ref="model_radwan_approval_product_line"/>
+        <field name="domain_force">['|', ('request_id.request_owner_id', '=', user.id), ('request_id.approver_ids.user_id', '=', user.id)]</field>
+        <field name="groups" eval="[(4, ref('radwan_approvals_group_user'))]"/>
+    </record>
+
+    <record id="radwan_approval_product_line_rule_manager" model="ir.rule">
+        <field name="name">radwan.approval.product.line.rule.manager</field>
+        <field name="model_id" ref="model_radwan_approval_product_line"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4, ref('radwan_approvals_group_manager'))]"/>
+    </record>
+</odoo>

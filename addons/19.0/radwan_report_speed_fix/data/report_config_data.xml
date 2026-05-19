@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <function model="ir.config_parameter" name="set_param" eval="('report.url', 'http://127.0.0.1:8070')"/>
+    <function model="ir.config_parameter" name="set_param" eval="('web.base.url', 'http://127.0.0.1:8069')"/>
+    <function model="ir.config_parameter" name="set_param" eval="('web.base.url.freeze', 'true')"/>
+    <function model="ir.config_parameter" name="set_param" eval="('radwan_report_speed_fix.no_proxy', '1')"/>
+    <function model="ir.config_parameter" name="set_param" eval="('radwan_report_speed_fix.skip_cookie_jar', '1')"/>
+    <function model="ir.config_parameter" name="set_param" eval="('radwan_report_speed_fix.disable_javascript', '1')"/>
+    <function model="ir.config_parameter" name="set_param" eval="('radwan_report_speed_fix.ignore_load_errors', '1')"/>
+    <function model="ir.config_parameter" name="set_param" eval="('radwan_report_speed_fix.javascript_delay', '100')"/>
+    <function model="ir.config_parameter" name="set_param" eval="('report.print_delay', '100')"/>
+</odoo>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem
+        id="radwan_hr_development_menu"
+        name="Development"
+        parent="hr.menu_hr_root"
+        sequence="6"
+    />
+
+    <record id="mj_appraisal.performance_appraisal_menu" model="ir.ui.menu">
+        <field name="parent_id" ref="radwan_hr_development_menu"/>
+        <field name="sequence" eval="10"/>
+    </record>
+
+    <record id="employee_orientation.employee_orientation_menu_root" model="ir.ui.menu">
+        <field name="parent_id" ref="radwan_hr_development_menu"/>
+        <field name="sequence" eval="20"/>
+    </record>
+
+    <record id="employee_orientation.menu_employee_training_child" model="ir.ui.menu">
+        <field name="parent_id" ref="radwan_hr_development_menu"/>
+        <field name="sequence" eval="30"/>
+    </record>
+
+    <record id="hr_skills.hr_skill_learning_menu" model="ir.ui.menu">
+        <field name="parent_id" ref="radwan_hr_development_menu"/>
+        <field name="sequence" eval="40"/>
+    </record>
+</odoo>

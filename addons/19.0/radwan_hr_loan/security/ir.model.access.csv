@@ -1,0 +1,9 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_hr_employee_loan_user,hr.employee.loan.user,model_hr_employee_loan,radwan_hr_loan_group_user,1,1,1,0
+access_hr_employee_loan_manager,hr.employee.loan.manager,model_hr_employee_loan,radwan_hr_loan_group_manager,1,1,1,1
+access_hr_loan_installment_user,hr.loan.installment.user,model_hr_loan_installment,radwan_hr_loan_group_user,1,1,1,0
+access_hr_loan_installment_manager,hr.loan.installment.manager,model_hr_loan_installment,radwan_hr_loan_group_manager,1,1,1,1
+access_hr_loan_payment_method_user,hr.loan.payment.method.user,model_hr_loan_payment_method,radwan_hr_loan_group_user,1,0,0,0
+access_hr_loan_payment_method_manager,hr.loan.payment.method.manager,model_hr_loan_payment_method,radwan_hr_loan_group_manager,1,1,1,1
+access_hr_loan_payment_wizard_user,hr.loan.payment.wizard.user,model_hr_loan_payment_wizard,radwan_hr_loan_group_user,1,1,1,1
+access_hr_loan_report_wizard_user,hr.loan.report.wizard.user,model_hr_loan_report_wizard,radwan_hr_loan_group_user,1,1,1,1

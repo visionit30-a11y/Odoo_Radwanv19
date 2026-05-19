@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <function model="ir.cron" name="write">
+        <value eval="[ref('support_helpdesk_ticket.ir_cron_sla_monitoring')]"/>
+        <value eval="{'interval_number': 1, 'interval_type': 'hours'}"/>
+    </function>
+</odoo>

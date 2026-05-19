@@ -1,0 +1,161 @@
+/** @odoo-module **/
+
+import { patch } from "@web/core/utils/patch";
+import { NavBar } from "@web/webclient/navbar/navbar";
+
+const RADWAN_DEFAULT_OPEN_APP_GROUPS = new Set(["finance", "human_resources"]);
+
+const RADWAN_APP_GROUPS = [
+    {
+        key: "productivity",
+        name: "Productivity & Communication",
+        names: ["Discuss", "Calendar", "To-do", "To Do", "Knowledge", "Documents", "Contacts"],
+        fragments: ["mail", "calendar", "project_todo", "knowledge", "documents", "contacts"],
+    },
+    {
+        key: "sales_service",
+        name: "Sales & Customer Service",
+        names: ["CRM", "Sales", "Radwan Helpdesk", "Helpdesk", "Link Tracker"],
+        fragments: ["crm", "sale", "support_helpdesk_ticket", "helpdesk", "link_tracker"],
+    },
+    {
+        key: "finance",
+        name: "Finance & Accounting",
+        names: ["Accounting", "Expenses"],
+        fragments: ["account", "account_accountant", "expense"],
+    },
+    {
+        key: "projects",
+        name: "Projects & Services",
+        names: ["Project", "Timesheets", "Planning"],
+        fragments: ["project", "timesheet", "planning"],
+    },
+    {
+        key: "development",
+        name: "Development",
+        names: [
+            "Orientations",
+            "Orintations",
+            "Training Program",
+            "Performance Appraisals",
+            "Performane Appraisals",
+        ],
+        fragments: [
+            "employee_orientation",
+            "orientation",
+            "training",
+            "mj_appraisal",
+            "appraisal",
+            "performance_appraisal",
+        ],
+    },
+    {
+        key: "human_resources",
+        name: "Human Resources",
+        names: ["Employees", "Payroll", "Attendances", "Recruitment", "Time Off", "Fleet"],
+        fragments: ["hr", "payroll", "attendance", "recruitment", "holidays", "fleet"],
+    },
+    {
+        key: "operations",
+        name: "Purchasing, Inventory & Operations",
+        names: ["Purchase", "Inventory", "Maintenance"],
+        fragments: ["purchase", "stock", "inventory", "maintenance"],
+    },
+    {
+        key: "website_learning",
+        name: "Website, Learning & Surveys",
+        names: ["Website", "eLearning", "Elearning", "Surveys"],
+        fragments: ["website", "website_slides", "survey"],
+    },
+    {
+        key: "analytics",
+        name: "Analytics & Reporting",
+        names: ["Dashboards", "BI Connector", "User Audit"],
+        fragments: ["board", "dashboard", "bi_connector", "user_audit"],
+    },
+    {
+        key: "admin",
+        name: "Administration & Settings",
+        names: ["Apps", "Settings"],
+        fragments: ["base.menu_apps", "base.menu_administration", "settings"],
+    },
+];
+
+function normalize(value) {
+    return (value || "")
+        .toString()
+        .toLowerCase()
+        .replace(/&/g, " and ")
+        .replace(/[^a-z0-9]+/g, " ")
+        .trim();
+}
+
+function appMatchesGroup(app, group) {
+    const appName = normalize(app.name);
+    const technicalName = normalize([app.xmlid, app.actionPath].filter(Boolean).join(" "));
+    const names = group.names.map(normalize);
+    const fragments = group.fragments.map(normalize);
+
+    return (
+        names.some((name) => appName === name || appName === `radwan ${name}`) ||
+        fragments.some((fragment) => technicalName.includes(fragment))
+    );
+}
+
+patch(NavBar.prototype, {
+    setup() {
+        super.setup(...arguments);
+        this.state.radwanCollapsedAppGroups = this.state.radwanCollapsedAppGroups || {};
+    },
+
+    radwanGetGroupedApps(apps = []) {
+        const usedAppIds = new Set();
+        const groupedApps = [];
+
+        for (const group of RADWAN_APP_GROUPS) {
+            const groupApps = apps.filter((app) => {
+                if (usedAppIds.has(app.id) || !appMatchesGroup(app, group)) {
+                    return false;
+                }
+                usedAppIds.add(app.id);
+                return true;
+            });
+
+            if (groupApps.length) {
+                groupedApps.push({
+                    key: group.key,
+                    name: group.name,
+                    apps: groupApps,
+                });
+            }
+        }
+
+        const otherApps = apps.filter((app) => !usedAppIds.has(app.id));
+        if (otherApps.length) {
+            groupedApps.push({
+                key: "other",
+                name: "Other Apps",
+                apps: otherApps,
+            });
+        }
+
+        return groupedApps;
+    },
+
+    radwanIsAppGroupOpen(groupKey) {
+        if (Object.prototype.hasOwnProperty.call(this.state.radwanCollapsedAppGroups, groupKey)) {
+            return this.state.radwanCollapsedAppGroups[groupKey] !== true;
+        }
+        return RADWAN_DEFAULT_OPEN_APP_GROUPS.has(groupKey);
+    },
+
+    radwanToggleAppGroup(groupKey, ev) {
+        ev?.preventDefault();
+        ev?.stopPropagation();
+        ev?.stopImmediatePropagation?.();
+        this.state.radwanCollapsedAppGroups = {
+            ...this.state.radwanCollapsedAppGroups,
+            [groupKey]: this.radwanIsAppGroupOpen(groupKey),
+        };
+    },
+});

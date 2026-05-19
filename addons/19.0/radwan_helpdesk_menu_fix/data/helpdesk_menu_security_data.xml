@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- The upstream module grants ticket access to base.group_user and base.group_system,
+         but its menus are restricted to custom Helpdesk groups. Keep the custom groups
+         and bridge them to Odoo's standard groups so menus and access rules stay aligned. -->
+    <record id="base.group_user" model="res.groups">
+        <field name="implied_ids" eval="[Command.link(ref('support_helpdesk_ticket.group_helpdesk_user'))]"/>
+    </record>
+
+    <record id="base.group_system" model="res.groups">
+        <field name="implied_ids" eval="[Command.link(ref('support_helpdesk_ticket.group_helpdesk_manager'))]"/>
+    </record>
+
+    <record id="support_helpdesk_ticket.menu_helpdesk_root" model="ir.ui.menu">
+        <field name="action" ref="support_helpdesk_ticket.action_helpdesk_dashboard"/>
+        <field name="web_icon">support_helpdesk_ticket,static/description/icon.png</field>
+        <field name="active" eval="True"/>
+    </record>
+
+    <record id="support_helpdesk_ticket.action_helpdesk_ticket" model="ir.actions.act_window">
+        <field name="view_mode">kanban,list,form</field>
+    </record>
+
+</odoo>

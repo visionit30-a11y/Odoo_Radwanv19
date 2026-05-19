@@ -1,0 +1,55 @@
+<odoo>
+    <menuitem
+        id="hr_employee_loan_menu_root"
+        name="Loans"
+        sequence="75"
+        groups="radwan_hr_loan.radwan_hr_loan_group_user"
+    />
+
+    <menuitem
+        id="hr_employee_loan_menu_loans"
+        name="Loans"
+        parent="hr_employee_loan_menu_root"
+        action="hr_employee_loan_action"
+        sequence="10"
+    />
+
+    <menuitem
+        id="hr_employee_loan_menu_report"
+        name="Report"
+        parent="hr_employee_loan_menu_root"
+        sequence="30"
+    />
+
+    <menuitem
+        id="hr_employee_loan_menu_report_analysis"
+        name="Loan Analysis Report"
+        parent="hr_employee_loan_menu_report"
+        action="hr_loan_report_wizard_action_analysis"
+        sequence="10"
+    />
+
+    <menuitem
+        id="hr_employee_loan_menu_report_installments"
+        name="Loan Installment Report"
+        parent="hr_employee_loan_menu_report"
+        action="hr_loan_report_wizard_action_installment"
+        sequence="20"
+    />
+
+    <menuitem
+        id="hr_employee_loan_menu_configuration"
+        name="Configuration"
+        parent="hr_employee_loan_menu_root"
+        sequence="90"
+        groups="radwan_hr_loan.radwan_hr_loan_group_manager"
+    />
+
+    <menuitem
+        id="hr_employee_loan_menu_payment_method"
+        name="Loan Payment Methods"
+        parent="hr_employee_loan_menu_configuration"
+        action="hr_loan_payment_method_action"
+        sequence="10"
+    />
+</odoo>

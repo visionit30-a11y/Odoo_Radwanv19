@@ -1,0 +1,20 @@
+@font-face {
+    font-family: "Lato";
+    font-style: normal;
+    font-weight: 400;
+    src: local("Segoe UI");
+}
+
+@font-face {
+    font-family: "Lato";
+    font-style: normal;
+    font-weight: 700;
+    src: local("Segoe UI Bold");
+}
+
+body,
+.o_body_pdf,
+.o_report_layout,
+.page {
+    font-family: "Segoe UI", Tahoma, Arial, sans-serif !important;
+}

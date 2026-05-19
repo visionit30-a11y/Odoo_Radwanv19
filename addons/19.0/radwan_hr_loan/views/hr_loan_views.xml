@@ -1,0 +1,217 @@
+<odoo>
+    <record id="hr_employee_loan_view_list" model="ir.ui.view">
+        <field name="name">hr.employee.loan.view.list</field>
+        <field name="model">hr.employee.loan</field>
+        <field name="arch" type="xml">
+            <list decoration-success="state == 'done'" decoration-warning="state in ('submit', 'first_approved', 'second_approved')" decoration-muted="state == 'cancel'">
+                <field name="name"/>
+                <field name="employee_id"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+                <field name="loan_date"/>
+                <field name="start_date"/>
+                <field name="end_date"/>
+                <field name="loan_amount" sum="Loan Amount"/>
+                <field name="paid_amount" sum="Paid"/>
+                <field name="balance_amount" sum="Balance"/>
+                <field name="state" widget="badge"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="hr_loan_installment_view_list" model="ir.ui.view">
+        <field name="name">hr.loan.installment.view.list</field>
+        <field name="model">hr.loan.installment</field>
+        <field name="arch" type="xml">
+            <list decoration-success="state == 'paid'" decoration-info="state == 'in_payslip'" decoration-muted="state == 'cancel'">
+                <field name="date"/>
+                <field name="loan_id"/>
+                <field name="employee_id"/>
+                <field name="amount" sum="Amount"/>
+                <field name="paid_amount" sum="Paid"/>
+                <field name="balance_amount" sum="Balance"/>
+                <field name="payslip_id"/>
+                <field name="state" widget="badge"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="hr_employee_loan_view_form" model="ir.ui.view">
+        <field name="name">hr.employee.loan.view.form</field>
+        <field name="model">hr.employee.loan</field>
+        <field name="arch" type="xml">
+            <form string="Loans">
+                <header>
+                    <button name="action_submit" string="Submit" type="object" class="btn-primary" invisible="state != 'draft'"/>
+                    <button name="action_first_approve" string="First Approve" type="object" class="btn-primary" groups="radwan_hr_loan.radwan_hr_loan_group_manager" invisible="state != 'submit'"/>
+                    <button name="action_second_approve" string="Second Approve" type="object" class="btn-primary" groups="radwan_hr_loan.radwan_hr_loan_group_manager" invisible="state != 'first_approved'"/>
+                    <button name="action_disburse" string="Disburse" type="object" class="btn-primary" groups="radwan_hr_loan.radwan_hr_loan_group_manager" invisible="state != 'second_approved'"/>
+                    <button name="action_register_payment" string="Register Payment" type="object" invisible="state not in ('running', 'second_approved')"/>
+                    <button name="action_generate_installments" string="Generate Installments" type="object" invisible="state not in ('draft', 'submit')"/>
+                    <button name="%(action_report_hr_employee_loan)d" string="Print Loan" type="action" invisible="state == 'draft'"/>
+                    <button name="action_cancel" string="Cancel" type="object" invisible="state in ('done', 'cancel')"/>
+                    <button name="action_reset_to_draft" string="Reset to Draft" type="object" groups="radwan_hr_loan.radwan_hr_loan_group_manager" invisible="state != 'cancel'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,submit,first_approved,second_approved,running,done"/>
+                </header>
+                <sheet>
+                    <widget name="web_ribbon" title="Paid" bg_color="text-bg-success" invisible="state != 'done'"/>
+                    <div name="button_box" class="oe_button_box">
+                        <button name="action_view_account_move" type="object" class="oe_stat_button" icon="fa-book" invisible="not move_id">
+                            <field name="move_id" widget="statinfo" string="Journal Entry"/>
+                        </button>
+                        <button name="action_view_payslips" type="object" class="oe_stat_button" icon="fa-money">
+                            <field name="payslip_count" widget="statinfo" string="Payslips"/>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="company_id" groups="base.group_multi_company" readonly="state not in ('draft', 'submit')"/>
+                            <field name="employee_id" readonly="state not in ('draft', 'submit')"/>
+                            <field name="department_id"/>
+                            <field name="job_id"/>
+                            <field name="version_id" readonly="state not in ('draft', 'submit')"/>
+                            <field name="loan_date" readonly="state not in ('draft', 'submit')"/>
+                        </group>
+                        <group>
+                            <field name="loan_amount" readonly="state not in ('draft', 'submit')"/>
+                            <field name="installment_count" readonly="state not in ('draft', 'submit')"/>
+                            <field name="installment_amount"/>
+                            <field name="start_date" readonly="state not in ('draft', 'submit')"/>
+                            <field name="end_date"/>
+                            <field name="balance_amount"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group string="Payment">
+                            <field name="payment_method_id" readonly="state not in ('draft', 'submit')"/>
+                            <field name="journal_id"/>
+                            <field name="loan_account_id"/>
+                            <field name="disbursed_date"/>
+                        </group>
+                        <group string="Approval">
+                            <field name="first_approved_by"/>
+                            <field name="first_approved_date"/>
+                            <field name="second_approved_by"/>
+                            <field name="second_approved_date"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Payments Loan">
+                            <field name="installment_ids" readonly="state not in ('draft', 'submit')">
+                                <list editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="date"/>
+                                    <field name="amount" sum="Amount"/>
+                                    <field name="paid_amount" sum="Paid" readonly="1"/>
+                                    <field name="balance_amount" sum="Balance"/>
+                                    <field name="payslip_id"/>
+                                    <field name="state" widget="badge"/>
+                                    <field name="note"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Reason">
+                            <field name="reason" nolabel="1" placeholder="Loan reason..."/>
+                        </page>
+                        <page string="Notes">
+                            <field name="note" nolabel="1"/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="hr_employee_loan_view_search" model="ir.ui.view">
+        <field name="name">hr.employee.loan.view.search</field>
+        <field name="model">hr.employee.loan</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="employee_id"/>
+                <field name="department_id"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+                <filter name="running" string="Running" domain="[('state', '=', 'running')]"/>
+                <filter name="to_approve" string="To Approve" domain="[('state', 'in', ('submit', 'first_approved'))]"/>
+                <filter name="paid" string="Paid" domain="[('state', '=', 'done')]"/>
+                <filter name="my_company" string="My Company" domain="[('company_id', 'in', allowed_company_ids)]"/>
+                <group>
+                    <filter name="group_employee" string="Employee" domain="[]" context="{'group_by': 'employee_id'}"/>
+                    <filter name="group_department" string="Department" domain="[]" context="{'group_by': 'department_id'}"/>
+                    <filter name="group_state" string="Status" domain="[]" context="{'group_by': 'state'}"/>
+                    <filter name="group_company" string="Company" domain="[]" context="{'group_by': 'company_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="hr_employee_loan_view_pivot" model="ir.ui.view">
+        <field name="name">hr.employee.loan.view.pivot</field>
+        <field name="model">hr.employee.loan</field>
+        <field name="arch" type="xml">
+            <pivot>
+                <field name="employee_id" type="row"/>
+                <field name="state" type="col"/>
+                <field name="loan_amount" type="measure"/>
+                <field name="paid_amount" type="measure"/>
+                <field name="balance_amount" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="hr_loan_installment_view_pivot" model="ir.ui.view">
+        <field name="name">hr.loan.installment.view.pivot</field>
+        <field name="model">hr.loan.installment</field>
+        <field name="arch" type="xml">
+            <pivot>
+                <field name="employee_id" type="row"/>
+                <field name="state" type="col"/>
+                <field name="amount" type="measure"/>
+                <field name="paid_amount" type="measure"/>
+                <field name="balance_amount" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="hr_employee_loan_view_graph" model="ir.ui.view">
+        <field name="name">hr.employee.loan.view.graph</field>
+        <field name="model">hr.employee.loan</field>
+        <field name="arch" type="xml">
+            <graph>
+                <field name="state"/>
+                <field name="loan_amount" type="measure"/>
+                <field name="balance_amount" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="hr_loan_installment_view_graph" model="ir.ui.view">
+        <field name="name">hr.loan.installment.view.graph</field>
+        <field name="model">hr.loan.installment</field>
+        <field name="arch" type="xml">
+            <graph>
+                <field name="date" interval="month"/>
+                <field name="amount" type="measure"/>
+                <field name="paid_amount" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="hr_employee_loan_action" model="ir.actions.act_window">
+        <field name="name">Loans</field>
+        <field name="res_model">hr.employee.loan</field>
+        <field name="view_mode">list,form,pivot,graph</field>
+        <field name="search_view_id" ref="hr_employee_loan_view_search"/>
+        <field name="context">{'search_default_running': 1}</field>
+    </record>
+
+    <record id="hr_loan_installment_action" model="ir.actions.act_window">
+        <field name="name">Loan Installments</field>
+        <field name="res_model">hr.loan.installment</field>
+        <field name="view_mode">list,pivot,graph</field>
+    </record>
+</odoo>

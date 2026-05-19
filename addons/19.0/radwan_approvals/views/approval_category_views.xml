@@ -1,0 +1,154 @@
+<odoo>
+    <record id="approval_category_view_list" model="ir.ui.view">
+        <field name="name">radwan.approval.category.view.list</field>
+        <field name="model">radwan.approval.category</field>
+        <field name="arch" type="xml">
+            <list string="Approval Categories" default_order="sequence, name">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="company_id" optional="hide" groups="base.group_multi_company"/>
+                <field name="request_count" optional="hide" string="Requests"/>
+                <field name="to_review_count" optional="hide" string="To Review"/>
+                <field name="active" optional="hide"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="approval_category_view_kanban" model="ir.ui.view">
+        <field name="name">radwan.approval.category.view.kanban</field>
+        <field name="model">radwan.approval.category</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_mobile" sample="1">
+                <field name="id"/>
+                <field name="name"/>
+                <field name="description"/>
+                <field name="image_128"/>
+                <field name="to_review_count"/>
+                <templates>
+                    <t t-name="card">
+                        <div class="d-flex gap-3 align-items-start">
+                            <div class="flex-shrink-0">
+                                <img t-if="record.image_128.raw_value"
+                                     t-att-src="kanban_image('radwan.approval.category', 'image_128', record.id.raw_value)"
+                                     alt="Approval type"
+                                     class="rounded"
+                                     style="width: 64px; height: 64px; object-fit: cover;"/>
+                                <span t-else="" class="fa fa-check-square-o text-primary fs-1" title="Approval type"/>
+                            </div>
+                            <div class="flex-grow-1">
+                                <div class="fw-bold text-truncate">
+                                    <field name="name"/>
+                                </div>
+                                <div class="text-muted small mb-2">
+                                    <field name="description"/>
+                                </div>
+                                <div class="d-flex gap-2">
+                                    <button name="action_new_request"
+                                            type="object"
+                                            class="btn btn-primary btn-sm">
+                                        New Request
+                                    </button>
+                                    <button name="action_open_to_review"
+                                            type="object"
+                                            class="btn btn-secondary btn-sm">
+                                        To Review: <t t-esc="record.to_review_count.value"/>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="approval_category_view_form" model="ir.ui.view">
+        <field name="name">radwan.approval.category.view.form</field>
+        <field name="model">radwan.approval.category</field>
+        <field name="arch" type="xml">
+            <form string="Approval Category">
+                <sheet>
+                    <field name="active" invisible="1"/>
+                    <field name="image_1920" widget="image" class="oe_avatar"/>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1>
+                            <field name="name" placeholder="e.g. Procurement Approval"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="description"/>
+                            <field name="automated_sequence"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Options">
+                            <group>
+                                <group string="Fields">
+                                    <field name="document_mode" widget="radio" options="{'horizontal': true}"/>
+                                    <field name="contact_mode" widget="radio" options="{'horizontal': true}"/>
+                                    <field name="date_mode" widget="radio" options="{'horizontal': true}"/>
+                                    <field name="period_mode" widget="radio" options="{'horizontal': true}"/>
+                                    <field name="product_mode" widget="radio" options="{'horizontal': true}"/>
+                                    <field name="quantity_mode" widget="radio" options="{'horizontal': true}"/>
+                                    <field name="amount_mode" widget="radio" options="{'horizontal': true}"/>
+                                    <field name="reference_mode" widget="radio" options="{'horizontal': true}"/>
+                                    <field name="location_mode" widget="radio" options="{'horizontal': true}"/>
+                                </group>
+                                <group string="Approvers">
+                                    <field name="manager_approval"/>
+                                    <field name="approver_ids" nolabel="1">
+                                        <list editable="bottom">
+                                            <field name="sequence" widget="handle"/>
+                                            <field name="user_id" widget="many2one_avatar_user"/>
+                                            <field name="required"/>
+                                        </list>
+                                    </field>
+                                    <field name="approver_sequence"/>
+                                    <field name="minimum_approval"/>
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="approval_category_view_search" model="ir.ui.view">
+        <field name="name">radwan.approval.category.view.search</field>
+        <field name="model">radwan.approval.category</field>
+        <field name="arch" type="xml">
+            <search string="Approval Categories">
+                <field name="name"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+                <separator/>
+                <filter name="archived" string="Archived" domain="[('active', '=', False)]"/>
+                <group>
+                    <filter name="group_company" string="Company" context="{'group_by': 'company_id'}" groups="base.group_multi_company"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="approval_category_action_dashboard" model="ir.actions.act_window">
+        <field name="name">Dashboard</field>
+        <field name="res_model">radwan.approval.category</field>
+        <field name="view_mode">kanban,list,form</field>
+        <field name="search_view_id" ref="approval_category_view_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create approval types to start handling requests.
+            </p>
+        </field>
+    </record>
+
+    <record id="approval_category_action" model="ir.actions.act_window">
+        <field name="name">Approval Categories</field>
+        <field name="res_model">radwan.approval.category</field>
+        <field name="view_mode">list,form,kanban</field>
+        <field name="search_view_id" ref="approval_category_view_search"/>
+    </record>
+</odoo>

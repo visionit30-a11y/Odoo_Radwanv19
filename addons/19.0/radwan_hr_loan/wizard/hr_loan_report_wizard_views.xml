@@ -1,0 +1,38 @@
+<odoo>
+    <record id="hr_loan_report_wizard_view_form" model="ir.ui.view">
+        <field name="name">hr.loan.report.wizard.view.form</field>
+        <field name="model">hr.loan.report.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Loan Report">
+                <group>
+                    <field name="report_type"/>
+                    <field name="company_id" groups="base.group_multi_company"/>
+                    <field name="employee_ids" widget="many2many_tags"/>
+                    <field name="date_from"/>
+                    <field name="date_to"/>
+                    <field name="state" invisible="report_type == 'installment'"/>
+                </group>
+                <footer>
+                    <button name="action_open_report" string="Open Report" type="object" class="btn-primary"/>
+                    <button string="Cancel" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="hr_loan_report_wizard_action_analysis" model="ir.actions.act_window">
+        <field name="name">Loan Analysis Report</field>
+        <field name="res_model">hr.loan.report.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="context">{'default_report_type': 'loan'}</field>
+    </record>
+
+    <record id="hr_loan_report_wizard_action_installment" model="ir.actions.act_window">
+        <field name="name">Loan Installment Report</field>
+        <field name="res_model">hr.loan.report.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="context">{'default_report_type': 'installment'}</field>
+    </record>
+</odoo>

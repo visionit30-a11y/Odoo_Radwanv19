@@ -1,0 +1,70 @@
+/* Restore the native Odoo search panel outside the Knowledge split screen.
+   The third-party knowledge module styles `.o_search_panel` globally, which
+   makes standard search panels float over unrelated views. */
+body:not(:has(.o_knowledge_split)) .o_component_with_search_panel,
+body:not(:has(.o_knowledge_split)) .o_controller_with_searchpanel {
+    display: flex;
+}
+
+body:not(:has(.o_knowledge_split)) .o_component_with_search_panel .o_renderer,
+body:not(:has(.o_knowledge_split)) .o_component_with_search_panel .o_renderer_with_searchpanel,
+body:not(:has(.o_knowledge_split)) .o_controller_with_searchpanel .o_renderer,
+body:not(:has(.o_knowledge_split)) .o_controller_with_searchpanel .o_renderer_with_searchpanel {
+    overflow: auto;
+    width: 100%;
+}
+
+body:not(:has(.o_knowledge_split)) .o_search_panel {
+    position: relative !important;
+    top: auto !important;
+    right: auto !important;
+    bottom: auto !important;
+    left: auto !important;
+    z-index: auto !important;
+    width: var(--SearchPanel-width, 250px) !important;
+    max-width: none !important;
+    height: 100% !important;
+    padding-top: 0 !important;
+    padding-right: 0.25rem !important;
+    padding-bottom: 3rem !important;
+    padding-left: 1rem !important;
+    overflow: auto !important;
+    transform: none !important;
+    transition: none !important;
+    border-left: 0 !important;
+    box-shadow: none !important;
+}
+
+body:not(:has(.o_knowledge_split)) .o_search_panel.show {
+    transform: none !important;
+}
+
+body:not(:has(.o_knowledge_split)) .o_search_panel_resize {
+    position: absolute !important;
+    top: 0 !important;
+    bottom: 0 !important;
+    z-index: 1 !important;
+    width: 10px !important;
+    height: 100% !important;
+    margin: 0 -2px !important;
+    cursor: col-resize !important;
+}
+
+@media (min-width: 768px) {
+    body:not(:has(.o_knowledge_split)) .o_search_panel,
+    body:not(:has(.o_knowledge_split)) .o_search_panel_sidebar {
+        border-right: 1px solid #dee2e6 !important;
+    }
+}
+
+@media (max-width: 767.98px) {
+    body:not(:has(.o_knowledge_split)) .o_component_with_search_panel,
+    body:not(:has(.o_knowledge_split)) .o_controller_with_searchpanel {
+        flex-direction: column;
+        align-items: initial;
+    }
+
+    body:not(:has(.o_knowledge_split)) .o_search_panel {
+        width: 100% !important;
+    }
+}

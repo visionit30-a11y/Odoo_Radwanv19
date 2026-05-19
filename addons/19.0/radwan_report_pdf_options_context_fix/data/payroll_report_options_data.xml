@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="om_hr_payroll.action_report_payslip" model="ir.actions.report">
+        <field name="default_print_option">download</field>
+    </record>
+
+    <record id="om_hr_payroll.payslip_details_report" model="ir.actions.report">
+        <field name="default_print_option">download</field>
+    </record>
+
+    <record id="om_hr_payroll.action_contribution_register" model="ir.actions.report">
+        <field name="default_print_option">download</field>
+    </record>
+</odoo>

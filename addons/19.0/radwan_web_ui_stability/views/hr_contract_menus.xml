@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="hr_version_search_view" model="ir.ui.view">
+        <field name="name">hr.version.search.inherit.radwan.contracts</field>
+        <field name="model">hr.version</field>
+        <field name="inherit_id" ref="hr.hr_version_search_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//filter[@name='running_contract']" position="before">
+                <filter
+                    string="My Contracts"
+                    name="my_contracts"
+                    domain="[
+                        '|',
+                            ('hr_responsible_id', '=', uid),
+                            ('employee_id.user_id', '=', uid)
+                    ]"
+                />
+            </xpath>
+        </field>
+    </record>
+
+    <record id="radwan_hr_contract_action" model="ir.actions.act_window">
+        <field name="name">Contracts</field>
+        <field name="path">contracts</field>
+        <field name="res_model">hr.version</field>
+        <field name="view_mode">list,graph,pivot</field>
+        <field name="domain">[('employee_id', '!=', False)]</field>
+        <field name="context">{
+            'search_default_my_contracts': 1,
+            'search_default_running_contract': 1,
+        }</field>
+        <field name="search_view_id" ref="hr.hr_version_search_view"/>
+        <field name="view_ids" eval="[(5, 0, 0),
+            (0, 0, {'view_mode': 'list', 'sequence': 1, 'view_id': ref('hr.hr_version_list_view')}),
+            (0, 0, {'view_mode': 'graph', 'sequence': 2, 'view_id': ref('hr.hr_version_graph_view')}),
+            (0, 0, {'view_mode': 'pivot', 'sequence': 3, 'view_id': ref('hr.hr_version_pivot_view')})
+        ]"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_empty_folder">
+                No running contracts found.
+            </p>
+        </field>
+    </record>
+
+    <menuitem
+        id="radwan_hr_contract_menu"
+        name="Contracts"
+        parent="hr.menu_hr_root"
+        action="radwan_hr_contract_action"
+        sequence="20"
+        groups="hr.group_hr_user"
+    />
+</odoo>

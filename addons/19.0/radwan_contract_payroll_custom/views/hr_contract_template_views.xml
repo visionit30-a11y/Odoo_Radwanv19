@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="hr_contract_template_form_view_radwan_payroll" model="ir.ui.view">
+        <field name="name">hr.contract.template.form.inherit.radwan.payroll</field>
+        <field name="model">hr.version</field>
+        <field name="inherit_id" ref="hr.hr_contract_template_form_view"/>
+        <field name="priority">60</field>
+        <field name="arch" type="xml">
+            <xpath expr="//group[@name='contract']" position="replace">
+                <group name="contract" string="Contract Overview" groups="hr.group_hr_user">
+                    <label for="contract_date_start" class="radwan_contract_custom_label"/>
+                    <field name="contract_date_start" nolabel="1"/>
+
+                    <label for="contract_date_end" class="radwan_contract_custom_label"/>
+                    <field name="contract_date_end" nolabel="1"/>
+
+                    <label for="radwan_notice_period" class="radwan_contract_custom_label"/>
+                    <field name="radwan_notice_period" nolabel="1"/>
+
+                    <label for="radwan_non_renewal" class="radwan_contract_custom_label"/>
+                    <field name="radwan_non_renewal" nolabel="1"/>
+
+                    <separator name="schedule" string="Schedule" invisible="1"/>
+
+                    <label for="resource_calendar_id" string="Working Schedule" class="radwan_contract_custom_label"/>
+                    <field name="resource_calendar_id" string="Working Schedule" nolabel="1" help="The default working hours are set in configuration."/>
+
+                    <label for="radwan_work_entry_source" class="radwan_contract_custom_label"/>
+                    <field name="radwan_work_entry_source" nolabel="1"/>
+
+                    <label for="wage" class="radwan_contract_custom_label"/>
+                    <div class="o_row" name="wage">
+                        <field name="wage" nolabel="1" class="o_hr_narrow_field"/>
+                        <div name="wage_period_label">/ month</div>
+                    </div>
+
+                    <label for="employee_type" class="radwan_contract_custom_label"/>
+                    <field name="employee_type" nolabel="1"/>
+
+                    <label for="contract_type_id" string="Contract Type" class="radwan_contract_custom_label"/>
+                    <field name="contract_type_id" string="Contract Type" nolabel="1" placeholder="Contract Type"/>
+
+                    <label for="structure_type_id" string="Pay Category" class="radwan_contract_custom_label"/>
+                    <field name="structure_type_id" string="Pay Category" nolabel="1" placeholder="Employee will be excluded from Pay Runs" domain="['|', ('country_id', '=', False), ('country_id', '=', company_country_id)]"/>
+
+                    <label for="struct_id" string="Salary Structure" class="radwan_contract_custom_label"/>
+                    <field name="struct_id" string="Salary Structure" nolabel="1" domain="[('company_id', '=', company_id)]"/>
+
+                    <label for="radwan_working_hours" class="radwan_contract_custom_label"/>
+                    <field name="radwan_working_hours" nolabel="1"/>
+
+                    <label for="radwan_basic" class="radwan_contract_custom_label"/>
+                    <field name="radwan_basic" nolabel="1"/>
+
+                    <label for="radwan_housing" class="radwan_contract_custom_label"/>
+                    <field name="radwan_housing" nolabel="1"/>
+
+                    <label for="radwan_transportation" class="radwan_contract_custom_label"/>
+                    <field name="radwan_transportation" nolabel="1"/>
+
+                    <label for="radwan_fuel_car_allowance" class="radwan_contract_custom_label"/>
+                    <field name="radwan_fuel_car_allowance" nolabel="1"/>
+
+                    <label for="radwan_mobile_communications_allowance" class="radwan_contract_custom_label"/>
+                    <field name="radwan_mobile_communications_allowance" nolabel="1"/>
+
+                    <label for="radwan_other_allowances" class="radwan_contract_custom_label"/>
+                    <field name="radwan_other_allowances" nolabel="1"/>
+
+                    <label for="radwan_total_salary" class="radwan_contract_custom_label"/>
+                    <field name="radwan_total_salary" nolabel="1" readonly="1"/>
+
+                    <label for="radwan_gosi_not_appear_in_payslip" class="radwan_contract_custom_label"/>
+                    <field name="radwan_gosi_not_appear_in_payslip" nolabel="1"/>
+
+                    <separator string="Probation Period" class="radwan_contract_custom_separator"/>
+
+                    <label for="radwan_trial_start_date" class="radwan_contract_custom_label"/>
+                    <field name="radwan_trial_start_date" nolabel="1"/>
+
+                    <label for="trial_date_end" string="Trial End Date" class="radwan_contract_custom_label"/>
+                    <field name="trial_date_end" string="Trial End Date" nolabel="1"/>
+
+                    <label for="radwan_extended_trial_start_date" class="radwan_contract_custom_label"/>
+                    <field name="radwan_extended_trial_start_date" nolabel="1"/>
+
+                    <label for="radwan_extended_trial_end_date" class="radwan_contract_custom_label"/>
+                    <field name="radwan_extended_trial_end_date" nolabel="1"/>
+
+                    <separator string="Overtime" class="radwan_contract_custom_separator"/>
+
+                    <label for="radwan_allow_overtime" class="radwan_contract_custom_label"/>
+                    <field name="radwan_allow_overtime" nolabel="1"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="hr_employee_form_view_radwan_payroll" model="ir.ui.view">
+        <field name="name">hr.employee.form.inherit.radwan.payroll</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_form"/>
+        <field name="priority">60</field>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='payroll_information']//group[@name='payroll_group']" position="replace">
+                    <details open="open" style="margin-bottom:12px; border:1px solid #e6e1e5; border-radius:6px; overflow:hidden;">
+                        <summary style="background-color:#714B67; color:#ffffff; padding:9px 14px; font-weight:700; cursor:pointer; letter-spacing:.2px;">
+                            CONTRACT OVERVIEW
+                        </summary>
+
+                        <div style="padding:14px 16px 16px 16px; background-color:#ffffff;">
+                            <div class="d-flex justify-content-end align-items-center gap-3 mb-2">
+                                <widget name="button_new_contract"/>
+                                <button name="%(hr.hr_version_wizard_action)d" type="action" string="Load a Template" class="btn btn-link text-end lh-1 h-100 p-0"/>
+                            </div>
+                            <group>
+                                <group>
+                                    <field name="contract_date_start" string="Contract Start Date" placeholder="Not Employed"/>
+                                    <field name="contract_date_end" placeholder="Indefinite"/>
+                                    <field name="radwan_notice_period"/>
+                                    <field name="radwan_non_renewal"/>
+                                    <field name="employee_type"/>
+                                </group>
+                                <group>
+                                    <separator name="schedule" string="Schedule" invisible="1"/>
+                                    <field name="resource_calendar_id" string="Working Schedule" help="The default working hours are set in configuration."/>
+                                    <label for="radwan_work_entry_source" string="Work Entry Source"/>
+                                    <field name="radwan_work_entry_source" nolabel="1"/>
+                                    <label for="contract_type_id" string="Contract Type"/>
+                                    <field name="contract_type_id" string="Contract Type" nolabel="1" placeholder="Contract Type"/>
+                                </group>
+                            </group>
+                        </div>
+                    </details>
+
+                    <details style="margin-bottom:12px; border:1px solid #e6e1e5; border-radius:6px; overflow:hidden;">
+                        <summary style="background-color:#714B67; color:#ffffff; padding:9px 14px; font-weight:700; cursor:pointer; letter-spacing:.2px;">
+                            PAYROLL STRUCTURE
+                        </summary>
+
+                        <div style="padding:14px 16px 16px 16px; background-color:#ffffff;">
+                            <group>
+                                <group>
+                                    <field name="structure_type_id" string="Pay Category" placeholder="Employee will be excluded from Pay Runs" domain="['|', ('country_id', '=', False), ('country_id', '=', company_country_id)]"/>
+                                    <field name="struct_id" string="Salary Structure" domain="[('company_id', '=', company_id)]"/>
+                                </group>
+                                <group>
+                                    <field name="wage"/>
+                                    <field name="radwan_working_hours"/>
+                                </group>
+                            </group>
+                        </div>
+                    </details>
+
+                    <details style="margin-bottom:12px; border:1px solid #e6e1e5; border-radius:6px; overflow:hidden;">
+                        <summary style="background-color:#714B67; color:#ffffff; padding:9px 14px; font-weight:700; cursor:pointer; letter-spacing:.2px;">
+                            ALLOWANCES AND SALARY
+                        </summary>
+
+                        <div style="padding:14px 16px 16px 16px; background-color:#ffffff;">
+                            <group>
+                                <group>
+                                    <field name="radwan_basic"/>
+                                    <field name="radwan_housing"/>
+                                    <field name="radwan_transportation"/>
+                                    <field name="radwan_fuel_car_allowance"/>
+                                </group>
+                                <group>
+                                    <field name="radwan_mobile_communications_allowance"/>
+                                    <field name="radwan_other_allowances"/>
+                                    <field name="radwan_total_salary" readonly="1"/>
+                                    <field name="radwan_gosi_not_appear_in_payslip"/>
+                                </group>
+                            </group>
+                        </div>
+                    </details>
+
+                    <details style="margin-bottom:12px; border:1px solid #e6e1e5; border-radius:6px; overflow:hidden;">
+                        <summary style="background-color:#714B67; color:#ffffff; padding:9px 14px; font-weight:700; cursor:pointer; letter-spacing:.2px;">
+                            PROBATION PERIOD
+                        </summary>
+
+                        <div style="padding:14px 16px 16px 16px; background-color:#ffffff;">
+                            <group>
+                                <group>
+                                    <field name="radwan_trial_start_date"/>
+                                    <field name="trial_date_end" string="Trial End Date"/>
+                                </group>
+                                <group>
+                                    <field name="radwan_extended_trial_start_date"/>
+                                    <field name="radwan_extended_trial_end_date"/>
+                                </group>
+                            </group>
+                        </div>
+                    </details>
+
+                    <details style="margin-bottom:12px; border:1px solid #e6e1e5; border-radius:6px; overflow:hidden;">
+                        <summary style="background-color:#714B67; color:#ffffff; padding:9px 14px; font-weight:700; cursor:pointer; letter-spacing:.2px;">
+                            OVERTIME
+                        </summary>
+
+                        <div style="padding:14px 16px 16px 16px; background-color:#ffffff;">
+                            <group>
+                                <group>
+                                    <field name="radwan_allow_overtime"/>
+                                </group>
+                                <group/>
+                            </group>
+                        </div>
+                    </details>
+            </xpath>
+        </field>
+    </record>
+</odoo>

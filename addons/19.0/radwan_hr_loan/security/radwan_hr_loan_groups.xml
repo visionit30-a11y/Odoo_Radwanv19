@@ -1,0 +1,26 @@
+<odoo>
+    <record id="radwan_hr_loan_privilege" model="res.groups.privilege">
+        <field name="name">Loans</field>
+        <field name="category_id" ref="base.module_category_human_resources"/>
+    </record>
+
+    <record id="radwan_hr_loan_group_user" model="res.groups">
+        <field name="name">Loan User</field>
+        <field name="privilege_id" ref="radwan_hr_loan_privilege"/>
+        <field name="implied_ids" eval="[Command.link(ref('base.group_user'))]"/>
+    </record>
+
+    <record id="radwan_hr_loan_group_manager" model="res.groups">
+        <field name="name">Loan Manager</field>
+        <field name="privilege_id" ref="radwan_hr_loan_privilege"/>
+        <field name="implied_ids" eval="[Command.link(ref('radwan_hr_loan_group_user'))]"/>
+    </record>
+
+    <record id="hr.group_hr_user" model="res.groups">
+        <field name="implied_ids" eval="[Command.link(ref('radwan_hr_loan_group_user'))]"/>
+    </record>
+
+    <record id="hr.group_hr_manager" model="res.groups">
+        <field name="implied_ids" eval="[Command.link(ref('radwan_hr_loan_group_manager'))]"/>
+    </record>
+</odoo>

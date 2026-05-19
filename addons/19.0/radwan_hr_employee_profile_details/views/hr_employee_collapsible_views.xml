@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="hr_employee_view_form_collapsible_sections" model="ir.ui.view">
+        <field name="name">hr.employee.view.form.inherit.radwan.collapsible.sections</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_form"/>
+        <field name="priority" eval="125"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//page[@name='radwan_hr_information']/details[summary[contains(normalize-space(.), 'INTERNAL HR DATA')]]" position="attributes">
+                <attribute name="open"/>
+            </xpath>
+            <xpath expr="//page[@name='radwan_hr_information']/details[summary[contains(normalize-space(.), 'IDENTITY / IQAMA DATA')]]" position="attributes">
+                <attribute name="open"/>
+            </xpath>
+            <xpath expr="//page[@name='radwan_hr_information']/details[summary[contains(normalize-space(.), 'PASSPORT DATA')]]" position="attributes">
+                <attribute name="open"/>
+            </xpath>
+            <xpath expr="//page[@name='radwan_hr_information']/details[summary[contains(normalize-space(.), 'PASSPORT DATA')]]/div/group" position="replace">
+                <group>
+                    <group>
+                        <field name="passport_id" string="Passport Number"/>
+                        <field name="radwan_passport_issue_date"/>
+                        <field name="radwan_passport_expiry_date"/>
+                    </group>
+                    <group>
+                        <field name="radwan_passport_issue_place"/>
+                        <field name="radwan_passport_profession"/>
+                    </group>
+                </group>
+            </xpath>
+            <xpath expr="//page[@name='radwan_hr_information']/details[summary[contains(normalize-space(.), 'MEDICAL INSURANCE DATA')]]" position="attributes">
+                <attribute name="open"/>
+            </xpath>
+            <xpath expr="//page[@name='radwan_hr_information']/details[summary[contains(normalize-space(.), 'CONTRACT DATA')]]" position="attributes">
+                <attribute name="open"/>
+            </xpath>
+
+        </field>
+    </record>
+
+</odoo>

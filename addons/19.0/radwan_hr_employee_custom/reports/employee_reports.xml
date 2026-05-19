@@ -1,0 +1,1905 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!--
+        Employee PDF Reports.
+        These actions are bound to hr.employee and appear under the Print menu.
+        The report names are grouped with the common prefix "HR Reports |".
+    -->
+
+    
+    <record id="radwan_action_report_employee_profile_card" model="ir.actions.report">
+        <field name="name">HR Reports | 01 Employee Profile Card</field>
+        <field name="model">hr.employee</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">radwan_hr_employee_custom.radwan_report_employee_profile_card</field>
+        <field name="report_file">radwan_hr_employee_custom.radwan_report_employee_profile_card</field>
+        <field name="binding_model_id" ref="hr.model_hr_employee"/>
+        <field name="binding_type">report</field>
+        <field name="print_report_name">'01 Employee Profile Card - %s' % (object.name or 'Employee')</field>
+    </record>
+
+    <record id="radwan_action_report_work_organization_summary" model="ir.actions.report">
+        <field name="name">HR Reports | 02 Work &amp; Organization Summary</field>
+        <field name="model">hr.employee</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">radwan_hr_employee_custom.radwan_report_work_organization_summary</field>
+        <field name="report_file">radwan_hr_employee_custom.radwan_report_work_organization_summary</field>
+        <field name="binding_model_id" ref="hr.model_hr_employee"/>
+        <field name="binding_type">report</field>
+        <field name="print_report_name">'02 Work &amp; Organization Summary - %s' % (object.name or 'Employee')</field>
+    </record>
+
+    <record id="radwan_action_report_personal_identity_summary" model="ir.actions.report">
+        <field name="name">HR Reports | 03 Personal &amp; Identity Summary</field>
+        <field name="model">hr.employee</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">radwan_hr_employee_custom.radwan_report_personal_identity_summary</field>
+        <field name="report_file">radwan_hr_employee_custom.radwan_report_personal_identity_summary</field>
+        <field name="binding_model_id" ref="hr.model_hr_employee"/>
+        <field name="binding_type">report</field>
+        <field name="print_report_name">'03 Personal &amp; Identity Summary - %s' % (object.name or 'Employee')</field>
+    </record>
+
+    <record id="radwan_action_report_id_iqama_compliance" model="ir.actions.report">
+        <field name="name">HR Reports | 04 ID / Iqama Compliance Report</field>
+        <field name="model">hr.employee</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">radwan_hr_employee_custom.radwan_report_id_iqama_compliance</field>
+        <field name="report_file">radwan_hr_employee_custom.radwan_report_id_iqama_compliance</field>
+        <field name="binding_model_id" ref="hr.model_hr_employee"/>
+        <field name="binding_type">report</field>
+        <field name="print_report_name">'04 ID / Iqama Compliance Report - %s' % (object.name or 'Employee')</field>
+    </record>
+
+    <record id="radwan_action_report_passport_documents" model="ir.actions.report">
+        <field name="name">HR Reports | 05 Passport &amp; Travel Documents</field>
+        <field name="model">hr.employee</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">radwan_hr_employee_custom.radwan_report_passport_documents</field>
+        <field name="report_file">radwan_hr_employee_custom.radwan_report_passport_documents</field>
+        <field name="binding_model_id" ref="hr.model_hr_employee"/>
+        <field name="binding_type">report</field>
+        <field name="print_report_name">'05 Passport &amp; Travel Documents - %s' % (object.name or 'Employee')</field>
+    </record>
+
+    <record id="radwan_action_report_medical_insurance" model="ir.actions.report">
+        <field name="name">HR Reports | 06 Medical Insurance Report</field>
+        <field name="model">hr.employee</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">radwan_hr_employee_custom.radwan_report_medical_insurance</field>
+        <field name="report_file">radwan_hr_employee_custom.radwan_report_medical_insurance</field>
+        <field name="binding_model_id" ref="hr.model_hr_employee"/>
+        <field name="binding_type">report</field>
+        <field name="print_report_name">'06 Medical Insurance Report - %s' % (object.name or 'Employee')</field>
+    </record>
+
+    <record id="radwan_action_report_contract_employment" model="ir.actions.report">
+        <field name="name">HR Reports | 07 Contract &amp; Employment Terms</field>
+        <field name="model">hr.employee</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">radwan_hr_employee_custom.radwan_report_contract_employment</field>
+        <field name="report_file">radwan_hr_employee_custom.radwan_report_contract_employment</field>
+        <field name="binding_model_id" ref="hr.model_hr_employee"/>
+        <field name="binding_type">report</field>
+        <field name="print_report_name">'07 Contract &amp; Employment Terms - %s' % (object.name or 'Employee')</field>
+    </record>
+
+    <record id="radwan_action_report_expiry_status_matrix" model="ir.actions.report">
+        <field name="name">HR Reports | 08 Expiry Status Matrix</field>
+        <field name="model">hr.employee</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">radwan_hr_employee_custom.radwan_report_expiry_status_matrix</field>
+        <field name="report_file">radwan_hr_employee_custom.radwan_report_expiry_status_matrix</field>
+        <field name="binding_model_id" ref="hr.model_hr_employee"/>
+        <field name="binding_type">report</field>
+        <field name="print_report_name">'08 Expiry Status Matrix - %s' % (object.name or 'Employee')</field>
+    </record>
+
+    <record id="radwan_action_report_contact_emergency" model="ir.actions.report">
+        <field name="name">HR Reports | 09 Contact &amp; Emergency Report</field>
+        <field name="model">hr.employee</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">radwan_hr_employee_custom.radwan_report_contact_emergency</field>
+        <field name="report_file">radwan_hr_employee_custom.radwan_report_contact_emergency</field>
+        <field name="binding_model_id" ref="hr.model_hr_employee"/>
+        <field name="binding_type">report</field>
+        <field name="print_report_name">'09 Contact &amp; Emergency Report - %s' % (object.name or 'Employee')</field>
+    </record>
+
+    <record id="radwan_action_report_complete_employee_file" model="ir.actions.report">
+        <field name="name">HR Reports | 10 Complete Employee File</field>
+        <field name="model">hr.employee</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">radwan_hr_employee_custom.radwan_report_complete_employee_file</field>
+        <field name="report_file">radwan_hr_employee_custom.radwan_report_complete_employee_file</field>
+        <field name="binding_model_id" ref="hr.model_hr_employee"/>
+        <field name="binding_type">report</field>
+        <field name="print_report_name">'10 Complete Employee File - %s' % (object.name or 'Employee')</field>
+    </record>
+
+
+    
+    <template id="radwan_report_employee_profile_card">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <div class="page rw-report">
+                        
+<style>
+    .rw-report {
+        padding: 12mm 10mm;
+        font-family: Arial, Helvetica, sans-serif;
+        color: #2b2b2b;
+        font-size: 12px;
+        line-height: 1.35;
+    }
+    .rw-hero {
+        border: 1px solid #e7e1e5;
+        border-radius: 10px;
+        overflow: hidden;
+        margin-bottom: 16px;
+    }
+    .rw-hero-top {
+        background: #714B67;
+        color: #ffffff;
+        padding: 16px 20px;
+    }
+    .rw-kicker {
+        font-size: 10px;
+        letter-spacing: 1.4px;
+        text-transform: uppercase;
+        opacity: .88;
+        margin-bottom: 4px;
+    }
+    .rw-title {
+        font-size: 22px;
+        font-weight: 700;
+        margin: 0;
+        padding: 0;
+    }
+    .rw-subtitle {
+        font-size: 12px;
+        margin-top: 5px;
+        opacity: .92;
+    }
+    .rw-hero-bottom {
+        padding: 12px 20px;
+        background: #fbfafb;
+        border-top: 1px solid #e7e1e5;
+    }
+    .rw-meta-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    .rw-meta-table td {
+        padding: 3px 0;
+        color: #4a4a4a;
+        vertical-align: top;
+    }
+    .rw-section-title {
+        background: #f4eff3;
+        color: #714B67;
+        border-left: 5px solid #714B67;
+        padding: 8px 10px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: .4px;
+        margin: 14px 0 8px 0;
+    }
+    .rw-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 12px;
+        border: 1px solid #e9e5e8;
+    }
+    .rw-table th {
+        width: 26%;
+        background: #faf8fa;
+        color: #5d4b58;
+        text-align: left;
+        padding: 8px 9px;
+        border: 1px solid #e9e5e8;
+        font-weight: 700;
+    }
+    .rw-table td {
+        padding: 8px 9px;
+        border: 1px solid #e9e5e8;
+        color: #222222;
+    }
+    .rw-note {
+        background: #fffdf6;
+        border: 1px solid #efe4bd;
+        color: #6b5a1e;
+        padding: 10px 12px;
+        border-radius: 6px;
+        margin-top: 10px;
+    }
+    .rw-status {
+        display: inline-block;
+        min-width: 82px;
+        text-align: center;
+        border-radius: 12px;
+        padding: 3px 9px;
+        font-weight: 700;
+        font-size: 10px;
+        text-transform: uppercase;
+    }
+    .rw-status-valid {
+        color: #166534;
+        background: #dcfce7;
+        border: 1px solid #86efac;
+    }
+    .rw-status-expiring_soon {
+        color: #92400e;
+        background: #fef3c7;
+        border: 1px solid #fbbf24;
+    }
+    .rw-status-expired {
+        color: #991b1b;
+        background: #fee2e2;
+        border: 1px solid #fca5a5;
+    }
+    .rw-status-not_set {
+        color: #374151;
+        background: #e5e7eb;
+        border: 1px solid #d1d5db;
+    }
+    .rw-small {
+        font-size: 10px;
+        color: #777777;
+    }
+</style>
+
+                        <t t-set="status_labels" t-value="{'not_set': 'Not Set', 'valid': 'Valid', 'expiring_soon': 'Expiring Soon', 'expired': 'Expired'}"/>
+                        
+    <div class="rw-hero">
+        <div class="rw-hero-top">
+            <div class="rw-kicker">HR EMPLOYEE REPORTS</div>
+            <h1 class="rw-title">01 Employee Profile Card</h1>
+            <div class="rw-subtitle">A compact professional card for the selected employee.</div>
+        </div>
+        <div class="rw-hero-bottom">
+            <table class="rw-meta-table">
+                <tr>
+                    <td><strong>Employee:</strong> <span t-esc="o.name or '-'"/></td>
+                    <td><strong>Company:</strong> <span t-esc="o.company_id.display_name or '-'"/></td>
+                </tr>
+                <tr>
+                    <td><strong>Employee Code:</strong> <span t-esc="o.radwan_employee_code or '-'"/></td>
+                    <td><strong>Generated By:</strong> <span t-esc="user.name or '-'"/></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    
+                        <div class="rw-section-title">Employee Snapshot</div>
+<table class="rw-table">
+<tr><th>Employee Name</th><td><span t-esc="o.name or '-'"/></td></tr>
+<tr><th>Employee Internal Code</th><td><span t-esc="o.radwan_employee_code or '-'"/></td></tr>
+<tr><th>Paper File Number</th><td><span t-esc="o.radwan_file_number or '-'"/></td></tr>
+<tr><th>Company</th><td><span t-esc="o.company_id.display_name or '-'"/></td></tr>
+<tr><th>Department</th><td><span t-esc="o.department_id.display_name or '-'"/></td></tr>
+<tr><th>Job Position</th><td><span t-esc="o.job_id.display_name or '-'"/></td></tr>
+<tr><th>Job Title</th><td><span t-esc="o.job_title or '-'"/></td></tr>
+<tr><th>Manager</th><td><span t-esc="o.parent_id.display_name or '-'"/></td></tr>
+</table>
+<div class="rw-section-title">Primary Contacts</div>
+<table class="rw-table">
+<tr><th>Work Email</th><td><span t-esc="o.work_email or '-'"/></td></tr>
+<tr><th>Work Phone</th><td><span t-esc="o.work_phone or '-'"/></td></tr>
+<tr><th>Mobile Phone</th><td><span t-esc="(o._fields.get('mobile_phone') and o.mobile_phone) or '-'"/></td></tr>
+<tr><th>Operational Status</th><td><span t-esc="dict(o._fields['radwan_employment_status'].selection).get(o.radwan_employment_status, '-')"/></td></tr>
+</table>
+
+                    </div>
+            </t>
+        </t>
+    </template>
+
+    <template id="radwan_report_work_organization_summary">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <div class="page rw-report">
+                        
+<style>
+    .rw-report {
+        padding: 12mm 10mm;
+        font-family: Arial, Helvetica, sans-serif;
+        color: #2b2b2b;
+        font-size: 12px;
+        line-height: 1.35;
+    }
+    .rw-hero {
+        border: 1px solid #e7e1e5;
+        border-radius: 10px;
+        overflow: hidden;
+        margin-bottom: 16px;
+    }
+    .rw-hero-top {
+        background: #714B67;
+        color: #ffffff;
+        padding: 16px 20px;
+    }
+    .rw-kicker {
+        font-size: 10px;
+        letter-spacing: 1.4px;
+        text-transform: uppercase;
+        opacity: .88;
+        margin-bottom: 4px;
+    }
+    .rw-title {
+        font-size: 22px;
+        font-weight: 700;
+        margin: 0;
+        padding: 0;
+    }
+    .rw-subtitle {
+        font-size: 12px;
+        margin-top: 5px;
+        opacity: .92;
+    }
+    .rw-hero-bottom {
+        padding: 12px 20px;
+        background: #fbfafb;
+        border-top: 1px solid #e7e1e5;
+    }
+    .rw-meta-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    .rw-meta-table td {
+        padding: 3px 0;
+        color: #4a4a4a;
+        vertical-align: top;
+    }
+    .rw-section-title {
+        background: #f4eff3;
+        color: #714B67;
+        border-left: 5px solid #714B67;
+        padding: 8px 10px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: .4px;
+        margin: 14px 0 8px 0;
+    }
+    .rw-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 12px;
+        border: 1px solid #e9e5e8;
+    }
+    .rw-table th {
+        width: 26%;
+        background: #faf8fa;
+        color: #5d4b58;
+        text-align: left;
+        padding: 8px 9px;
+        border: 1px solid #e9e5e8;
+        font-weight: 700;
+    }
+    .rw-table td {
+        padding: 8px 9px;
+        border: 1px solid #e9e5e8;
+        color: #222222;
+    }
+    .rw-note {
+        background: #fffdf6;
+        border: 1px solid #efe4bd;
+        color: #6b5a1e;
+        padding: 10px 12px;
+        border-radius: 6px;
+        margin-top: 10px;
+    }
+    .rw-status {
+        display: inline-block;
+        min-width: 82px;
+        text-align: center;
+        border-radius: 12px;
+        padding: 3px 9px;
+        font-weight: 700;
+        font-size: 10px;
+        text-transform: uppercase;
+    }
+    .rw-status-valid {
+        color: #166534;
+        background: #dcfce7;
+        border: 1px solid #86efac;
+    }
+    .rw-status-expiring_soon {
+        color: #92400e;
+        background: #fef3c7;
+        border: 1px solid #fbbf24;
+    }
+    .rw-status-expired {
+        color: #991b1b;
+        background: #fee2e2;
+        border: 1px solid #fca5a5;
+    }
+    .rw-status-not_set {
+        color: #374151;
+        background: #e5e7eb;
+        border: 1px solid #d1d5db;
+    }
+    .rw-small {
+        font-size: 10px;
+        color: #777777;
+    }
+</style>
+
+                        <t t-set="status_labels" t-value="{'not_set': 'Not Set', 'valid': 'Valid', 'expiring_soon': 'Expiring Soon', 'expired': 'Expired'}"/>
+                        
+    <div class="rw-hero">
+        <div class="rw-hero-top">
+            <div class="rw-kicker">HR EMPLOYEE REPORTS</div>
+            <h1 class="rw-title">02 Work &amp; Organization Summary</h1>
+            <div class="rw-subtitle">Company, department, job, reporting line, and work setup.</div>
+        </div>
+        <div class="rw-hero-bottom">
+            <table class="rw-meta-table">
+                <tr>
+                    <td><strong>Employee:</strong> <span t-esc="o.name or '-'"/></td>
+                    <td><strong>Company:</strong> <span t-esc="o.company_id.display_name or '-'"/></td>
+                </tr>
+                <tr>
+                    <td><strong>Employee Code:</strong> <span t-esc="o.radwan_employee_code or '-'"/></td>
+                    <td><strong>Generated By:</strong> <span t-esc="user.name or '-'"/></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    
+                        <div class="rw-section-title">Organization</div>
+<table class="rw-table">
+<tr><th>Company</th><td><span t-esc="o.company_id.display_name or '-'"/></td></tr>
+<tr><th>Department</th><td><span t-esc="o.department_id.display_name or '-'"/></td></tr>
+<tr><th>Job Position</th><td><span t-esc="o.job_id.display_name or '-'"/></td></tr>
+<tr><th>Job Title</th><td><span t-esc="o.job_title or '-'"/></td></tr>
+<tr><th>Manager</th><td><span t-esc="o.parent_id.display_name or '-'"/></td></tr>
+<tr><th>Coach</th><td><span t-esc="(o._fields.get('coach_id') and o.coach_id.display_name) or '-'"/></td></tr>
+</table>
+<div class="rw-section-title">Work Setup</div>
+<table class="rw-table">
+<tr><th>Actual Operation Site</th><td><span t-esc="o.radwan_operation_site or '-'"/></td></tr>
+<tr><th>Work Location</th><td><span t-esc="(o._fields.get('work_location_id') and o.work_location_id.display_name) or '-'"/></td></tr>
+<tr><th>Working Schedule</th><td><span t-esc="(o._fields.get('resource_calendar_id') and o.resource_calendar_id.display_name) or '-'"/></td></tr>
+<tr><th>Operational Employment Status</th><td><span t-esc="dict(o._fields['radwan_employment_status'].selection).get(o.radwan_employment_status, '-')"/></td></tr>
+</table>
+
+                    </div>
+            </t>
+        </t>
+    </template>
+
+    <template id="radwan_report_personal_identity_summary">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <div class="page rw-report">
+                        
+<style>
+    .rw-report {
+        padding: 12mm 10mm;
+        font-family: Arial, Helvetica, sans-serif;
+        color: #2b2b2b;
+        font-size: 12px;
+        line-height: 1.35;
+    }
+    .rw-hero {
+        border: 1px solid #e7e1e5;
+        border-radius: 10px;
+        overflow: hidden;
+        margin-bottom: 16px;
+    }
+    .rw-hero-top {
+        background: #714B67;
+        color: #ffffff;
+        padding: 16px 20px;
+    }
+    .rw-kicker {
+        font-size: 10px;
+        letter-spacing: 1.4px;
+        text-transform: uppercase;
+        opacity: .88;
+        margin-bottom: 4px;
+    }
+    .rw-title {
+        font-size: 22px;
+        font-weight: 700;
+        margin: 0;
+        padding: 0;
+    }
+    .rw-subtitle {
+        font-size: 12px;
+        margin-top: 5px;
+        opacity: .92;
+    }
+    .rw-hero-bottom {
+        padding: 12px 20px;
+        background: #fbfafb;
+        border-top: 1px solid #e7e1e5;
+    }
+    .rw-meta-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    .rw-meta-table td {
+        padding: 3px 0;
+        color: #4a4a4a;
+        vertical-align: top;
+    }
+    .rw-section-title {
+        background: #f4eff3;
+        color: #714B67;
+        border-left: 5px solid #714B67;
+        padding: 8px 10px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: .4px;
+        margin: 14px 0 8px 0;
+    }
+    .rw-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 12px;
+        border: 1px solid #e9e5e8;
+    }
+    .rw-table th {
+        width: 26%;
+        background: #faf8fa;
+        color: #5d4b58;
+        text-align: left;
+        padding: 8px 9px;
+        border: 1px solid #e9e5e8;
+        font-weight: 700;
+    }
+    .rw-table td {
+        padding: 8px 9px;
+        border: 1px solid #e9e5e8;
+        color: #222222;
+    }
+    .rw-note {
+        background: #fffdf6;
+        border: 1px solid #efe4bd;
+        color: #6b5a1e;
+        padding: 10px 12px;
+        border-radius: 6px;
+        margin-top: 10px;
+    }
+    .rw-status {
+        display: inline-block;
+        min-width: 82px;
+        text-align: center;
+        border-radius: 12px;
+        padding: 3px 9px;
+        font-weight: 700;
+        font-size: 10px;
+        text-transform: uppercase;
+    }
+    .rw-status-valid {
+        color: #166534;
+        background: #dcfce7;
+        border: 1px solid #86efac;
+    }
+    .rw-status-expiring_soon {
+        color: #92400e;
+        background: #fef3c7;
+        border: 1px solid #fbbf24;
+    }
+    .rw-status-expired {
+        color: #991b1b;
+        background: #fee2e2;
+        border: 1px solid #fca5a5;
+    }
+    .rw-status-not_set {
+        color: #374151;
+        background: #e5e7eb;
+        border: 1px solid #d1d5db;
+    }
+    .rw-small {
+        font-size: 10px;
+        color: #777777;
+    }
+</style>
+
+                        <t t-set="status_labels" t-value="{'not_set': 'Not Set', 'valid': 'Valid', 'expiring_soon': 'Expiring Soon', 'expired': 'Expired'}"/>
+                        
+    <div class="rw-hero">
+        <div class="rw-hero-top">
+            <div class="rw-kicker">HR EMPLOYEE REPORTS</div>
+            <h1 class="rw-title">03 Personal &amp; Identity Summary</h1>
+            <div class="rw-subtitle">Personal, nationality, and ID/Iqama reference information.</div>
+        </div>
+        <div class="rw-hero-bottom">
+            <table class="rw-meta-table">
+                <tr>
+                    <td><strong>Employee:</strong> <span t-esc="o.name or '-'"/></td>
+                    <td><strong>Company:</strong> <span t-esc="o.company_id.display_name or '-'"/></td>
+                </tr>
+                <tr>
+                    <td><strong>Employee Code:</strong> <span t-esc="o.radwan_employee_code or '-'"/></td>
+                    <td><strong>Generated By:</strong> <span t-esc="user.name or '-'"/></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    
+                        <div class="rw-section-title">Identity</div>
+<table class="rw-table">
+<tr><th>ID / Iqama Number</th><td><span t-esc="o.identification_id or '-'"/></td></tr>
+<tr><th>ID Type</th><td><span t-esc="dict(o._fields['radwan_id_type'].selection).get(o.radwan_id_type, '-')"/></td></tr>
+<tr><th>Nationality</th><td><span t-esc="(o._fields.get('country_id') and o.country_id.display_name) or '-'"/></td></tr>
+<tr><th>Country of Birth</th><td><span t-esc="(o._fields.get('country_of_birth') and o.country_of_birth.display_name) or '-'"/></td></tr>
+<tr><th>Gender</th><td><span t-esc="(o._fields.get('gender') and dict(o._fields['gender'].selection).get(o.gender, '-')) or '-'"/></td></tr>
+<tr><th>Birthday</th><td><t t-if="o._fields.get('birthday') and o.birthday"><span t-field="o.birthday"/></t><t t-if="not (o._fields.get('birthday') and o.birthday)">-</t></td></tr>
+</table>
+<div class="rw-section-title">Saudi Iqama Details</div>
+<table class="rw-table">
+<tr><th>Iqama Profession</th><td><span t-esc="o.radwan_iqama_profession or '-'"/></td></tr>
+<tr><th>Border Number</th><td><span t-esc="o.radwan_border_number or '-'"/></td></tr>
+<tr><th>Sponsor Name</th><td><span t-esc="o.radwan_sponsor_name or '-'"/></td></tr>
+<tr><th>ID / Iqama Status</th><td><span t-attf-class="rw-status rw-status-#{o.radwan_id_status or 'not_set'}"
+                     t-esc="status_labels.get(o.radwan_id_status or 'not_set', '-')"/></td></tr>
+</table>
+
+                    </div>
+            </t>
+        </t>
+    </template>
+
+    <template id="radwan_report_id_iqama_compliance">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <div class="page rw-report">
+                        
+<style>
+    .rw-report {
+        padding: 12mm 10mm;
+        font-family: Arial, Helvetica, sans-serif;
+        color: #2b2b2b;
+        font-size: 12px;
+        line-height: 1.35;
+    }
+    .rw-hero {
+        border: 1px solid #e7e1e5;
+        border-radius: 10px;
+        overflow: hidden;
+        margin-bottom: 16px;
+    }
+    .rw-hero-top {
+        background: #714B67;
+        color: #ffffff;
+        padding: 16px 20px;
+    }
+    .rw-kicker {
+        font-size: 10px;
+        letter-spacing: 1.4px;
+        text-transform: uppercase;
+        opacity: .88;
+        margin-bottom: 4px;
+    }
+    .rw-title {
+        font-size: 22px;
+        font-weight: 700;
+        margin: 0;
+        padding: 0;
+    }
+    .rw-subtitle {
+        font-size: 12px;
+        margin-top: 5px;
+        opacity: .92;
+    }
+    .rw-hero-bottom {
+        padding: 12px 20px;
+        background: #fbfafb;
+        border-top: 1px solid #e7e1e5;
+    }
+    .rw-meta-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    .rw-meta-table td {
+        padding: 3px 0;
+        color: #4a4a4a;
+        vertical-align: top;
+    }
+    .rw-section-title {
+        background: #f4eff3;
+        color: #714B67;
+        border-left: 5px solid #714B67;
+        padding: 8px 10px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: .4px;
+        margin: 14px 0 8px 0;
+    }
+    .rw-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 12px;
+        border: 1px solid #e9e5e8;
+    }
+    .rw-table th {
+        width: 26%;
+        background: #faf8fa;
+        color: #5d4b58;
+        text-align: left;
+        padding: 8px 9px;
+        border: 1px solid #e9e5e8;
+        font-weight: 700;
+    }
+    .rw-table td {
+        padding: 8px 9px;
+        border: 1px solid #e9e5e8;
+        color: #222222;
+    }
+    .rw-note {
+        background: #fffdf6;
+        border: 1px solid #efe4bd;
+        color: #6b5a1e;
+        padding: 10px 12px;
+        border-radius: 6px;
+        margin-top: 10px;
+    }
+    .rw-status {
+        display: inline-block;
+        min-width: 82px;
+        text-align: center;
+        border-radius: 12px;
+        padding: 3px 9px;
+        font-weight: 700;
+        font-size: 10px;
+        text-transform: uppercase;
+    }
+    .rw-status-valid {
+        color: #166534;
+        background: #dcfce7;
+        border: 1px solid #86efac;
+    }
+    .rw-status-expiring_soon {
+        color: #92400e;
+        background: #fef3c7;
+        border: 1px solid #fbbf24;
+    }
+    .rw-status-expired {
+        color: #991b1b;
+        background: #fee2e2;
+        border: 1px solid #fca5a5;
+    }
+    .rw-status-not_set {
+        color: #374151;
+        background: #e5e7eb;
+        border: 1px solid #d1d5db;
+    }
+    .rw-small {
+        font-size: 10px;
+        color: #777777;
+    }
+</style>
+
+                        <t t-set="status_labels" t-value="{'not_set': 'Not Set', 'valid': 'Valid', 'expiring_soon': 'Expiring Soon', 'expired': 'Expired'}"/>
+                        
+    <div class="rw-hero">
+        <div class="rw-hero-top">
+            <div class="rw-kicker">HR EMPLOYEE REPORTS</div>
+            <h1 class="rw-title">04 ID / Iqama Compliance Report</h1>
+            <div class="rw-subtitle">Gregorian and Hijri expiry details with compliance status.</div>
+        </div>
+        <div class="rw-hero-bottom">
+            <table class="rw-meta-table">
+                <tr>
+                    <td><strong>Employee:</strong> <span t-esc="o.name or '-'"/></td>
+                    <td><strong>Company:</strong> <span t-esc="o.company_id.display_name or '-'"/></td>
+                </tr>
+                <tr>
+                    <td><strong>Employee Code:</strong> <span t-esc="o.radwan_employee_code or '-'"/></td>
+                    <td><strong>Generated By:</strong> <span t-esc="user.name or '-'"/></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    
+                        <div class="rw-section-title">ID / Iqama Dates</div>
+<table class="rw-table">
+<tr><th>ID / Iqama Number</th><td><span t-esc="o.identification_id or '-'"/></td></tr>
+<tr><th>ID Type</th><td><span t-esc="dict(o._fields['radwan_id_type'].selection).get(o.radwan_id_type, '-')"/></td></tr>
+<tr><th>Issue Date</th><td><t t-if="o.radwan_id_issue_date"><span t-field="o.radwan_id_issue_date"/></t><t t-if="not o.radwan_id_issue_date">-</t></td></tr>
+<tr><th>Expiry Date - Gregorian</th><td><span t-esc="o.radwan_id_expiry_date_display or '-'"/></td></tr>
+<tr><th>Expiry Date - Hijri</th><td><span t-esc="o.radwan_id_expiry_hijri or '-'"/></td></tr>
+<tr><th>Status</th><td><span t-attf-class="rw-status rw-status-#{o.radwan_id_status or 'not_set'}"
+                     t-esc="status_labels.get(o.radwan_id_status or 'not_set', '-')"/></td></tr>
+</table>
+<div class="rw-note">
+    This report validates the employee ID/Iqama lifecycle and highlights whether the document is valid, expiring soon, expired, or not set.
+</div>
+                    </div>
+            </t>
+        </t>
+    </template>
+
+    <template id="radwan_report_passport_documents">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <div class="page rw-report">
+                        
+<style>
+    .rw-report {
+        padding: 12mm 10mm;
+        font-family: Arial, Helvetica, sans-serif;
+        color: #2b2b2b;
+        font-size: 12px;
+        line-height: 1.35;
+    }
+    .rw-hero {
+        border: 1px solid #e7e1e5;
+        border-radius: 10px;
+        overflow: hidden;
+        margin-bottom: 16px;
+    }
+    .rw-hero-top {
+        background: #714B67;
+        color: #ffffff;
+        padding: 16px 20px;
+    }
+    .rw-kicker {
+        font-size: 10px;
+        letter-spacing: 1.4px;
+        text-transform: uppercase;
+        opacity: .88;
+        margin-bottom: 4px;
+    }
+    .rw-title {
+        font-size: 22px;
+        font-weight: 700;
+        margin: 0;
+        padding: 0;
+    }
+    .rw-subtitle {
+        font-size: 12px;
+        margin-top: 5px;
+        opacity: .92;
+    }
+    .rw-hero-bottom {
+        padding: 12px 20px;
+        background: #fbfafb;
+        border-top: 1px solid #e7e1e5;
+    }
+    .rw-meta-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    .rw-meta-table td {
+        padding: 3px 0;
+        color: #4a4a4a;
+        vertical-align: top;
+    }
+    .rw-section-title {
+        background: #f4eff3;
+        color: #714B67;
+        border-left: 5px solid #714B67;
+        padding: 8px 10px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: .4px;
+        margin: 14px 0 8px 0;
+    }
+    .rw-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 12px;
+        border: 1px solid #e9e5e8;
+    }
+    .rw-table th {
+        width: 26%;
+        background: #faf8fa;
+        color: #5d4b58;
+        text-align: left;
+        padding: 8px 9px;
+        border: 1px solid #e9e5e8;
+        font-weight: 700;
+    }
+    .rw-table td {
+        padding: 8px 9px;
+        border: 1px solid #e9e5e8;
+        color: #222222;
+    }
+    .rw-note {
+        background: #fffdf6;
+        border: 1px solid #efe4bd;
+        color: #6b5a1e;
+        padding: 10px 12px;
+        border-radius: 6px;
+        margin-top: 10px;
+    }
+    .rw-status {
+        display: inline-block;
+        min-width: 82px;
+        text-align: center;
+        border-radius: 12px;
+        padding: 3px 9px;
+        font-weight: 700;
+        font-size: 10px;
+        text-transform: uppercase;
+    }
+    .rw-status-valid {
+        color: #166534;
+        background: #dcfce7;
+        border: 1px solid #86efac;
+    }
+    .rw-status-expiring_soon {
+        color: #92400e;
+        background: #fef3c7;
+        border: 1px solid #fbbf24;
+    }
+    .rw-status-expired {
+        color: #991b1b;
+        background: #fee2e2;
+        border: 1px solid #fca5a5;
+    }
+    .rw-status-not_set {
+        color: #374151;
+        background: #e5e7eb;
+        border: 1px solid #d1d5db;
+    }
+    .rw-small {
+        font-size: 10px;
+        color: #777777;
+    }
+</style>
+
+                        <t t-set="status_labels" t-value="{'not_set': 'Not Set', 'valid': 'Valid', 'expiring_soon': 'Expiring Soon', 'expired': 'Expired'}"/>
+                        
+    <div class="rw-hero">
+        <div class="rw-hero-top">
+            <div class="rw-kicker">HR EMPLOYEE REPORTS</div>
+            <h1 class="rw-title">05 Passport &amp; Travel Documents</h1>
+            <div class="rw-subtitle">Passport and travel document status overview.</div>
+        </div>
+        <div class="rw-hero-bottom">
+            <table class="rw-meta-table">
+                <tr>
+                    <td><strong>Employee:</strong> <span t-esc="o.name or '-'"/></td>
+                    <td><strong>Company:</strong> <span t-esc="o.company_id.display_name or '-'"/></td>
+                </tr>
+                <tr>
+                    <td><strong>Employee Code:</strong> <span t-esc="o.radwan_employee_code or '-'"/></td>
+                    <td><strong>Generated By:</strong> <span t-esc="user.name or '-'"/></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    
+                        <div class="rw-section-title">Passport Data</div>
+<table class="rw-table">
+<tr><th>Passport Number</th><td><span t-esc="(o._fields.get('passport_id') and o.passport_id) or '-'"/></td></tr>
+<tr><th>Passport Expiry Date</th><td><span t-esc="o.radwan_passport_expiry_date_display or '-'"/></td></tr>
+<tr><th>Passport Status</th><td><span t-attf-class="rw-status rw-status-#{o.radwan_passport_status or 'not_set'}"
+                     t-esc="status_labels.get(o.radwan_passport_status or 'not_set', '-')"/></td></tr>
+<tr><th>Nationality</th><td><span t-esc="(o._fields.get('country_id') and o.country_id.display_name) or '-'"/></td></tr>
+<tr><th>Country of Birth</th><td><span t-esc="(o._fields.get('country_of_birth') and o.country_of_birth.display_name) or '-'"/></td></tr>
+</table>
+<div class="rw-section-title">Related Identity</div>
+<table class="rw-table">
+<tr><th>ID / Iqama Number</th><td><span t-esc="o.identification_id or '-'"/></td></tr>
+<tr><th>ID / Iqama Status</th><td><span t-attf-class="rw-status rw-status-#{o.radwan_id_status or 'not_set'}"
+                     t-esc="status_labels.get(o.radwan_id_status or 'not_set', '-')"/></td></tr>
+</table>
+
+                    </div>
+            </t>
+        </t>
+    </template>
+
+    <template id="radwan_report_medical_insurance">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <div class="page rw-report">
+                        
+<style>
+    .rw-report {
+        padding: 12mm 10mm;
+        font-family: Arial, Helvetica, sans-serif;
+        color: #2b2b2b;
+        font-size: 12px;
+        line-height: 1.35;
+    }
+    .rw-hero {
+        border: 1px solid #e7e1e5;
+        border-radius: 10px;
+        overflow: hidden;
+        margin-bottom: 16px;
+    }
+    .rw-hero-top {
+        background: #714B67;
+        color: #ffffff;
+        padding: 16px 20px;
+    }
+    .rw-kicker {
+        font-size: 10px;
+        letter-spacing: 1.4px;
+        text-transform: uppercase;
+        opacity: .88;
+        margin-bottom: 4px;
+    }
+    .rw-title {
+        font-size: 22px;
+        font-weight: 700;
+        margin: 0;
+        padding: 0;
+    }
+    .rw-subtitle {
+        font-size: 12px;
+        margin-top: 5px;
+        opacity: .92;
+    }
+    .rw-hero-bottom {
+        padding: 12px 20px;
+        background: #fbfafb;
+        border-top: 1px solid #e7e1e5;
+    }
+    .rw-meta-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    .rw-meta-table td {
+        padding: 3px 0;
+        color: #4a4a4a;
+        vertical-align: top;
+    }
+    .rw-section-title {
+        background: #f4eff3;
+        color: #714B67;
+        border-left: 5px solid #714B67;
+        padding: 8px 10px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: .4px;
+        margin: 14px 0 8px 0;
+    }
+    .rw-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 12px;
+        border: 1px solid #e9e5e8;
+    }
+    .rw-table th {
+        width: 26%;
+        background: #faf8fa;
+        color: #5d4b58;
+        text-align: left;
+        padding: 8px 9px;
+        border: 1px solid #e9e5e8;
+        font-weight: 700;
+    }
+    .rw-table td {
+        padding: 8px 9px;
+        border: 1px solid #e9e5e8;
+        color: #222222;
+    }
+    .rw-note {
+        background: #fffdf6;
+        border: 1px solid #efe4bd;
+        color: #6b5a1e;
+        padding: 10px 12px;
+        border-radius: 6px;
+        margin-top: 10px;
+    }
+    .rw-status {
+        display: inline-block;
+        min-width: 82px;
+        text-align: center;
+        border-radius: 12px;
+        padding: 3px 9px;
+        font-weight: 700;
+        font-size: 10px;
+        text-transform: uppercase;
+    }
+    .rw-status-valid {
+        color: #166534;
+        background: #dcfce7;
+        border: 1px solid #86efac;
+    }
+    .rw-status-expiring_soon {
+        color: #92400e;
+        background: #fef3c7;
+        border: 1px solid #fbbf24;
+    }
+    .rw-status-expired {
+        color: #991b1b;
+        background: #fee2e2;
+        border: 1px solid #fca5a5;
+    }
+    .rw-status-not_set {
+        color: #374151;
+        background: #e5e7eb;
+        border: 1px solid #d1d5db;
+    }
+    .rw-small {
+        font-size: 10px;
+        color: #777777;
+    }
+</style>
+
+                        <t t-set="status_labels" t-value="{'not_set': 'Not Set', 'valid': 'Valid', 'expiring_soon': 'Expiring Soon', 'expired': 'Expired'}"/>
+                        
+    <div class="rw-hero">
+        <div class="rw-hero-top">
+            <div class="rw-kicker">HR EMPLOYEE REPORTS</div>
+            <h1 class="rw-title">06 Medical Insurance Report</h1>
+            <div class="rw-subtitle">Medical insurance company, class, policy, and expiry status.</div>
+        </div>
+        <div class="rw-hero-bottom">
+            <table class="rw-meta-table">
+                <tr>
+                    <td><strong>Employee:</strong> <span t-esc="o.name or '-'"/></td>
+                    <td><strong>Company:</strong> <span t-esc="o.company_id.display_name or '-'"/></td>
+                </tr>
+                <tr>
+                    <td><strong>Employee Code:</strong> <span t-esc="o.radwan_employee_code or '-'"/></td>
+                    <td><strong>Generated By:</strong> <span t-esc="user.name or '-'"/></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    
+                        <div class="rw-section-title">Medical Insurance</div>
+<table class="rw-table">
+<tr><th>Insurance Company</th><td><span t-esc="o.radwan_medical_insurance_company or '-'"/></td></tr>
+<tr><th>Policy Number</th><td><span t-esc="o.radwan_medical_policy_number or '-'"/></td></tr>
+<tr><th>Insurance Class</th><td><span t-esc="dict(o._fields['radwan_medical_insurance_class'].selection).get(o.radwan_medical_insurance_class, '-')"/></td></tr>
+<tr><th>End Date</th><td><span t-esc="o.radwan_medical_insurance_end_display or '-'"/></td></tr>
+<tr><th>Status</th><td><span t-attf-class="rw-status rw-status-#{o.radwan_medical_insurance_status or 'not_set'}"
+                     t-esc="status_labels.get(o.radwan_medical_insurance_status or 'not_set', '-')"/></td></tr>
+</table>
+<div class="rw-section-title">Employee Reference</div>
+<table class="rw-table">
+<tr><th>Employee</th><td><span t-esc="o.name or '-'"/></td></tr>
+<tr><th>Department</th><td><span t-esc="o.department_id.display_name or '-'"/></td></tr>
+<tr><th>Work Phone</th><td><span t-esc="o.work_phone or '-'"/></td></tr>
+</table>
+
+                    </div>
+            </t>
+        </t>
+    </template>
+
+    <template id="radwan_report_contract_employment">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <div class="page rw-report">
+                        
+<style>
+    .rw-report {
+        padding: 12mm 10mm;
+        font-family: Arial, Helvetica, sans-serif;
+        color: #2b2b2b;
+        font-size: 12px;
+        line-height: 1.35;
+    }
+    .rw-hero {
+        border: 1px solid #e7e1e5;
+        border-radius: 10px;
+        overflow: hidden;
+        margin-bottom: 16px;
+    }
+    .rw-hero-top {
+        background: #714B67;
+        color: #ffffff;
+        padding: 16px 20px;
+    }
+    .rw-kicker {
+        font-size: 10px;
+        letter-spacing: 1.4px;
+        text-transform: uppercase;
+        opacity: .88;
+        margin-bottom: 4px;
+    }
+    .rw-title {
+        font-size: 22px;
+        font-weight: 700;
+        margin: 0;
+        padding: 0;
+    }
+    .rw-subtitle {
+        font-size: 12px;
+        margin-top: 5px;
+        opacity: .92;
+    }
+    .rw-hero-bottom {
+        padding: 12px 20px;
+        background: #fbfafb;
+        border-top: 1px solid #e7e1e5;
+    }
+    .rw-meta-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    .rw-meta-table td {
+        padding: 3px 0;
+        color: #4a4a4a;
+        vertical-align: top;
+    }
+    .rw-section-title {
+        background: #f4eff3;
+        color: #714B67;
+        border-left: 5px solid #714B67;
+        padding: 8px 10px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: .4px;
+        margin: 14px 0 8px 0;
+    }
+    .rw-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 12px;
+        border: 1px solid #e9e5e8;
+    }
+    .rw-table th {
+        width: 26%;
+        background: #faf8fa;
+        color: #5d4b58;
+        text-align: left;
+        padding: 8px 9px;
+        border: 1px solid #e9e5e8;
+        font-weight: 700;
+    }
+    .rw-table td {
+        padding: 8px 9px;
+        border: 1px solid #e9e5e8;
+        color: #222222;
+    }
+    .rw-note {
+        background: #fffdf6;
+        border: 1px solid #efe4bd;
+        color: #6b5a1e;
+        padding: 10px 12px;
+        border-radius: 6px;
+        margin-top: 10px;
+    }
+    .rw-status {
+        display: inline-block;
+        min-width: 82px;
+        text-align: center;
+        border-radius: 12px;
+        padding: 3px 9px;
+        font-weight: 700;
+        font-size: 10px;
+        text-transform: uppercase;
+    }
+    .rw-status-valid {
+        color: #166534;
+        background: #dcfce7;
+        border: 1px solid #86efac;
+    }
+    .rw-status-expiring_soon {
+        color: #92400e;
+        background: #fef3c7;
+        border: 1px solid #fbbf24;
+    }
+    .rw-status-expired {
+        color: #991b1b;
+        background: #fee2e2;
+        border: 1px solid #fca5a5;
+    }
+    .rw-status-not_set {
+        color: #374151;
+        background: #e5e7eb;
+        border: 1px solid #d1d5db;
+    }
+    .rw-small {
+        font-size: 10px;
+        color: #777777;
+    }
+</style>
+
+                        <t t-set="status_labels" t-value="{'not_set': 'Not Set', 'valid': 'Valid', 'expiring_soon': 'Expiring Soon', 'expired': 'Expired'}"/>
+                        
+    <div class="rw-hero">
+        <div class="rw-hero-top">
+            <div class="rw-kicker">HR EMPLOYEE REPORTS</div>
+            <h1 class="rw-title">07 Contract &amp; Employment Terms</h1>
+            <div class="rw-subtitle">Contract dates, contract status, joining date, and position reference.</div>
+        </div>
+        <div class="rw-hero-bottom">
+            <table class="rw-meta-table">
+                <tr>
+                    <td><strong>Employee:</strong> <span t-esc="o.name or '-'"/></td>
+                    <td><strong>Company:</strong> <span t-esc="o.company_id.display_name or '-'"/></td>
+                </tr>
+                <tr>
+                    <td><strong>Employee Code:</strong> <span t-esc="o.radwan_employee_code or '-'"/></td>
+                    <td><strong>Generated By:</strong> <span t-esc="user.name or '-'"/></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    
+                        <div class="rw-section-title">Contract Data</div>
+<table class="rw-table">
+<tr><th>Contract Number</th><td><span t-esc="o.radwan_contract_number or '-'"/></td></tr>
+<tr><th>Contract Start Date</th><td><t t-if="o.radwan_contract_start_date"><span t-field="o.radwan_contract_start_date"/></t><t t-if="not o.radwan_contract_start_date">-</t></td></tr>
+<tr><th>Contract End Date</th><td><span t-esc="o.radwan_contract_end_date_display or '-'"/></td></tr>
+<tr><th>Contract Status</th><td><span t-attf-class="rw-status rw-status-#{o.radwan_contract_status or 'not_set'}"
+                     t-esc="status_labels.get(o.radwan_contract_status or 'not_set', '-')"/></td></tr>
+<tr><th>Actual Joining Date</th><td><t t-if="o.radwan_joining_date"><span t-field="o.radwan_joining_date"/></t><t t-if="not o.radwan_joining_date">-</t></td></tr>
+<tr><th>Operational Employment Status</th><td><span t-esc="dict(o._fields['radwan_employment_status'].selection).get(o.radwan_employment_status, '-')"/></td></tr>
+</table>
+<div class="rw-section-title">Position Reference</div>
+<table class="rw-table">
+<tr><th>Company</th><td><span t-esc="o.company_id.display_name or '-'"/></td></tr>
+<tr><th>Department</th><td><span t-esc="o.department_id.display_name or '-'"/></td></tr>
+<tr><th>Job Position</th><td><span t-esc="o.job_id.display_name or '-'"/></td></tr>
+</table>
+
+                    </div>
+            </t>
+        </t>
+    </template>
+
+    <template id="radwan_report_expiry_status_matrix">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <div class="page rw-report">
+                        
+<style>
+    .rw-report {
+        padding: 12mm 10mm;
+        font-family: Arial, Helvetica, sans-serif;
+        color: #2b2b2b;
+        font-size: 12px;
+        line-height: 1.35;
+    }
+    .rw-hero {
+        border: 1px solid #e7e1e5;
+        border-radius: 10px;
+        overflow: hidden;
+        margin-bottom: 16px;
+    }
+    .rw-hero-top {
+        background: #714B67;
+        color: #ffffff;
+        padding: 16px 20px;
+    }
+    .rw-kicker {
+        font-size: 10px;
+        letter-spacing: 1.4px;
+        text-transform: uppercase;
+        opacity: .88;
+        margin-bottom: 4px;
+    }
+    .rw-title {
+        font-size: 22px;
+        font-weight: 700;
+        margin: 0;
+        padding: 0;
+    }
+    .rw-subtitle {
+        font-size: 12px;
+        margin-top: 5px;
+        opacity: .92;
+    }
+    .rw-hero-bottom {
+        padding: 12px 20px;
+        background: #fbfafb;
+        border-top: 1px solid #e7e1e5;
+    }
+    .rw-meta-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    .rw-meta-table td {
+        padding: 3px 0;
+        color: #4a4a4a;
+        vertical-align: top;
+    }
+    .rw-section-title {
+        background: #f4eff3;
+        color: #714B67;
+        border-left: 5px solid #714B67;
+        padding: 8px 10px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: .4px;
+        margin: 14px 0 8px 0;
+    }
+    .rw-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 12px;
+        border: 1px solid #e9e5e8;
+    }
+    .rw-table th {
+        width: 26%;
+        background: #faf8fa;
+        color: #5d4b58;
+        text-align: left;
+        padding: 8px 9px;
+        border: 1px solid #e9e5e8;
+        font-weight: 700;
+    }
+    .rw-table td {
+        padding: 8px 9px;
+        border: 1px solid #e9e5e8;
+        color: #222222;
+    }
+    .rw-note {
+        background: #fffdf6;
+        border: 1px solid #efe4bd;
+        color: #6b5a1e;
+        padding: 10px 12px;
+        border-radius: 6px;
+        margin-top: 10px;
+    }
+    .rw-status {
+        display: inline-block;
+        min-width: 82px;
+        text-align: center;
+        border-radius: 12px;
+        padding: 3px 9px;
+        font-weight: 700;
+        font-size: 10px;
+        text-transform: uppercase;
+    }
+    .rw-status-valid {
+        color: #166534;
+        background: #dcfce7;
+        border: 1px solid #86efac;
+    }
+    .rw-status-expiring_soon {
+        color: #92400e;
+        background: #fef3c7;
+        border: 1px solid #fbbf24;
+    }
+    .rw-status-expired {
+        color: #991b1b;
+        background: #fee2e2;
+        border: 1px solid #fca5a5;
+    }
+    .rw-status-not_set {
+        color: #374151;
+        background: #e5e7eb;
+        border: 1px solid #d1d5db;
+    }
+    .rw-small {
+        font-size: 10px;
+        color: #777777;
+    }
+</style>
+
+                        <t t-set="status_labels" t-value="{'not_set': 'Not Set', 'valid': 'Valid', 'expiring_soon': 'Expiring Soon', 'expired': 'Expired'}"/>
+                        
+    <div class="rw-hero">
+        <div class="rw-hero-top">
+            <div class="rw-kicker">HR EMPLOYEE REPORTS</div>
+            <h1 class="rw-title">08 Expiry Status Matrix</h1>
+            <div class="rw-subtitle">Single-page matrix for all critical expiry statuses.</div>
+        </div>
+        <div class="rw-hero-bottom">
+            <table class="rw-meta-table">
+                <tr>
+                    <td><strong>Employee:</strong> <span t-esc="o.name or '-'"/></td>
+                    <td><strong>Company:</strong> <span t-esc="o.company_id.display_name or '-'"/></td>
+                </tr>
+                <tr>
+                    <td><strong>Employee Code:</strong> <span t-esc="o.radwan_employee_code or '-'"/></td>
+                    <td><strong>Generated By:</strong> <span t-esc="user.name or '-'"/></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    
+                        <div class="rw-section-title">Expiry Status Matrix</div>
+
+<table class="rw-table">
+    <tr>
+        <th>Document</th>
+        <th>Expiry Date</th>
+        <th>Status</th>
+        <th>Reference</th>
+    </tr>
+    <tr>
+        <td>ID / Iqama</td>
+        <td><span t-esc="o.radwan_id_expiry_date_display or '-'"/></td>
+        <td><span t-attf-class="rw-status rw-status-#{o.radwan_id_status or 'not_set'}"
+                     t-esc="status_labels.get(o.radwan_id_status or 'not_set', '-')"/></td>
+        <td><span t-esc="o.identification_id or '-'"/></td>
+    </tr>
+    <tr>
+        <td>Passport</td>
+        <td><span t-esc="o.radwan_passport_expiry_date_display or '-'"/></td>
+        <td><span t-attf-class="rw-status rw-status-#{o.radwan_passport_status or 'not_set'}"
+                     t-esc="status_labels.get(o.radwan_passport_status or 'not_set', '-')"/></td>
+        <td><span t-esc="(o._fields.get('passport_id') and o.passport_id) or '-'"/></td>
+    </tr>
+    <tr>
+        <td>Medical Insurance</td>
+        <td><span t-esc="o.radwan_medical_insurance_end_display or '-'"/></td>
+        <td><span t-attf-class="rw-status rw-status-#{o.radwan_medical_insurance_status or 'not_set'}"
+                     t-esc="status_labels.get(o.radwan_medical_insurance_status or 'not_set', '-')"/></td>
+        <td><span t-esc="o.radwan_medical_policy_number or '-'"/></td>
+    </tr>
+    <tr>
+        <td>Contract</td>
+        <td><span t-esc="o.radwan_contract_end_date_display or '-'"/></td>
+        <td><span t-attf-class="rw-status rw-status-#{o.radwan_contract_status or 'not_set'}"
+                     t-esc="status_labels.get(o.radwan_contract_status or 'not_set', '-')"/></td>
+        <td><span t-esc="o.radwan_contract_number or '-'"/></td>
+    </tr>
+</table>
+
+<div class="rw-note">
+    Use this report for quick HR compliance review and follow-up prioritization.
+</div>
+                    </div>
+            </t>
+        </t>
+    </template>
+
+    <template id="radwan_report_contact_emergency">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <div class="page rw-report">
+                        
+<style>
+    .rw-report {
+        padding: 12mm 10mm;
+        font-family: Arial, Helvetica, sans-serif;
+        color: #2b2b2b;
+        font-size: 12px;
+        line-height: 1.35;
+    }
+    .rw-hero {
+        border: 1px solid #e7e1e5;
+        border-radius: 10px;
+        overflow: hidden;
+        margin-bottom: 16px;
+    }
+    .rw-hero-top {
+        background: #714B67;
+        color: #ffffff;
+        padding: 16px 20px;
+    }
+    .rw-kicker {
+        font-size: 10px;
+        letter-spacing: 1.4px;
+        text-transform: uppercase;
+        opacity: .88;
+        margin-bottom: 4px;
+    }
+    .rw-title {
+        font-size: 22px;
+        font-weight: 700;
+        margin: 0;
+        padding: 0;
+    }
+    .rw-subtitle {
+        font-size: 12px;
+        margin-top: 5px;
+        opacity: .92;
+    }
+    .rw-hero-bottom {
+        padding: 12px 20px;
+        background: #fbfafb;
+        border-top: 1px solid #e7e1e5;
+    }
+    .rw-meta-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    .rw-meta-table td {
+        padding: 3px 0;
+        color: #4a4a4a;
+        vertical-align: top;
+    }
+    .rw-section-title {
+        background: #f4eff3;
+        color: #714B67;
+        border-left: 5px solid #714B67;
+        padding: 8px 10px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: .4px;
+        margin: 14px 0 8px 0;
+    }
+    .rw-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 12px;
+        border: 1px solid #e9e5e8;
+    }
+    .rw-table th {
+        width: 26%;
+        background: #faf8fa;
+        color: #5d4b58;
+        text-align: left;
+        padding: 8px 9px;
+        border: 1px solid #e9e5e8;
+        font-weight: 700;
+    }
+    .rw-table td {
+        padding: 8px 9px;
+        border: 1px solid #e9e5e8;
+        color: #222222;
+    }
+    .rw-note {
+        background: #fffdf6;
+        border: 1px solid #efe4bd;
+        color: #6b5a1e;
+        padding: 10px 12px;
+        border-radius: 6px;
+        margin-top: 10px;
+    }
+    .rw-status {
+        display: inline-block;
+        min-width: 82px;
+        text-align: center;
+        border-radius: 12px;
+        padding: 3px 9px;
+        font-weight: 700;
+        font-size: 10px;
+        text-transform: uppercase;
+    }
+    .rw-status-valid {
+        color: #166534;
+        background: #dcfce7;
+        border: 1px solid #86efac;
+    }
+    .rw-status-expiring_soon {
+        color: #92400e;
+        background: #fef3c7;
+        border: 1px solid #fbbf24;
+    }
+    .rw-status-expired {
+        color: #991b1b;
+        background: #fee2e2;
+        border: 1px solid #fca5a5;
+    }
+    .rw-status-not_set {
+        color: #374151;
+        background: #e5e7eb;
+        border: 1px solid #d1d5db;
+    }
+    .rw-small {
+        font-size: 10px;
+        color: #777777;
+    }
+</style>
+
+                        <t t-set="status_labels" t-value="{'not_set': 'Not Set', 'valid': 'Valid', 'expiring_soon': 'Expiring Soon', 'expired': 'Expired'}"/>
+                        
+    <div class="rw-hero">
+        <div class="rw-hero-top">
+            <div class="rw-kicker">HR EMPLOYEE REPORTS</div>
+            <h1 class="rw-title">09 Contact &amp; Emergency Report</h1>
+            <div class="rw-subtitle">Work, private, and emergency contact information.</div>
+        </div>
+        <div class="rw-hero-bottom">
+            <table class="rw-meta-table">
+                <tr>
+                    <td><strong>Employee:</strong> <span t-esc="o.name or '-'"/></td>
+                    <td><strong>Company:</strong> <span t-esc="o.company_id.display_name or '-'"/></td>
+                </tr>
+                <tr>
+                    <td><strong>Employee Code:</strong> <span t-esc="o.radwan_employee_code or '-'"/></td>
+                    <td><strong>Generated By:</strong> <span t-esc="user.name or '-'"/></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    
+                        <div class="rw-section-title">Work Contact</div>
+<table class="rw-table">
+<tr><th>Work Email</th><td><span t-esc="o.work_email or '-'"/></td></tr>
+<tr><th>Work Phone</th><td><span t-esc="o.work_phone or '-'"/></td></tr>
+<tr><th>Mobile Phone</th><td><span t-esc="(o._fields.get('mobile_phone') and o.mobile_phone) or '-'"/></td></tr>
+</table>
+<div class="rw-section-title">Private &amp; Emergency Contact</div>
+<table class="rw-table">
+<tr><th>Private Email</th><td><span t-esc="(o._fields.get('private_email') and o.private_email) or '-'"/></td></tr>
+<tr><th>Private Phone</th><td><span t-esc="(o._fields.get('private_phone') and o.private_phone) or '-'"/></td></tr>
+<tr><th>Emergency Contact</th><td><span t-esc="(o._fields.get('emergency_contact') and o.emergency_contact) or '-'"/></td></tr>
+<tr><th>Emergency Phone</th><td><span t-esc="(o._fields.get('emergency_phone') and o.emergency_phone) or '-'"/></td></tr>
+</table>
+
+                    </div>
+            </t>
+        </t>
+    </template>
+
+    <template id="radwan_report_complete_employee_file">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <div class="page rw-report">
+                        
+<style>
+    .rw-report {
+        padding: 12mm 10mm;
+        font-family: Arial, Helvetica, sans-serif;
+        color: #2b2b2b;
+        font-size: 12px;
+        line-height: 1.35;
+    }
+    .rw-hero {
+        border: 1px solid #e7e1e5;
+        border-radius: 10px;
+        overflow: hidden;
+        margin-bottom: 16px;
+    }
+    .rw-hero-top {
+        background: #714B67;
+        color: #ffffff;
+        padding: 16px 20px;
+    }
+    .rw-kicker {
+        font-size: 10px;
+        letter-spacing: 1.4px;
+        text-transform: uppercase;
+        opacity: .88;
+        margin-bottom: 4px;
+    }
+    .rw-title {
+        font-size: 22px;
+        font-weight: 700;
+        margin: 0;
+        padding: 0;
+    }
+    .rw-subtitle {
+        font-size: 12px;
+        margin-top: 5px;
+        opacity: .92;
+    }
+    .rw-hero-bottom {
+        padding: 12px 20px;
+        background: #fbfafb;
+        border-top: 1px solid #e7e1e5;
+    }
+    .rw-meta-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    .rw-meta-table td {
+        padding: 3px 0;
+        color: #4a4a4a;
+        vertical-align: top;
+    }
+    .rw-section-title {
+        background: #f4eff3;
+        color: #714B67;
+        border-left: 5px solid #714B67;
+        padding: 8px 10px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: .4px;
+        margin: 14px 0 8px 0;
+    }
+    .rw-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 12px;
+        border: 1px solid #e9e5e8;
+    }
+    .rw-table th {
+        width: 26%;
+        background: #faf8fa;
+        color: #5d4b58;
+        text-align: left;
+        padding: 8px 9px;
+        border: 1px solid #e9e5e8;
+        font-weight: 700;
+    }
+    .rw-table td {
+        padding: 8px 9px;
+        border: 1px solid #e9e5e8;
+        color: #222222;
+    }
+    .rw-note {
+        background: #fffdf6;
+        border: 1px solid #efe4bd;
+        color: #6b5a1e;
+        padding: 10px 12px;
+        border-radius: 6px;
+        margin-top: 10px;
+    }
+    .rw-status {
+        display: inline-block;
+        min-width: 82px;
+        text-align: center;
+        border-radius: 12px;
+        padding: 3px 9px;
+        font-weight: 700;
+        font-size: 10px;
+        text-transform: uppercase;
+    }
+    .rw-status-valid {
+        color: #166534;
+        background: #dcfce7;
+        border: 1px solid #86efac;
+    }
+    .rw-status-expiring_soon {
+        color: #92400e;
+        background: #fef3c7;
+        border: 1px solid #fbbf24;
+    }
+    .rw-status-expired {
+        color: #991b1b;
+        background: #fee2e2;
+        border: 1px solid #fca5a5;
+    }
+    .rw-status-not_set {
+        color: #374151;
+        background: #e5e7eb;
+        border: 1px solid #d1d5db;
+    }
+    .rw-small {
+        font-size: 10px;
+        color: #777777;
+    }
+</style>
+
+                        <t t-set="status_labels" t-value="{'not_set': 'Not Set', 'valid': 'Valid', 'expiring_soon': 'Expiring Soon', 'expired': 'Expired'}"/>
+                        
+    <div class="rw-hero">
+        <div class="rw-hero-top">
+            <div class="rw-kicker">HR EMPLOYEE REPORTS</div>
+            <h1 class="rw-title">10 Complete Employee File</h1>
+            <div class="rw-subtitle">Consolidated employee file covering core HR, identity, insurance, and contract data.</div>
+        </div>
+        <div class="rw-hero-bottom">
+            <table class="rw-meta-table">
+                <tr>
+                    <td><strong>Employee:</strong> <span t-esc="o.name or '-'"/></td>
+                    <td><strong>Company:</strong> <span t-esc="o.company_id.display_name or '-'"/></td>
+                </tr>
+                <tr>
+                    <td><strong>Employee Code:</strong> <span t-esc="o.radwan_employee_code or '-'"/></td>
+                    <td><strong>Generated By:</strong> <span t-esc="user.name or '-'"/></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    
+                        <div class="rw-section-title">Employee Core</div>
+<table class="rw-table">
+<tr><th>Employee Name</th><td><span t-esc="o.name or '-'"/></td></tr>
+<tr><th>Employee Internal Code</th><td><span t-esc="o.radwan_employee_code or '-'"/></td></tr>
+<tr><th>Paper File Number</th><td><span t-esc="o.radwan_file_number or '-'"/></td></tr>
+<tr><th>Company</th><td><span t-esc="o.company_id.display_name or '-'"/></td></tr>
+<tr><th>Department</th><td><span t-esc="o.department_id.display_name or '-'"/></td></tr>
+<tr><th>Job Position</th><td><span t-esc="o.job_id.display_name or '-'"/></td></tr>
+<tr><th>Manager</th><td><span t-esc="o.parent_id.display_name or '-'"/></td></tr>
+</table>
+<div class="rw-section-title">Identity &amp; Iqama</div>
+<table class="rw-table">
+<tr><th>ID / Iqama Number</th><td><span t-esc="o.identification_id or '-'"/></td></tr>
+<tr><th>ID Type</th><td><span t-esc="dict(o._fields['radwan_id_type'].selection).get(o.radwan_id_type, '-')"/></td></tr>
+<tr><th>ID / Iqama Issue Date</th><td><t t-if="o.radwan_id_issue_date"><span t-field="o.radwan_id_issue_date"/></t><t t-if="not o.radwan_id_issue_date">-</t></td></tr>
+<tr><th>ID / Iqama Expiry - Gregorian</th><td><span t-esc="o.radwan_id_expiry_date_display or '-'"/></td></tr>
+<tr><th>ID / Iqama Expiry - Hijri</th><td><span t-esc="o.radwan_id_expiry_hijri or '-'"/></td></tr>
+<tr><th>Iqama Profession</th><td><span t-esc="o.radwan_iqama_profession or '-'"/></td></tr>
+<tr><th>Sponsor Name</th><td><span t-esc="o.radwan_sponsor_name or '-'"/></td></tr>
+<tr><th>ID / Iqama Status</th><td><span t-attf-class="rw-status rw-status-#{o.radwan_id_status or 'not_set'}"
+                     t-esc="status_labels.get(o.radwan_id_status or 'not_set', '-')"/></td></tr>
+</table>
+<div class="rw-section-title">Passport, Insurance &amp; Contract</div>
+<table class="rw-table">
+<tr><th>Passport Expiry</th><td><span t-esc="o.radwan_passport_expiry_date_display or '-'"/></td></tr>
+<tr><th>Passport Status</th><td><span t-attf-class="rw-status rw-status-#{o.radwan_passport_status or 'not_set'}"
+                     t-esc="status_labels.get(o.radwan_passport_status or 'not_set', '-')"/></td></tr>
+<tr><th>Insurance Company</th><td><span t-esc="o.radwan_medical_insurance_company or '-'"/></td></tr>
+<tr><th>Medical Policy Number</th><td><span t-esc="o.radwan_medical_policy_number or '-'"/></td></tr>
+<tr><th>Medical Insurance End</th><td><span t-esc="o.radwan_medical_insurance_end_display or '-'"/></td></tr>
+<tr><th>Medical Insurance Status</th><td><span t-attf-class="rw-status rw-status-#{o.radwan_medical_insurance_status or 'not_set'}"
+                     t-esc="status_labels.get(o.radwan_medical_insurance_status or 'not_set', '-')"/></td></tr>
+<tr><th>Contract Number</th><td><span t-esc="o.radwan_contract_number or '-'"/></td></tr>
+<tr><th>Contract Start</th><td><t t-if="o.radwan_contract_start_date"><span t-field="o.radwan_contract_start_date"/></t><t t-if="not o.radwan_contract_start_date">-</t></td></tr>
+<tr><th>Contract End</th><td><span t-esc="o.radwan_contract_end_date_display or '-'"/></td></tr>
+<tr><th>Contract Status</th><td><span t-attf-class="rw-status rw-status-#{o.radwan_contract_status or 'not_set'}"
+                     t-esc="status_labels.get(o.radwan_contract_status or 'not_set', '-')"/></td></tr>
+</table>
+
+                    </div>
+            </t>
+        </t>
+    </template>
+
+
+</odoo>

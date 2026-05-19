@@ -1,0 +1,24 @@
+<odoo>
+    <record id="hr_salary_rule_employee_loan" model="hr.salary.rule">
+        <field name="name">Employee Loan Deduction</field>
+        <field name="code">LOAN</field>
+        <field name="sequence" eval="190"/>
+        <field name="category_id" ref="om_hr_payroll.DED"/>
+        <field name="condition_select">python</field>
+        <field name="condition_python">result = bool(inputs.dict.get('LOAN') and inputs.dict.get('LOAN').amount)</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">result = -(inputs.dict.get('LOAN') and inputs.dict.get('LOAN').amount or 0.0)</field>
+        <field name="appears_on_payslip" eval="True"/>
+    </record>
+
+    <record id="hr_rule_input_employee_loan" model="hr.rule.input">
+        <field name="name">Employee Loan Installment</field>
+        <field name="code">LOAN</field>
+        <field name="input_id" ref="hr_salary_rule_employee_loan"/>
+    </record>
+
+    <record id="hr_loan_payment_method_bank_cash" model="hr.loan.payment.method">
+        <field name="name">Bank &amp; Cash</field>
+        <field name="company_id" ref="base.main_company"/>
+    </record>
+</odoo>

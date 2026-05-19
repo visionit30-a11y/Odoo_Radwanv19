@@ -1,0 +1,274 @@
+<odoo>
+    <record id="approval_request_view_list" model="ir.ui.view">
+        <field name="name">radwan.approval.request.view.list</field>
+        <field name="model">radwan.approval.request</field>
+        <field name="arch" type="xml">
+            <list string="Approvals" default_order="create_date desc">
+                <field name="name"/>
+                <field name="category_id"/>
+                <field name="request_owner_id" widget="many2one_avatar_user"/>
+                <field name="date"/>
+                <field name="amount" optional="show"/>
+                <field name="reference" optional="hide"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+                <field name="state"
+                       widget="badge"
+                       decoration-info="state == 'pending'"
+                       decoration-success="state == 'approved'"
+                       decoration-danger="state == 'refused'"
+                       decoration-muted="state == 'cancel'"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="approval_request_view_kanban" model="ir.ui.view">
+        <field name="name">radwan.approval.request.view.kanban</field>
+        <field name="model">radwan.approval.request</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_mobile" default_group_by="state" sample="1">
+                <field name="name"/>
+                <field name="category_id"/>
+                <field name="request_owner_id"/>
+                <field name="date"/>
+                <field name="amount"/>
+                <field name="state"/>
+                <templates>
+                    <t t-name="card">
+                        <field class="fw-bold" name="name"/>
+                        <div class="text-muted">
+                            <field name="category_id"/>
+                        </div>
+                        <div class="d-flex justify-content-between mt-2">
+                            <span><field name="request_owner_id"/></span>
+                            <span><field name="state"/></span>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="approval_request_view_form" model="ir.ui.view">
+        <field name="name">radwan.approval.request.view.form</field>
+        <field name="model">radwan.approval.request</field>
+        <field name="arch" type="xml">
+            <form string="Approval Request">
+                <header>
+                    <button name="action_submit"
+                            type="object"
+                            string="Submit"
+                            class="btn-primary"
+                            invisible="state != 'new'"/>
+                    <button name="action_approve"
+                            type="object"
+                            string="Approve"
+                            class="btn-success"
+                            invisible="not can_approve"/>
+                    <button name="action_refuse"
+                            type="object"
+                            string="Refuse"
+                            class="btn-secondary"
+                            invisible="not can_approve"/>
+                    <button name="action_cancel"
+                            type="object"
+                            string="Cancel"
+                            invisible="state in ['cancel', 'approved', 'refused']"/>
+                    <button name="action_reset_to_draft"
+                            type="object"
+                            string="Reset to Draft"
+                            invisible="state == 'new'"/>
+                    <button name="action_attach_document"
+                            type="object"
+                            string="Attach Document"
+                            class="btn-primary"
+                            invisible="not has_document"/>
+                    <field name="state"
+                           widget="statusbar"
+                           statusbar_visible="new,pending,approved,refused,cancel"/>
+                </header>
+                <sheet>
+                    <field name="has_amount" invisible="1"/>
+                    <field name="has_reference" invisible="1"/>
+                    <field name="has_date" invisible="1"/>
+                    <field name="has_location" invisible="1"/>
+                    <field name="has_contact" invisible="1"/>
+                    <field name="has_product" invisible="1"/>
+                    <field name="has_period" invisible="1"/>
+                    <field name="has_document" invisible="1"/>
+                    <field name="amount_mode" invisible="1"/>
+                    <field name="reference_mode" invisible="1"/>
+                    <field name="date_mode" invisible="1"/>
+                    <field name="location_mode" invisible="1"/>
+                    <field name="contact_mode" invisible="1"/>
+                    <field name="product_mode" invisible="1"/>
+                    <field name="quantity_mode" invisible="1"/>
+                    <field name="period_mode" invisible="1"/>
+                    <field name="document_mode" invisible="1"/>
+                    <field name="automated_sequence" invisible="1"/>
+                    <field name="manager_approval" invisible="1"/>
+                    <field name="approver_sequence" invisible="1"/>
+                    <field name="minimum_approval" invisible="1"/>
+                    <field name="can_approve" invisible="1"/>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_open_attachments"
+                                type="object"
+                                class="oe_stat_button"
+                                icon="fa-paperclip">
+                            <field name="attachment_count" widget="statinfo" string="Documents"/>
+                        </button>
+                    </div>
+                    <field name="category_image_128"
+                           widget="image"
+                           class="oe_avatar"
+                           readonly="1"/>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1>
+                            <field name="name"
+                                   placeholder="e.g. Laptop purchase approval"
+                                   readonly="state not in ['new', 'pending']"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="request_owner_id"
+                                   widget="many2one_avatar_user"
+                                   readonly="state != 'new'"/>
+                            <field name="category_id"
+                                   readonly="state != 'new'"/>
+                            <field name="date"
+                                   invisible="not has_date"
+                                   required="date_mode == 'required'"
+                                   readonly="state not in ['new', 'pending']"/>
+                            <label for="period_start" invisible="not has_period"/>
+                            <div class="o_row" invisible="not has_period">
+                                <field name="period_start"
+                                       required="period_mode == 'required'"
+                                       readonly="state not in ['new', 'pending']"/>
+                                <i class="fa fa-long-arrow-right" title="To"/>
+                                <field name="period_end"
+                                       required="period_mode == 'required'"
+                                       readonly="state not in ['new', 'pending']"/>
+                            </div>
+                            <field name="location"
+                                   invisible="not has_location"
+                                   required="location_mode == 'required'"
+                                   readonly="state not in ['new', 'pending']"
+                                   placeholder="e.g. Jeddah"/>
+                            <field name="contact_id"
+                                   invisible="not has_contact"
+                                   required="contact_mode == 'required'"
+                                   readonly="state not in ['new', 'pending']"/>
+                        </group>
+                        <group>
+                            <field name="company_id"
+                                   groups="base.group_multi_company"
+                                   readonly="state != 'new'"/>
+                            <field name="amount"
+                                   invisible="not has_amount"
+                                   required="amount_mode == 'required'"
+                                   readonly="state not in ['new', 'pending']"/>
+                            <field name="currency_id"
+                                   invisible="not has_amount"/>
+                            <field name="reference"
+                                   invisible="not has_reference"
+                                   required="reference_mode == 'required'"
+                                   readonly="state not in ['new', 'pending']"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Description">
+                            <field name="description"
+                                   widget="html"
+                                   readonly="state not in ['new', 'pending']"/>
+                        </page>
+                        <page string="Approver(s)">
+                            <field name="approver_ids" readonly="state != 'new'">
+                                <list editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="user_id" widget="many2one_avatar_user"/>
+                                    <field name="required"/>
+                                    <field name="status"
+                                           widget="badge"
+                                           decoration-info="status == 'new'"
+                                           decoration-success="status == 'approved'"
+                                           decoration-danger="status == 'refused'"/>
+                                    <field name="date"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Products" invisible="not has_product">
+                            <field name="product_line_ids" readonly="state not in ['new', 'pending']">
+                                <list editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="product_id" required="parent.product_mode == 'required'"/>
+                                    <field name="name"/>
+                                    <field name="quantity" column_invisible="parent.quantity_mode == 'none'"/>
+                                    <field name="product_uom_id" column_invisible="parent.quantity_mode == 'none'"/>
+                                    <field name="price_unit"/>
+                                    <field name="subtotal" readonly="1"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter reload_on_follower="True"/>
+            </form>
+        </field>
+    </record>
+
+    <record id="approval_request_view_search" model="ir.ui.view">
+        <field name="name">radwan.approval.request.view.search</field>
+        <field name="model">radwan.approval.request</field>
+        <field name="arch" type="xml">
+            <search string="Approvals">
+                <field name="name"/>
+                <field name="category_id"/>
+                <field name="request_owner_id"/>
+                <field name="reference"/>
+                <separator/>
+                <filter name="my_requests" string="My Requests" domain="[('request_owner_id', '=', uid)]"/>
+                <filter name="to_review" string="To Review" domain="[('state', '=', 'pending'), ('approver_ids.user_id', '=', uid), ('approver_ids.status', '=', 'new')]"/>
+                <separator/>
+                <filter name="draft" string="To Submit" domain="[('state', '=', 'new')]"/>
+                <filter name="pending" string="Submitted" domain="[('state', '=', 'pending')]"/>
+                <filter name="approved" string="Approved" domain="[('state', '=', 'approved')]"/>
+                <filter name="refused" string="Refused" domain="[('state', '=', 'refused')]"/>
+                <filter name="cancel" string="Cancelled" domain="[('state', '=', 'cancel')]"/>
+                <separator/>
+                <filter name="filter_date" string="Date" date="date"/>
+                <group>
+                    <filter name="group_category" string="Category" context="{'group_by': 'category_id'}"/>
+                    <filter name="group_owner" string="Request Owner" context="{'group_by': 'request_owner_id'}"/>
+                    <filter name="group_state" string="Status" context="{'group_by': 'state'}"/>
+                    <filter name="group_company" string="Company" context="{'group_by': 'company_id'}" groups="base.group_multi_company"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="approval_request_action_my" model="ir.actions.act_window">
+        <field name="name">My Requests</field>
+        <field name="res_model">radwan.approval.request</field>
+        <field name="view_mode">list,form,kanban</field>
+        <field name="domain">[('request_owner_id', '=', uid)]</field>
+        <field name="context">{'search_default_my_requests': 1}</field>
+        <field name="search_view_id" ref="approval_request_view_search"/>
+    </record>
+
+    <record id="approval_request_action_to_review" model="ir.actions.act_window">
+        <field name="name">Approvals to Review</field>
+        <field name="res_model">radwan.approval.request</field>
+        <field name="view_mode">list,form,kanban</field>
+        <field name="domain">[('state', '=', 'pending'), ('approver_ids.user_id', '=', uid), ('approver_ids.status', '=', 'new')]</field>
+        <field name="context">{'search_default_to_review': 1}</field>
+        <field name="search_view_id" ref="approval_request_view_search"/>
+    </record>
+
+    <record id="approval_request_action_all" model="ir.actions.act_window">
+        <field name="name">All Approvals</field>
+        <field name="res_model">radwan.approval.request</field>
+        <field name="view_mode">list,form,kanban</field>
+        <field name="search_view_id" ref="approval_request_view_search"/>
+    </record>
+</odoo>

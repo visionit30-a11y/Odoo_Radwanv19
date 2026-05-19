@@ -1,0 +1,31 @@
+<odoo>
+    <record id="hr_loan_payment_wizard_view_form" model="ir.ui.view">
+        <field name="name">hr.loan.payment.wizard.view.form</field>
+        <field name="model">hr.loan.payment.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Register Loan Payment">
+                <group>
+                    <field name="loan_id" readonly="1"/>
+                    <field name="company_id" groups="base.group_multi_company"/>
+                    <field name="payment_method_id"/>
+                    <field name="payment_date"/>
+                    <field name="apply_future_installments"/>
+                    <field name="amount"/>
+                    <field name="journal_id"/>
+                    <field name="note"/>
+                </group>
+                <footer>
+                    <button name="action_confirm" string="Confirm" type="object" class="btn-primary"/>
+                    <button string="Cancel" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="hr_loan_payment_wizard_action" model="ir.actions.act_window">
+        <field name="name">Register Loan Payment</field>
+        <field name="res_model">hr.loan.payment.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>

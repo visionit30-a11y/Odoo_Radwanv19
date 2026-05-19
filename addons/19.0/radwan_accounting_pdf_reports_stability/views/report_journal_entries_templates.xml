@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="report_journal_entries_analytic_distribution_fix"
+              inherit_id="accounting_pdf_reports.report_journal_entries">
+        <xpath expr="//span[@t-field='line.analytic_account_id.display_name']" position="replace">
+            <span t-esc="line.accounting_pdf_analytic_names"/>
+        </xpath>
+
+        <xpath expr="//tfooter" position="replace">
+            <tfoot>
+                <tr>
+                    <td colspan="5"></td>
+                    <td class="text-end">
+                        <span t-esc="total_debit"
+                              t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/>
+                    </td>
+                    <td class="text-end">
+                        <span t-esc="total_credit"
+                              t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/>
+                    </td>
+                </tr>
+            </tfoot>
+        </xpath>
+    </template>
+
+</odoo>

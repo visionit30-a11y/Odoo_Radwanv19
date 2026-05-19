@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+
+    <record id="radwan_employee_sponser_company" model="radwan.employee.sponser">
+        <field name="name">Company</field>
+        <field name="sequence" eval="10"/>
+    </record>
+
+    <record id="radwan_employee_sponser_employee" model="radwan.employee.sponser">
+        <field name="name">Employee</field>
+        <field name="sequence" eval="20"/>
+    </record>
+
+    <record id="radwan_employee_sponser_other" model="radwan.employee.sponser">
+        <field name="name">Other</field>
+        <field name="sequence" eval="30"/>
+    </record>
+
+</odoo>

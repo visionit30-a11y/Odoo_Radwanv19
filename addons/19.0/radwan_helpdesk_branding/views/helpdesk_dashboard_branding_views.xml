@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_helpdesk_dashboard_form_inherit_radwan_helpdesk_branding" model="ir.ui.view">
+        <field name="name">helpdesk.dashboard.form.inherit.radwan.helpdesk.branding</field>
+        <field name="model">helpdesk.dashboard</field>
+        <field name="inherit_id" ref="support_helpdesk_ticket.view_helpdesk_dashboard_form"/>
+        <field name="active" eval="False"/>
+        <field name="arch" type="xml">
+            <xpath expr="//script[@src='/support_helpdesk_ticket/static/src/js/helpdesk_dashboard.js']" position="after">
+                <script type="text/javascript" src="/radwan_helpdesk_branding/static/src/js/helpdesk_dashboard_classic_charts.js"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

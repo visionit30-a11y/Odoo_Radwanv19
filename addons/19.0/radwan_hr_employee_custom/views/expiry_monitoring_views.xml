@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!--
+        Root fix:
+        The previous parent external id was not available in Odoo 19 HR.
+        The official reporting parent menu in Odoo 19 HR is hr.hr_menu_hr_reports.
+
+        Also disable previous experimental menu records that may already exist
+        from earlier upgrades, so they do not keep routing to the wrong action.
+    -->
+
+    <record id="radwan_menu_hr_expiry_monitoring" model="ir.ui.menu">
+        <field name="name">HR Expiry Monitoring Old</field>
+        <field name="active" eval="False"/>
+        <field name="action" eval="False"/>
+    </record>
+
+    <record id="radwan_menu_hr_expiry_monitoring_v2" model="ir.ui.menu">
+        <field name="name">Expiry Monitor Old</field>
+        <field name="active" eval="False"/>
+        <field name="action" eval="False"/>
+    </record>
+
+    <record id="radwan_menu_hr_expiry_monitoring_reporting" model="ir.ui.menu">
+        <field name="name">Expiry Monitoring Old</field>
+        <field name="active" eval="False"/>
+        <field name="action" eval="False"/>
+    </record>
+
+    <record id="radwan_menu_hr_tools" model="ir.ui.menu">
+        <field name="name">HR Tools Old</field>
+        <field name="active" eval="False"/>
+        <field name="action" eval="False"/>
+    </record>
+
+    <record id="radwan_menu_hr_expiry_monitoring_final" model="ir.ui.menu">
+        <field name="name">Expiry Monitoring Old</field>
+        <field name="active" eval="False"/>
+        <field name="action" eval="False"/>
+    </record>
+
+
+    <!-- Dedicated List View for Expiry Monitoring -->
+    <record id="radwan_hr_employee_expiry_monitoring_list_view" model="ir.ui.view">
+        <field name="name">radwan.hr.employee.expiry.monitoring.list</field>
+        <field name="model">hr.employee</field>
+        <field name="arch" type="xml">
+            <list string="Expiry Monitoring"
+                  create="false"
+                  edit="false"
+                  delete="false"
+                  decoration-danger="radwan_id_status == 'expired' or radwan_passport_status == 'expired' or radwan_medical_insurance_status == 'expired' or radwan_contract_status == 'expired'"
+                  decoration-warning="radwan_id_status == 'expiring_soon' or radwan_passport_status == 'expiring_soon' or radwan_medical_insurance_status == 'expiring_soon' or radwan_contract_status == 'expiring_soon'">
+
+                <field name="name" string="Employee"/>
+                <field name="company_id" optional="show"/>
+                <field name="department_id" optional="show"/>
+                <field name="job_id" optional="hide"/>
+                <field name="radwan_employee_code" optional="show"/>
+                <field name="identification_id" string="ID / Iqama No" optional="show"/>
+                <field name="radwan_employment_status" optional="show"/>
+
+                <field name="radwan_id_expiry_date" optional="show"/>
+                <field name="radwan_id_status"
+                       optional="show"
+                       widget="badge"
+                       decoration-success="radwan_id_status == 'valid'"
+                       decoration-warning="radwan_id_status == 'expiring_soon'"
+                       decoration-danger="radwan_id_status == 'expired'"
+                       decoration-muted="radwan_id_status == 'not_set'"/>
+
+                <field name="radwan_passport_expiry_date" optional="show"/>
+                <field name="radwan_passport_status"
+                       optional="show"
+                       widget="badge"
+                       decoration-success="radwan_passport_status == 'valid'"
+                       decoration-warning="radwan_passport_status == 'expiring_soon'"
+                       decoration-danger="radwan_passport_status == 'expired'"
+                       decoration-muted="radwan_passport_status == 'not_set'"/>
+
+                <field name="radwan_medical_insurance_end" optional="show"/>
+                <field name="radwan_medical_insurance_status"
+                       optional="show"
+                       widget="badge"
+                       decoration-success="radwan_medical_insurance_status == 'valid'"
+                       decoration-warning="radwan_medical_insurance_status == 'expiring_soon'"
+                       decoration-danger="radwan_medical_insurance_status == 'expired'"
+                       decoration-muted="radwan_medical_insurance_status == 'not_set'"/>
+
+                <field name="radwan_contract_end_date" optional="show"/>
+                <field name="radwan_contract_status"
+                       optional="show"
+                       widget="badge"
+                       decoration-success="radwan_contract_status == 'valid'"
+                       decoration-warning="radwan_contract_status == 'expiring_soon'"
+                       decoration-danger="radwan_contract_status == 'expired'"
+                       decoration-muted="radwan_contract_status == 'not_set'"/>
+
+            </list>
+        </field>
+    </record>
+
+
+    <!-- Action for Expiry Monitoring -->
+    <record id="radwan_action_hr_expiry_monitoring" model="ir.actions.act_window">
+        <field name="name">Expiry Monitoring</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">hr.employee</field>
+        <field name="view_mode">list,form</field>
+        <field name="target">main</field>
+        <field name="domain">[]</field>
+        <field name="context">{}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No employee records found.
+            </p>
+            <p>
+                This screen monitors ID/Iqama, passport, medical insurance, and contract expiry statuses.
+            </p>
+        </field>
+    </record>
+
+    <record id="radwan_action_hr_expiry_monitoring_list" model="ir.actions.act_window.view">
+        <field name="sequence" eval="1"/>
+        <field name="view_mode">list</field>
+        <field name="view_id" ref="radwan_hr_employee_expiry_monitoring_list_view"/>
+        <field name="act_window_id" ref="radwan_action_hr_expiry_monitoring"/>
+    </record>
+
+    <record id="radwan_action_hr_expiry_monitoring_form" model="ir.actions.act_window.view">
+        <field name="sequence" eval="2"/>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="hr.view_employee_form"/>
+        <field name="act_window_id" ref="radwan_action_hr_expiry_monitoring"/>
+    </record>
+
+
+    <!-- Stable location: Employees > Reporting > Expiry Monitoring -->
+    <menuitem id="radwan_menu_hr_expiry_monitoring_stable"
+              name="Expiry Monitoring"
+              parent="hr.hr_menu_hr_reports"
+              action="radwan_action_hr_expiry_monitoring"
+              sequence="95"/>
+
+</odoo>

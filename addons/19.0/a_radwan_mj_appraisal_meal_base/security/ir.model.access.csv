@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_meal_group_user,access.meal.group.user,model_meal_group,base.group_user,1,0,0,0
+access_meal_group_hr_manager,access.meal.group.hr.manager,model_meal_group,hr.group_hr_manager,1,1,1,1

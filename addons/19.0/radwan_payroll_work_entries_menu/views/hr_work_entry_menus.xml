@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem
+        id="hr_work_entry_menu_payroll"
+        name="Work Entries"
+        parent="om_hr_payroll.menu_hr_payroll_root"
+        sequence="35"
+        groups="om_hr_payroll.group_hr_payroll_user"
+    />
+
+    <menuitem
+        id="hr_work_entry_menu_payroll_entries"
+        name="Work Entries"
+        parent="hr_work_entry_menu_payroll"
+        action="hr_work_entry.hr_work_entry_action"
+        sequence="10"
+        groups="om_hr_payroll.group_hr_payroll_user"
+    />
+
+    <menuitem
+        id="hr_work_entry_menu_payroll_conflicts"
+        name="Conflicts"
+        parent="hr_work_entry_menu_payroll"
+        action="hr_work_entry.hr_work_entry_action_conflict"
+        sequence="20"
+        groups="om_hr_payroll.group_hr_payroll_user"
+    />
+
+    <menuitem
+        id="hr_work_entry_menu_payroll_regenerate"
+        name="Regenerate Work Entries"
+        parent="hr_work_entry_menu_payroll"
+        action="hr_work_entry.hr_work_entry_regeneration_wizard_action"
+        sequence="30"
+        groups="om_hr_payroll.group_hr_payroll_manager"
+    />
+
+    <menuitem
+        id="hr_work_entry_type_menu_payroll_configuration"
+        name="Work Entry Types"
+        parent="om_hr_payroll.menu_hr_payroll_configuration"
+        action="hr_work_entry.hr_work_entry_type_action"
+        sequence="35"
+        groups="om_hr_payroll.group_hr_payroll_manager"
+    />
+</odoo>

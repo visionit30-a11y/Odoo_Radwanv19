@@ -1,0 +1,80 @@
+<odoo>
+    <menuitem id="approval_menu_root"
+              name="Approvals"
+              action="approval_category_action_dashboard"
+              sequence="66"
+              groups="radwan_approvals_group_user"/>
+
+    <menuitem id="approval_my_menu"
+              name="My Approvals"
+              parent="approval_menu_root"
+              sequence="10"
+              groups="radwan_approvals_group_user"/>
+
+    <menuitem id="approval_new_request_menu"
+              name="New Request"
+              parent="approval_my_menu"
+              action="approval_category_action_dashboard"
+              sequence="10"
+              groups="radwan_approvals_group_user"/>
+
+    <menuitem id="approval_my_request_menu"
+              name="My Requests"
+              parent="approval_my_menu"
+              action="approval_request_action_my"
+              sequence="20"
+              groups="radwan_approvals_group_user"/>
+
+    <menuitem id="approval_manager_menu"
+              name="Manager"
+              parent="approval_menu_root"
+              sequence="20"
+              groups="radwan_approvals_group_manager"/>
+
+    <menuitem id="approval_to_review_menu"
+              name="Approvals to Review"
+              parent="approval_manager_menu"
+              action="approval_request_action_to_review"
+              sequence="10"
+              groups="radwan_approvals_group_manager"/>
+
+    <menuitem id="approval_all_menu"
+              name="All Approvals"
+              parent="approval_manager_menu"
+              action="approval_request_action_all"
+              sequence="20"
+              groups="radwan_approvals_group_manager"/>
+
+    <menuitem id="approval_configuration_menu"
+              name="Configuration"
+              parent="approval_menu_root"
+              sequence="30"
+              groups="radwan_approvals_group_manager"/>
+
+    <menuitem id="approval_category_menu"
+              name="Approvals Types"
+              parent="approval_configuration_menu"
+              action="approval_category_action"
+              sequence="10"
+              groups="radwan_approvals_group_manager"/>
+
+    <menuitem id="approval_products_menu"
+              name="Products"
+              parent="approval_configuration_menu"
+              sequence="20"
+              groups="radwan_approvals_group_manager"/>
+
+    <menuitem id="approval_product_template_menu"
+              name="Products"
+              parent="approval_products_menu"
+              action="approval_product_template_action"
+              sequence="10"
+              groups="radwan_approvals_group_manager"/>
+
+    <menuitem id="approval_product_variant_menu"
+              name="Product Variants"
+              parent="approval_products_menu"
+              action="approval_product_variant_action"
+              sequence="20"
+              groups="radwan_approvals_group_manager"/>
+</odoo>

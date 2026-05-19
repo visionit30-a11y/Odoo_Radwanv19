@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="radwan_web_ui_stability.NavBar.AppsMenu"
+       t-inherit="web.NavBar.AppsMenu"
+       t-inherit-mode="extension">
+        <xpath expr="//t[@t-set-slot='content']" position="replace">
+            <t t-set-slot="content">
+                <t t-set="radwanAppGroups" t-value="this.radwanGetGroupedApps(apps)"/>
+                <t t-foreach="radwanAppGroups" t-as="group" t-key="group.key">
+                    <div class="o_radwan_app_dropdown_group">
+                        <button type="button"
+                                class="o_radwan_app_group_header o_radwan_app_group_header_dropdown"
+                                t-att-aria-expanded="this.radwanIsAppGroupOpen(group.key)"
+                                t-on-click.prevent.stop="(ev) => this.radwanToggleAppGroup(group.key, ev)">
+                            <i t-att-class="this.radwanIsAppGroupOpen(group.key) ? 'fa fa-chevron-down' : 'fa fa-chevron-right'"/>
+                            <span t-esc="group.name"/>
+                        </button>
+                        <t t-if="this.radwanIsAppGroupOpen(group.key)">
+                            <DropdownItem
+                                t-foreach="group.apps"
+                                t-as="app"
+                                t-key="app.id"
+                                class="{ 'o_app': true, 'o_radwan_app_dropdown_item': true, focus: menuService.getCurrentApp() === app }"
+                                onSelected="() => this.onNavBarDropdownItemSelection(app)"
+                                t-esc="app.name"
+                                attrs="{ href: getMenuItemHref(app), 'data-menu-xmlid': app.xmlid, 'data-section': app.id }"
+                            />
+                        </t>
+                    </div>
+                </t>
+            </t>
+        </xpath>
+    </t>
+
+    <t t-name="radwan_web_ui_stability.NavBar.AppsMenu.Sidebar"
+       t-inherit="web.NavBar.AppsMenu.Sidebar"
+       t-inherit-mode="extension">
+        <xpath expr="//nav[contains(concat(' ', normalize-space(@class), ' '), ' o_burger_menu_app ')]/ul/t[@t-else='']" position="replace">
+            <t t-else="">
+                <t t-set="radwanAppGroups" t-value="this.radwanGetGroupedApps(apps)"/>
+                <t t-foreach="radwanAppGroups" t-as="group" t-key="group.key">
+                    <li class="o_radwan_app_group px-0">
+                        <button type="button"
+                                class="o_radwan_app_group_header"
+                                t-att-aria-expanded="this.radwanIsAppGroupOpen(group.key)"
+                                t-on-click.prevent.stop="(ev) => this.radwanToggleAppGroup(group.key, ev)">
+                            <i t-att-class="this.radwanIsAppGroupOpen(group.key) ? 'fa fa-chevron-down' : 'fa fa-chevron-right'"/>
+                            <span t-esc="group.name"/>
+                        </button>
+                        <ul t-if="this.radwanIsAppGroupOpen(group.key)" class="o_radwan_app_group_items list-unstyled ps-0 mb-2">
+                            <t t-foreach="group.apps" t-as="app" t-key="app.id">
+                                <li t-att-data-menu-xmlid="app.xmlid"
+                                    class="o_app o_radwan_app_item py-2"
+                                    t-att-class="{'bg-primary-subtle': menuService.getCurrentApp() === app}"
+                                    t-on-click="() => {this.onNavBarDropdownItemSelection(app); this._closeAppMenuSidebar();}">
+                                    <div class="d-flex align-items-center">
+                                        <img style="height: 2.45em;" t-if="app.webIconData" class="o_app_icon me-3" t-attf-src="{{app.webIconData}}"/>
+                                        <span t-esc="app.name"/>
+                                    </div>
+                                </li>
+                            </t>
+                        </ul>
+                    </li>
+                </t>
+            </t>
+        </xpath>
+    </t>
+
+</templates>

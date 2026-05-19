@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="hr_employee_view_form" model="ir.ui.view">
+        <field name="name">hr.employee.view.form.inherit.radwan.profile.details</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_form"/>
+        <field name="priority" eval="45"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='certificates']" position="after">
+                <field name="radwan_sponser_id" options="{'no_create_edit': False}"/>
+            </xpath>
+
+            <xpath expr="//page[@name='work_information']" position="after">
+                <page name="radwan_documents_date" string="Documents Date" groups="hr.group_hr_user">
+                    <field name="radwan_document_date_ids" nolabel="1">
+                        <list editable="bottom">
+                            <field name="document_name"/>
+                            <field name="document_no"/>
+                            <field name="document_start"/>
+                            <field name="document_end"/>
+                            <field name="document_source"/>
+                            <field name="renewal_by"/>
+                            <field name="notification_days"/>
+                            <field name="notes"/>
+                        </list>
+                        <form>
+                            <sheet>
+                                <group>
+                                    <group>
+                                        <field name="document_name"/>
+                                        <field name="document_no"/>
+                                        <field name="document_start"/>
+                                        <field name="document_end"/>
+                                    </group>
+                                    <group>
+                                        <field name="document_source"/>
+                                        <field name="renewal_by"/>
+                                        <field name="notification_days"/>
+                                    </group>
+                                </group>
+                                <group>
+                                    <field name="notes" nolabel="1" placeholder="Notes..."/>
+                                </group>
+                            </sheet>
+                        </form>
+                    </field>
+                </page>
+
+                <page name="radwan_family_details" string="Family Details" groups="hr.group_hr_user">
+                    <field name="radwan_family_detail_ids" nolabel="1">
+                        <list editable="bottom">
+                            <field name="name"/>
+                            <field name="relationship"/>
+                            <field name="date_of_birth"/>
+                            <field name="id_type"/>
+                            <field name="id_number"/>
+                            <field name="id_start_date"/>
+                            <field name="id_end_date"/>
+                            <field name="passport_number"/>
+                            <field name="passport_issue_place"/>
+                            <field name="passport_start_date"/>
+                            <field name="passport_end_date"/>
+                            <field name="ticket_by"/>
+                            <field name="medical_by"/>
+                            <field name="is_in_contract"/>
+                        </list>
+                        <form>
+                            <sheet>
+                                <group>
+                                    <group>
+                                        <field name="name"/>
+                                        <field name="relationship"/>
+                                        <field name="date_of_birth"/>
+                                    </group>
+                                    <group>
+                                        <field name="ticket_by"/>
+                                        <field name="medical_by"/>
+                                        <field name="is_in_contract"/>
+                                    </group>
+                                </group>
+                                <group string="Identity">
+                                    <group>
+                                        <field name="id_type"/>
+                                        <field name="id_number"/>
+                                    </group>
+                                    <group>
+                                        <field name="id_start_date"/>
+                                        <field name="id_end_date"/>
+                                    </group>
+                                </group>
+                                <group string="Passport">
+                                    <group>
+                                        <field name="passport_number"/>
+                                        <field name="passport_issue_place"/>
+                                    </group>
+                                    <group>
+                                        <field name="passport_start_date"/>
+                                        <field name="passport_end_date"/>
+                                    </group>
+                                </group>
+                            </sheet>
+                        </form>
+                    </field>
+                </page>
+            </xpath>
+
+        </field>
+    </record>
+
+    <record id="hr_employee_view_form_tab_order" model="ir.ui.view">
+        <field name="name">hr.employee.view.form.inherit.radwan.profile.details.tab.order</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_form"/>
+        <field name="priority" eval="120"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook/page[1]" position="before">
+                <xpath expr="//page[@name='personal_information']" position="move"/>
+            </xpath>
+            <xpath expr="//page[@name='personal_information']" position="after">
+                <xpath expr="//page[@name='work_information']" position="move"/>
+            </xpath>
+            <xpath expr="//page[@name='work_information']" position="after">
+                <xpath expr="//page[@name='payroll_information']" position="move"/>
+            </xpath>
+            <xpath expr="//page[@name='payroll_information']" position="after">
+                <xpath expr="//page[@name='hr_settings']" position="move"/>
+            </xpath>
+            <xpath expr="//page[@name='hr_settings']" position="after">
+                <xpath expr="//page[@name='radwan_hr_information']" position="move"/>
+            </xpath>
+            <xpath expr="//page[@name='radwan_hr_information']" position="after">
+                <xpath expr="//page[@name='radwan_family_details']" position="move"/>
+            </xpath>
+            <xpath expr="//page[@name='radwan_family_details']" position="after">
+                <xpath expr="//page[@name='resume']" position="move"/>
+            </xpath>
+            <xpath expr="//page[@name='resume']" position="after">
+                <xpath expr="//page[@name='certification']" position="move"/>
+            </xpath>
+            <xpath expr="//page[@name='certification']" position="after">
+                <xpath expr="//page[@name='radwan_documents_date']" position="move"/>
+            </xpath>
+            <xpath expr="//page[@name='radwan_documents_date']" position="after">
+                <xpath expr="//page[@name='received_badges']" position="move"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

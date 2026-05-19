@@ -1,0 +1,17 @@
+<odoo>
+    <record id="view_hr_payslip_form" model="ir.ui.view">
+        <field name="name">hr.payslip.view.form.inherit.radwan.hr.loan</field>
+        <field name="model">hr.payslip</field>
+        <field name="inherit_id" ref="om_hr_payroll.view_hr_payslip_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button name="action_view_loan_installments" type="object" class="oe_stat_button" icon="fa-credit-card" invisible="loan_installment_count == 0">
+                    <field name="loan_installment_count" widget="statinfo" string="Loan Installments"/>
+                </button>
+            </xpath>
+            <xpath expr="//field[@name='input_line_ids']/list/field[@name='amount']" position="after">
+                <field name="loan_installment_ids" widget="many2many_tags" optional="hide"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

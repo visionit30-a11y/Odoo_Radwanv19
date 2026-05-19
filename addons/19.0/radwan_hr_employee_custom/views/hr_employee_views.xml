@@ -1,0 +1,371 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Employee Form View: Add HR Custom Information Tab -->
+    <record id="radwan_hr_employee_form_custom_fields" model="ir.ui.view">
+        <field name="name">radwan.hr.employee.form.custom.fields</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_form"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//notebook" position="inside">
+
+                <page name="radwan_hr_information" string="HR Custom Information">
+
+                    <!-- Expiry Status Summary -->
+                    <details open="open" style="margin-bottom:12px; border:1px solid #e6e1e5; border-radius:6px; overflow:hidden;">
+                        <summary style="background-color:#714B67; color:#ffffff; padding:9px 14px; font-weight:700; cursor:pointer; letter-spacing:.2px;">
+                            EXPIRY STATUS SUMMARY
+                        </summary>
+
+                        <div style="padding:14px 16px 16px 16px; background-color:#ffffff;">
+                            <group>
+                                <group>
+                                    <label for="radwan_id_expiry_date_display" string="ID / Iqama Expiry Date"/>
+                                    <div class="o_row">
+                                        <field name="radwan_id_expiry_date_display" readonly="1" nolabel="1"/>
+                                        <field name="radwan_id_status"
+                                               readonly="1"
+                                               nolabel="1"
+                                               widget="badge"
+                                               decoration-success="radwan_id_status == 'valid'"
+                                               decoration-warning="radwan_id_status == 'expiring_soon'"
+                                               decoration-danger="radwan_id_status == 'expired'"
+                                               decoration-muted="radwan_id_status == 'not_set'"/>
+                                    </div>
+
+                                    <label for="radwan_passport_expiry_date_display" string="Passport Expiry Date"/>
+                                    <div class="o_row">
+                                        <field name="radwan_passport_expiry_date_display" readonly="1" nolabel="1"/>
+                                        <field name="radwan_passport_status"
+                                               readonly="1"
+                                               nolabel="1"
+                                               widget="badge"
+                                               decoration-success="radwan_passport_status == 'valid'"
+                                               decoration-warning="radwan_passport_status == 'expiring_soon'"
+                                               decoration-danger="radwan_passport_status == 'expired'"
+                                               decoration-muted="radwan_passport_status == 'not_set'"/>
+                                    </div>
+                                </group>
+
+                                <group>
+                                    <label for="radwan_medical_insurance_end_display" string="Medical Insurance End Date"/>
+                                    <div class="o_row">
+                                        <field name="radwan_medical_insurance_end_display" readonly="1" nolabel="1"/>
+                                        <field name="radwan_medical_insurance_status"
+                                               readonly="1"
+                                               nolabel="1"
+                                               widget="badge"
+                                               decoration-success="radwan_medical_insurance_status == 'valid'"
+                                               decoration-warning="radwan_medical_insurance_status == 'expiring_soon'"
+                                               decoration-danger="radwan_medical_insurance_status == 'expired'"
+                                               decoration-muted="radwan_medical_insurance_status == 'not_set'"/>
+                                    </div>
+
+                                    <label for="radwan_contract_end_date_display" string="Contract End Date"/>
+                                    <div class="o_row">
+                                        <field name="radwan_contract_end_date_display" readonly="1" nolabel="1"/>
+                                        <field name="radwan_contract_status"
+                                               readonly="1"
+                                               nolabel="1"
+                                               widget="badge"
+                                               decoration-success="radwan_contract_status == 'valid'"
+                                               decoration-warning="radwan_contract_status == 'expiring_soon'"
+                                               decoration-danger="radwan_contract_status == 'expired'"
+                                               decoration-muted="radwan_contract_status == 'not_set'"/>
+                                    </div>
+                                </group>
+                            </group>
+                        </div>
+                    </details>
+
+
+                    <!-- Internal HR Data -->
+                    <details open="open" style="margin-bottom:12px; border:1px solid #e6e1e5; border-radius:6px; overflow:hidden;">
+                        <summary style="background-color:#714B67; color:#ffffff; padding:9px 14px; font-weight:700; cursor:pointer; letter-spacing:.2px;">
+                            INTERNAL HR DATA
+                        </summary>
+
+                        <div style="padding:14px 16px 16px 16px; background-color:#ffffff;">
+                            <group>
+                                <group>
+                                    <field name="radwan_employee_code"/>
+                                    <field name="radwan_file_number"/>
+                                    <field name="radwan_joining_date"/>
+                                </group>
+                                <group>
+                                    <field name="radwan_employment_status"/>
+                                    <field name="radwan_operation_site"/>
+                                </group>
+                            </group>
+                        </div>
+                    </details>
+
+
+                    <!-- Identity / Iqama Data -->
+                    <details open="open" style="margin-bottom:12px; border:1px solid #e6e1e5; border-radius:6px; overflow:hidden;">
+                        <summary style="background-color:#714B67; color:#ffffff; padding:9px 14px; font-weight:700; cursor:pointer; letter-spacing:.2px;">
+                            IDENTITY / IQAMA DATA
+                        </summary>
+
+                        <div style="padding:14px 16px 16px 16px; background-color:#ffffff;">
+                            <group>
+                                <group>
+                                    <field name="identification_id" string="ID / Iqama Number"/>
+                                    <field name="radwan_id_type"/>
+                                    <field name="radwan_id_issue_date"/>
+                                    <field name="radwan_id_expiry_date"/>
+                                    <field name="radwan_id_expiry_hijri"/>
+                                </group>
+                                <group>
+                                    <field name="radwan_iqama_profession"/>
+                                    <field name="radwan_border_number"/>
+                                    <field name="radwan_sponsor_name"/>
+                                </group>
+                            </group>
+                        </div>
+                    </details>
+
+
+                    <!-- Passport Data -->
+                    <details open="open" style="margin-bottom:12px; border:1px solid #e6e1e5; border-radius:6px; overflow:hidden;">
+                        <summary style="background-color:#714B67; color:#ffffff; padding:9px 14px; font-weight:700; cursor:pointer; letter-spacing:.2px;">
+                            PASSPORT DATA
+                        </summary>
+
+                        <div style="padding:14px 16px 16px 16px; background-color:#ffffff;">
+                            <group>
+                                <group>
+                                    <field name="radwan_passport_expiry_date"/>
+                                </group>
+                            </group>
+                        </div>
+                    </details>
+
+
+                    <!-- Medical Insurance Data -->
+                    <details open="open" style="margin-bottom:12px; border:1px solid #e6e1e5; border-radius:6px; overflow:hidden;">
+                        <summary style="background-color:#714B67; color:#ffffff; padding:9px 14px; font-weight:700; cursor:pointer; letter-spacing:.2px;">
+                            MEDICAL INSURANCE DATA
+                        </summary>
+
+                        <div style="padding:14px 16px 16px 16px; background-color:#ffffff;">
+                            <group>
+                                <group>
+                                    <field name="radwan_medical_insurance_company"/>
+                                    <field name="radwan_medical_policy_number"/>
+                                </group>
+                                <group>
+                                    <field name="radwan_medical_insurance_class"/>
+                                    <field name="radwan_medical_insurance_end"/>
+                                </group>
+                            </group>
+                        </div>
+                    </details>
+
+
+                    <!-- Contract Data -->
+                    <details open="open" style="margin-bottom:12px; border:1px solid #e6e1e5; border-radius:6px; overflow:hidden;">
+                        <summary style="background-color:#714B67; color:#ffffff; padding:9px 14px; font-weight:700; cursor:pointer; letter-spacing:.2px;">
+                            CONTRACT DATA
+                        </summary>
+
+                        <div style="padding:14px 16px 16px 16px; background-color:#ffffff;">
+                            <group>
+                                <group>
+                                    <field name="radwan_contract_number"/>
+                                    <field name="radwan_contract_start_date"/>
+                                    <field name="radwan_contract_end_date"/>
+                                </group>
+                            </group>
+                        </div>
+                    </details>
+
+                </page>
+
+            </xpath>
+
+        </field>
+    </record>
+
+
+    <!-- Employee List View: Add Important HR Custom Fields -->
+    <record id="radwan_hr_employee_list_custom_fields" model="ir.ui.view">
+        <field name="name">radwan.hr.employee.list.custom.fields</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_tree"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="radwan_employee_code" optional="show"/>
+                <field name="identification_id" string="ID / Iqama No" optional="hide"/>
+                <field name="radwan_joining_date" optional="show"/>
+                <field name="radwan_employment_status" optional="show"/>
+
+                <field name="radwan_id_expiry_date" optional="show"/>
+                <field name="radwan_id_status"
+                       optional="show"
+                       widget="badge"
+                       decoration-success="radwan_id_status == 'valid'"
+                       decoration-warning="radwan_id_status == 'expiring_soon'"
+                       decoration-danger="radwan_id_status == 'expired'"
+                       decoration-muted="radwan_id_status == 'not_set'"/>
+
+                <field name="radwan_passport_expiry_date" optional="hide"/>
+                <field name="radwan_passport_status"
+                       optional="hide"
+                       widget="badge"
+                       decoration-success="radwan_passport_status == 'valid'"
+                       decoration-warning="radwan_passport_status == 'expiring_soon'"
+                       decoration-danger="radwan_passport_status == 'expired'"
+                       decoration-muted="radwan_passport_status == 'not_set'"/>
+
+                <field name="radwan_medical_insurance_end" optional="show"/>
+                <field name="radwan_medical_insurance_status"
+                       optional="show"
+                       widget="badge"
+                       decoration-success="radwan_medical_insurance_status == 'valid'"
+                       decoration-warning="radwan_medical_insurance_status == 'expiring_soon'"
+                       decoration-danger="radwan_medical_insurance_status == 'expired'"
+                       decoration-muted="radwan_medical_insurance_status == 'not_set'"/>
+
+                <field name="radwan_contract_end_date" optional="show"/>
+                <field name="radwan_contract_status"
+                       optional="show"
+                       widget="badge"
+                       decoration-success="radwan_contract_status == 'valid'"
+                       decoration-warning="radwan_contract_status == 'expiring_soon'"
+                       decoration-danger="radwan_contract_status == 'expired'"
+                       decoration-muted="radwan_contract_status == 'not_set'"/>
+            </xpath>
+
+        </field>
+    </record>
+
+
+    <!-- Employee Search View: Add Search, Filters, and Group By -->
+    <record id="radwan_hr_employee_search_custom_fields" model="ir.ui.view">
+        <field name="name">radwan.hr.employee.search.custom.fields</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_filter"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//search" position="inside">
+
+                <field name="radwan_employee_code" string="Employee Internal Code"/>
+                <field name="identification_id" string="ID / Iqama Number"/>
+                <field name="radwan_file_number" string="Paper File Number"/>
+                <field name="radwan_border_number" string="Border Number"/>
+                <field name="radwan_sponsor_name" string="Sponsor Name"/>
+                <field name="radwan_medical_policy_number" string="Medical Policy Number"/>
+                <field name="radwan_contract_number" string="Contract Number"/>
+
+                <separator/>
+
+                <filter
+                    name="radwan_filter_active_employees"
+                    string="Active Employees"
+                    domain="[('radwan_employment_status', '=', 'active')]"/>
+
+                <filter
+                    name="radwan_filter_on_vacation"
+                    string="On Vacation"
+                    domain="[('radwan_employment_status', '=', 'vacation')]"/>
+
+                <filter
+                    name="radwan_filter_suspended"
+                    string="Suspended"
+                    domain="[('radwan_employment_status', '=', 'suspended')]"/>
+
+                <filter
+                    name="radwan_filter_service_ended"
+                    string="Service Ended"
+                    domain="[('radwan_employment_status', '=', 'ended')]"/>
+
+                <separator/>
+
+                <filter
+                    name="radwan_filter_expired_iqama"
+                    string="Expired ID / Iqama"
+                    domain="[('radwan_id_expiry_date', '!=', False), ('radwan_id_expiry_date', '&lt;', context_today().strftime('%Y-%m-%d'))]"/>
+
+                <filter
+                    name="radwan_filter_expired_passport"
+                    string="Expired Passport"
+                    domain="[('radwan_passport_expiry_date', '!=', False), ('radwan_passport_expiry_date', '&lt;', context_today().strftime('%Y-%m-%d'))]"/>
+
+                <filter
+                    name="radwan_filter_expired_medical_insurance"
+                    string="Expired Medical Insurance"
+                    domain="[('radwan_medical_insurance_end', '!=', False), ('radwan_medical_insurance_end', '&lt;', context_today().strftime('%Y-%m-%d'))]"/>
+
+                <filter
+                    name="radwan_filter_expired_contract"
+                    string="Expired Contract"
+                    domain="[('radwan_contract_end_date', '!=', False), ('radwan_contract_end_date', '&lt;', context_today().strftime('%Y-%m-%d'))]"/>
+
+                <separator/>
+
+                <filter
+                    name="radwan_filter_id_status_expiring_soon"
+                    string="ID / Iqama Expiring Soon"
+                    domain="[('radwan_id_status', '=', 'expiring_soon')]"/>
+
+                <filter
+                    name="radwan_filter_passport_status_expiring_soon"
+                    string="Passport Expiring Soon"
+                    domain="[('radwan_passport_status', '=', 'expiring_soon')]"/>
+
+                <filter
+                    name="radwan_filter_medical_status_expiring_soon"
+                    string="Medical Insurance Expiring Soon"
+                    domain="[('radwan_medical_insurance_status', '=', 'expiring_soon')]"/>
+
+                <filter
+                    name="radwan_filter_contract_status_expiring_soon"
+                    string="Contract Expiring Soon"
+                    domain="[('radwan_contract_status', '=', 'expiring_soon')]"/>
+
+                <separator/>
+
+                <filter
+                    name="radwan_group_by_employment_status"
+                    string="Operational Employment Status"
+                    context="{'group_by': 'radwan_employment_status'}"/>
+
+                <filter
+                    name="radwan_group_by_id_type"
+                    string="ID Type"
+                    context="{'group_by': 'radwan_id_type'}"/>
+
+                <filter
+                    name="radwan_group_by_medical_insurance_class"
+                    string="Medical Insurance Class"
+                    context="{'group_by': 'radwan_medical_insurance_class'}"/>
+
+                <filter
+                    name="radwan_group_by_id_status"
+                    string="ID / Iqama Status"
+                    context="{'group_by': 'radwan_id_status'}"/>
+
+                <filter
+                    name="radwan_group_by_passport_status"
+                    string="Passport Status"
+                    context="{'group_by': 'radwan_passport_status'}"/>
+
+                <filter
+                    name="radwan_group_by_medical_insurance_status"
+                    string="Medical Insurance Status"
+                    context="{'group_by': 'radwan_medical_insurance_status'}"/>
+
+                <filter
+                    name="radwan_group_by_contract_status"
+                    string="Contract Status"
+                    context="{'group_by': 'radwan_contract_status'}"/>
+
+            </xpath>
+
+        </field>
+    </record>
+
+</odoo>

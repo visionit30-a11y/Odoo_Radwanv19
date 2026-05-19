@@ -1,0 +1,3 @@
+<odoo>
+    <function model="radwan.approval.category" name="action_sync_default_categories"/>
+</odoo>

@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_document_form" model="ir.ui.view">
+        <field name="name">document.document.view.form.inherit.radwan.employee.link</field>
+        <field name="model">document.document</field>
+        <field name="inherit_id" ref="document_management_system.view_document_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form/sheet" position="before">
+                <header>
+                    <button
+                        name="action_preview_attachment"
+                        type="object"
+                        string="Preview Attachment"
+                        icon="fa-eye"
+                        class="btn-primary"
+                        invisible="not attachment_preview_url"
+                    />
+                </header>
+            </xpath>
+            <xpath expr="//field[@name='id']" position="after">
+                <field name="attachment_preview_url" invisible="1"/>
+            </xpath>
+            <xpath expr="//field[@name='content']" position="before">
+                <group string="Related Record">
+                    <group>
+                        <field name="related_to" widget="radio"/>
+                    </group>
+                    <group>
+                        <field
+                            name="employee_id"
+                            invisible="related_to != 'employee'"
+                            required="related_to == 'employee'"
+                            options="{'no_create_edit': False}"
+                        />
+                        <field
+                            name="partner_id"
+                            invisible="related_to != 'partner'"
+                            required="related_to == 'partner'"
+                            options="{'no_create_edit': False}"
+                        />
+                    </group>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_document_search" model="ir.ui.view">
+        <field name="name">document.document.view.search.inherit.radwan.employee.link</field>
+        <field name="model">document.document</field>
+        <field name="inherit_id" ref="document_management_system.view_document_search"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='parent_id']" position="after">
+                <field name="related_to"/>
+                <field name="employee_id"/>
+                <field name="partner_id"/>
+            </xpath>
+            <xpath expr="//search/group" position="inside">
+                <filter name="group_by_related_to" string="Related To" context="{'group_by': 'related_to'}"/>
+                <filter name="group_by_employee_id" string="Employee" context="{'group_by': 'employee_id'}"/>
+                <filter name="group_by_partner_id" string="Partner" context="{'group_by': 'partner_id'}"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_document_list" model="ir.ui.view">
+        <field name="name">document.document.view.list.inherit.radwan.employee.link</field>
+        <field name="model">document.document</field>
+        <field name="inherit_id" ref="document_management_system.view_document_list"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='parent_full_name']" position="after">
+                <field name="related_to" optional="show"/>
+                <field name="employee_id" optional="show"/>
+                <field name="partner_id" optional="show"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_document_kanban" model="ir.ui.view">
+        <field name="name">document.document.view.kanban.inherit.radwan.employee.link</field>
+        <field name="model">document.document</field>
+        <field name="inherit_id" ref="document_management_system.view_document_kanban"/>
+        <field name="arch" type="xml">
+            <xpath expr="//kanban/field[@name='child_count']" position="after">
+                <field name="employee_id"/>
+                <field name="partner_id"/>
+            </xpath>
+            <xpath expr="//kanban/templates/t[@t-name='card']/main/div[last()]" position="after">
+                <div class="text-muted small mt-1" t-if="record.employee_id.raw_value or record.partner_id.raw_value">
+                    <i class="fa fa-link me-1" title="Related Record"/>
+                    <field name="employee_id"/>
+                    <field name="partner_id"/>
+                </div>
+            </xpath>
+        </field>
+    </record>
+</odoo>
