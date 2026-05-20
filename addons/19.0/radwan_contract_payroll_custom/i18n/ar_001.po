@@ -1,0 +1,292 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* radwan_contract_payroll_custom
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0-20260516\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-05-19 22:58+0000\n"
+"PO-Revision-Date: 2026-05-19 22:58+0000\n"
+"Last-Translator: RADWAN\n"
+"Language-Team: Arabic\n"
+"Language: ar_001\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
+
+#. module: radwan_contract_payroll_custom
+#: model_terms:ir.ui.view,arch_db:radwan_contract_payroll_custom.hr_contract_template_form_view_radwan_payroll
+msgid "/ month"
+msgstr "/ شهر"
+
+#. module: radwan_contract_payroll_custom
+#: model_terms:ir.ui.view,arch_db:radwan_contract_payroll_custom.hr_employee_form_view_radwan_payroll
+msgid "ALLOWANCES AND SALARY"
+msgstr "البدلات والراتب"
+
+#. module: radwan_contract_payroll_custom
+#: model:ir.model.fields,field_description:radwan_contract_payroll_custom.field_hr_employee__radwan_allow_overtime
+#: model:ir.model.fields,field_description:radwan_contract_payroll_custom.field_hr_version__radwan_allow_overtime
+msgid "Allow Overtime"
+msgstr "السماح بالعمل الإضافي"
+
+#. module: radwan_contract_payroll_custom
+#: model:ir.model.fields.selection,name:radwan_contract_payroll_custom.selection__hr_version__radwan_work_entry_source__attendances
+msgid "Attendances"
+msgstr "الحضور"
+
+#. module: radwan_contract_payroll_custom
+#: model:hr.salary.rule,name:radwan_contract_payroll_custom.radwan_rule_basic
+#: model:ir.model.fields,field_description:radwan_contract_payroll_custom.field_hr_employee__radwan_basic
+#: model:ir.model.fields,field_description:radwan_contract_payroll_custom.field_hr_version__radwan_basic
+msgid "Basic"
+msgstr "الراتب الأساسي"
+
+#. module: radwan_contract_payroll_custom
+#: model_terms:ir.ui.view,arch_db:radwan_contract_payroll_custom.hr_employee_form_view_radwan_payroll
+msgid "CONTRACT OVERVIEW"
+msgstr "ملخص العقد"
+
+#. module: radwan_contract_payroll_custom
+#: model:ir.model.fields,help:radwan_contract_payroll_custom.field_hr_employee__radwan_salary_structure_type_id
+#: model:ir.model.fields,help:radwan_contract_payroll_custom.field_hr_version__radwan_salary_structure_type_id
+msgid "Compatibility field kept in sync with the standard Pay Category."
+msgstr "حقل توافق تتم مزامنته مع فئة الراتب القياسية."
+
+#. module: radwan_contract_payroll_custom
+#: model_terms:ir.ui.view,arch_db:radwan_contract_payroll_custom.hr_contract_template_form_view_radwan_payroll
+msgid "Contract Overview"
+msgstr "ملخص العقد"
+
+#. module: radwan_contract_payroll_custom
+#: model_terms:ir.ui.view,arch_db:radwan_contract_payroll_custom.hr_employee_form_view_radwan_payroll
+msgid "Contract Start Date"
+msgstr "تاريخ بداية العقد"
+
+#. module: radwan_contract_payroll_custom
+#: model_terms:ir.ui.view,arch_db:radwan_contract_payroll_custom.hr_contract_template_form_view_radwan_payroll
+#: model_terms:ir.ui.view,arch_db:radwan_contract_payroll_custom.hr_employee_form_view_radwan_payroll
+msgid "Contract Type"
+msgstr "نوع العقد"
+
+#. module: radwan_contract_payroll_custom
+#: model:ir.model,name:radwan_contract_payroll_custom.model_hr_version
+msgid "Employee Contract"
+msgstr "عقد الموظف"
+
+#. module: radwan_contract_payroll_custom
+#: model:ir.model.fields,field_description:radwan_contract_payroll_custom.field_hr_employee__radwan_employee_termination_penalty
+#: model:ir.model.fields,field_description:radwan_contract_payroll_custom.field_hr_version__radwan_employee_termination_penalty
+msgid "Employee Termination Penalty"
+msgstr "شرط جزائي على الموظف"
+
+#. module: radwan_contract_payroll_custom
+#: model_terms:ir.ui.view,arch_db:radwan_contract_payroll_custom.hr_contract_template_form_view_radwan_payroll
+#: model_terms:ir.ui.view,arch_db:radwan_contract_payroll_custom.hr_employee_form_view_radwan_payroll
+msgid "Employee will be excluded from Pay Runs"
+msgstr "سيتم استبعاد الموظف من تشغيل الرواتب"
+
+#. module: radwan_contract_payroll_custom
+#: model:ir.model.fields,field_description:radwan_contract_payroll_custom.field_hr_employee__radwan_employer_termination_penalty
+#: model:ir.model.fields,field_description:radwan_contract_payroll_custom.field_hr_version__radwan_employer_termination_penalty
+msgid "Employer Termination Penalty"
+msgstr "شرط جزائي على صاحب العمل"
+
+#. module: radwan_contract_payroll_custom
+#: model:ir.model.fields,field_description:radwan_contract_payroll_custom.field_hr_employee__radwan_extended_trial_end_date
+#: model:ir.model.fields,field_description:radwan_contract_payroll_custom.field_hr_version__radwan_extended_trial_end_date
+msgid "Extended Trial End Date"
+msgstr "تاريخ نهاية التجربة الممتدة"
+
+#. module: radwan_contract_payroll_custom
+#: model:ir.model.fields,field_description:radwan_contract_payroll_custom.field_hr_employee__radwan_extended_trial_start_date
+#: model:ir.model.fields,field_description:radwan_contract_payroll_custom.field_hr_version__radwan_extended_trial_start_date
+msgid "Extended Trial Start Date"
+msgstr "تاريخ بداية التجربة الممتدة"
+
+#. module: radwan_contract_payroll_custom
+#: model:hr.salary.rule,name:radwan_contract_payroll_custom.radwan_rule_fuel_car_allowance
+#: model:ir.model.fields,field_description:radwan_contract_payroll_custom.field_hr_employee__radwan_fuel_car_allowance
+#: model:ir.model.fields,field_description:radwan_contract_payroll_custom.field_hr_version__radwan_fuel_car_allowance
+msgid "Fuel and Car Allowance"
+msgstr "بدل الوقود والسيارة"
+
+#. module: radwan_contract_payroll_custom
+#: model:hr.salary.rule,name:radwan_contract_payroll_custom.radwan_rule_gross
+msgid "Gross"
+msgstr ""
+
+#. module: radwan_contract_payroll_custom
+#: model:ir.model.fields,field_description:radwan_contract_payroll_custom.field_hr_employee__radwan_gosi_not_appear_in_payslip
+#: model:ir.model.fields,field_description:radwan_contract_payroll_custom.field_hr_version__radwan_gosi_not_appear_in_payslip
+msgid "Hide GOSI on Payslip"
+msgstr "إخفاء التأمينات في قسيمة الراتب"
+
+#. module: radwan_contract_payroll_custom
+#: model:hr.salary.rule,name:radwan_contract_payroll_custom.radwan_rule_housing
+#: model:ir.model.fields,field_description:radwan_contract_payroll_custom.field_hr_employee__radwan_housing
+#: model:ir.model.fields,field_description:radwan_contract_payroll_custom.field_hr_version__radwan_housing
+msgid "Housing"
+msgstr "بدل السكن"
+
+#. module: radwan_contract_payroll_custom
+#: model_terms:ir.ui.view,arch_db:radwan_contract_payroll_custom.hr_employee_form_view_radwan_payroll
+msgid "Indefinite"
+msgstr "غير محدد"
+
+#. module: radwan_contract_payroll_custom
+#: model_terms:ir.ui.view,arch_db:radwan_contract_payroll_custom.hr_employee_form_view_radwan_payroll
+msgid "Load a Template"
+msgstr "تحميل قالب"
+
+#. module: radwan_contract_payroll_custom
+#: model:ir.model.fields,field_description:radwan_contract_payroll_custom.field_hr_employee__radwan_mobile_communications_allowance
+#: model:ir.model.fields,field_description:radwan_contract_payroll_custom.field_hr_version__radwan_mobile_communications_allowance
+msgid "Mobile & Communications Allowance"
+msgstr "بدل الجوال والاتصالات"
+
+#. module: radwan_contract_payroll_custom
+#: model:hr.salary.rule,name:radwan_contract_payroll_custom.radwan_rule_mobile_communications_allowance
+msgid "Mobile and Communications Allowance"
+msgstr ""
+
+#. module: radwan_contract_payroll_custom
+#: model:hr.salary.rule,name:radwan_contract_payroll_custom.radwan_rule_net
+msgid "Net Salary"
+msgstr ""
+
+#. module: radwan_contract_payroll_custom
+#: model:ir.model.fields,field_description:radwan_contract_payroll_custom.field_hr_employee__radwan_non_renewal
+#: model:ir.model.fields,field_description:radwan_contract_payroll_custom.field_hr_version__radwan_non_renewal
+msgid "Non-Renewal"
+msgstr "عدم التجديد"
+
+#. module: radwan_contract_payroll_custom
+#: model_terms:ir.ui.view,arch_db:radwan_contract_payroll_custom.hr_employee_form_view_radwan_payroll
+msgid "Not Employed"
+msgstr "غير موظف"
+
+#. module: radwan_contract_payroll_custom
+#: model:ir.model.fields,field_description:radwan_contract_payroll_custom.field_hr_employee__radwan_notice_period
+#: model:ir.model.fields,field_description:radwan_contract_payroll_custom.field_hr_version__radwan_notice_period
+msgid "Notice Period"
+msgstr "فترة الإشعار"
+
+#. module: radwan_contract_payroll_custom
+#: model_terms:ir.ui.view,arch_db:radwan_contract_payroll_custom.hr_employee_form_view_radwan_payroll
+msgid "OVERTIME"
+msgstr "العمل الإضافي"
+
+#. module: radwan_contract_payroll_custom
+#: model:hr.salary.rule,name:radwan_contract_payroll_custom.radwan_rule_other_allowances
+#: model:ir.model.fields,field_description:radwan_contract_payroll_custom.field_hr_employee__radwan_other_allowances
+#: model:ir.model.fields,field_description:radwan_contract_payroll_custom.field_hr_version__radwan_other_allowances
+msgid "Other Allowances"
+msgstr "بدلات أخرى"
+
+#. module: radwan_contract_payroll_custom
+#: model:ir.model.fields,field_description:radwan_contract_payroll_custom.field_hr_employee__radwan_contract_other_notes
+#: model:ir.model.fields,field_description:radwan_contract_payroll_custom.field_hr_version__radwan_contract_other_notes
+msgid "Other Notes"
+msgstr "ملاحظات أخرى"
+
+#. module: radwan_contract_payroll_custom
+#: model_terms:ir.ui.view,arch_db:radwan_contract_payroll_custom.hr_contract_template_form_view_radwan_payroll
+#: model_terms:ir.ui.view,arch_db:radwan_contract_payroll_custom.hr_employee_form_view_radwan_payroll
+msgid "Other notes..."
+msgstr "ملاحظات أخرى..."
+
+#. module: radwan_contract_payroll_custom
+#: model_terms:ir.ui.view,arch_db:radwan_contract_payroll_custom.hr_contract_template_form_view_radwan_payroll
+msgid "Overtime"
+msgstr "العمل الإضافي"
+
+#. module: radwan_contract_payroll_custom
+#: model_terms:ir.ui.view,arch_db:radwan_contract_payroll_custom.hr_employee_form_view_radwan_payroll
+msgid "PAYROLL STRUCTURE"
+msgstr "هيكل الرواتب"
+
+#. module: radwan_contract_payroll_custom
+#: model_terms:ir.ui.view,arch_db:radwan_contract_payroll_custom.hr_employee_form_view_radwan_payroll
+msgid "PROBATION PERIOD"
+msgstr "فترة التجربة"
+
+#. module: radwan_contract_payroll_custom
+#: model_terms:ir.ui.view,arch_db:radwan_contract_payroll_custom.hr_contract_template_form_view_radwan_payroll
+#: model_terms:ir.ui.view,arch_db:radwan_contract_payroll_custom.hr_employee_form_view_radwan_payroll
+msgid "Pay Category"
+msgstr "فئة الراتب"
+
+#. module: radwan_contract_payroll_custom
+#: model_terms:ir.ui.view,arch_db:radwan_contract_payroll_custom.hr_contract_template_form_view_radwan_payroll
+msgid "Probation Period"
+msgstr "فترة التجربة"
+
+#. module: radwan_contract_payroll_custom
+#: model:ir.model.fields,field_description:radwan_contract_payroll_custom.field_hr_employee__radwan_salary_structure_type_id
+#: model:ir.model.fields,field_description:radwan_contract_payroll_custom.field_hr_version__radwan_salary_structure_type_id
+msgid "Radwan Legacy Salary Structure Type"
+msgstr "نوع هيكل راتب رادوان القديم"
+
+#. module: radwan_contract_payroll_custom
+#: model:ir.model.fields,field_description:radwan_contract_payroll_custom.field_hr_payroll_structure__radwan_structure_type_id
+msgid "Radwan Salary Structure Type"
+msgstr "نوع هيكل راتب رادوان"
+
+#. module: radwan_contract_payroll_custom
+#: model_terms:ir.ui.view,arch_db:radwan_contract_payroll_custom.hr_employee_form_view_radwan_payroll
+msgid "Termination Terms"
+msgstr "شروط إنهاء العقد"
+
+#. module: radwan_contract_payroll_custom
+#: model_terms:ir.ui.view,arch_db:radwan_contract_payroll_custom.hr_contract_template_form_view_radwan_payroll
+#: model_terms:ir.ui.view,arch_db:radwan_contract_payroll_custom.hr_employee_form_view_radwan_payroll
+msgid "The default working hours are set in configuration."
+msgstr "يتم ضبط ساعات العمل الافتراضية من الإعدادات."
+
+#. module: radwan_contract_payroll_custom
+#: model:ir.model.fields,field_description:radwan_contract_payroll_custom.field_hr_employee__radwan_total_salary
+#: model:ir.model.fields,field_description:radwan_contract_payroll_custom.field_hr_version__radwan_total_salary
+msgid "Total Salary"
+msgstr "إجمالي الراتب"
+
+#. module: radwan_contract_payroll_custom
+#: model:hr.salary.rule,name:radwan_contract_payroll_custom.radwan_rule_transportation
+#: model:ir.model.fields,field_description:radwan_contract_payroll_custom.field_hr_employee__radwan_transportation
+#: model:ir.model.fields,field_description:radwan_contract_payroll_custom.field_hr_version__radwan_transportation
+msgid "Transportation"
+msgstr "بدل المواصلات"
+
+#. module: radwan_contract_payroll_custom
+#: model_terms:ir.ui.view,arch_db:radwan_contract_payroll_custom.hr_contract_template_form_view_radwan_payroll
+#: model_terms:ir.ui.view,arch_db:radwan_contract_payroll_custom.hr_employee_form_view_radwan_payroll
+msgid "Trial End Date"
+msgstr "تاريخ نهاية التجربة"
+
+#. module: radwan_contract_payroll_custom
+#: model:ir.model.fields,field_description:radwan_contract_payroll_custom.field_hr_employee__radwan_trial_start_date
+#: model:ir.model.fields,field_description:radwan_contract_payroll_custom.field_hr_version__radwan_trial_start_date
+msgid "Trial Start Date"
+msgstr "تاريخ بداية التجربة"
+
+#. module: radwan_contract_payroll_custom
+#: model:ir.model.fields,field_description:radwan_contract_payroll_custom.field_hr_employee__radwan_work_entry_source
+#: model:ir.model.fields,field_description:radwan_contract_payroll_custom.field_hr_version__radwan_work_entry_source
+#: model_terms:ir.ui.view,arch_db:radwan_contract_payroll_custom.hr_employee_form_view_radwan_payroll
+msgid "Work Entry Source"
+msgstr "مصدر قيود العمل"
+
+#. module: radwan_contract_payroll_custom
+#: model:ir.model.fields,field_description:radwan_contract_payroll_custom.field_hr_employee__radwan_working_hours
+#: model:ir.model.fields,field_description:radwan_contract_payroll_custom.field_hr_version__radwan_working_hours
+msgid "Working Hours"
+msgstr "ساعات العمل"
+
+#. module: radwan_contract_payroll_custom
+#: model:ir.model.fields.selection,name:radwan_contract_payroll_custom.selection__hr_version__radwan_work_entry_source__working_schedule
+#: model_terms:ir.ui.view,arch_db:radwan_contract_payroll_custom.hr_contract_template_form_view_radwan_payroll
+#: model_terms:ir.ui.view,arch_db:radwan_contract_payroll_custom.hr_employee_form_view_radwan_payroll
+msgid "Working Schedule"
+msgstr "جدول العمل"

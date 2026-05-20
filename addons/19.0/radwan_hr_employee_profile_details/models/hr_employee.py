@@ -18,6 +18,17 @@ class HrEmployee(models.Model):
         comodel_name="radwan.employee.sponser",
         string="Sponser",
     )
+    radwan_religion_id = fields.Many2one(
+        comodel_name="radwan.employee.religion",
+        string="Religion",
+    )
+    radwan_family_status = fields.Selection(
+        selection=[
+            ("family", "Family"),
+            ("single", "Single"),
+        ],
+        string="Family Status",
+    )
 
     radwan_document_date_ids = fields.One2many(
         comodel_name="radwan.employee.document.date",
@@ -30,6 +41,29 @@ class HrEmployee(models.Model):
         inverse_name="employee_id",
         string="Family Details",
     )
+    radwan_travel_ticket_ids = fields.One2many(
+        comodel_name="radwan.employee.travel.ticket",
+        inverse_name="employee_id",
+        string="Travel Tickets",
+    )
+    radwan_travel_ticket_count = fields.Integer(
+        string="Travel Ticket Count",
+        compute="_compute_radwan_travel_ticket_count",
+    )
+    radwan_visa_ids = fields.One2many(
+        comodel_name="radwan.employee.visa",
+        inverse_name="employee_id",
+        string="Visas",
+    )
+    radwan_visa_count = fields.Integer(
+        string="Visa Count",
+        compute="_compute_radwan_visa_count",
+    )
+    radwan_work_injury_ids = fields.One2many(
+        comodel_name="radwan.work.injury",
+        inverse_name="employee_id",
+        string="Work Injuries",
+    )
     radwan_passport_issue_date = fields.Date(
         string="Passport Issue Date",
     )
@@ -38,6 +72,25 @@ class HrEmployee(models.Model):
     )
     radwan_passport_profession = fields.Char(
         string="Profession in Passport",
+    )
+    radwan_social_insurance_join_date = fields.Date(
+        string="Social Insurance Join Date",
+    )
+    radwan_social_insurance_exit_date = fields.Date(
+        string="Social Insurance Exit Date",
+    )
+    radwan_social_insurance_wage = fields.Monetary(
+        string="Contribution Wage",
+        currency_field="currency_id",
+    )
+    radwan_social_insurance_employee_rate = fields.Float(
+        string="Employee Monthly Deduction %",
+    )
+    radwan_social_insurance_company_rate = fields.Float(
+        string="Company Contribution %",
+    )
+    radwan_social_insurance_profession = fields.Char(
+        string="Registered Profession",
     )
 
     radwan_document_expiry_name = fields.Char(
@@ -115,3 +168,51 @@ class HrEmployee(models.Model):
         employees = self.with_context(active_test=False).search([])
         employees._compute_radwan_document_expiry()
         return result
+
+    def _compute_radwan_travel_ticket_count(self):
+        groups = self.env["radwan.employee.travel.ticket"]._read_group(
+            [("employee_id", "in", self.ids)],
+            ["employee_id"],
+            ["__count"],
+        )
+        counts = {employee.id: count for employee, count in groups}
+        for employee in self:
+            employee.radwan_travel_ticket_count = counts.get(employee.id, 0)
+
+    def _compute_radwan_visa_count(self):
+        groups = self.env["radwan.employee.visa"]._read_group(
+            [("employee_id", "in", self.ids)],
+            ["employee_id"],
+            ["__count"],
+        )
+        counts = {employee.id: count for employee, count in groups}
+        for employee in self:
+            employee.radwan_visa_count = counts.get(employee.id, 0)
+
+    def action_radwan_travel_tickets(self):
+        self.ensure_one()
+        return {
+            "type": "ir.actions.act_window",
+            "name": self.env._("Travel Tickets"),
+            "res_model": "radwan.employee.travel.ticket",
+            "view_mode": "list,form",
+            "domain": [("employee_id", "=", self.id)],
+            "context": {
+                "default_employee_id": self.id,
+                "default_company_id": self.company_id.id,
+            },
+        }
+
+    def action_radwan_visas(self):
+        self.ensure_one()
+        return {
+            "type": "ir.actions.act_window",
+            "name": self.env._("Visas"),
+            "res_model": "radwan.employee.visa",
+            "view_mode": "list,form",
+            "domain": [("employee_id", "=", self.id)],
+            "context": {
+                "default_employee_id": self.id,
+                "default_company_id": self.company_id.id,
+            },
+        }

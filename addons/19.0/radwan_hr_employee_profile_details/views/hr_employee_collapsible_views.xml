@@ -8,16 +8,16 @@
         <field name="priority" eval="125"/>
         <field name="arch" type="xml">
 
-            <xpath expr="//page[@name='radwan_hr_information']/details[summary[contains(normalize-space(.), 'INTERNAL HR DATA')]]" position="attributes">
+            <xpath expr="//page[@name='radwan_hr_information']/details[.//field[@name='radwan_employee_code']]" position="attributes">
                 <attribute name="open"/>
             </xpath>
-            <xpath expr="//page[@name='radwan_hr_information']/details[summary[contains(normalize-space(.), 'IDENTITY / IQAMA DATA')]]" position="attributes">
+            <xpath expr="//page[@name='radwan_hr_information']/details[.//field[@name='identification_id']]" position="attributes">
                 <attribute name="open"/>
             </xpath>
-            <xpath expr="//page[@name='radwan_hr_information']/details[summary[contains(normalize-space(.), 'PASSPORT DATA')]]" position="attributes">
+            <xpath expr="//page[@name='radwan_hr_information']/details[.//field[@name='radwan_passport_expiry_date']]" position="attributes">
                 <attribute name="open"/>
             </xpath>
-            <xpath expr="//page[@name='radwan_hr_information']/details[summary[contains(normalize-space(.), 'PASSPORT DATA')]]/div/group" position="replace">
+            <xpath expr="//page[@name='radwan_hr_information']/details[.//field[@name='radwan_passport_expiry_date']]/div/group" position="replace">
                 <group>
                     <group>
                         <field name="passport_id" string="Passport Number"/>
@@ -30,12 +30,33 @@
                     </group>
                 </group>
             </xpath>
-            <xpath expr="//page[@name='radwan_hr_information']/details[summary[contains(normalize-space(.), 'MEDICAL INSURANCE DATA')]]" position="attributes">
+            <xpath expr="//page[@name='radwan_hr_information']/details[.//field[@name='radwan_medical_insurance_end']]" position="attributes">
                 <attribute name="open"/>
             </xpath>
-            <xpath expr="//page[@name='radwan_hr_information']/details[summary[contains(normalize-space(.), 'CONTRACT DATA')]]" position="attributes">
-                <attribute name="open"/>
+
+            <xpath expr="//page[@name='radwan_hr_information']/details[.//field[@name='radwan_medical_insurance_end']]" position="after">
+                <details open="open" style="margin-bottom:12px; border:1px solid #e6e1e5; border-radius:6px; overflow:hidden;">
+                    <summary style="background-color:#714B67; color:#ffffff; padding:9px 14px; font-weight:700; cursor:pointer; letter-spacing:.2px;">
+                        SOCIAL INSURANCE DATA
+                    </summary>
+                    <div style="padding:14px 16px 16px 16px; background-color:#ffffff;">
+                        <group>
+                            <group>
+                                <field name="radwan_social_insurance_join_date"/>
+                                <field name="radwan_social_insurance_exit_date"/>
+                                <field name="radwan_social_insurance_wage"/>
+                            </group>
+                            <group>
+                                <field name="radwan_social_insurance_employee_rate"/>
+                                <field name="radwan_social_insurance_company_rate"/>
+                                <field name="radwan_social_insurance_profession"/>
+                            </group>
+                        </group>
+                    </div>
+                </details>
             </xpath>
+
+            <xpath expr="//page[@name='radwan_hr_information']/details[.//field[@name='radwan_contract_start_date']]" position="replace"/>
 
         </field>
     </record>

@@ -1,0 +1,1043 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* radwan_hr_employee_profile_details
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0-20260516\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-05-19 22:58+0000\n"
+"PO-Revision-Date: 2026-05-19 22:58+0000\n"
+"Last-Translator: RADWAN\n"
+"Language-Team: Arabic\n"
+"Language: ar_001\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
+
+#. module: radwan_hr_employee_profile_details
+#: model:ir.model.fields,field_description:radwan_hr_employee_profile_details.field_radwan_work_injury__accident_cause
+msgid "Accident Cause"
+msgstr "سبب الحادث"
+
+#. module: radwan_hr_employee_profile_details
+#: model:ir.model.fields,field_description:radwan_hr_employee_profile_details.field_radwan_work_injury__accident_photos
+msgid "Accident Photos"
+msgstr "صور الحادث"
+
+#. module: radwan_hr_employee_profile_details
+#: model:ir.model.fields,field_description:radwan_hr_employee_profile_details.field_radwan_work_injury__accident_photos_filename
+msgid "Accident Photos Filename"
+msgstr "اسم ملف صور الحادث"
+
+#. module: radwan_hr_employee_profile_details
+#: model:ir.model.fields,field_description:radwan_hr_employee_profile_details.field_radwan_employee_visa__actual_exit_datetime
+msgid "Actual Exit"
+msgstr "الخروج الفعلي"
+
+#. module: radwan_hr_employee_profile_details
+#: model:ir.model.fields,field_description:radwan_hr_employee_profile_details.field_radwan_employee_visa__actual_return_datetime
+msgid "Actual Return"
+msgstr "العودة الفعلية"
+
+#. module: radwan_hr_employee_profile_details
+#. odoo-python
+#: code:addons/radwan_hr_employee_profile_details/models/radwan_employee_travel_ticket.py:0
+msgid "Actual Return must be on or after Actual Exit."
+msgstr ""
+
+#. module: radwan_hr_employee_profile_details
+#: model_terms:ir.ui.view,arch_db:radwan_hr_employee_profile_details.radwan_employee_visa_view_form
+msgid "Actual Trip"
+msgstr "الرحلة الفعلية"
+
+#. module: radwan_hr_employee_profile_details
+#: model:ir.actions.act_window,name:radwan_hr_employee_profile_details.radwan_work_injury_action
+#: model:ir.ui.menu,name:radwan_hr_employee_profile_details.radwan_work_injury_menu_all
+msgid "All Work Injuries"
+msgstr "كل إصابات العمل"
+
+#. module: radwan_hr_employee_profile_details
+#: model_terms:ir.ui.view,arch_db:radwan_hr_employee_profile_details.radwan_work_injury_view_form
+msgid "Attachments and Notes"
+msgstr "المرفقات والملاحظات"
+
+#. module: radwan_hr_employee_profile_details
+#: model:ir.model.fields,field_description:radwan_hr_employee_profile_details.field_radwan_employee_travel_ticket__boarding_number
+msgid "Boarding Number"
+msgstr "رقم بطاقة الصعود"
+
+#. module: radwan_hr_employee_profile_details
+#: model_terms:ir.ui.view,arch_db:radwan_hr_employee_profile_details.radwan_employee_travel_ticket_view_form
+msgid "Booking"
+msgstr "الحجز"
+
+#. module: radwan_hr_employee_profile_details
+#: model:ir.model.fields,field_description:radwan_hr_employee_profile_details.field_radwan_employee_travel_ticket__booking_number
+msgid "Booking Number"
+msgstr "رقم الحجز"
+
+#. module: radwan_hr_employee_profile_details
+#: model:ir.model.fields.selection,name:radwan_hr_employee_profile_details.selection__radwan_employee_family_detail__id_type__border_number
+msgid "Border Number"
+msgstr "رقم الحدود"
+
+#. module: radwan_hr_employee_profile_details
+#: model:ir.ui.menu,name:radwan_hr_employee_profile_details.radwan_work_injury_report_department_menu
+msgid "By Department"
+msgstr "حسب الإدارة"
+
+#. module: radwan_hr_employee_profile_details
+#: model:ir.ui.menu,name:radwan_hr_employee_profile_details.radwan_work_injury_report_type_menu
+msgid "By Injury Type"
+msgstr "حسب نوع الإصابة"
+
+#. module: radwan_hr_employee_profile_details
+#: model:ir.ui.menu,name:radwan_hr_employee_profile_details.radwan_work_injury_report_month_menu
+msgid "By Month"
+msgstr "حسب الشهر"
+
+#. module: radwan_hr_employee_profile_details
+#: model:ir.model.fields,field_description:radwan_hr_employee_profile_details.field_radwan_work_injury__claim_status
+#: model_terms:ir.ui.view,arch_db:radwan_hr_employee_profile_details.radwan_work_injury_view_search
+msgid "Claim Status"
+msgstr "حالة المطالبة"
+
+#. module: radwan_hr_employee_profile_details
+#: model_terms:ir.ui.view,arch_db:radwan_hr_employee_profile_details.radwan_work_injury_view_form
+msgid "Close Injury Case"
+msgstr "إغلاق حالة الإصابة"
+
+#. module: radwan_hr_employee_profile_details
+#: model:ir.model.fields.selection,name:radwan_hr_employee_profile_details.selection__radwan_work_injury__state__closed
+msgid "Closed"
+msgstr "مغلق"
+
+#. module: radwan_hr_employee_profile_details
+#: model_terms:ir.ui.view,arch_db:radwan_hr_employee_profile_details.radwan_work_injury_view_search
+msgid "Closed Cases"
+msgstr "الحالات المغلقة"
+
+#. module: radwan_hr_employee_profile_details
+#: model:ir.ui.menu,name:radwan_hr_employee_profile_details.radwan_work_injury_report_closed_menu
+msgid "Closed Injuries"
+msgstr "الإصابات المغلقة"
+
+#. module: radwan_hr_employee_profile_details
+#: model:ir.actions.act_window,name:radwan_hr_employee_profile_details.radwan_work_injury_report_closed_action
+msgid "Closed Work Injuries"
+msgstr "إصابات العمل المغلقة"
+
+#. module: radwan_hr_employee_profile_details
+#: model:ir.model.fields,field_description:radwan_hr_employee_profile_details.field_hr_employee__radwan_social_insurance_company_rate
+msgid "Company Contribution %"
+msgstr "نسبة مساهمة الشركة %"
+
+#. module: radwan_hr_employee_profile_details
+#: model:ir.model.fields,field_description:radwan_hr_employee_profile_details.field_radwan_work_injury__compensation_amount
+msgid "Compensation Amount"
+msgstr "مبلغ التعويض"
+
+#. module: radwan_hr_employee_profile_details
+#. odoo-python
+#: code:addons/radwan_hr_employee_profile_details/models/radwan_work_injury.py:0
+msgid "Compensation Amount cannot be negative."
+msgstr ""
+
+#. module: radwan_hr_employee_profile_details
+#: model:ir.model.fields.selection,name:radwan_hr_employee_profile_details.selection__radwan_work_injury__state__compensation_process
+msgid "Compensation Under Process"
+msgstr "التعويض قيد المعالجة"
+
+#. module: radwan_hr_employee_profile_details
+#: model:ir.model.fields,field_description:radwan_hr_employee_profile_details.field_hr_employee__radwan_social_insurance_wage
+msgid "Contribution Wage"
+msgstr "الأجر الخاضع للاشتراك"
+
+#. module: radwan_hr_employee_profile_details
+#: model:ir.model.fields,field_description:radwan_hr_employee_profile_details.field_radwan_work_injury__corrective_action
+msgid "Corrective Action"
+msgstr "الإجراء التصحيحي"
+
+#. module: radwan_hr_employee_profile_details
+#: model:ir.model.fields.selection,name:radwan_hr_employee_profile_details.selection__radwan_work_injury__severity__critical
+msgid "Critical"
+msgstr "حرج"
+
+#. module: radwan_hr_employee_profile_details
+#. odoo-python
+#: code:addons/radwan_hr_employee_profile_details/models/radwan_employee_travel_ticket.py:0
+msgid "Date To must be on or after Date From."
+msgstr ""
+
+#. module: radwan_hr_employee_profile_details
+#: model:ir.model.fields,field_description:radwan_hr_employee_profile_details.field_radwan_employee_family_detail__date_of_birth
+msgid "Date of Birth"
+msgstr "تاريخ الميلاد"
+
+#. module: radwan_hr_employee_profile_details
+#. odoo-python
+#: code:addons/radwan_hr_employee_profile_details/models/radwan_employee_family_detail.py:0
+msgid "Date of Birth cannot be in the future."
+msgstr ""
+
+#. module: radwan_hr_employee_profile_details
+#: model_terms:ir.ui.view,arch_db:radwan_hr_employee_profile_details.radwan_work_injury_view_form
+msgid "Describe the injury..."
+msgstr "وصف الإصابة..."
+
+#. module: radwan_hr_employee_profile_details
+#: model:ir.model.fields,field_description:radwan_hr_employee_profile_details.field_radwan_employee_travel_ticket__destination_from
+msgid "Destination From"
+msgstr "الوجهة من"
+
+#. module: radwan_hr_employee_profile_details
+#: model:ir.model.fields,field_description:radwan_hr_employee_profile_details.field_radwan_employee_travel_ticket__destination_to
+msgid "Destination To"
+msgstr "الوجهة إلى"
+
+#. module: radwan_hr_employee_profile_details
+#: model:ir.model.fields,field_description:radwan_hr_employee_profile_details.field_radwan_employee_document_date__document_end
+msgid "Document End"
+msgstr "نهاية المستند"
+
+#. module: radwan_hr_employee_profile_details
+#. odoo-python
+#: code:addons/radwan_hr_employee_profile_details/models/radwan_employee_document_date.py:0
+msgid "Document End must be on or after Document Start."
+msgstr ""
+
+#. module: radwan_hr_employee_profile_details
+#: model:ir.model.fields,field_description:radwan_hr_employee_profile_details.field_hr_employee__radwan_document_expiry_name
+msgid "Document Expiry"
+msgstr "انتهاء المستند"
+
+#. module: radwan_hr_employee_profile_details
+#: model:ir.model.fields,field_description:radwan_hr_employee_profile_details.field_hr_employee__radwan_document_expiry_date
+msgid "Document Expiry Date"
+msgstr "تاريخ انتهاء المستند"
+
+#. module: radwan_hr_employee_profile_details
+#: model:ir.model.fields,field_description:radwan_hr_employee_profile_details.field_radwan_employee_document_date__document_name
+msgid "Document Name"
+msgstr "اسم المستند"
+
+#. module: radwan_hr_employee_profile_details
+#: model:ir.model.fields,field_description:radwan_hr_employee_profile_details.field_radwan_employee_document_date__document_no
+msgid "Document No."
+msgstr "رقم المستند"
+
+#. module: radwan_hr_employee_profile_details
+#: model:ir.model.fields,field_description:radwan_hr_employee_profile_details.field_radwan_employee_document_date__document_source
+msgid "Document Source"
+msgstr "مصدر المستند"
+
+#. module: radwan_hr_employee_profile_details
+#: model:ir.model.fields,field_description:radwan_hr_employee_profile_details.field_radwan_employee_document_date__document_start
+msgid "Document Start"
+msgstr "بداية المستند"
+
+#. module: radwan_hr_employee_profile_details
+#: model:ir.model.fields,field_description:radwan_hr_employee_profile_details.field_hr_employee__radwan_document_expiry_status
+msgid "Document Status"
+msgstr "حالة المستند"
+
+#. module: radwan_hr_employee_profile_details
+#: model:ir.model.fields,field_description:radwan_hr_employee_profile_details.field_hr_employee__radwan_document_date_ids
+#: model_terms:ir.ui.view,arch_db:radwan_hr_employee_profile_details.hr_employee_view_form
+msgid "Documents Date"
+msgstr "تواريخ المستندات"
+
+#. module: radwan_hr_employee_profile_details
+#: model_terms:ir.ui.view,arch_db:radwan_hr_employee_profile_details.radwan_work_injury_view_form
+msgid "Employee Data"
+msgstr "بيانات الموظف"
+
+#. module: radwan_hr_employee_profile_details
+#: model:ir.model,name:radwan_hr_employee_profile_details.model_radwan_employee_document_date
+msgid "Employee Document Date"
+msgstr "تاريخ مستند الموظف"
+
+#. module: radwan_hr_employee_profile_details
+#: model:ir.model,name:radwan_hr_employee_profile_details.model_radwan_employee_family_detail
+msgid "Employee Family Detail"
+msgstr "تفاصيل عائلة الموظف"
+
+#. module: radwan_hr_employee_profile_details
+#: model:ir.model.fields,field_description:radwan_hr_employee_profile_details.field_hr_employee__radwan_social_insurance_employee_rate
+msgid "Employee Monthly Deduction %"
+msgstr "نسبة الخصم الشهري من الموظف %"
+
+#. module: radwan_hr_employee_profile_details
+#: model:ir.model,name:radwan_hr_employee_profile_details.model_radwan_employee_religion
+msgid "Employee Religion"
+msgstr "ديانة الموظف"
+
+#. module: radwan_hr_employee_profile_details
+#: model:ir.model,name:radwan_hr_employee_profile_details.model_radwan_employee_sponser
+msgid "Employee Sponser"
+msgstr "كفيل الموظف"
+
+#. module: radwan_hr_employee_profile_details
+#: model:ir.model,name:radwan_hr_employee_profile_details.model_radwan_employee_travel_ticket
+msgid "Employee Travel Ticket"
+msgstr "تذكرة سفر الموظف"
+
+#. module: radwan_hr_employee_profile_details
+#: model:ir.model,name:radwan_hr_employee_profile_details.model_radwan_employee_visa
+msgid "Employee Visa"
+msgstr "تأشيرة الموظف"
+
+#. module: radwan_hr_employee_profile_details
+#: model:ir.model.fields.selection,name:radwan_hr_employee_profile_details.selection__hr_employee__radwan_document_expiry_status__expired
+msgid "Expired"
+msgstr "منتهي"
+
+#. module: radwan_hr_employee_profile_details
+#: model:ir.model.fields.selection,name:radwan_hr_employee_profile_details.selection__hr_employee__radwan_document_expiry_status__expiring_soon
+msgid "Expiring Soon"
+msgstr "ينتهي قريبًا"
+
+#. module: radwan_hr_employee_profile_details
+#: model:ir.model.fields,field_description:radwan_hr_employee_profile_details.field_radwan_work_injury__witness_notes
+msgid "External Witnesses / Notes"
+msgstr "شهود خارجيون / ملاحظات"
+
+#. module: radwan_hr_employee_profile_details
+#: model:ir.model.fields.selection,name:radwan_hr_employee_profile_details.selection__hr_employee__radwan_family_status__family
+msgid "Family"
+msgstr "العائلة"
+
+#. module: radwan_hr_employee_profile_details
+#: model:ir.model.fields,field_description:radwan_hr_employee_profile_details.field_hr_employee__radwan_family_detail_ids
+#: model_terms:ir.ui.view,arch_db:radwan_hr_employee_profile_details.hr_employee_view_form
+msgid "Family Details"
+msgstr "تفاصيل العائلة"
+
+#. module: radwan_hr_employee_profile_details
+#: model:ir.model.fields,field_description:radwan_hr_employee_profile_details.field_hr_employee__radwan_family_status
+msgid "Family Status"
+msgstr "الحالة العائلية"
+
+#. module: radwan_hr_employee_profile_details
+#: model:ir.model.fields.selection,name:radwan_hr_employee_profile_details.selection__radwan_work_injury__severity__fatal
+msgid "Fatal"
+msgstr "وفاة"
+
+#. module: radwan_hr_employee_profile_details
+#: model:ir.model.fields,field_description:radwan_hr_employee_profile_details.field_radwan_work_injury__first_aid_provided
+msgid "First Aid Provided"
+msgstr "تم تقديم إسعافات أولية"
+
+#. module: radwan_hr_employee_profile_details
+#: model:ir.model.fields,field_description:radwan_hr_employee_profile_details.field_radwan_work_injury__gosi_report_attachment
+msgid "GOSI Report Attachment"
+msgstr "مرفق بلاغ التأمينات"
+
+#. module: radwan_hr_employee_profile_details
+#: model:ir.model.fields,field_description:radwan_hr_employee_profile_details.field_radwan_work_injury__gosi_report_filename
+msgid "GOSI Report Filename"
+msgstr "اسم ملف بلاغ التأمينات"
+
+#. module: radwan_hr_employee_profile_details
+#: model:ir.model.fields,field_description:radwan_hr_employee_profile_details.field_radwan_work_injury__gosi_report_no
+msgid "GOSI Report No."
+msgstr "رقم بلاغ التأمينات"
+
+#. module: radwan_hr_employee_profile_details
+#: model:ir.model.fields,field_description:radwan_hr_employee_profile_details.field_radwan_employee_family_detail__id_end_date
+msgid "ID End Date"
+msgstr "تاريخ انتهاء الهوية"
+
+#. module: radwan_hr_employee_profile_details
+#. odoo-python
+#: code:addons/radwan_hr_employee_profile_details/models/radwan_employee_family_detail.py:0
+msgid "ID End Date must be on or after ID Start Date."
+msgstr ""
+
+#. module: radwan_hr_employee_profile_details
+#: model:ir.model.fields,field_description:radwan_hr_employee_profile_details.field_radwan_employee_family_detail__id_number
+msgid "ID Number"
+msgstr "رقم الهوية"
+
+#. module: radwan_hr_employee_profile_details
+#: model:ir.model.fields,field_description:radwan_hr_employee_profile_details.field_radwan_employee_family_detail__id_start_date
+msgid "ID Start Date"
+msgstr "تاريخ بداية الهوية"
+
+#. module: radwan_hr_employee_profile_details
+#: model:ir.model.fields,field_description:radwan_hr_employee_profile_details.field_radwan_employee_family_detail__id_type
+msgid "ID Type"
+msgstr "نوع الهوية"
+
+#. module: radwan_hr_employee_profile_details
+#: model_terms:ir.ui.view,arch_db:radwan_hr_employee_profile_details.hr_employee_view_form
+msgid "Identity"
+msgstr "الهوية"
+
+#. module: radwan_hr_employee_profile_details
+#: model_terms:ir.ui.view,arch_db:radwan_hr_employee_profile_details.radwan_work_injury_view_form
+msgid "Injury Data"
+msgstr "بيانات الإصابة"
+
+#. module: radwan_hr_employee_profile_details
+#: model:ir.model.fields,field_description:radwan_hr_employee_profile_details.field_radwan_work_injury__injury_date
+#: model_terms:ir.ui.view,arch_db:radwan_hr_employee_profile_details.radwan_work_injury_view_search
+msgid "Injury Date"
+msgstr "تاريخ الإصابة"
+
+#. module: radwan_hr_employee_profile_details
+#: model:ir.model.fields,field_description:radwan_hr_employee_profile_details.field_radwan_work_injury__injury_description
+msgid "Injury Description"
+msgstr "وصف الإصابة"
+
+#. module: radwan_hr_employee_profile_details
+#: model:ir.model.fields,field_description:radwan_hr_employee_profile_details.field_radwan_work_injury__name
+msgid "Injury Reference"
+msgstr "مرجع الإصابة"
+
+#. module: radwan_hr_employee_profile_details
+#: model:ir.model.fields,field_description:radwan_hr_employee_profile_details.field_radwan_work_injury__severity
+msgid "Injury Severity"
+msgstr "درجة الإصابة"
+
+#. module: radwan_hr_employee_profile_details
+#: model:ir.model.fields,field_description:radwan_hr_employee_profile_details.field_radwan_work_injury__injury_time
+msgid "Injury Time"
+msgstr "وقت الإصابة"
+
+#. module: radwan_hr_employee_profile_details
+#: model:ir.model.fields,field_description:radwan_hr_employee_profile_details.field_radwan_work_injury__injury_type_id
+#: model_terms:ir.ui.view,arch_db:radwan_hr_employee_profile_details.radwan_work_injury_view_search
+msgid "Injury Type"
+msgstr "نوع الإصابة"
+
+#. module: radwan_hr_employee_profile_details
+#: model:ir.model.fields,field_description:radwan_hr_employee_profile_details.field_radwan_work_injury__insurance_claim_no
+msgid "Insurance Claim No."
+msgstr "رقم مطالبة التأمين"
+
+#. module: radwan_hr_employee_profile_details
+#: model:ir.actions.act_window,name:radwan_hr_employee_profile_details.radwan_work_injury_report_claims_action
+#: model:ir.ui.menu,name:radwan_hr_employee_profile_details.radwan_work_injury_report_claims_menu
+msgid "Insurance Claims"
+msgstr "مطالبات التأمين"
+
+#. module: radwan_hr_employee_profile_details
+#: model_terms:ir.ui.view,arch_db:radwan_hr_employee_profile_details.radwan_work_injury_view_search
+msgid "Insurance Pending"
+msgstr "التأمين قيد الانتظار"
+
+#. module: radwan_hr_employee_profile_details
+#: model_terms:ir.ui.view,arch_db:radwan_hr_employee_profile_details.radwan_work_injury_view_form
+msgid "Insurance and Compensation"
+msgstr "التأمين والتعويض"
+
+#. module: radwan_hr_employee_profile_details
+#. odoo-python
+#: code:addons/radwan_hr_employee_profile_details/models/radwan_work_injury.py:0
+msgid "Insurance claim follow-up is overdue"
+msgstr ""
+
+#. module: radwan_hr_employee_profile_details
+#: model:ir.model.fields,field_description:radwan_hr_employee_profile_details.field_radwan_work_injury__investigation_date
+msgid "Investigation Date"
+msgstr "تاريخ التحقيق"
+
+#. module: radwan_hr_employee_profile_details
+#: model_terms:ir.ui.view,arch_db:radwan_hr_employee_profile_details.radwan_work_injury_view_form
+msgid "Investigation and Follow-up"
+msgstr "التحقيق والمتابعة"
+
+#. module: radwan_hr_employee_profile_details
+#: model:ir.model.fields.selection,name:radwan_hr_employee_profile_details.selection__radwan_employee_family_detail__id_type__iqama
+msgid "Iqama"
+msgstr "إقامة"
+
+#. module: radwan_hr_employee_profile_details
+#: model:ir.model.fields,field_description:radwan_hr_employee_profile_details.field_radwan_employee_family_detail__is_in_contract
+msgid "Is in Contract"
+msgstr "ضمن العقد"
+
+#. module: radwan_hr_employee_profile_details
+#: model:ir.model.fields,field_description:radwan_hr_employee_profile_details.field_radwan_employee_visa__issue_date
+#: model_terms:ir.ui.view,arch_db:radwan_hr_employee_profile_details.radwan_employee_visa_view_search
+msgid "Issue Date"
+msgstr "تاريخ الإصدار"
+
+#. module: radwan_hr_employee_profile_details
+#: model:ir.model.fields,field_description:radwan_hr_employee_profile_details.field_radwan_employee_visa__issuing_authority
+msgid "Issuing Authority"
+msgstr "جهة الإصدار"
+
+#. module: radwan_hr_employee_profile_details
+#: model_terms:ir.ui.view,arch_db:radwan_hr_employee_profile_details.radwan_work_injury_view_form
+msgid "Mark as Reported to GOSI"
+msgstr "تعليم كمرسل للتأمينات"
+
+#. module: radwan_hr_employee_profile_details
+#: model:ir.model.fields,field_description:radwan_hr_employee_profile_details.field_radwan_employee_family_detail__medical_by
+msgid "Medical By"
+msgstr "العلاج على"
+
+#. module: radwan_hr_employee_profile_details
+#: model_terms:ir.ui.view,arch_db:radwan_hr_employee_profile_details.radwan_work_injury_view_form
+msgid "Medical Data"
+msgstr "البيانات الطبية"
+
+#. module: radwan_hr_employee_profile_details
+#: model:ir.model.fields,field_description:radwan_hr_employee_profile_details.field_radwan_work_injury__medical_facility
+msgid "Medical Facility"
+msgstr "الجهة الطبية"
+
+#. module: radwan_hr_employee_profile_details
+#: model:ir.model.fields,field_description:radwan_hr_employee_profile_details.field_radwan_work_injury__medical_report_attachment
+msgid "Medical Report Attachment"
+msgstr "مرفق التقرير الطبي"
+
+#. module: radwan_hr_employee_profile_details
+#: model:ir.model.fields,field_description:radwan_hr_employee_profile_details.field_radwan_work_injury__medical_report_date
+msgid "Medical Report Date"
+msgstr "تاريخ التقرير الطبي"
+
+#. module: radwan_hr_employee_profile_details
+#: model:ir.model.fields,field_description:radwan_hr_employee_profile_details.field_radwan_work_injury__medical_report_filename
+msgid "Medical Report Filename"
+msgstr "اسم ملف التقرير الطبي"
+
+#. module: radwan_hr_employee_profile_details
+#: model:ir.model.fields.selection,name:radwan_hr_employee_profile_details.selection__radwan_work_injury__state__medical_report_received
+msgid "Medical Report Received"
+msgstr "تم استلام التقرير الطبي"
+
+#. module: radwan_hr_employee_profile_details
+#. odoo-python
+#: code:addons/radwan_hr_employee_profile_details/models/radwan_work_injury.py:0
+msgid "Medical report is still missing"
+msgstr ""
+
+#. module: radwan_hr_employee_profile_details
+#: model:ir.model.fields.selection,name:radwan_hr_employee_profile_details.selection__radwan_work_injury__severity__minor
+msgid "Minor"
+msgstr "بسيطة"
+
+#. module: radwan_hr_employee_profile_details
+#: model:ir.model.fields.selection,name:radwan_hr_employee_profile_details.selection__radwan_work_injury__severity__moderate
+msgid "Moderate"
+msgstr "متوسطة"
+
+#. module: radwan_hr_employee_profile_details
+#: model:ir.actions.act_window,name:radwan_hr_employee_profile_details.radwan_work_injury_my_department_action
+#: model:ir.ui.menu,name:radwan_hr_employee_profile_details.radwan_work_injury_menu_my_department
+msgid "My Department Injuries"
+msgstr "إصابات إدارتي"
+
+#. module: radwan_hr_employee_profile_details
+#: model:ir.model.fields.selection,name:radwan_hr_employee_profile_details.selection__radwan_employee_family_detail__id_type__national_id
+msgid "National ID"
+msgstr "هوية وطنية"
+
+#. module: radwan_hr_employee_profile_details
+#: model:ir.model.fields.selection,name:radwan_hr_employee_profile_details.selection__radwan_employee_family_detail__is_in_contract__no
+msgid "No"
+msgstr "لا"
+
+#. module: radwan_hr_employee_profile_details
+#: model:ir.model.fields.selection,name:radwan_hr_employee_profile_details.selection__radwan_work_injury__claim_status__no_claim
+msgid "No Claim"
+msgstr "لا توجد مطالبة"
+
+#. module: radwan_hr_employee_profile_details
+#: model:ir.model.fields.selection,name:radwan_hr_employee_profile_details.selection__hr_employee__radwan_document_expiry_status__not_set
+msgid "Not Set"
+msgstr "غير محدد"
+
+#. module: radwan_hr_employee_profile_details
+#: model_terms:ir.ui.view,arch_db:radwan_hr_employee_profile_details.hr_employee_view_form
+#: model_terms:ir.ui.view,arch_db:radwan_hr_employee_profile_details.radwan_work_injury_view_form
+msgid "Notes..."
+msgstr "ملاحظات..."
+
+#. module: radwan_hr_employee_profile_details
+#: model:ir.model.fields,field_description:radwan_hr_employee_profile_details.field_radwan_employee_document_date__notification_days
+msgid "Notifications Days"
+msgstr "أيام التنبيه"
+
+#. module: radwan_hr_employee_profile_details
+#. odoo-python
+#: code:addons/radwan_hr_employee_profile_details/models/radwan_employee_document_date.py:0
+msgid "Notifications Days cannot be negative."
+msgstr ""
+
+#. module: radwan_hr_employee_profile_details
+#: model:ir.model.fields,field_description:radwan_hr_employee_profile_details.field_radwan_employee_document_date__notes
+msgid "Nots"
+msgstr "ملاحظات"
+
+#. module: radwan_hr_employee_profile_details
+#: model:ir.model.fields.selection,name:radwan_hr_employee_profile_details.selection__radwan_employee_travel_ticket__responsibility__company
+#: model:ir.model.fields.selection,name:radwan_hr_employee_profile_details.selection__radwan_employee_visa__paid_by__company
+#: model_terms:ir.ui.view,arch_db:radwan_hr_employee_profile_details.radwan_employee_travel_ticket_view_search
+#: model_terms:ir.ui.view,arch_db:radwan_hr_employee_profile_details.radwan_employee_visa_view_search
+msgid "On Company"
+msgstr "على الشركة"
+
+#. module: radwan_hr_employee_profile_details
+#: model:ir.model.fields.selection,name:radwan_hr_employee_profile_details.selection__radwan_employee_travel_ticket__responsibility__employee
+#: model:ir.model.fields.selection,name:radwan_hr_employee_profile_details.selection__radwan_employee_visa__paid_by__employee
+#: model_terms:ir.ui.view,arch_db:radwan_hr_employee_profile_details.radwan_employee_travel_ticket_view_search
+#: model_terms:ir.ui.view,arch_db:radwan_hr_employee_profile_details.radwan_employee_visa_view_search
+msgid "On Employee"
+msgstr "على الموظف"
+
+#. module: radwan_hr_employee_profile_details
+#: model_terms:ir.ui.view,arch_db:radwan_hr_employee_profile_details.radwan_work_injury_view_search
+msgid "Open Cases"
+msgstr "الحالات المفتوحة"
+
+#. module: radwan_hr_employee_profile_details
+#: model:ir.ui.menu,name:radwan_hr_employee_profile_details.radwan_work_injury_report_open_menu
+msgid "Open Injuries"
+msgstr "الإصابات المفتوحة"
+
+#. module: radwan_hr_employee_profile_details
+#: model:ir.actions.act_window,name:radwan_hr_employee_profile_details.radwan_work_injury_open_action
+#: model:ir.ui.menu,name:radwan_hr_employee_profile_details.radwan_work_injury_menu_open
+msgid "Open Injury Cases"
+msgstr "حالات الإصابة المفتوحة"
+
+#. module: radwan_hr_employee_profile_details
+#: model:ir.actions.act_window,name:radwan_hr_employee_profile_details.radwan_work_injury_report_open_action
+msgid "Open Work Injuries"
+msgstr "إصابات العمل المفتوحة"
+
+#. module: radwan_hr_employee_profile_details
+#: model:ir.model.fields.selection,name:radwan_hr_employee_profile_details.selection__hr_employee__radwan_sponser__other
+#: model:ir.model.fields.selection,name:radwan_hr_employee_profile_details.selection__radwan_employee_family_detail__id_type__other
+msgid "Other"
+msgstr "أخرى"
+
+#. module: radwan_hr_employee_profile_details
+#: model:ir.model.fields,field_description:radwan_hr_employee_profile_details.field_radwan_employee_visa__paid_by
+#: model_terms:ir.ui.view,arch_db:radwan_hr_employee_profile_details.radwan_employee_visa_view_search
+msgid "Paid By"
+msgstr "الدفع على"
+
+#. module: radwan_hr_employee_profile_details
+#: model:ir.model.fields.selection,name:radwan_hr_employee_profile_details.selection__radwan_employee_family_detail__id_type__passport
+#: model_terms:ir.ui.view,arch_db:radwan_hr_employee_profile_details.hr_employee_view_form
+msgid "Passport"
+msgstr "الجواز"
+
+#. module: radwan_hr_employee_profile_details
+#: model:ir.model.fields,field_description:radwan_hr_employee_profile_details.field_radwan_employee_family_detail__passport_end_date
+msgid "Passport End Date"
+msgstr "تاريخ انتهاء الجواز"
+
+#. module: radwan_hr_employee_profile_details
+#. odoo-python
+#: code:addons/radwan_hr_employee_profile_details/models/radwan_employee_family_detail.py:0
+msgid "Passport End Date must be on or after Passport Start Date."
+msgstr ""
+
+#. module: radwan_hr_employee_profile_details
+#: model:ir.model.fields,field_description:radwan_hr_employee_profile_details.field_hr_employee__radwan_passport_issue_date
+msgid "Passport Issue Date"
+msgstr "تاريخ إصدار الجواز"
+
+#. module: radwan_hr_employee_profile_details
+#: model:ir.model.fields,field_description:radwan_hr_employee_profile_details.field_hr_employee__radwan_passport_issue_place
+#: model:ir.model.fields,field_description:radwan_hr_employee_profile_details.field_radwan_employee_family_detail__passport_issue_place
+msgid "Passport Issue Place"
+msgstr "مكان إصدار الجواز"
+
+#. module: radwan_hr_employee_profile_details
+#: model:ir.model.fields,field_description:radwan_hr_employee_profile_details.field_radwan_employee_family_detail__passport_number
+#: model_terms:ir.ui.view,arch_db:radwan_hr_employee_profile_details.hr_employee_view_form_collapsible_sections
+msgid "Passport Number"
+msgstr "رقم الجواز"
+
+#. module: radwan_hr_employee_profile_details
+#: model:ir.model.fields,field_description:radwan_hr_employee_profile_details.field_radwan_employee_family_detail__passport_start_date
+msgid "Passport Start Date"
+msgstr "تاريخ بداية الجواز"
+
+#. module: radwan_hr_employee_profile_details
+#: model:ir.model.fields,field_description:radwan_hr_employee_profile_details.field_hr_employee__radwan_passport_profession
+msgid "Profession in Passport"
+msgstr "المهنة في الجواز"
+
+#. module: radwan_hr_employee_profile_details
+#: model:ir.model.fields,field_description:radwan_hr_employee_profile_details.field_radwan_employee_visa__purpose
+msgid "Purpose"
+msgstr "الغرض"
+
+#. module: radwan_hr_employee_profile_details
+#: model_terms:ir.ui.view,arch_db:radwan_hr_employee_profile_details.radwan_employee_religion_view_list
+msgid "RELIGION NAME"
+msgstr "اسم الديانة"
+
+#. module: radwan_hr_employee_profile_details
+#: model_terms:ir.ui.view,arch_db:radwan_hr_employee_profile_details.radwan_work_injury_view_form
+msgid "Receive Medical Report"
+msgstr "استلام التقرير الطبي"
+
+#. module: radwan_hr_employee_profile_details
+#: model:ir.model.fields,field_description:radwan_hr_employee_profile_details.field_hr_employee__radwan_social_insurance_profession
+msgid "Registered Profession"
+msgstr "المهنة المسجلة"
+
+#. module: radwan_hr_employee_profile_details
+#: model_terms:ir.ui.view,arch_db:radwan_hr_employee_profile_details.radwan_work_injury_view_form
+msgid "Reject as Not Work Related"
+msgstr "رفض كغير مرتبط بالعمل"
+
+#. module: radwan_hr_employee_profile_details
+#: model:ir.model.fields.selection,name:radwan_hr_employee_profile_details.selection__radwan_work_injury__claim_status__rejected
+#: model_terms:ir.ui.view,arch_db:radwan_hr_employee_profile_details.radwan_work_injury_view_search
+msgid "Rejected"
+msgstr "مرفوض"
+
+#. module: radwan_hr_employee_profile_details
+#: model:ir.model.fields.selection,name:radwan_hr_employee_profile_details.selection__radwan_work_injury__state__rejected
+msgid "Rejected / Not Work Related"
+msgstr "مرفوض / غير مرتبط بالعمل"
+
+#. module: radwan_hr_employee_profile_details
+#: model:ir.model.fields,field_description:radwan_hr_employee_profile_details.field_radwan_employee_family_detail__relationship
+msgid "Relationship"
+msgstr "صلة القرابة"
+
+#. module: radwan_hr_employee_profile_details
+#: model:ir.model.fields,field_description:radwan_hr_employee_profile_details.field_hr_employee__radwan_religion_id
+#: model_terms:ir.ui.view,arch_db:radwan_hr_employee_profile_details.radwan_employee_religion_view_form
+msgid "Religion"
+msgstr "الديانة"
+
+#. module: radwan_hr_employee_profile_details
+#: model:ir.model.fields,field_description:radwan_hr_employee_profile_details.field_radwan_employee_religion__name
+msgid "Religion Name"
+msgstr "اسم الديانة"
+
+#. module: radwan_hr_employee_profile_details
+#: model:ir.model.constraint,message:radwan_hr_employee_profile_details.constraint_radwan_employee_religion_name_uniq
+msgid "Religion name already exists."
+msgstr ""
+
+#. module: radwan_hr_employee_profile_details
+#: model:ir.actions.act_window,name:radwan_hr_employee_profile_details.radwan_employee_religion_action
+#: model:ir.ui.menu,name:radwan_hr_employee_profile_details.radwan_employee_religion_menu
+#: model_terms:ir.ui.view,arch_db:radwan_hr_employee_profile_details.radwan_employee_religion_view_list
+msgid "Religions"
+msgstr "الديانات"
+
+#. module: radwan_hr_employee_profile_details
+#: model:ir.model.fields,field_description:radwan_hr_employee_profile_details.field_radwan_employee_document_date__renewal_by
+msgid "Renewal By"
+msgstr "التجديد بواسطة"
+
+#. module: radwan_hr_employee_profile_details
+#: model:ir.model.fields.selection,name:radwan_hr_employee_profile_details.selection__radwan_work_injury__state__reported_gosi
+msgid "Reported to GOSI"
+msgstr "تم الإبلاغ للتأمينات"
+
+#. module: radwan_hr_employee_profile_details
+#: model:ir.ui.menu,name:radwan_hr_employee_profile_details.radwan_work_injury_report_menu
+msgid "Reports"
+msgstr "التقارير"
+
+#. module: radwan_hr_employee_profile_details
+#: model:ir.model.fields,field_description:radwan_hr_employee_profile_details.field_radwan_employee_travel_ticket__responsibility
+#: model_terms:ir.ui.view,arch_db:radwan_hr_employee_profile_details.radwan_employee_travel_ticket_view_search
+msgid "Responsibility"
+msgstr "المسؤولية"
+
+#. module: radwan_hr_employee_profile_details
+#: model:ir.model.fields,field_description:radwan_hr_employee_profile_details.field_radwan_work_injury__responsible_person_id
+msgid "Responsible Person"
+msgstr "الشخص المسؤول"
+
+#. module: radwan_hr_employee_profile_details
+#. odoo-python
+#: code:addons/radwan_hr_employee_profile_details/models/radwan_work_injury.py:0
+msgid "Review work injury case"
+msgstr ""
+
+#. module: radwan_hr_employee_profile_details
+#: model_terms:ir.ui.view,arch_db:radwan_hr_employee_profile_details.hr_employee_view_form_collapsible_sections
+msgid "SOCIAL INSURANCE DATA"
+msgstr "بيانات التأمينات الاجتماعية"
+
+#. module: radwan_hr_employee_profile_details
+#: model_terms:ir.ui.view,arch_db:radwan_hr_employee_profile_details.radwan_employee_sponser_view_list
+msgid "SPONSER NAME"
+msgstr "اسم الكفيل"
+
+#. module: radwan_hr_employee_profile_details
+#: model:ir.model.fields.selection,name:radwan_hr_employee_profile_details.selection__radwan_work_injury__severity__severe
+msgid "Severe"
+msgstr "شديدة"
+
+#. module: radwan_hr_employee_profile_details
+#: model_terms:ir.ui.view,arch_db:radwan_hr_employee_profile_details.radwan_work_injury_view_search
+msgid "Severe or Higher"
+msgstr "شديدة أو أعلى"
+
+#. module: radwan_hr_employee_profile_details
+#: model_terms:ir.ui.view,arch_db:radwan_hr_employee_profile_details.radwan_work_injury_view_search
+msgid "Severity"
+msgstr "الدرجة"
+
+#. module: radwan_hr_employee_profile_details
+#: model:ir.model.fields,field_description:radwan_hr_employee_profile_details.field_radwan_work_injury__sick_leave_days
+msgid "Sick Leave Days"
+msgstr "أيام الإجازة المرضية"
+
+#. module: radwan_hr_employee_profile_details
+#. odoo-python
+#: code:addons/radwan_hr_employee_profile_details/models/radwan_work_injury.py:0
+msgid "Sick Leave Days cannot be negative."
+msgstr ""
+
+#. module: radwan_hr_employee_profile_details
+#. odoo-python
+#: code:addons/radwan_hr_employee_profile_details/models/radwan_work_injury.py:0
+msgid "Sick leave is ending soon"
+msgstr ""
+
+#. module: radwan_hr_employee_profile_details
+#: model:ir.model.fields.selection,name:radwan_hr_employee_profile_details.selection__hr_employee__radwan_family_status__single
+msgid "Single"
+msgstr "أعزب"
+
+#. module: radwan_hr_employee_profile_details
+#: model:ir.model.fields,field_description:radwan_hr_employee_profile_details.field_hr_employee__radwan_social_insurance_exit_date
+msgid "Social Insurance Exit Date"
+msgstr "تاريخ الخروج من التأمينات"
+
+#. module: radwan_hr_employee_profile_details
+#: model:ir.model.fields,field_description:radwan_hr_employee_profile_details.field_hr_employee__radwan_social_insurance_join_date
+msgid "Social Insurance Join Date"
+msgstr "تاريخ الالتحاق بالتأمينات"
+
+#. module: radwan_hr_employee_profile_details
+#: model:ir.actions.act_window,name:radwan_hr_employee_profile_details.radwan_employee_sponser_action
+#: model:ir.model.fields,field_description:radwan_hr_employee_profile_details.field_hr_employee__radwan_sponser_id
+#: model:ir.ui.menu,name:radwan_hr_employee_profile_details.radwan_employee_sponser_menu
+#: model_terms:ir.ui.view,arch_db:radwan_hr_employee_profile_details.radwan_employee_sponser_view_form
+msgid "Sponser"
+msgstr "الكفيل"
+
+#. module: radwan_hr_employee_profile_details
+#: model:ir.model.fields,field_description:radwan_hr_employee_profile_details.field_hr_employee__radwan_sponser
+msgid "Sponser (Legacy)"
+msgstr "الكفيل (قديم)"
+
+#. module: radwan_hr_employee_profile_details
+#: model_terms:ir.ui.view,arch_db:radwan_hr_employee_profile_details.radwan_employee_sponser_view_form
+msgid "Sponser Name"
+msgstr "اسم الكفيل"
+
+#. module: radwan_hr_employee_profile_details
+#: model:ir.model.constraint,message:radwan_hr_employee_profile_details.constraint_radwan_employee_sponser_name_uniq
+msgid "Sponser name already exists."
+msgstr ""
+
+#. module: radwan_hr_employee_profile_details
+#: model_terms:ir.ui.view,arch_db:radwan_hr_employee_profile_details.radwan_employee_sponser_view_list
+msgid "Sponsers"
+msgstr "الكفلاء"
+
+#. module: radwan_hr_employee_profile_details
+#: model_terms:ir.ui.view,arch_db:radwan_hr_employee_profile_details.radwan_work_injury_view_form
+msgid "Start Compensation Process"
+msgstr "بدء إجراءات التعويض"
+
+#. module: radwan_hr_employee_profile_details
+#: model_terms:ir.ui.view,arch_db:radwan_hr_employee_profile_details.radwan_work_injury_view_form
+msgid "Submit for Review"
+msgstr "إرسال للمراجعة"
+
+#. module: radwan_hr_employee_profile_details
+#: model:ir.model.fields,field_description:radwan_hr_employee_profile_details.field_radwan_employee_family_detail__ticket_by
+msgid "Ticket By"
+msgstr "التذكرة على"
+
+#. module: radwan_hr_employee_profile_details
+#: model_terms:ir.ui.view,arch_db:radwan_hr_employee_profile_details.radwan_employee_travel_ticket_view_list
+msgid "Total"
+msgstr "الإجمالي"
+
+#. module: radwan_hr_employee_profile_details
+#: model:ir.model.fields,field_description:radwan_hr_employee_profile_details.field_radwan_employee_travel_ticket__total_cost
+msgid "Total Cost"
+msgstr "إجمالي التكلفة"
+
+#. module: radwan_hr_employee_profile_details
+#: model_terms:ir.ui.view,arch_db:radwan_hr_employee_profile_details.radwan_employee_travel_ticket_view_form
+msgid "Travel Ticket"
+msgstr "تذكرة سفر"
+
+#. module: radwan_hr_employee_profile_details
+#: model:ir.model.fields,field_description:radwan_hr_employee_profile_details.field_hr_employee__radwan_travel_ticket_count
+msgid "Travel Ticket Count"
+msgstr "عدد تذاكر السفر"
+
+#. module: radwan_hr_employee_profile_details
+#. odoo-python
+#: code:addons/radwan_hr_employee_profile_details/models/hr_employee.py:0
+#: model:ir.actions.act_window,name:radwan_hr_employee_profile_details.radwan_employee_travel_ticket_action
+#: model:ir.model.fields,field_description:radwan_hr_employee_profile_details.field_hr_employee__radwan_travel_ticket_ids
+#: model_terms:ir.ui.view,arch_db:radwan_hr_employee_profile_details.hr_employee_view_form_travel_smart_buttons
+#: model_terms:ir.ui.view,arch_db:radwan_hr_employee_profile_details.radwan_employee_travel_ticket_view_list
+#: model_terms:ir.ui.view,arch_db:radwan_hr_employee_profile_details.radwan_employee_travel_ticket_view_search
+msgid "Travel Tickets"
+msgstr "تذاكر السفر"
+
+#. module: radwan_hr_employee_profile_details
+#: model:ir.model.fields.selection,name:radwan_hr_employee_profile_details.selection__radwan_work_injury__claim_status__under_review
+#: model:ir.model.fields.selection,name:radwan_hr_employee_profile_details.selection__radwan_work_injury__state__under_review
+msgid "Under Review"
+msgstr "قيد المراجعة"
+
+#. module: radwan_hr_employee_profile_details
+#: model:ir.model.fields.selection,name:radwan_hr_employee_profile_details.selection__hr_employee__radwan_document_expiry_status__valid
+msgid "Valid"
+msgstr "ساري"
+
+#. module: radwan_hr_employee_profile_details
+#: model_terms:ir.ui.view,arch_db:radwan_hr_employee_profile_details.radwan_employee_visa_view_form
+msgid "Visa"
+msgstr "التأشيرة"
+
+#. module: radwan_hr_employee_profile_details
+#: model:ir.model.fields,field_description:radwan_hr_employee_profile_details.field_hr_employee__radwan_visa_count
+msgid "Visa Count"
+msgstr "عدد التأشيرات"
+
+#. module: radwan_hr_employee_profile_details
+#: model:ir.model.fields,field_description:radwan_hr_employee_profile_details.field_radwan_employee_visa__visa_number
+#: model_terms:ir.ui.view,arch_db:radwan_hr_employee_profile_details.radwan_employee_visa_view_form
+msgid "Visa Number"
+msgstr "رقم التأشيرة"
+
+#. module: radwan_hr_employee_profile_details
+#: model:ir.model.fields,field_description:radwan_hr_employee_profile_details.field_radwan_employee_visa__visa_type
+#: model_terms:ir.ui.view,arch_db:radwan_hr_employee_profile_details.radwan_employee_visa_view_search
+msgid "Visa Type"
+msgstr "نوع التأشيرة"
+
+#. module: radwan_hr_employee_profile_details
+#. odoo-python
+#: code:addons/radwan_hr_employee_profile_details/models/hr_employee.py:0
+#: model:ir.actions.act_window,name:radwan_hr_employee_profile_details.radwan_employee_visa_action
+#: model:ir.model.fields,field_description:radwan_hr_employee_profile_details.field_hr_employee__radwan_visa_ids
+#: model_terms:ir.ui.view,arch_db:radwan_hr_employee_profile_details.hr_employee_view_form_travel_smart_buttons
+#: model_terms:ir.ui.view,arch_db:radwan_hr_employee_profile_details.radwan_employee_visa_view_list
+#: model_terms:ir.ui.view,arch_db:radwan_hr_employee_profile_details.radwan_employee_visa_view_search
+msgid "Visas"
+msgstr "التأشيرات"
+
+#. module: radwan_hr_employee_profile_details
+#: model:ir.model.fields,field_description:radwan_hr_employee_profile_details.field_radwan_work_injury__witness_ids
+msgid "Witnesses"
+msgstr "الشهود"
+
+#. module: radwan_hr_employee_profile_details
+#: model:ir.model.fields,field_description:radwan_hr_employee_profile_details.field_hr_employee__radwan_work_injury_ids
+#: model:ir.ui.menu,name:radwan_hr_employee_profile_details.radwan_work_injury_menu_root
+#: model_terms:ir.ui.view,arch_db:radwan_hr_employee_profile_details.hr_employee_view_form_work_injuries
+#: model_terms:ir.ui.view,arch_db:radwan_hr_employee_profile_details.radwan_work_injury_view_list
+#: model_terms:ir.ui.view,arch_db:radwan_hr_employee_profile_details.radwan_work_injury_view_search
+msgid "Work Injuries"
+msgstr "إصابات العمل"
+
+#. module: radwan_hr_employee_profile_details
+#: model:ir.actions.act_window,name:radwan_hr_employee_profile_details.radwan_work_injury_report_department_action
+msgid "Work Injuries by Department"
+msgstr "إصابات العمل حسب الإدارة"
+
+#. module: radwan_hr_employee_profile_details
+#: model:ir.actions.act_window,name:radwan_hr_employee_profile_details.radwan_work_injury_report_month_action
+msgid "Work Injuries by Month"
+msgstr "إصابات العمل حسب الشهر"
+
+#. module: radwan_hr_employee_profile_details
+#: model:ir.actions.act_window,name:radwan_hr_employee_profile_details.radwan_work_injury_report_type_action
+msgid "Work Injuries by Type"
+msgstr "إصابات العمل حسب النوع"
+
+#. module: radwan_hr_employee_profile_details
+#: model:ir.model,name:radwan_hr_employee_profile_details.model_radwan_work_injury
+#: model_terms:ir.ui.view,arch_db:radwan_hr_employee_profile_details.radwan_work_injury_view_form
+msgid "Work Injury"
+msgstr "إصابة عمل"
+
+#. module: radwan_hr_employee_profile_details
+#: model_terms:ir.ui.view,arch_db:radwan_hr_employee_profile_details.radwan_work_injury_view_graph
+#: model_terms:ir.ui.view,arch_db:radwan_hr_employee_profile_details.radwan_work_injury_view_pivot
+msgid "Work Injury Analysis"
+msgstr "تحليل إصابات العمل"
+
+#. module: radwan_hr_employee_profile_details
+#: model:ir.actions.server,name:radwan_hr_employee_profile_details.radwan_work_injury_cron_notifications_ir_actions_server
+msgid "Work Injury Follow-up Notifications"
+msgstr "تنبيهات متابعة إصابات العمل"
+
+#. module: radwan_hr_employee_profile_details
+#: model:ir.model,name:radwan_hr_employee_profile_details.model_radwan_work_injury_type
+#: model_terms:ir.ui.view,arch_db:radwan_hr_employee_profile_details.radwan_work_injury_type_view_form
+msgid "Work Injury Type"
+msgstr "نوع إصابة العمل"
+
+#. module: radwan_hr_employee_profile_details
+#: model:ir.actions.act_window,name:radwan_hr_employee_profile_details.radwan_work_injury_type_action
+#: model:ir.ui.menu,name:radwan_hr_employee_profile_details.radwan_work_injury_type_menu
+#: model_terms:ir.ui.view,arch_db:radwan_hr_employee_profile_details.radwan_work_injury_type_view_list
+msgid "Work Injury Types"
+msgstr "أنواع إصابات العمل"
+
+#. module: radwan_hr_employee_profile_details
+#: model:ir.actions.act_window,name:radwan_hr_employee_profile_details.radwan_work_injury_report_interruption_action
+#: model:ir.model.fields,field_description:radwan_hr_employee_profile_details.field_radwan_work_injury__work_interruption_days
+#: model:ir.ui.menu,name:radwan_hr_employee_profile_details.radwan_work_injury_report_interruption_menu
+msgid "Work Interruption Days"
+msgstr "أيام الانقطاع عن العمل"
+
+#. module: radwan_hr_employee_profile_details
+#. odoo-python
+#: code:addons/radwan_hr_employee_profile_details/models/radwan_work_injury.py:0
+msgid "Work Interruption Days cannot be negative."
+msgstr ""
+
+#. module: radwan_hr_employee_profile_details
+#. odoo-python
+#: code:addons/radwan_hr_employee_profile_details/models/radwan_work_injury.py:0
+msgid "Work injury case is still open"
+msgstr ""
+
+#. module: radwan_hr_employee_profile_details
+#: model:ir.model.fields,field_description:radwan_hr_employee_profile_details.field_radwan_work_injury__location
+msgid "Workplace / Location"
+msgstr "مكان العمل / الموقع"
+
+#. module: radwan_hr_employee_profile_details
+#: model:ir.model.fields.selection,name:radwan_hr_employee_profile_details.selection__radwan_employee_family_detail__is_in_contract__yes
+msgid "Yes"
+msgstr "نعم"
+
+#. module: radwan_hr_employee_profile_details
+#: model_terms:ir.ui.view,arch_db:radwan_hr_employee_profile_details.radwan_employee_travel_ticket_view_form
+msgid "e.g. PNR12345"
+msgstr "مثال: PNR12345"
+
+#. module: radwan_hr_employee_profile_details
+#: model:ir.model.fields,field_description:radwan_hr_employee_profile_details.field_radwan_work_injury__state
+msgid "Status"
+msgstr "الحالة"
+
+#. module: radwan_hr_employee_profile_details
+#: model:ir.ui.menu,name:radwan_hr_employee_profile_details.radwan_work_injury_config_menu
+msgid "Configuration"
+msgstr "الإعدادات"

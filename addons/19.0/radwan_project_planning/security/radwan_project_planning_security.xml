@@ -1,0 +1,29 @@
+<odoo>
+    <record id="radwan_planning_slot_rule_company" model="ir.rule">
+        <field name="name">Planning Shift: Multi Company</field>
+        <field name="model_id" ref="model_radwan_planning_slot"/>
+        <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+        <field name="groups" eval="[(4, ref('project.group_project_user'))]"/>
+    </record>
+
+    <record id="radwan_planning_role_rule_company" model="ir.rule">
+        <field name="name">Planning Role: Multi Company</field>
+        <field name="model_id" ref="model_radwan_planning_role"/>
+        <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+        <field name="groups" eval="[(4, ref('project.group_project_user'))]"/>
+    </record>
+
+    <record id="radwan_planning_material_rule_company" model="ir.rule">
+        <field name="name">Planning Material: Multi Company</field>
+        <field name="model_id" ref="model_radwan_planning_material"/>
+        <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+        <field name="groups" eval="[(4, ref('project.group_project_user'))]"/>
+    </record>
+
+    <record id="radwan_planning_template_rule_company" model="ir.rule">
+        <field name="name">Planning Template: Multi Company</field>
+        <field name="model_id" ref="model_radwan_planning_template"/>
+        <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+        <field name="groups" eval="[(4, ref('project.group_project_user'))]"/>
+    </record>
+</odoo>

@@ -6,7 +6,7 @@ class RadwanEmployeeSponser(models.Model):
     _description = "Employee Sponser"
     _order = "sequence, name, id"
 
-    name = fields.Char(string="Name", required=True, translate=True)
+    name = fields.Char(string="Name", required=True)
     sequence = fields.Integer(default=10)
     active = fields.Boolean(default=True)
 

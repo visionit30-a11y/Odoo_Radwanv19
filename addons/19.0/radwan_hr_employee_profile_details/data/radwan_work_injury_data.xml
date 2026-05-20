@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="radwan_work_injury_type_minor" model="radwan.work.injury.type">
+        <field name="name">Minor Injury</field>
+        <field name="sequence" eval="10"/>
+    </record>
+
+    <record id="radwan_work_injury_type_moderate" model="radwan.work.injury.type">
+        <field name="name">Moderate Injury</field>
+        <field name="sequence" eval="20"/>
+    </record>
+
+    <record id="radwan_work_injury_type_severe" model="radwan.work.injury.type">
+        <field name="name">Severe Injury</field>
+        <field name="sequence" eval="30"/>
+    </record>
+
+    <record id="radwan_work_injury_type_disability" model="radwan.work.injury.type">
+        <field name="name">Permanent Disability</field>
+        <field name="sequence" eval="40"/>
+    </record>
+
+    <record id="radwan_work_injury_type_death" model="radwan.work.injury.type">
+        <field name="name">Death</field>
+        <field name="sequence" eval="50"/>
+    </record>
+
+    <record id="radwan_work_injury_type_occupational_disease" model="radwan.work.injury.type">
+        <field name="name">Occupational Disease</field>
+        <field name="sequence" eval="60"/>
+    </record>
+
+    <record id="seq_radwan_work_injury" model="ir.sequence">
+        <field name="name">Work Injury</field>
+        <field name="code">radwan.work.injury</field>
+        <field name="prefix">WI/%(year)s/</field>
+        <field name="padding" eval="5"/>
+        <field name="company_id" eval="False"/>
+    </record>
+
+    <record id="radwan_work_injury_rule_company" model="ir.rule">
+        <field name="name">radwan.work.injury.rule.company</field>
+        <field name="model_id" ref="model_radwan_work_injury"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+        <field name="groups" eval="[(4, ref('hr.group_hr_user'))]"/>
+    </record>
+
+    <record id="radwan_work_injury_type_rule_company" model="ir.rule">
+        <field name="name">radwan.work.injury.type.rule.company</field>
+        <field name="model_id" ref="model_radwan_work_injury_type"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4, ref('hr.group_hr_user'))]"/>
+    </record>
+
+    <record id="radwan_work_injury_cron_notifications" model="ir.cron">
+        <field name="name">Work Injury Follow-up Notifications</field>
+        <field name="model_id" ref="model_radwan_work_injury"/>
+        <field name="state">code</field>
+        <field name="code">model._cron_schedule_followup_activities()</field>
+        <field name="interval_number" eval="1"/>
+        <field name="interval_type">days</field>
+        <field name="active" eval="True"/>
+    </record>
+
+</odoo>

@@ -1,0 +1,24 @@
+<odoo>
+    <record id="view_employee_form" model="ir.ui.view">
+        <field name="name">hr.employee.form.inherit.radwan.project.planning</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button name="action_view_radwan_planning_slots"
+                        type="object"
+                        class="oe_stat_button"
+                        icon="fa-calendar"
+                        groups="radwan_project_planning.group_radwan_planning_user"
+                        invisible="radwan_planning_slot_count == 0">
+                    <field name="radwan_planning_slot_count" widget="statinfo" string="Planning"/>
+                </button>
+            </xpath>
+            <xpath expr="//page[@name='work_information']//field[@name='parent_id']" position="after">
+                <field name="radwan_planning_role_ids"
+                       widget="many2many_tags"
+                       groups="radwan_project_planning.group_radwan_planning_user"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_radwan_job_description_section_user,radwan.job.description.section.user,model_radwan_job_description_section,hr_recruitment.group_hr_recruitment_user,1,1,1,1
+access_radwan_job_description_section_interviewer,radwan.job.description.section.interviewer,model_radwan_job_description_section,hr_recruitment.group_hr_recruitment_interviewer,1,0,0,0
+access_radwan_job_description_section_hr_user,radwan.job.description.section.hr.user,model_radwan_job_description_section,hr.group_hr_user,1,1,1,1
+access_radwan_job_description_line_user,radwan.job.description.line.user,model_radwan_job_description_line,hr_recruitment.group_hr_recruitment_user,1,1,1,1
+access_radwan_job_description_line_interviewer,radwan.job.description.line.interviewer,model_radwan_job_description_line,hr_recruitment.group_hr_recruitment_interviewer,1,0,0,0
+access_radwan_job_description_line_hr_user,radwan.job.description.line.hr.user,model_radwan_job_description_line,hr.group_hr_user,1,1,1,1

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <record id="radwan_job_description_section_key_tasks" model="radwan.job.description.section">
+        <field name="name">المهام الرئيسية</field>
+        <field name="code">key_tasks</field>
+        <field name="sequence">10</field>
+    </record>
+    <record id="radwan_job_description_section_education" model="radwan.job.description.section">
+        <field name="name">الدراسة</field>
+        <field name="code">education</field>
+        <field name="sequence">20</field>
+    </record>
+    <record id="radwan_job_description_section_experience" model="radwan.job.description.section">
+        <field name="name">الخبرات</field>
+        <field name="code">experience</field>
+        <field name="sequence">30</field>
+    </record>
+    <record id="radwan_job_description_section_behavioral_competencies" model="radwan.job.description.section">
+        <field name="name">الجدارات السلوكية</field>
+        <field name="code">behavioral_competencies</field>
+        <field name="sequence">40</field>
+    </record>
+    <record id="radwan_job_description_section_technical_competencies" model="radwan.job.description.section">
+        <field name="name">الجدارات الفنية</field>
+        <field name="code">technical_competencies</field>
+        <field name="sequence">50</field>
+    </record>
+    <record id="radwan_job_description_section_languages" model="radwan.job.description.section">
+        <field name="name">اللغات</field>
+        <field name="code">languages</field>
+        <field name="sequence">60</field>
+    </record>
+    <record id="radwan_job_description_section_technical_solutions" model="radwan.job.description.section">
+        <field name="name">البرامج والحلول التقنية</field>
+        <field name="code">technical_solutions</field>
+        <field name="sequence">70</field>
+    </record>
+    <record id="radwan_job_description_section_other" model="radwan.job.description.section">
+        <field name="name">أخرى</field>
+        <field name="code">other</field>
+        <field name="sequence">80</field>
+    </record>
+</odoo>

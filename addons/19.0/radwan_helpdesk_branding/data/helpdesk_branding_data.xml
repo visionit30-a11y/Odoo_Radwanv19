@@ -2,32 +2,32 @@
 <odoo>
 
     <record id="support_helpdesk_ticket.menu_helpdesk_root" model="ir.ui.menu">
-        <field name="name">Radwan Helpdesk</field>
+        <field name="name">مركز المساعدة</field>
         <field name="web_icon">radwan_helpdesk_branding,static/description/icon.png</field>
     </record>
 
     <record id="support_helpdesk_ticket.menu_helpdesk_dashboard" model="ir.ui.menu">
-        <field name="name">Radwan Dashboard</field>
+        <field name="name">لوحة مركز المساعدة</field>
     </record>
 
     <record id="support_helpdesk_ticket.menu_helpdesk_settings" model="ir.ui.menu">
-        <field name="name">Radwan Settings</field>
+        <field name="name">إعدادات مركز المساعدة</field>
     </record>
 
     <record id="support_helpdesk_ticket.action_helpdesk_dashboard" model="ir.actions.act_window">
-        <field name="name">Radwan Helpdesk Dashboard</field>
+        <field name="name">لوحة مركز المساعدة</field>
     </record>
 
     <record id="support_helpdesk_ticket.action_helpdesk_settings" model="ir.actions.act_window">
-        <field name="name">Radwan Helpdesk Settings</field>
+        <field name="name">إعدادات مركز المساعدة</field>
     </record>
 
     <record id="support_helpdesk_ticket.action_helpdesk_ticket" model="ir.actions.act_window">
-        <field name="name">Radwan Tickets</field>
+        <field name="name">تذاكر مركز المساعدة</field>
     </record>
 
     <record id="support_helpdesk_ticket.action_helpdesk_ticket_all" model="ir.actions.act_window">
-        <field name="name">All Radwan Tickets</field>
+        <field name="name">كل تذاكر مركز المساعدة</field>
     </record>
 
 </odoo>

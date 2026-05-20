@@ -1,0 +1,452 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="radwan_work_injury_type_view_list" model="ir.ui.view">
+        <field name="name">radwan.work.injury.type.view.list</field>
+        <field name="model">radwan.work.injury.type</field>
+        <field name="arch" type="xml">
+            <list string="Work Injury Types" editable="bottom">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="active" optional="hide"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="radwan_work_injury_type_view_form" model="ir.ui.view">
+        <field name="name">radwan.work.injury.type.view.form</field>
+        <field name="model">radwan.work.injury.type</field>
+        <field name="arch" type="xml">
+            <form string="Work Injury Type">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="sequence"/>
+                        <field name="active"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="radwan_work_injury_type_action" model="ir.actions.act_window">
+        <field name="name">Work Injury Types</field>
+        <field name="res_model">radwan.work.injury.type</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="radwan_work_injury_view_list" model="ir.ui.view">
+        <field name="name">radwan.work.injury.view.list</field>
+        <field name="model">radwan.work.injury</field>
+        <field name="arch" type="xml">
+            <list
+                string="Work Injuries"
+                decoration-danger="state in ['rejected'] or severity in ['critical', 'fatal']"
+                decoration-warning="state in ['under_review', 'reported_gosi', 'compensation_process']"
+                decoration-success="state == 'closed'"
+            >
+                <field name="name"/>
+                <field name="employee_id"/>
+                <field name="injury_date"/>
+                <field name="injury_type_id"/>
+                <field name="severity" widget="badge"
+                       decoration-success="severity == 'minor'"
+                       decoration-warning="severity in ['moderate', 'severe']"
+                       decoration-danger="severity in ['critical', 'fatal']"/>
+                <field name="location"/>
+                <field name="department_id"/>
+                <field name="sick_leave_days"/>
+                <field name="work_interruption_days" optional="hide"/>
+                <field name="claim_status" widget="badge"/>
+                <field name="state" widget="badge"
+                       decoration-info="state in ['under_review', 'reported_gosi', 'medical_report_received', 'compensation_process']"
+                       decoration-success="state == 'closed'"
+                       decoration-danger="state == 'rejected'"/>
+                <field name="company_id" groups="base.group_multi_company" optional="hide"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="radwan_work_injury_view_kanban" model="ir.ui.view">
+        <field name="name">radwan.work.injury.view.kanban</field>
+        <field name="model">radwan.work.injury</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="state">
+                <field name="name"/>
+                <field name="employee_id"/>
+                <field name="injury_date"/>
+                <field name="injury_type_id"/>
+                <field name="severity"/>
+                <field name="location"/>
+                <field name="state"/>
+                <templates>
+                    <t t-name="card">
+                        <div class="d-flex justify-content-between">
+                            <strong><field name="name"/></strong>
+                            <field name="state" widget="badge"/>
+                        </div>
+                        <div class="mt-2">
+                            <field name="employee_id"/>
+                        </div>
+                        <div class="text-muted">
+                            <field name="injury_date"/>
+                            <span t-if="record.location.raw_value"> - </span>
+                            <field name="location"/>
+                        </div>
+                        <div class="mt-2">
+                            <field name="injury_type_id"/>
+                            <field name="severity" widget="badge"/>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="radwan_work_injury_view_form" model="ir.ui.view">
+        <field name="name">radwan.work.injury.view.form</field>
+        <field name="model">radwan.work.injury</field>
+        <field name="arch" type="xml">
+            <form string="Work Injury">
+                <header>
+                    <button name="action_submit_review" string="Submit for Review" type="object" class="btn-primary" invisible="state != 'draft'"/>
+                    <button name="action_report_gosi" string="Mark as Reported to GOSI" type="object" class="btn-secondary" invisible="state not in ['under_review', 'medical_report_received']"/>
+                    <button name="action_receive_medical_report" string="Receive Medical Report" type="object" class="btn-secondary" invisible="state not in ['under_review', 'reported_gosi']"/>
+                    <button name="action_start_compensation" string="Start Compensation Process" type="object" class="btn-secondary" invisible="state not in ['reported_gosi', 'medical_report_received']"/>
+                    <button name="action_close" string="Close Injury Case" type="object" class="btn-primary" invisible="state not in ['reported_gosi', 'medical_report_received', 'compensation_process']"/>
+                    <button name="action_reject" string="Reject as Not Work Related" type="object" invisible="state in ['closed', 'rejected']"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,under_review,reported_gosi,medical_report_received,compensation_process,closed"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1>
+                            <field name="name"/>
+                        </h1>
+                    </div>
+                    <group string="Employee Data">
+                        <group>
+                            <field name="employee_id"/>
+                            <field name="department_id"/>
+                            <field name="job_id"/>
+                        </group>
+                        <group>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                            <field name="manager_id"/>
+                            <field name="responsible_person_id"/>
+                        </group>
+                    </group>
+                    <group string="Injury Data">
+                        <group>
+                            <field name="injury_date"/>
+                            <field name="injury_time" widget="float_time"/>
+                            <field name="location"/>
+                        </group>
+                        <group>
+                            <field name="injury_type_id"/>
+                            <field name="severity"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Description" name="description">
+                            <group>
+                                <field name="injury_description" nolabel="1" placeholder="Describe the injury..."/>
+                            </group>
+                        </page>
+                        <page string="Investigation and Follow-up" name="investigation">
+                            <group>
+                                <group>
+                                    <field name="accident_cause"/>
+                                    <field name="witness_ids" widget="many2many_tags"/>
+                                    <field name="witness_notes"/>
+                                </group>
+                                <group>
+                                    <field name="corrective_action"/>
+                                    <field name="investigation_date"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Medical Data" name="medical">
+                            <group>
+                                <group>
+                                    <field name="first_aid_provided"/>
+                                    <field name="medical_facility"/>
+                                    <field name="medical_report_date"/>
+                                </group>
+                                <group>
+                                    <field name="sick_leave_days"/>
+                                    <field name="work_interruption_days"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Insurance and Compensation" name="insurance">
+                            <group>
+                                <group>
+                                    <field name="gosi_report_no"/>
+                                    <field name="insurance_claim_no"/>
+                                    <field name="claim_status"/>
+                                </group>
+                                <group>
+                                    <field name="compensation_amount"/>
+                                    <field name="currency_id" invisible="1"/>
+                                    <field name="payment_date"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Attachments and Notes" name="attachments">
+                            <group>
+                                <group>
+                                    <field name="medical_report_attachment" filename="medical_report_filename"/>
+                                    <field name="medical_report_filename" invisible="1"/>
+                                    <field name="accident_photos" filename="accident_photos_filename"/>
+                                    <field name="accident_photos_filename" invisible="1"/>
+                                </group>
+                                <group>
+                                    <field name="gosi_report_attachment" filename="gosi_report_filename"/>
+                                    <field name="gosi_report_filename" invisible="1"/>
+                                </group>
+                            </group>
+                            <field name="notes" placeholder="Notes..."/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="radwan_work_injury_view_search" model="ir.ui.view">
+        <field name="name">radwan.work.injury.view.search</field>
+        <field name="model">radwan.work.injury</field>
+        <field name="arch" type="xml">
+            <search string="Work Injuries">
+                <field name="name"/>
+                <field name="employee_id"/>
+                <field name="department_id"/>
+                <field name="job_id"/>
+                <field name="injury_type_id"/>
+                <field name="insurance_claim_no"/>
+                <field name="gosi_report_no"/>
+                <filter name="open_cases" string="Open Cases" domain="[('state', 'not in', ['closed', 'rejected'])]"/>
+                <filter name="closed_cases" string="Closed Cases" domain="[('state', '=', 'closed')]"/>
+                <filter name="rejected_cases" string="Rejected" domain="[('state', '=', 'rejected')]"/>
+                <filter name="injury_date" string="Injury Date" date="injury_date"/>
+                <separator/>
+                <filter name="severe_cases" string="Severe or Higher" domain="[('severity', 'in', ['severe', 'critical', 'fatal'])]"/>
+                <filter name="insurance_pending" string="Insurance Pending" domain="[('claim_status', 'in', ['submitted', 'under_review'])]"/>
+                <group>
+                    <filter name="group_month" string="Month" context="{'group_by': 'injury_date:month'}"/>
+                    <filter name="group_department" string="Department" context="{'group_by': 'department_id'}"/>
+                    <filter name="group_type" string="Injury Type" context="{'group_by': 'injury_type_id'}"/>
+                    <filter name="group_severity" string="Severity" context="{'group_by': 'severity'}"/>
+                    <filter name="group_claim_status" string="Claim Status" context="{'group_by': 'claim_status'}"/>
+                    <filter name="group_state" string="Status" context="{'group_by': 'state'}"/>
+                    <filter name="group_company" string="Company" context="{'group_by': 'company_id'}" groups="base.group_multi_company"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="radwan_work_injury_view_graph" model="ir.ui.view">
+        <field name="name">radwan.work.injury.view.graph</field>
+        <field name="model">radwan.work.injury</field>
+        <field name="arch" type="xml">
+            <graph string="Work Injury Analysis">
+                <field name="injury_date" interval="month"/>
+                <field name="work_interruption_days" type="measure"/>
+                <field name="sick_leave_days" type="measure"/>
+                <field name="compensation_amount" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="radwan_work_injury_view_pivot" model="ir.ui.view">
+        <field name="name">radwan.work.injury.view.pivot</field>
+        <field name="model">radwan.work.injury</field>
+        <field name="arch" type="xml">
+            <pivot string="Work Injury Analysis">
+                <field name="injury_date" type="col" interval="month"/>
+                <field name="department_id" type="row"/>
+                <field name="work_interruption_days" type="measure"/>
+                <field name="sick_leave_days" type="measure"/>
+                <field name="compensation_amount" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="radwan_work_injury_action" model="ir.actions.act_window">
+        <field name="name">All Work Injuries</field>
+        <field name="path">work-injuries</field>
+        <field name="res_model">radwan.work.injury</field>
+        <field name="view_mode">list,kanban,form,graph,pivot</field>
+        <field name="search_view_id" ref="radwan_work_injury_view_search"/>
+    </record>
+
+    <record id="radwan_work_injury_my_department_action" model="ir.actions.act_window">
+        <field name="name">My Department Injuries</field>
+        <field name="res_model">radwan.work.injury</field>
+        <field name="view_mode">list,kanban,form,graph,pivot</field>
+        <field name="domain">[('department_id.manager_id.user_id', '=', uid)]</field>
+        <field name="search_view_id" ref="radwan_work_injury_view_search"/>
+    </record>
+
+    <record id="radwan_work_injury_open_action" model="ir.actions.act_window">
+        <field name="name">Open Injury Cases</field>
+        <field name="res_model">radwan.work.injury</field>
+        <field name="view_mode">list,kanban,form,graph,pivot</field>
+        <field name="domain">[('state', 'not in', ['closed', 'rejected'])]</field>
+        <field name="context">{'search_default_open_cases': 1}</field>
+        <field name="search_view_id" ref="radwan_work_injury_view_search"/>
+    </record>
+
+    <record id="radwan_work_injury_report_month_action" model="ir.actions.act_window">
+        <field name="name">Work Injuries by Month</field>
+        <field name="res_model">radwan.work.injury</field>
+        <field name="view_mode">pivot,graph,list</field>
+        <field name="context">{'search_default_group_month': 1}</field>
+        <field name="search_view_id" ref="radwan_work_injury_view_search"/>
+    </record>
+
+    <record id="radwan_work_injury_report_department_action" model="ir.actions.act_window">
+        <field name="name">Work Injuries by Department</field>
+        <field name="res_model">radwan.work.injury</field>
+        <field name="view_mode">pivot,graph,list</field>
+        <field name="context">{'search_default_group_department': 1}</field>
+        <field name="search_view_id" ref="radwan_work_injury_view_search"/>
+    </record>
+
+    <record id="radwan_work_injury_report_type_action" model="ir.actions.act_window">
+        <field name="name">Work Injuries by Type</field>
+        <field name="res_model">radwan.work.injury</field>
+        <field name="view_mode">pivot,graph,list</field>
+        <field name="context">{'search_default_group_type': 1}</field>
+        <field name="search_view_id" ref="radwan_work_injury_view_search"/>
+    </record>
+
+    <record id="radwan_work_injury_report_interruption_action" model="ir.actions.act_window">
+        <field name="name">Work Interruption Days</field>
+        <field name="res_model">radwan.work.injury</field>
+        <field name="view_mode">pivot,graph,list</field>
+        <field name="context">{'search_default_group_department': 1}</field>
+        <field name="search_view_id" ref="radwan_work_injury_view_search"/>
+    </record>
+
+    <record id="radwan_work_injury_report_claims_action" model="ir.actions.act_window">
+        <field name="name">Insurance Claims</field>
+        <field name="res_model">radwan.work.injury</field>
+        <field name="view_mode">pivot,graph,list</field>
+        <field name="context">{'search_default_group_claim_status': 1}</field>
+        <field name="search_view_id" ref="radwan_work_injury_view_search"/>
+    </record>
+
+    <record id="radwan_work_injury_report_open_action" model="ir.actions.act_window">
+        <field name="name">Open Work Injuries</field>
+        <field name="res_model">radwan.work.injury</field>
+        <field name="view_mode">list,pivot,graph</field>
+        <field name="domain">[('state', 'not in', ['closed', 'rejected'])]</field>
+        <field name="context">{'search_default_open_cases': 1}</field>
+        <field name="search_view_id" ref="radwan_work_injury_view_search"/>
+    </record>
+
+    <record id="radwan_work_injury_report_closed_action" model="ir.actions.act_window">
+        <field name="name">Closed Work Injuries</field>
+        <field name="res_model">radwan.work.injury</field>
+        <field name="view_mode">list,pivot,graph</field>
+        <field name="domain">[('state', '=', 'closed')]</field>
+        <field name="context">{'search_default_closed_cases': 1}</field>
+        <field name="search_view_id" ref="radwan_work_injury_view_search"/>
+    </record>
+
+    <menuitem
+        id="radwan_work_injury_menu_root"
+        name="Work Injuries"
+        parent="hr.menu_hr_root"
+        sequence="25"
+        groups="hr.group_hr_user"
+    />
+
+    <menuitem
+        id="radwan_work_injury_menu_all"
+        name="All Work Injuries"
+        parent="radwan_work_injury_menu_root"
+        action="radwan_work_injury_action"
+        sequence="10"
+        groups="hr.group_hr_user"
+    />
+
+    <menuitem
+        id="radwan_work_injury_menu_my_department"
+        name="My Department Injuries"
+        parent="radwan_work_injury_menu_root"
+        action="radwan_work_injury_my_department_action"
+        sequence="20"
+        groups="hr.group_hr_user"
+    />
+
+    <menuitem
+        id="radwan_work_injury_menu_open"
+        name="Open Injury Cases"
+        parent="radwan_work_injury_menu_root"
+        action="radwan_work_injury_open_action"
+        sequence="30"
+        groups="hr.group_hr_user"
+    />
+
+    <menuitem
+        id="radwan_work_injury_report_menu"
+        name="Reports"
+        parent="radwan_work_injury_menu_root"
+        sequence="40"
+        groups="hr.group_hr_user"
+    />
+
+    <menuitem id="radwan_work_injury_report_month_menu" name="By Month" parent="radwan_work_injury_report_menu" action="radwan_work_injury_report_month_action" sequence="10" groups="hr.group_hr_user"/>
+    <menuitem id="radwan_work_injury_report_department_menu" name="By Department" parent="radwan_work_injury_report_menu" action="radwan_work_injury_report_department_action" sequence="20" groups="hr.group_hr_user"/>
+    <menuitem id="radwan_work_injury_report_type_menu" name="By Injury Type" parent="radwan_work_injury_report_menu" action="radwan_work_injury_report_type_action" sequence="30" groups="hr.group_hr_user"/>
+    <menuitem id="radwan_work_injury_report_interruption_menu" name="Work Interruption Days" parent="radwan_work_injury_report_menu" action="radwan_work_injury_report_interruption_action" sequence="40" groups="hr.group_hr_user"/>
+    <menuitem id="radwan_work_injury_report_claims_menu" name="Insurance Claims" parent="radwan_work_injury_report_menu" action="radwan_work_injury_report_claims_action" sequence="50" groups="hr.group_hr_user"/>
+    <menuitem id="radwan_work_injury_report_open_menu" name="Open Injuries" parent="radwan_work_injury_report_menu" action="radwan_work_injury_report_open_action" sequence="60" groups="hr.group_hr_user"/>
+    <menuitem id="radwan_work_injury_report_closed_menu" name="Closed Injuries" parent="radwan_work_injury_report_menu" action="radwan_work_injury_report_closed_action" sequence="70" groups="hr.group_hr_user"/>
+
+    <menuitem
+        id="radwan_work_injury_config_menu"
+        name="Configuration"
+        parent="radwan_work_injury_menu_root"
+        sequence="50"
+        groups="hr.group_hr_manager"
+    />
+
+    <menuitem
+        id="radwan_work_injury_type_menu"
+        name="Work Injury Types"
+        parent="radwan_work_injury_config_menu"
+        action="radwan_work_injury_type_action"
+        sequence="10"
+        groups="hr.group_hr_manager"
+    />
+
+    <record id="hr_employee_view_form_work_injuries" model="ir.ui.view">
+        <field name="name">hr.employee.view.form.inherit.radwan.work.injuries</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_form"/>
+        <field name="priority" eval="46"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='work_information']" position="after">
+                <page name="radwan_work_injuries" string="Work Injuries" groups="hr.group_hr_user">
+                    <field name="radwan_work_injury_ids" nolabel="1">
+                        <list>
+                            <field name="injury_date"/>
+                            <field name="injury_type_id"/>
+                            <field name="severity" widget="badge"/>
+                            <field name="location"/>
+                            <field name="sick_leave_days"/>
+                            <field name="claim_status" widget="badge"/>
+                            <field name="state" widget="badge"/>
+                        </list>
+                    </field>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

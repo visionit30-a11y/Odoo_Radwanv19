@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+
+    <record id="radwan_employee_religion_muslim" model="radwan.employee.religion">
+        <field name="name">Muslim</field>
+        <field name="sequence" eval="10"/>
+    </record>
+
+    <record id="radwan_employee_religion_christian" model="radwan.employee.religion">
+        <field name="name">Christian</field>
+        <field name="sequence" eval="20"/>
+    </record>
+
+    <record id="radwan_employee_religion_other" model="radwan.employee.religion">
+        <field name="name">Other</field>
+        <field name="sequence" eval="90"/>
+    </record>
+
+</odoo>

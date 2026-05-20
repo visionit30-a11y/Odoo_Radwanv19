@@ -17,6 +17,15 @@
                     <label for="radwan_notice_period" class="radwan_contract_custom_label"/>
                     <field name="radwan_notice_period" nolabel="1"/>
 
+                    <label for="radwan_employer_termination_penalty" class="radwan_contract_custom_label"/>
+                    <field name="radwan_employer_termination_penalty" nolabel="1"/>
+
+                    <label for="radwan_employee_termination_penalty" class="radwan_contract_custom_label"/>
+                    <field name="radwan_employee_termination_penalty" nolabel="1"/>
+
+                    <label for="radwan_contract_other_notes" class="radwan_contract_custom_label"/>
+                    <field name="radwan_contract_other_notes" nolabel="1" placeholder="Other notes..."/>
+
                     <label for="radwan_non_renewal" class="radwan_contract_custom_label"/>
                     <field name="radwan_non_renewal" nolabel="1"/>
 
@@ -103,7 +112,7 @@
         <field name="priority">60</field>
         <field name="arch" type="xml">
             <xpath expr="//page[@name='payroll_information']//group[@name='payroll_group']" position="replace">
-                    <details open="open" style="margin-bottom:12px; border:1px solid #e6e1e5; border-radius:6px; overflow:hidden;">
+                    <details name="radwan_contract_overview" open="open" style="margin-bottom:12px; border:1px solid #e6e1e5; border-radius:6px; overflow:hidden;">
                         <summary style="background-color:#714B67; color:#ffffff; padding:9px 14px; font-weight:700; cursor:pointer; letter-spacing:.2px;">
                             CONTRACT OVERVIEW
                         </summary>
@@ -130,10 +139,21 @@
                                     <field name="contract_type_id" string="Contract Type" nolabel="1" placeholder="Contract Type"/>
                                 </group>
                             </group>
+                            <group string="Termination Terms">
+                                <group>
+                                    <field name="radwan_employer_termination_penalty"/>
+                                </group>
+                                <group>
+                                    <field name="radwan_employee_termination_penalty"/>
+                                </group>
+                            </group>
+                            <group>
+                                <field name="radwan_contract_other_notes" nolabel="1" placeholder="Other notes..."/>
+                            </group>
                         </div>
                     </details>
 
-                    <details style="margin-bottom:12px; border:1px solid #e6e1e5; border-radius:6px; overflow:hidden;">
+                    <details name="radwan_payroll_structure" style="margin-bottom:12px; border:1px solid #e6e1e5; border-radius:6px; overflow:hidden;">
                         <summary style="background-color:#714B67; color:#ffffff; padding:9px 14px; font-weight:700; cursor:pointer; letter-spacing:.2px;">
                             PAYROLL STRUCTURE
                         </summary>
@@ -152,7 +172,7 @@
                         </div>
                     </details>
 
-                    <details style="margin-bottom:12px; border:1px solid #e6e1e5; border-radius:6px; overflow:hidden;">
+                    <details name="radwan_allowances_salary" style="margin-bottom:12px; border:1px solid #e6e1e5; border-radius:6px; overflow:hidden;">
                         <summary style="background-color:#714B67; color:#ffffff; padding:9px 14px; font-weight:700; cursor:pointer; letter-spacing:.2px;">
                             ALLOWANCES AND SALARY
                         </summary>
@@ -175,7 +195,7 @@
                         </div>
                     </details>
 
-                    <details style="margin-bottom:12px; border:1px solid #e6e1e5; border-radius:6px; overflow:hidden;">
+                    <details name="radwan_probation_period" style="margin-bottom:12px; border:1px solid #e6e1e5; border-radius:6px; overflow:hidden;">
                         <summary style="background-color:#714B67; color:#ffffff; padding:9px 14px; font-weight:700; cursor:pointer; letter-spacing:.2px;">
                             PROBATION PERIOD
                         </summary>
@@ -194,7 +214,7 @@
                         </div>
                     </details>
 
-                    <details style="margin-bottom:12px; border:1px solid #e6e1e5; border-radius:6px; overflow:hidden;">
+                    <details name="radwan_overtime" style="margin-bottom:12px; border:1px solid #e6e1e5; border-radius:6px; overflow:hidden;">
                         <summary style="background-color:#714B67; color:#ffffff; padding:9px 14px; font-weight:700; cursor:pointer; letter-spacing:.2px;">
                             OVERTIME
                         </summary>

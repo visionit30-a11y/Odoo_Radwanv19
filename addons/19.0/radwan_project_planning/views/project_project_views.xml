@@ -1,0 +1,26 @@
+<odoo>
+    <record id="edit_project" model="ir.ui.view">
+        <field name="name">project.project.form.inherit.radwan.project.planning</field>
+        <field name="model">project.project</field>
+        <field name="inherit_id" ref="project.edit_project"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button name="action_view_radwan_planning_slots"
+                        type="object"
+                        class="oe_stat_button"
+                        icon="fa-calendar"
+                        groups="radwan_project_planning.group_radwan_planning_user"
+                        invisible="radwan_planning_slot_count == 0">
+                    <field name="radwan_planning_slot_count" widget="statinfo" string="Planning"/>
+                </button>
+            </xpath>
+            <xpath expr="//group[@name='extra_settings']" position="inside">
+                <field name="radwan_planned_hours"
+                       widget="float_time"
+                       readonly="1"
+                       groups="radwan_project_planning.group_radwan_planning_user"
+                       invisible="not allow_timesheets"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

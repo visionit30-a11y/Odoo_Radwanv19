@@ -1,0 +1,81 @@
+<odoo>
+    <record id="radwan_planning_template_view_search" model="ir.ui.view">
+        <field name="name">radwan.planning.template.view.search</field>
+        <field name="model">radwan.planning.template</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="role_id"/>
+                <field name="project_id"/>
+                <filter string="Archived" name="inactive" domain="[('active', '=', False)]"/>
+                <group>
+                    <filter string="Role" name="group_role" context="{'group_by': 'role_id'}"/>
+                    <filter string="Project" name="group_project" context="{'group_by': 'project_id'}"/>
+                    <filter string="Company" name="group_company" context="{'group_by': 'company_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="radwan_planning_template_view_list" model="ir.ui.view">
+        <field name="name">radwan.planning.template.view.list</field>
+        <field name="model">radwan.planning.template</field>
+        <field name="arch" type="xml">
+            <list string="Shift Templates">
+                <field name="name"/>
+                <field name="start_hour" widget="float_time"/>
+                <field name="duration" widget="float_time"/>
+                <field name="role_id"/>
+                <field name="employee_id" optional="hide"/>
+                <field name="material_id" optional="hide"/>
+                <field name="project_id"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="radwan_planning_template_view_form" model="ir.ui.view">
+        <field name="name">radwan.planning.template.view.form</field>
+        <field name="model">radwan.planning.template</field>
+        <field name="arch" type="xml">
+            <form string="Shift Template">
+                <sheet>
+                    <group>
+                        <group string="Time">
+                            <field name="name"/>
+                            <field name="start_hour" widget="float_time"/>
+                            <field name="duration" widget="float_time"/>
+                            <field name="end_hour" widget="float_time"/>
+                            <field name="active"/>
+                        </group>
+                        <group string="Planning">
+                            <field name="role_id"/>
+                            <field name="employee_id"/>
+                            <field name="material_id"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                    </group>
+                    <group string="Project">
+                        <field name="project_id"/>
+                        <field name="task_id"/>
+                    </group>
+                    <group string="Notes">
+                        <field name="note" nolabel="1"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_radwan_planning_template" model="ir.actions.act_window">
+        <field name="name">Shift Templates</field>
+        <field name="res_model">radwan.planning.template</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="radwan_planning_template_view_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create reusable shifts for faster planning.
+            </p>
+        </field>
+    </record>
+</odoo>

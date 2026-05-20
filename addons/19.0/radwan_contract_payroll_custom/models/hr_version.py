@@ -45,6 +45,23 @@ class HrVersion(models.Model):
         tracking=True,
         groups="hr.group_hr_manager",
     )
+    radwan_employer_termination_penalty = fields.Monetary(
+        string="Employer Termination Penalty",
+        currency_field="currency_id",
+        tracking=True,
+        groups="hr.group_hr_manager",
+    )
+    radwan_employee_termination_penalty = fields.Monetary(
+        string="Employee Termination Penalty",
+        currency_field="currency_id",
+        tracking=True,
+        groups="hr.group_hr_manager",
+    )
+    radwan_contract_other_notes = fields.Text(
+        string="Other Notes",
+        tracking=True,
+        groups="hr.group_hr_manager",
+    )
     radwan_basic = fields.Monetary(
         string="Basic",
         currency_field="currency_id",
@@ -353,6 +370,9 @@ class HrVersion(models.Model):
             "contract_date_start",
             "contract_date_end",
             "radwan_notice_period",
+            "radwan_employer_termination_penalty",
+            "radwan_employee_termination_penalty",
+            "radwan_contract_other_notes",
             "employee_type",
             "radwan_non_renewal",
             "radwan_work_entry_source",

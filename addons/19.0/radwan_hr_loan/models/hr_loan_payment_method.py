@@ -7,7 +7,7 @@ class HrLoanPaymentMethod(models.Model):
     _order = 'company_id, name'
     _check_company_auto = True
 
-    name = fields.Char(string='Payment Name', required=True, translate=True)
+    name = fields.Char(string='Payment Name', required=True)
     active = fields.Boolean(default=True)
     company_id = fields.Many2one(
         'res.company',

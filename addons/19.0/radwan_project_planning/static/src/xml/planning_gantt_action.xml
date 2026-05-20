@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="radwan_project_planning.GanttAction">
+        <div class="o_action o_radwan_planning_gantt">
+            <div class="o_control_panel o_radwan_gantt_control_panel">
+                <div class="o_cp_top">
+                    <div class="o_cp_top_left">
+                        <button class="btn btn-primary" t-on-click="createSlot">New</button>
+                        <button class="btn btn-primary" t-on-click="publishVisibleDrafts">Publish</button>
+                        <div class="dropdown">
+                            <button class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown">
+                                Schedule by <t t-esc="groupLabel"/>
+                            </button>
+                            <div class="dropdown-menu">
+                                <button class="dropdown-item" t-on-click="() => this.setGroupBy('resource')">By Resource</button>
+                                <button class="dropdown-item" t-on-click="() => this.setGroupBy('role')">By Role</button>
+                                <button class="dropdown-item" t-on-click="() => this.setGroupBy('project')">By Project</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="o_cp_top_right">
+                        <div class="o_searchview o_radwan_gantt_search">
+                            <i class="o_searchview_icon oi oi-search"/>
+                            <input type="text" class="o_searchview_input" placeholder="Search..." t-att-value="state.search" t-on-input="onSearch"/>
+                        </div>
+                        <div class="btn-group o_radwan_gantt_view_switcher">
+                            <button class="btn btn-secondary active" title="Gantt">
+                                <i class="fa fa-tasks"/>
+                            </button>
+                            <button class="btn btn-secondary" title="Calendar" t-on-click="() => this.openWindowView('calendar')">
+                                <i class="fa fa-calendar"/>
+                            </button>
+                            <button class="btn btn-secondary" title="List" t-on-click="() => this.openWindowView('list')">
+                                <i class="fa fa-list"/>
+                            </button>
+                            <button class="btn btn-secondary" title="Kanban" t-on-click="() => this.openWindowView('kanban')">
+                                <i class="fa fa-th-large"/>
+                            </button>
+                            <button class="btn btn-secondary" title="Pivot" t-on-click="() => this.openWindowView('pivot')">
+                                <i class="fa fa-table"/>
+                            </button>
+                            <button class="btn btn-secondary" title="Graph" t-on-click="() => this.openWindowView('graph')">
+                                <i class="fa fa-area-chart"/>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="o_cp_bottom">
+                    <div class="o_cp_bottom_left">
+                        <div class="btn-group">
+                            <button class="btn btn-secondary" t-on-click="previous">
+                                <i class="fa fa-arrow-left"/>
+                            </button>
+                            <button class="btn btn-secondary" t-on-click="next">
+                                <i class="fa fa-arrow-right"/>
+                            </button>
+                        </div>
+                        <div class="btn-group">
+                            <button class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown">
+                                <t t-esc="state.scale === 'week' ? 'Week' : 'Month'"/>
+                            </button>
+                            <div class="dropdown-menu">
+                                <button class="dropdown-item" t-on-click="() => this.setScale('week')">Week</button>
+                                <button class="dropdown-item" t-on-click="() => this.setScale('month')">Month</button>
+                            </div>
+                        </div>
+                        <button class="btn btn-secondary" t-on-click="today">Today</button>
+                        <span class="o_radwan_gantt_range" t-esc="rangeLabel"/>
+                    </div>
+                    <div class="o_cp_bottom_right">
+                        <span class="text-muted">
+                            <t t-esc="totalSlots"/> shifts
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="o_content o_radwan_gantt_content">
+                <div t-if="state.isLoading" class="o_radwan_gantt_empty">Loading...</div>
+                <t t-else="">
+                    <div class="o_radwan_gantt_table" t-att-style="'grid-template-columns: var(--RadwanPlanningGantt-sidebar-width) ' + (days.length * 56) + 'px; min-width:' + (320 + days.length * 56) + 'px;'">
+                        <div class="o_radwan_gantt_corner">Schedule</div>
+                        <div class="o_radwan_gantt_header" t-att-style="'grid-template-columns: repeat(' + days.length + ', var(--RadwanPlanningGantt-day-width)); min-width:' + (days.length * 56) + 'px;'">
+                            <div t-foreach="days" t-as="day" t-key="day.key" class="o_radwan_gantt_day" t-att-class="{'o_today': day.isToday}">
+                                <span class="o_radwan_gantt_day_weekday" t-esc="day.weekday"/>
+                                <span class="o_radwan_gantt_day_number" t-esc="day.number"/>
+                            </div>
+                        </div>
+                        <t t-if="rows.length">
+                            <t t-foreach="rows" t-as="row" t-key="row.key">
+                                <div class="o_radwan_gantt_row_label">
+                                    <img t-if="row.avatarUrl" t-att-src="row.avatarUrl" class="o_radwan_gantt_avatar"/>
+                                    <span t-esc="row.label"/>
+                                    <span class="ms-auto text-muted" t-esc="row.totalHours.toFixed(2)"/>
+                                </div>
+                                <div class="o_radwan_gantt_row_timeline" t-att-style="'grid-template-columns: repeat(' + days.length + ', var(--RadwanPlanningGantt-day-width)); min-width:' + (days.length * 56) + 'px;'">
+                                    <div t-foreach="days" t-as="day" t-key="day.key" class="o_radwan_gantt_cell" t-att-class="{'o_today': day.isToday}"/>
+                                    <button t-foreach="row.slots" t-as="slot" t-key="slot.id" type="button" class="o_radwan_gantt_bar" t-att-class="slot.className" t-att-style="slot.style" t-on-click="() => this.openSlot(slot)">
+                                        <span t-esc="slot.displayName"/>
+                                        <small t-esc="slot.allocated_hours.toFixed(2)"/>
+                                    </button>
+                                </div>
+                            </t>
+                        </t>
+                        <div t-else="" class="o_radwan_gantt_no_rows">
+                            No shifts found. Let's create one.
+                        </div>
+                    </div>
+                </t>
+            </div>
+        </div>
+    </t>
+</templates>

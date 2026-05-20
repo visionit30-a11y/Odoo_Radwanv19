@@ -1,0 +1,36 @@
+<odoo>
+    <record id="radwan_planning_generate_wizard_view_form" model="ir.ui.view">
+        <field name="name">radwan.planning.generate.wizard.view.form</field>
+        <field name="model">radwan.planning.generate.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Auto Plan">
+                <group>
+                    <group string="Period">
+                        <field name="date_start"/>
+                        <field name="date_stop"/>
+                        <field name="include_weekends"/>
+                        <field name="publish"/>
+                    </group>
+                    <group string="Scope">
+                        <field name="project_id"/>
+                        <field name="employee_ids" widget="many2many_tags"/>
+                    </group>
+                </group>
+                <group string="Templates">
+                    <field name="template_ids" widget="many2many_tags"/>
+                </group>
+                <footer>
+                    <button name="action_generate" string="Generate Shifts" type="object" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_radwan_planning_generate_wizard" model="ir.actions.act_window">
+        <field name="name">Auto Plan</field>
+        <field name="res_model">radwan.planning.generate.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>

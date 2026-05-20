@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="radwan_employee_travel_ticket_view_list" model="ir.ui.view">
+        <field name="name">radwan.employee.travel.ticket.view.list</field>
+        <field name="model">radwan.employee.travel.ticket</field>
+        <field name="arch" type="xml">
+            <list string="Travel Tickets" editable="bottom">
+                <field name="employee_id"/>
+                <field name="date_from"/>
+                <field name="date_to"/>
+                <field name="destination_from"/>
+                <field name="destination_to"/>
+                <field name="currency_id" optional="hide"/>
+                <field name="total_cost" sum="Total"/>
+                <field name="booking_number"/>
+                <field name="boarding_number"/>
+                <field name="responsibility"/>
+                <field name="company_id" groups="base.group_multi_company" optional="hide"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="radwan_employee_travel_ticket_view_form" model="ir.ui.view">
+        <field name="name">radwan.employee.travel.ticket.view.form</field>
+        <field name="model">radwan.employee.travel.ticket</field>
+        <field name="arch" type="xml">
+            <form string="Travel Ticket">
+                <sheet>
+                    <div class="oe_title">
+                        <label for="booking_number"/>
+                        <h1>
+                            <field name="booking_number" placeholder="e.g. PNR12345"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="employee_id"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                            <field name="date_from"/>
+                            <field name="date_to"/>
+                        </group>
+                        <group>
+                            <field name="destination_from"/>
+                            <field name="destination_to"/>
+                            <field name="total_cost"/>
+                            <field name="responsibility"/>
+                        </group>
+                    </group>
+                    <group string="Booking">
+                        <group>
+                            <field name="boarding_number"/>
+                        </group>
+                        <group>
+                            <field name="currency_id" invisible="1"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="radwan_employee_travel_ticket_view_search" model="ir.ui.view">
+        <field name="name">radwan.employee.travel.ticket.view.search</field>
+        <field name="model">radwan.employee.travel.ticket</field>
+        <field name="arch" type="xml">
+            <search string="Travel Tickets">
+                <field name="employee_id"/>
+                <field name="booking_number"/>
+                <field name="boarding_number"/>
+                <field name="destination_from"/>
+                <field name="destination_to"/>
+                <filter name="company_paid" string="On Company" domain="[('responsibility', '=', 'company')]"/>
+                <filter name="employee_paid" string="On Employee" domain="[('responsibility', '=', 'employee')]"/>
+                <filter name="date_from" string="Date From" date="date_from"/>
+                <group>
+                    <filter name="group_employee" string="Employee" context="{'group_by': 'employee_id'}"/>
+                    <filter name="group_responsibility" string="Responsibility" context="{'group_by': 'responsibility'}"/>
+                    <filter name="group_company" string="Company" context="{'group_by': 'company_id'}" groups="base.group_multi_company"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="radwan_employee_travel_ticket_action" model="ir.actions.act_window">
+        <field name="name">Travel Tickets</field>
+        <field name="res_model">radwan.employee.travel.ticket</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="radwan_employee_travel_ticket_view_search"/>
+    </record>
+
+    <record id="radwan_employee_visa_view_list" model="ir.ui.view">
+        <field name="name">radwan.employee.visa.view.list</field>
+        <field name="model">radwan.employee.visa</field>
+        <field name="arch" type="xml">
+            <list string="Visas" editable="bottom">
+                <field name="employee_id"/>
+                <field name="visa_number"/>
+                <field name="visa_type"/>
+                <field name="issue_date"/>
+                <field name="date_from"/>
+                <field name="date_to"/>
+                <field name="purpose"/>
+                <field name="actual_exit_datetime"/>
+                <field name="actual_return_datetime"/>
+                <field name="issuing_authority"/>
+                <field name="paid_by"/>
+                <field name="company_id" groups="base.group_multi_company" optional="hide"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="radwan_employee_visa_view_form" model="ir.ui.view">
+        <field name="name">radwan.employee.visa.view.form</field>
+        <field name="model">radwan.employee.visa</field>
+        <field name="arch" type="xml">
+            <form string="Visa">
+                <sheet>
+                    <div class="oe_title">
+                        <label for="visa_number"/>
+                        <h1>
+                            <field name="visa_number" placeholder="Visa Number"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="employee_id"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                            <field name="visa_type"/>
+                            <field name="issue_date"/>
+                        </group>
+                        <group>
+                            <field name="date_from"/>
+                            <field name="date_to"/>
+                            <field name="purpose"/>
+                            <field name="issuing_authority"/>
+                        </group>
+                    </group>
+                    <group string="Actual Trip">
+                        <group>
+                            <field name="actual_exit_datetime"/>
+                            <field name="actual_return_datetime"/>
+                        </group>
+                        <group>
+                            <field name="paid_by"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="radwan_employee_visa_view_search" model="ir.ui.view">
+        <field name="name">radwan.employee.visa.view.search</field>
+        <field name="model">radwan.employee.visa</field>
+        <field name="arch" type="xml">
+            <search string="Visas">
+                <field name="employee_id"/>
+                <field name="visa_number"/>
+                <field name="visa_type"/>
+                <field name="purpose"/>
+                <field name="issuing_authority"/>
+                <filter name="company_paid" string="On Company" domain="[('paid_by', '=', 'company')]"/>
+                <filter name="employee_paid" string="On Employee" domain="[('paid_by', '=', 'employee')]"/>
+                <filter name="issue_date" string="Issue Date" date="issue_date"/>
+                <filter name="date_from" string="Date From" date="date_from"/>
+                <group>
+                    <filter name="group_employee" string="Employee" context="{'group_by': 'employee_id'}"/>
+                    <filter name="group_visa_type" string="Visa Type" context="{'group_by': 'visa_type'}"/>
+                    <filter name="group_paid_by" string="Paid By" context="{'group_by': 'paid_by'}"/>
+                    <filter name="group_company" string="Company" context="{'group_by': 'company_id'}" groups="base.group_multi_company"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="radwan_employee_visa_action" model="ir.actions.act_window">
+        <field name="name">Visas</field>
+        <field name="res_model">radwan.employee.visa</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="radwan_employee_visa_view_search"/>
+    </record>
+
+    <record id="hr_employee_view_form_travel_smart_buttons" model="ir.ui.view">
+        <field name="name">hr.employee.view.form.inherit.radwan.travel.smart.buttons</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_form"/>
+        <field name="priority" eval="140"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button
+                    name="action_radwan_travel_tickets"
+                    type="object"
+                    class="oe_stat_button"
+                    icon="fa-plane"
+                    groups="hr.group_hr_user"
+                    invisible="not id"
+                >
+                    <field name="radwan_travel_ticket_count" widget="statinfo" string="Travel Tickets"/>
+                </button>
+                <button
+                    name="action_radwan_visas"
+                    type="object"
+                    class="oe_stat_button"
+                    icon="fa-id-card-o"
+                    groups="hr.group_hr_user"
+                    invisible="not id"
+                >
+                    <field name="radwan_visa_count" widget="statinfo" string="Visas"/>
+                </button>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

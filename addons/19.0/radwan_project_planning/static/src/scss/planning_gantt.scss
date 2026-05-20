@@ -1,0 +1,202 @@
+.o_radwan_planning_gantt {
+    --RadwanPlanningGantt-sidebar-width: 320px;
+    --RadwanPlanningGantt-day-width: 56px;
+    --RadwanPlanningGantt-row-height: 40px;
+
+    .o_radwan_gantt_control_panel {
+        border-bottom: 1px solid var(--border-color, #d8dadd);
+        padding: 8px 16px;
+        background: var(--o-view-background-color, #fff);
+        gap: 10px;
+
+        .o_cp_top,
+        .o_cp_bottom {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+        }
+
+        .o_cp_top_left,
+        .o_cp_top_right,
+        .o_cp_bottom_left,
+        .o_cp_bottom_right {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+    }
+
+    .o_radwan_gantt_search {
+        display: flex;
+        align-items: center;
+        min-width: 360px;
+        border: 1px solid var(--border-color, #d8dadd);
+        border-radius: 4px;
+        padding: 0 10px;
+        background: #fff;
+
+        .o_searchview_icon {
+            margin-inline-end: 8px;
+        }
+
+        .o_searchview_input {
+            min-height: 34px;
+            width: 100%;
+            border: 0;
+            outline: 0;
+        }
+    }
+
+    .o_radwan_gantt_view_switcher .active {
+        border-color: #008f9c;
+        color: #004e59;
+        background: #d9f2f5;
+    }
+
+    .o_radwan_gantt_range {
+        margin-inline-start: 14px;
+        font-weight: 600;
+    }
+
+    .o_radwan_gantt_content {
+        overflow: auto;
+        background: #fff;
+    }
+
+    .o_radwan_gantt_table {
+        display: grid;
+    }
+
+    .o_radwan_gantt_corner,
+    .o_radwan_gantt_header,
+    .o_radwan_gantt_row_label,
+    .o_radwan_gantt_row_timeline {
+        border-bottom: 1px solid #d8dadd;
+    }
+
+    .o_radwan_gantt_corner {
+        position: sticky;
+        left: 0;
+        z-index: 3;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 54px;
+        border-right: 1px solid #d8dadd;
+        background: #f8f9fa;
+        font-weight: 700;
+    }
+
+    .o_radwan_gantt_header {
+        display: grid;
+        min-height: 54px;
+        background: #f8f9fa;
+    }
+
+    .o_radwan_gantt_day {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        border-right: 1px solid #d8dadd;
+        font-size: 12px;
+
+        &.o_today {
+            background: #fff7e6;
+            outline: 1px solid #f0ad4e;
+            outline-offset: -1px;
+        }
+    }
+
+    .o_radwan_gantt_day_weekday {
+        color: #6c757d;
+    }
+
+    .o_radwan_gantt_day_number {
+        font-weight: 700;
+    }
+
+    .o_radwan_gantt_row_label {
+        position: sticky;
+        left: 0;
+        z-index: 2;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        min-height: var(--RadwanPlanningGantt-row-height);
+        border-right: 1px solid #d8dadd;
+        padding: 0 14px;
+        background: #fff;
+    }
+
+    .o_radwan_gantt_avatar {
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        object-fit: cover;
+    }
+
+    .o_radwan_gantt_row_timeline {
+        position: relative;
+        display: grid;
+        min-height: var(--RadwanPlanningGantt-row-height);
+    }
+
+    .o_radwan_gantt_cell {
+        min-height: var(--RadwanPlanningGantt-row-height);
+        border-right: 1px solid #e6e8eb;
+
+        &.o_today {
+            background: #fff9eb;
+        }
+    }
+
+    .o_radwan_gantt_bar {
+        position: absolute;
+        top: 7px;
+        height: 26px;
+        overflow: hidden;
+        border: 0;
+        border-radius: 4px;
+        padding: 0 8px;
+        color: #111827;
+        background: #9bd59f;
+        text-align: start;
+        white-space: nowrap;
+        box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.08);
+
+        small {
+            margin-inline-start: 8px;
+            opacity: 0.75;
+        }
+    }
+
+    .o_radwan_gantt_bar_draft {
+        background: #d9dee7;
+    }
+
+    .o_radwan_gantt_bar_published {
+        background: #a7ddb1;
+    }
+
+    .o_radwan_gantt_bar_done {
+        background: #9dc5f8;
+    }
+
+    .o_radwan_gantt_bar_cancelled {
+        background: #eeeeee;
+        color: #6c757d;
+        text-decoration: line-through;
+    }
+
+    .o_radwan_gantt_empty,
+    .o_radwan_gantt_no_rows {
+        grid-column: 1 / -1;
+        padding: 72px;
+        color: #6c757d;
+        text-align: center;
+        font-size: 18px;
+        font-weight: 600;
+    }
+}

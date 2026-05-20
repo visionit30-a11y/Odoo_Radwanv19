@@ -13,8 +13,8 @@ class RadwanApprovalCategory(models.Model):
     _description = "Approval Type"
     _order = "sequence, name"
 
-    name = fields.Char(required=True, translate=True)
-    description = fields.Text(translate=True)
+    name = fields.Char(required=True)
+    description = fields.Text()
     active = fields.Boolean(default=True)
     sequence = fields.Integer(default=10)
     color = fields.Integer()
@@ -99,7 +99,7 @@ class RadwanApprovalCategory(models.Model):
 
     manager_approval = fields.Boolean(string="Employee's Manager Is Approver")
     approver_sequence = fields.Boolean(string="Approvers Sequence")
-    minimum_approval = fields.Integer(default=1)
+    minimum_approval = fields.Integer(string="Minimum Approval", default=1)
     _minimum_approval_positive = models.Constraint(
         "CHECK (minimum_approval >= 1)",
         "Minimum Approval must be greater than or equal to 1.",

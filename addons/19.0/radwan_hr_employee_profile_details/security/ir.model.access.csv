@@ -3,3 +3,10 @@ access_radwan_employee_document_date_user,access.radwan.employee.document.date.u
 access_radwan_employee_family_detail_user,access.radwan.employee.family.detail.user,model_radwan_employee_family_detail,hr.group_hr_user,1,1,1,1
 access_radwan_employee_sponser_user,access.radwan.employee.sponser.user,model_radwan_employee_sponser,hr.group_hr_user,1,0,0,0
 access_radwan_employee_sponser_manager,access.radwan.employee.sponser.manager,model_radwan_employee_sponser,hr.group_hr_manager,1,1,1,1
+access_radwan_employee_religion_user,access.radwan.employee.religion.user,model_radwan_employee_religion,hr.group_hr_user,1,0,0,0
+access_radwan_employee_religion_manager,access.radwan.employee.religion.manager,model_radwan_employee_religion,hr.group_hr_manager,1,1,1,1
+access_radwan_employee_travel_ticket_user,access.radwan.employee.travel.ticket.user,model_radwan_employee_travel_ticket,hr.group_hr_user,1,1,1,1
+access_radwan_employee_visa_user,access.radwan.employee.visa.user,model_radwan_employee_visa,hr.group_hr_user,1,1,1,1
+access_radwan_work_injury_user,access.radwan.work.injury.user,model_radwan_work_injury,hr.group_hr_user,1,1,1,1
+access_radwan_work_injury_type_user,access.radwan.work.injury.type.user,model_radwan_work_injury_type,hr.group_hr_user,1,0,0,0
+access_radwan_work_injury_type_manager,access.radwan.work.injury.type.manager,model_radwan_work_injury_type,hr.group_hr_manager,1,1,1,1

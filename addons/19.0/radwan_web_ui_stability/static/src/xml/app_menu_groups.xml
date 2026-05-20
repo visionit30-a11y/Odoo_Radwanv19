@@ -16,14 +16,13 @@
                             <i t-att-class="this.radwanIsAppGroupOpen(group.key) ? 'fa fa-chevron-down' : 'fa fa-chevron-right'"/>
                             <span t-esc="group.name"/>
                         </button>
-                        <t t-if="this.radwanIsAppGroupOpen(group.key)">
+                        <t t-foreach="this.radwanIsAppGroupOpen(group.key) ? group.apps : []"
+                           t-as="app"
+                           t-key="app.id">
                             <DropdownItem
-                                t-foreach="group.apps"
-                                t-as="app"
-                                t-key="app.id"
                                 class="{ 'o_app': true, 'o_radwan_app_dropdown_item': true, focus: menuService.getCurrentApp() === app }"
                                 onSelected="() => this.onNavBarDropdownItemSelection(app)"
-                                t-esc="app.name"
+                                t-esc="this.radwanGetAppDisplayName(app)"
                                 attrs="{ href: getMenuItemHref(app), 'data-menu-xmlid': app.xmlid, 'data-section': app.id }"
                             />
                         </t>
@@ -56,7 +55,7 @@
                                     t-on-click="() => {this.onNavBarDropdownItemSelection(app); this._closeAppMenuSidebar();}">
                                     <div class="d-flex align-items-center">
                                         <img style="height: 2.45em;" t-if="app.webIconData" class="o_app_icon me-3" t-attf-src="{{app.webIconData}}"/>
-                                        <span t-esc="app.name"/>
+                                        <span t-esc="this.radwanGetAppDisplayName(app)"/>
                                     </div>
                                 </li>
                             </t>

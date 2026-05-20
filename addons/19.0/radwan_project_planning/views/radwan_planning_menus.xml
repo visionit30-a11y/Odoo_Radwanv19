@@ -1,0 +1,131 @@
+<odoo>
+    <record id="action_radwan_planning_employee" model="ir.actions.act_window">
+        <field name="name">Employees</field>
+        <field name="res_model">hr.employee</field>
+        <field name="view_mode">list,kanban,form</field>
+        <field name="domain">[('active', '=', True)]</field>
+        <field name="context">{'search_default_group_department': 1}</field>
+    </record>
+
+    <menuitem
+        id="menu_radwan_planning_root"
+        name="Planning"
+        sequence="72"
+        web_icon="project,static/description/icon.png"
+        groups="project.group_project_user"
+    />
+
+    <menuitem
+        id="menu_radwan_planning_schedule"
+        name="Schedule"
+        parent="menu_radwan_planning_root"
+        sequence="10"
+    />
+    <menuitem
+        id="menu_radwan_planning_by_resource"
+        name="By Resource"
+        parent="menu_radwan_planning_schedule"
+        action="action_radwan_planning_gantt_resource"
+        sequence="10"
+    />
+    <menuitem
+        id="menu_radwan_planning_by_role"
+        name="By Role"
+        parent="menu_radwan_planning_schedule"
+        action="action_radwan_planning_gantt_role"
+        sequence="20"
+    />
+    <menuitem
+        id="menu_radwan_planning_by_project"
+        name="By Project"
+        parent="menu_radwan_planning_schedule"
+        action="action_radwan_planning_gantt_project"
+        sequence="30"
+    />
+    <menuitem
+        id="menu_radwan_planning_all_shifts"
+        name="All Shifts"
+        parent="menu_radwan_planning_schedule"
+        action="action_radwan_planning_slot"
+        sequence="40"
+    />
+    <menuitem
+        id="menu_radwan_planning_auto_plan"
+        name="Auto Plan"
+        parent="menu_radwan_planning_schedule"
+        action="action_radwan_planning_generate_wizard"
+        sequence="50"
+    />
+
+    <menuitem
+        id="menu_radwan_my_planning"
+        name="My Planning"
+        parent="menu_radwan_planning_root"
+        action="action_radwan_my_planning"
+        sequence="20"
+    />
+    <menuitem
+        id="menu_radwan_planning_open_shifts"
+        name="Open Shifts"
+        parent="menu_radwan_planning_root"
+        action="action_radwan_open_shifts"
+        sequence="25"
+    />
+
+    <menuitem
+        id="menu_radwan_planning_reporting"
+        name="Reporting"
+        parent="menu_radwan_planning_root"
+        sequence="30"
+    />
+    <menuitem
+        id="menu_radwan_planning_analysis"
+        name="Planning Analysis"
+        parent="menu_radwan_planning_reporting"
+        action="action_radwan_planning_analysis"
+        sequence="10"
+    />
+
+    <menuitem
+        id="menu_radwan_planning_configuration"
+        name="Configuration"
+        parent="menu_radwan_planning_root"
+        sequence="40"
+        groups="project.group_project_manager"
+    />
+    <menuitem
+        id="menu_radwan_planning_config_settings"
+        name="Settings"
+        parent="menu_radwan_planning_configuration"
+        action="action_radwan_planning_settings"
+        sequence="5"
+    />
+    <menuitem
+        id="menu_radwan_planning_config_employees"
+        name="Employees"
+        parent="menu_radwan_planning_configuration"
+        action="action_radwan_planning_employee"
+        sequence="10"
+    />
+    <menuitem
+        id="menu_radwan_planning_config_materials"
+        name="Materials"
+        parent="menu_radwan_planning_configuration"
+        action="action_radwan_planning_material"
+        sequence="20"
+    />
+    <menuitem
+        id="menu_radwan_planning_config_roles"
+        name="Roles"
+        parent="menu_radwan_planning_configuration"
+        action="action_radwan_planning_role"
+        sequence="30"
+    />
+    <menuitem
+        id="menu_radwan_planning_config_templates"
+        name="Shift Templates"
+        parent="menu_radwan_planning_configuration"
+        action="action_radwan_planning_template"
+        sequence="40"
+    />
+</odoo>

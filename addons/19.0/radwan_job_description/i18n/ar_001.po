@@ -1,0 +1,89 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* radwan_job_description
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0-20260516\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-05-19 22:58+0000\n"
+"PO-Revision-Date: 2026-05-19 22:58+0000\n"
+"Last-Translator: RADWAN\n"
+"Language-Team: Arabic\n"
+"Language: ar_001\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
+
+#. module: radwan_job_description
+#: model_terms:ir.ui.view,arch_db:radwan_job_description.hr_job_view_form
+msgid "Add a heading"
+msgstr "إضافة عنوان"
+
+#. module: radwan_job_description
+#: model_terms:ir.ui.view,arch_db:radwan_job_description.hr_job_view_form
+msgid "Add a line"
+msgstr "إضافة سطر"
+
+#. module: radwan_job_description
+#: model_terms:ir.ui.view,arch_db:radwan_job_description.hr_job_view_form
+msgid "Add a note"
+msgstr "إضافة ملاحظة"
+
+#. module: radwan_job_description
+#: model_terms:ir.ui.view,arch_db:radwan_job_description.hr_job_view_form
+msgid "Description / Sub Line"
+msgstr "الوصف / السطر الفرعي"
+
+#. module: radwan_job_description
+#: model:ir.model.fields,field_description:radwan_job_description.field_radwan_job_description_line__display_type
+msgid "Display Type"
+msgstr "نوع العرض"
+
+#. module: radwan_job_description
+#: model_terms:ir.ui.view,arch_db:radwan_job_description.hr_job_view_form
+msgid "Job Description"
+msgstr "الوصف الوظيفي"
+
+#. module: radwan_job_description
+#: model:ir.model,name:radwan_job_description.model_radwan_job_description_section
+msgid "Job Description Heading"
+msgstr "عنوان الوصف الوظيفي"
+
+#. module: radwan_job_description
+#: model:ir.actions.act_window,name:radwan_job_description.radwan_job_description_section_action
+#: model:ir.ui.menu,name:radwan_job_description.radwan_job_description_section_menu
+msgid "Job Description Headings"
+msgstr "عناوين الوصف الوظيفي"
+
+#. module: radwan_job_description
+#: model:ir.model,name:radwan_job_description.model_radwan_job_description_line
+msgid "Job Description Line"
+msgstr "سطر الوصف الوظيفي"
+
+#. module: radwan_job_description
+#: model_terms:ir.ui.view,arch_db:radwan_job_description.hr_job_view_form
+msgid "Load Default Headings"
+msgstr "تحميل العناوين الافتراضية"
+
+#. module: radwan_job_description
+#: model:ir.model.fields,field_description:radwan_job_description.field_radwan_job_description_line__section_id
+#: model_terms:ir.ui.view,arch_db:radwan_job_description.hr_job_view_form
+msgid "Main Heading"
+msgstr "العنوان الرئيسي"
+
+#. module: radwan_job_description
+#: model:ir.model.fields.selection,name:radwan_job_description.selection__radwan_job_description_line__display_type__line_section
+msgid "Section"
+msgstr "قسم"
+
+#. module: radwan_job_description
+#: model:ir.model.fields,field_description:radwan_job_description.field_hr_job__radwan_job_description_line_ids
+msgid "Structured Job Description"
+msgstr "الوصف الوظيفي المنظم"
+
+#. module: radwan_job_description
+#: model:ir.model.constraint,message:radwan_job_description.constraint_radwan_job_description_section_code_unique
+msgid "The heading code must be unique."
+msgstr ""

@@ -1,0 +1,309 @@
+<odoo>
+    <record id="radwan_planning_slot_view_search" model="ir.ui.view">
+        <field name="name">radwan.planning.slot.view.search</field>
+        <field name="model">radwan.planning.slot</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="employee_id"/>
+                <field name="material_id"/>
+                <field name="role_id"/>
+                <field name="project_id"/>
+                <field name="task_id"/>
+                <filter string="My Planning" name="my_planning" domain="[('employee_id.user_id', '=', uid)]"/>
+                <filter string="Open Shifts" name="open_shifts" domain="[('resource_type', '=', 'open')]"/>
+                <filter string="Published" name="published" domain="[('state', '=', 'published')]"/>
+                <filter string="Draft" name="draft" domain="[('state', '=', 'draft')]"/>
+                <filter string="Done" name="done" domain="[('state', '=', 'done')]"/>
+                <filter string="Cancelled" name="cancelled" domain="[('state', '=', 'cancelled')]"/>
+                <separator/>
+                <filter string="Employee Shifts" name="employee_shifts" domain="[('resource_type', '=', 'employee')]"/>
+                <filter string="Material Shifts" name="material_shifts" domain="[('resource_type', '=', 'material')]"/>
+                <group>
+                    <filter string="Employee" name="group_employee" context="{'group_by': 'employee_id'}"/>
+                    <filter string="Material" name="group_material" context="{'group_by': 'material_id'}"/>
+                    <filter string="Role" name="group_role" context="{'group_by': 'role_id'}"/>
+                    <filter string="Project" name="group_project" context="{'group_by': 'project_id'}"/>
+                    <filter string="Task" name="group_task" context="{'group_by': 'task_id'}"/>
+                    <filter string="Status" name="group_state" context="{'group_by': 'state'}"/>
+                    <filter string="Company" name="group_company" context="{'group_by': 'company_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="radwan_planning_slot_view_list" model="ir.ui.view">
+        <field name="name">radwan.planning.slot.view.list</field>
+        <field name="model">radwan.planning.slot</field>
+        <field name="arch" type="xml">
+            <list string="Planning Shifts" decoration-muted="state == 'cancelled'" decoration-success="state == 'done'">
+                <field name="start_datetime"/>
+                <field name="end_datetime"/>
+                <field name="resource_type"/>
+                <field name="employee_id" widget="many2one_avatar_employee" optional="show"/>
+                <field name="material_id" optional="show"/>
+                <field name="role_id" optional="show"/>
+                <field name="project_id"/>
+                <field name="task_id" optional="hide"/>
+                <field name="allocated_hours" sum="Planned"/>
+                <field name="actual_hours" sum="Actual"/>
+                <field name="remaining_hours" sum="Remaining"/>
+                <field name="planned_cost" optional="hide" sum="Planned Cost"/>
+                <field name="company_id" groups="base.group_multi_company" optional="hide"/>
+                <field name="state" widget="badge"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="radwan_planning_slot_view_form" model="ir.ui.view">
+        <field name="name">radwan.planning.slot.view.form</field>
+        <field name="model">radwan.planning.slot</field>
+        <field name="arch" type="xml">
+            <form string="Planning Shift">
+                <header>
+                    <button name="action_publish" string="Publish" type="object" class="btn-primary" invisible="state != 'draft'"/>
+                    <button name="action_create_timesheet" string="Create Timesheet" type="object" class="btn-secondary" invisible="state not in ['published', 'done'] or not employee_id or not project_id"/>
+                    <button name="action_match_timesheets" string="Match Timesheets" type="object" invisible="state == 'cancelled' or not employee_id or not project_id"/>
+                    <button name="action_unassign" string="Unassign" type="object" invisible="resource_type != 'employee' or state == 'cancelled'"/>
+                    <button name="action_done" string="Mark Done" type="object" invisible="state != 'published'"/>
+                    <button name="action_set_draft" string="Reset to Draft" type="object" invisible="state == 'draft'"/>
+                    <button name="action_cancel" string="Cancel" type="object" invisible="state == 'cancelled'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,published,done,cancelled"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_timesheets" type="object" class="oe_stat_button" icon="fa-clock-o" invisible="timesheet_count == 0">
+                            <field name="timesheet_count" widget="statinfo" string="Timesheets"/>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1>
+                            <field name="name"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group string="Resource">
+                            <field name="resource_type"/>
+                            <field name="employee_id" widget="many2one_avatar_employee" invisible="resource_type != 'employee'" required="resource_type == 'employee'"/>
+                            <field name="material_id" invisible="resource_type != 'material'" required="resource_type == 'material'"/>
+                            <field name="role_id"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                        <group string="Schedule">
+                            <field name="start_datetime"/>
+                            <field name="end_datetime"/>
+                            <field name="allocated_hours" widget="float_time"/>
+                            <field name="published_by_id" widget="many2one_avatar_user" readonly="1" invisible="not published_by_id"/>
+                            <field name="published_date" readonly="1" invisible="not published_date"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group string="Project">
+                            <field name="project_id"/>
+                            <field name="task_id"/>
+                            <field name="description"/>
+                        </group>
+                        <group string="Timesheet Progress">
+                            <field name="actual_hours" widget="float_time"/>
+                            <field name="remaining_hours" widget="float_time"/>
+                            <field name="planned_cost"/>
+                            <field name="progress"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Notes">
+                            <field name="note" nolabel="1"/>
+                        </page>
+                        <page string="Timesheets" invisible="timesheet_count == 0">
+                            <field name="timesheet_line_ids" readonly="1">
+                                <list>
+                                    <field name="date"/>
+                                    <field name="employee_id" widget="many2one_avatar_employee"/>
+                                    <field name="project_id"/>
+                                    <field name="task_id"/>
+                                    <field name="name"/>
+                                    <field name="unit_amount" widget="float_time"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="radwan_planning_slot_view_calendar" model="ir.ui.view">
+        <field name="name">radwan.planning.slot.view.calendar</field>
+        <field name="model">radwan.planning.slot</field>
+        <field name="arch" type="xml">
+            <calendar date_start="start_datetime" date_stop="end_datetime" string="Planning" mode="week" scales="day,week,month" color="role_id" event_open_popup="true" quick_create="0">
+                <field name="employee_id" avatar_field="avatar_128" widget="many2one_avatar_employee"/>
+                <field name="material_id"/>
+                <field name="role_id"/>
+                <field name="project_id"/>
+                <field name="task_id"/>
+                <field name="allocated_hours" widget="float_time"/>
+                <field name="state"/>
+            </calendar>
+        </field>
+    </record>
+
+    <record id="radwan_planning_slot_view_kanban" model="ir.ui.view">
+        <field name="name">radwan.planning.slot.view.kanban</field>
+        <field name="model">radwan.planning.slot</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="state" class="o_kanban_small_column">
+                <field name="name"/>
+                <field name="employee_id"/>
+                <field name="material_id"/>
+                <field name="role_id"/>
+                <field name="project_id"/>
+                <field name="start_datetime"/>
+                <field name="end_datetime"/>
+                <field name="allocated_hours"/>
+                <field name="state"/>
+                <templates>
+                    <t t-name="card">
+                        <div class="oe_kanban_global_click">
+                            <div class="fw-bold">
+                                <field name="name"/>
+                            </div>
+                            <div class="text-muted">
+                                <field name="start_datetime"/> - <field name="end_datetime"/>
+                            </div>
+                            <div>
+                                <field name="employee_id" widget="many2one_avatar_employee"/>
+                                <field name="material_id"/>
+                            </div>
+                            <div>
+                                <field name="project_id"/>
+                            </div>
+                            <div class="mt8">
+                                <field name="role_id"/>
+                                <span class="float-end">
+                                    <field name="allocated_hours" widget="float_time"/>
+                                </span>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="radwan_planning_slot_view_pivot" model="ir.ui.view">
+        <field name="name">radwan.planning.slot.view.pivot</field>
+        <field name="model">radwan.planning.slot</field>
+        <field name="arch" type="xml">
+            <pivot string="Planning Analysis">
+                <field name="start_datetime" interval="month" type="row"/>
+                <field name="project_id" type="row"/>
+                <field name="allocated_hours" type="measure"/>
+                <field name="actual_hours" type="measure"/>
+                <field name="remaining_hours" type="measure"/>
+                <field name="planned_cost" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="radwan_planning_slot_view_graph" model="ir.ui.view">
+        <field name="name">radwan.planning.slot.view.graph</field>
+        <field name="model">radwan.planning.slot</field>
+        <field name="arch" type="xml">
+            <graph string="Planning Analysis" type="bar">
+                <field name="start_datetime" interval="month"/>
+                <field name="allocated_hours" type="measure"/>
+                <field name="actual_hours" type="measure"/>
+                <field name="planned_cost" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="action_radwan_planning_slot" model="ir.actions.act_window">
+        <field name="name">Planning Shifts</field>
+        <field name="res_model">radwan.planning.slot</field>
+        <field name="view_mode">calendar,list,kanban,form,pivot,graph</field>
+        <field name="search_view_id" ref="radwan_planning_slot_view_search"/>
+        <field name="context">{'search_default_published': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No shifts found. Create a shift to schedule resources by role, project, or employee.
+            </p>
+        </field>
+    </record>
+
+    <record id="action_radwan_planning_gantt_resource" model="ir.actions.client">
+        <field name="name">Schedule by Resource</field>
+        <field name="tag">radwan_planning_gantt</field>
+        <field name="context">{'radwan_gantt_group_by': 'resource'}</field>
+    </record>
+
+    <record id="action_radwan_planning_gantt_role" model="ir.actions.client">
+        <field name="name">Schedule by Role</field>
+        <field name="tag">radwan_planning_gantt</field>
+        <field name="context">{'radwan_gantt_group_by': 'role'}</field>
+    </record>
+
+    <record id="action_radwan_planning_gantt_project" model="ir.actions.client">
+        <field name="name">Schedule by Project</field>
+        <field name="tag">radwan_planning_gantt</field>
+        <field name="context">{'radwan_gantt_group_by': 'project'}</field>
+    </record>
+
+    <record id="action_radwan_open_shifts" model="ir.actions.act_window">
+        <field name="name">Open Shifts</field>
+        <field name="res_model">radwan.planning.slot</field>
+        <field name="view_mode">calendar,list,kanban,form,pivot,graph</field>
+        <field name="domain">[('resource_type', '=', 'open')]</field>
+        <field name="search_view_id" ref="radwan_planning_slot_view_search"/>
+        <field name="context">{'default_resource_type': 'open', 'search_default_open_shifts': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No open shifts found. Create one to publish unassigned work.
+            </p>
+        </field>
+    </record>
+
+    <record id="action_radwan_planning_by_resource" model="ir.actions.act_window">
+        <field name="name">Schedule by Resource</field>
+        <field name="res_model">radwan.planning.slot</field>
+        <field name="view_mode">calendar,list,kanban,form,pivot,graph</field>
+        <field name="search_view_id" ref="radwan_planning_slot_view_search"/>
+        <field name="context">{'search_default_group_employee': 1}</field>
+    </record>
+
+    <record id="action_radwan_planning_by_role" model="ir.actions.act_window">
+        <field name="name">Schedule by Role</field>
+        <field name="res_model">radwan.planning.slot</field>
+        <field name="view_mode">calendar,list,kanban,form,pivot,graph</field>
+        <field name="search_view_id" ref="radwan_planning_slot_view_search"/>
+        <field name="context">{'search_default_group_role': 1}</field>
+    </record>
+
+    <record id="action_radwan_planning_by_project" model="ir.actions.act_window">
+        <field name="name">Schedule by Project</field>
+        <field name="res_model">radwan.planning.slot</field>
+        <field name="view_mode">calendar,list,kanban,form,pivot,graph</field>
+        <field name="search_view_id" ref="radwan_planning_slot_view_search"/>
+        <field name="context">{'search_default_group_project': 1}</field>
+    </record>
+
+    <record id="action_radwan_my_planning" model="ir.actions.act_window">
+        <field name="name">My Planning</field>
+        <field name="res_model">radwan.planning.slot</field>
+        <field name="view_mode">calendar,list,kanban,form</field>
+        <field name="search_view_id" ref="radwan_planning_slot_view_search"/>
+        <field name="domain">[('employee_id.user_id', '=', uid)]</field>
+        <field name="context">{'search_default_my_planning': 1}</field>
+    </record>
+
+    <record id="action_radwan_planning_analysis" model="ir.actions.act_window">
+        <field name="name">Planning Analysis</field>
+        <field name="res_model">radwan.planning.slot</field>
+        <field name="view_mode">pivot,graph,list</field>
+        <field name="search_view_id" ref="radwan_planning_slot_view_search"/>
+        <field name="context">{'search_default_group_project': 1}</field>
+    </record>
+</odoo>

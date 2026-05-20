@@ -7,8 +7,8 @@
         <field name="inherit_id" ref="support_helpdesk_ticket.res_config_settings_view_form_inherit_helpdesk"/>
         <field name="arch" type="xml">
             <xpath expr="//app[@name='support_helpdesk_ticket']" position="attributes">
-                <attribute name="string">Radwan Helpdesk</attribute>
-                <attribute name="data-string">Radwan Helpdesk</attribute>
+                <attribute name="string">مركز المساعدة</attribute>
+                <attribute name="data-string">مركز المساعدة</attribute>
             </xpath>
         </field>
     </record>

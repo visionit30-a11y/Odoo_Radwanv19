@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="hr_job_view_form" model="ir.ui.view">
+        <field name="name">hr.job.view.form.inherit.radwan.job.description</field>
+        <field name="model">hr.job</field>
+        <field name="inherit_id" ref="hr.view_hr_job_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='job_description_page']" position="after">
+                <page
+                    string="Job Description"
+                    name="radwan_job_description_page"
+                    groups="hr_recruitment.group_hr_recruitment_interviewer,hr.group_hr_user">
+                    <div class="d-flex justify-content-end mb-2">
+                        <button
+                            name="action_radwan_load_job_description_sections"
+                            string="Load Default Headings"
+                            type="object"
+                            class="btn-secondary"/>
+                    </div>
+                    <field
+                        name="radwan_job_description_line_ids"
+                        widget="section_and_note_one2many"
+                        mode="list"
+                        context="{'default_job_id': id}">
+                        <list editable="bottom" default_order="sequence, id">
+                            <control>
+                                <create name="add_line_control" string="Add a line"/>
+                                <create name="add_section_control" string="Add a heading" context="{'default_display_type': 'line_section'}"/>
+                                <create name="add_note_control" string="Add a note" context="{'default_display_type': 'line_note'}"/>
+                            </control>
+                            <field name="sequence" widget="handle"/>
+                            <field name="display_type" column_invisible="True"/>
+                            <field
+                                name="section_id"
+                                string="Main Heading"
+                                optional="show"
+                                readonly="display_type == 'line_note'"
+                                required="display_type == 'line_section'"
+                                options="{'no_create_edit': True}"/>
+                            <field name="name" string="Description / Sub Line" widget="section_and_note_text"/>
+                        </list>
+                    </field>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

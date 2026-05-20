@@ -30,6 +30,26 @@ class HrEmployee(models.Model):
         inherited=True,
         groups="hr.group_hr_manager",
     )
+    radwan_employer_termination_penalty = fields.Monetary(
+        related="version_id.radwan_employer_termination_penalty",
+        readonly=False,
+        inherited=True,
+        currency_field="currency_id",
+        groups="hr.group_hr_manager",
+    )
+    radwan_employee_termination_penalty = fields.Monetary(
+        related="version_id.radwan_employee_termination_penalty",
+        readonly=False,
+        inherited=True,
+        currency_field="currency_id",
+        groups="hr.group_hr_manager",
+    )
+    radwan_contract_other_notes = fields.Text(
+        related="version_id.radwan_contract_other_notes",
+        readonly=False,
+        inherited=True,
+        groups="hr.group_hr_manager",
+    )
     radwan_basic = fields.Monetary(
         related="version_id.radwan_basic",
         readonly=False,

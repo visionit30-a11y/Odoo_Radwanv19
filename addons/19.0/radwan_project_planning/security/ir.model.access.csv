@@ -1,0 +1,10 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_radwan_planning_slot_user,radwan.planning.slot.user,model_radwan_planning_slot,project.group_project_user,1,1,1,0
+access_radwan_planning_slot_manager,radwan.planning.slot.manager,model_radwan_planning_slot,project.group_project_manager,1,1,1,1
+access_radwan_planning_role_user,radwan.planning.role.user,model_radwan_planning_role,project.group_project_user,1,0,0,0
+access_radwan_planning_role_manager,radwan.planning.role.manager,model_radwan_planning_role,project.group_project_manager,1,1,1,1
+access_radwan_planning_material_user,radwan.planning.material.user,model_radwan_planning_material,project.group_project_user,1,0,0,0
+access_radwan_planning_material_manager,radwan.planning.material.manager,model_radwan_planning_material,project.group_project_manager,1,1,1,1
+access_radwan_planning_template_user,radwan.planning.template.user,model_radwan_planning_template,project.group_project_user,1,0,0,0
+access_radwan_planning_template_manager,radwan.planning.template.manager,model_radwan_planning_template,project.group_project_manager,1,1,1,1
+access_radwan_planning_generate_wizard_user,radwan.planning.generate.wizard.user,model_radwan_planning_generate_wizard,project.group_project_user,1,1,1,1

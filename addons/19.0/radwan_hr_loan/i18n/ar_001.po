@@ -1,0 +1,661 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* radwan_hr_loan
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0-20260516\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-05-19 22:58+0000\n"
+"PO-Revision-Date: 2026-05-19 22:58+0000\n"
+"Last-Translator: RADWAN\n"
+"Language-Team: Arabic\n"
+"Language: ar_001\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
+
+#. module: radwan_hr_loan
+#: model:ir.actions.report,print_report_name:radwan_hr_loan.action_report_hr_employee_loan
+msgid "'Loan - %s' % (object.name)"
+msgstr ""
+
+#. module: radwan_hr_loan
+#: model:ir.ui.menu,name:radwan_hr_loan.hr_employee_loan_menu_configuration
+msgid "Configuration"
+msgstr "الإعدادات"
+
+#. module: radwan_hr_loan
+#: model_terms:ir.ui.view,arch_db:radwan_hr_loan.report_hr_loan_document
+msgid "<strong>Company:</strong>"
+msgstr ""
+
+#. module: radwan_hr_loan
+#: model_terms:ir.ui.view,arch_db:radwan_hr_loan.report_hr_loan_document
+msgid "<strong>Employee:</strong>"
+msgstr ""
+
+#. module: radwan_hr_loan
+#: model_terms:ir.ui.view,arch_db:radwan_hr_loan.report_hr_loan_document
+msgid "<strong>End Date:</strong>"
+msgstr ""
+
+#. module: radwan_hr_loan
+#: model_terms:ir.ui.view,arch_db:radwan_hr_loan.report_hr_loan_document
+msgid "<strong>Loan Date:</strong>"
+msgstr ""
+
+#. module: radwan_hr_loan
+#: model_terms:ir.ui.view,arch_db:radwan_hr_loan.report_hr_loan_document
+msgid "<strong>Reason</strong>"
+msgstr ""
+
+#. module: radwan_hr_loan
+#: model_terms:ir.ui.view,arch_db:radwan_hr_loan.report_hr_loan_document
+msgid "<strong>Reference:</strong>"
+msgstr ""
+
+#. module: radwan_hr_loan
+#: model_terms:ir.ui.view,arch_db:radwan_hr_loan.report_hr_loan_document
+msgid "<strong>Start Date:</strong>"
+msgstr ""
+
+#. module: radwan_hr_loan
+#: model_terms:ir.ui.view,arch_db:radwan_hr_loan.report_hr_loan_document
+msgid "<strong>Status:</strong>"
+msgstr ""
+
+#. module: radwan_hr_loan
+#: model_terms:ir.ui.view,arch_db:radwan_hr_loan.hr_loan_payment_method_view_form
+msgid "Accounting"
+msgstr "المحاسبة"
+
+#. module: radwan_hr_loan
+#: model:ir.model.fields,help:radwan_hr_loan.field_hr_loan_payment_wizard__apply_future_installments
+msgid "Allow this payment to settle installments after the payment date."
+msgstr "السماح لهذه الدفعة بتسوية الأقساط بعد تاريخ الدفع."
+
+#. module: radwan_hr_loan
+#: model:ir.model.fields,field_description:radwan_hr_loan.field_hr_loan_payment_method__analytic_account_id
+msgid "Analytic Account"
+msgstr "الحساب التحليلي"
+
+#. module: radwan_hr_loan
+#: model_terms:ir.ui.view,arch_db:radwan_hr_loan.hr_employee_loan_view_form
+msgid "Approval"
+msgstr "الموافقة"
+
+#. module: radwan_hr_loan
+#: model_terms:ir.ui.view,arch_db:radwan_hr_loan.hr_employee_loan_view_form
+#: model_terms:ir.ui.view,arch_db:radwan_hr_loan.hr_employee_loan_view_list
+#: model_terms:ir.ui.view,arch_db:radwan_hr_loan.hr_loan_installment_view_list
+#: model_terms:ir.ui.view,arch_db:radwan_hr_loan.report_hr_loan_document
+msgid "Balance"
+msgstr "الرصيد"
+
+#. module: radwan_hr_loan
+#: model:ir.model.fields,field_description:radwan_hr_loan.field_hr_loan_installment__balance_amount
+msgid "Balance Amount"
+msgstr "مبلغ الرصيد"
+
+#. module: radwan_hr_loan
+#: model:ir.model.fields,help:radwan_hr_loan.field_hr_loan_payment_method__disbursement_account_id
+msgid "Cash, bank, or clearing account used when paying the loan."
+msgstr "حساب النقد أو البنك أو التسوية المستخدم عند صرف السلفة."
+
+#. module: radwan_hr_loan
+#. odoo-python
+#: code:addons/radwan_hr_loan/models/hr_loan.py:0
+msgid ""
+"Configure journal, loan account, and disbursement account on the payment "
+"method."
+msgstr ""
+
+#. module: radwan_hr_loan
+#. odoo-python
+#: code:addons/radwan_hr_loan/wizard/hr_loan_payment_wizard.py:0
+msgid "Configure loan account and disbursement account on the payment method."
+msgstr ""
+
+#. module: radwan_hr_loan
+#: model_terms:ir.ui.view,arch_db:radwan_hr_loan.hr_loan_payment_wizard_view_form
+msgid "Confirm"
+msgstr "تأكيد"
+
+#. module: radwan_hr_loan
+#: model:ir.model.fields,field_description:radwan_hr_loan.field_hr_employee_loan__version_id
+msgid "Contract"
+msgstr "العقد"
+
+#. module: radwan_hr_loan
+#: model_terms:ir.ui.view,arch_db:radwan_hr_loan.hr_employee_loan_view_form
+msgid "Disburse"
+msgstr "صرف"
+
+#. module: radwan_hr_loan
+#: model:ir.model.fields,field_description:radwan_hr_loan.field_hr_employee_loan__disbursed_date
+msgid "Disbursed Date"
+msgstr "تاريخ الصرف"
+
+#. module: radwan_hr_loan
+#: model:ir.model.fields,field_description:radwan_hr_loan.field_hr_loan_payment_method__disbursement_account_id
+msgid "Disbursement Account"
+msgstr "حساب الصرف"
+
+#. module: radwan_hr_loan
+#: model:ir.model,name:radwan_hr_loan.model_hr_employee_loan
+#: model_terms:ir.ui.view,arch_db:radwan_hr_loan.report_hr_loan_document
+msgid "Employee Loan"
+msgstr "سلفة موظف"
+
+#. module: radwan_hr_loan
+#: model:hr.salary.rule,name:radwan_hr_loan.hr_salary_rule_employee_loan
+msgid "Employee Loan Deduction"
+msgstr ""
+
+#. module: radwan_hr_loan
+#. odoo-python
+#: code:addons/radwan_hr_loan/models/hr_payslip.py:0
+msgid "Employee Loan Installments"
+msgstr ""
+
+#. module: radwan_hr_loan
+#. odoo-python
+#: code:addons/radwan_hr_loan/models/hr_employee.py:0
+msgid "Employee Loans"
+msgstr ""
+
+#. module: radwan_hr_loan
+#: model:ir.model.fields,field_description:radwan_hr_loan.field_hr_employee_loan__end_date
+msgid "End Date"
+msgstr "تاريخ الانتهاء"
+
+#. module: radwan_hr_loan
+#: model_terms:ir.ui.view,arch_db:radwan_hr_loan.hr_employee_loan_view_form
+msgid "First Approve"
+msgstr "الاعتماد الأول"
+
+#. module: radwan_hr_loan
+#: model:ir.model.fields.selection,name:radwan_hr_loan.selection__hr_employee_loan__state__first_approved
+#: model:ir.model.fields.selection,name:radwan_hr_loan.selection__hr_loan_report_wizard__state__first_approved
+msgid "First Approved"
+msgstr "معتمد أول"
+
+#. module: radwan_hr_loan
+#: model:ir.model.fields,field_description:radwan_hr_loan.field_hr_employee_loan__first_approved_by
+msgid "First Approved By"
+msgstr "الاعتماد الأول بواسطة"
+
+#. module: radwan_hr_loan
+#: model:ir.model.fields,field_description:radwan_hr_loan.field_hr_employee_loan__first_approved_date
+msgid "First Approved Date"
+msgstr "تاريخ الاعتماد الأول"
+
+#. module: radwan_hr_loan
+#: model_terms:ir.ui.view,arch_db:radwan_hr_loan.hr_employee_loan_view_form
+msgid "Generate Installments"
+msgstr "إنشاء الأقساط"
+
+#. module: radwan_hr_loan
+#: model:ir.model.fields.selection,name:radwan_hr_loan.selection__hr_loan_installment__state__in_payslip
+msgid "In Payslip"
+msgstr "في قسيمة الراتب"
+
+#. module: radwan_hr_loan
+#: model:ir.model.fields,field_description:radwan_hr_loan.field_hr_employee_loan__installment_amount
+msgid "Installment Amount"
+msgstr "مبلغ القسط"
+
+#. module: radwan_hr_loan
+#: model:ir.model.fields,field_description:radwan_hr_loan.field_hr_employee_loan__installment_line_count
+msgid "Installment Line Count"
+msgstr "عدد بنود الأقساط"
+
+#. module: radwan_hr_loan
+#. odoo-python
+#: code:addons/radwan_hr_loan/models/hr_loan.py:0
+msgid "Installment amount must be greater than zero."
+msgstr ""
+
+#. module: radwan_hr_loan
+#. odoo-python
+#: code:addons/radwan_hr_loan/models/hr_loan.py:0
+msgid "Installment total must equal the loan amount."
+msgstr ""
+
+#. module: radwan_hr_loan
+#: model_terms:ir.ui.view,arch_db:radwan_hr_loan.report_hr_loan_document
+msgid "Installments"
+msgstr "الأقساط"
+
+#. module: radwan_hr_loan
+#: model:ir.model.fields,field_description:radwan_hr_loan.field_hr_employee_loan__job_id
+msgid "Job"
+msgstr "الوظيفة"
+
+#. module: radwan_hr_loan
+#: model:ir.model.fields,field_description:radwan_hr_loan.field_hr_employee_loan__journal_id
+#: model:ir.model.fields,field_description:radwan_hr_loan.field_hr_loan_payment_method__journal_id
+#: model:ir.model.fields,field_description:radwan_hr_loan.field_hr_loan_payment_wizard__journal_id
+msgid "Journal"
+msgstr "دفتر اليومية"
+
+#. module: radwan_hr_loan
+#: model_terms:ir.ui.view,arch_db:radwan_hr_loan.hr_employee_loan_view_form
+msgid "Journal Entry"
+msgstr "قيد يومية"
+
+#. module: radwan_hr_loan
+#: model:ir.model.fields,field_description:radwan_hr_loan.field_hr_employee__loan_ids
+#: model:ir.model.fields,field_description:radwan_hr_loan.field_hr_loan_installment__loan_id
+#: model:ir.model.fields,field_description:radwan_hr_loan.field_hr_loan_payment_wizard__loan_id
+msgid "Loan"
+msgstr "السلفة"
+
+#. module: radwan_hr_loan
+#: model:ir.model.fields,field_description:radwan_hr_loan.field_hr_employee_loan__loan_account_id
+#: model:ir.model.fields,field_description:radwan_hr_loan.field_hr_loan_payment_method__loan_account_id
+msgid "Loan Account"
+msgstr "حساب السلفة"
+
+#. module: radwan_hr_loan
+#: model:ir.model.fields,field_description:radwan_hr_loan.field_hr_employee_loan__loan_amount
+#: model_terms:ir.ui.view,arch_db:radwan_hr_loan.hr_employee_loan_view_list
+#: model_terms:ir.ui.view,arch_db:radwan_hr_loan.report_hr_loan_document
+msgid "Loan Amount"
+msgstr "مبلغ السلفة"
+
+#. module: radwan_hr_loan
+#: model:ir.actions.act_window,name:radwan_hr_loan.hr_loan_report_wizard_action_analysis
+#: model:ir.model.fields.selection,name:radwan_hr_loan.selection__hr_loan_report_wizard__report_type__loan
+#: model:ir.ui.menu,name:radwan_hr_loan.hr_employee_loan_menu_report_analysis
+msgid "Loan Analysis Report"
+msgstr "تقرير تحليل السلف"
+
+#. module: radwan_hr_loan
+#: model:ir.model.fields,field_description:radwan_hr_loan.field_hr_employee_loan__balance_amount
+msgid "Loan Balance"
+msgstr "رصيد السلفة"
+
+#. module: radwan_hr_loan
+#: model:ir.model.fields,field_description:radwan_hr_loan.field_hr_employee__loan_count
+msgid "Loan Count"
+msgstr "عدد السلف"
+
+#. module: radwan_hr_loan
+#: model:ir.model.fields,field_description:radwan_hr_loan.field_hr_employee_loan__loan_date
+msgid "Loan Date"
+msgstr "تاريخ السلفة"
+
+#. module: radwan_hr_loan
+#: model:ir.model,name:radwan_hr_loan.model_hr_loan_installment
+msgid "Loan Installment"
+msgstr "قسط السلفة"
+
+#. module: radwan_hr_loan
+#: model:ir.model.fields,field_description:radwan_hr_loan.field_hr_payslip__loan_installment_count
+msgid "Loan Installment Count"
+msgstr "عدد أقساط السلفة"
+
+#. module: radwan_hr_loan
+#: model:ir.actions.act_window,name:radwan_hr_loan.hr_loan_report_wizard_action_installment
+#: model:ir.model.fields.selection,name:radwan_hr_loan.selection__hr_loan_report_wizard__report_type__installment
+#: model:ir.ui.menu,name:radwan_hr_loan.hr_employee_loan_menu_report_installments
+msgid "Loan Installment Report"
+msgstr "تقرير أقساط السلف"
+
+#. module: radwan_hr_loan
+#. odoo-python
+#: code:addons/radwan_hr_loan/models/hr_payslip.py:0
+#: model:ir.actions.act_window,name:radwan_hr_loan.hr_loan_installment_action
+#: model:ir.model.fields,field_description:radwan_hr_loan.field_hr_payslip_input__loan_installment_ids
+#: model_terms:ir.ui.view,arch_db:radwan_hr_loan.view_hr_payslip_form
+msgid "Loan Installments"
+msgstr "أقساط السلفة"
+
+#. module: radwan_hr_loan
+#: model:ir.model.fields,field_description:radwan_hr_loan.field_hr_employee_loan__move_id
+msgid "Loan Journal Entry"
+msgstr "قيد يومية السلفة"
+
+#. module: radwan_hr_loan
+#: model:res.groups,name:radwan_hr_loan.radwan_hr_loan_group_manager
+msgid "Loan Manager"
+msgstr ""
+
+#. module: radwan_hr_loan
+#: model:ir.model,name:radwan_hr_loan.model_hr_loan_payment_method
+msgid "Loan Payment Method"
+msgstr "طريقة دفع السلفة"
+
+#. module: radwan_hr_loan
+#: model:ir.actions.act_window,name:radwan_hr_loan.hr_loan_payment_method_action
+#: model:ir.ui.menu,name:radwan_hr_loan.hr_employee_loan_menu_payment_method
+msgid "Loan Payment Methods"
+msgstr "طرق دفع السلف"
+
+#. module: radwan_hr_loan
+#: model:ir.model.fields,field_description:radwan_hr_loan.field_hr_employee_loan__reason
+msgid "Loan Reason"
+msgstr "سبب السلفة"
+
+#. module: radwan_hr_loan
+#: model:ir.actions.report,name:radwan_hr_loan.action_report_hr_employee_loan
+#: model_terms:ir.ui.view,arch_db:radwan_hr_loan.hr_loan_report_wizard_view_form
+msgid "Loan Report"
+msgstr "تقرير السلفة"
+
+#. module: radwan_hr_loan
+#: model:ir.model,name:radwan_hr_loan.model_hr_loan_report_wizard
+msgid "Loan Report Wizard"
+msgstr "معالج تقرير السلفة"
+
+#. module: radwan_hr_loan
+#: model:res.groups,name:radwan_hr_loan.radwan_hr_loan_group_user
+msgid "Loan User"
+msgstr ""
+
+#. module: radwan_hr_loan
+#. odoo-python
+#: code:addons/radwan_hr_loan/models/hr_loan.py:0
+msgid "Loan amount must be greater than zero."
+msgstr ""
+
+#. module: radwan_hr_loan
+#: model_terms:ir.ui.view,arch_db:radwan_hr_loan.hr_employee_loan_view_form
+msgid "Loan reason..."
+msgstr "سبب السلفة..."
+
+#. module: radwan_hr_loan
+#. odoo-python
+#: code:addons/radwan_hr_loan/wizard/hr_loan_payment_wizard.py:0
+msgid "Loan repayment: %s"
+msgstr ""
+
+#. module: radwan_hr_loan
+#: model:ir.actions.act_window,name:radwan_hr_loan.hr_employee_loan_action
+#: model:ir.ui.menu,name:radwan_hr_loan.hr_employee_loan_menu_loans
+#: model:ir.ui.menu,name:radwan_hr_loan.hr_employee_loan_menu_root
+#: model:res.groups.privilege,name:radwan_hr_loan.radwan_hr_loan_privilege
+#: model_terms:ir.ui.view,arch_db:radwan_hr_loan.hr_employee_loan_view_form
+#: model_terms:ir.ui.view,arch_db:radwan_hr_loan.view_employee_form
+msgid "Loans"
+msgstr "السلف"
+
+#. module: radwan_hr_loan
+#: model_terms:ir.ui.view,arch_db:radwan_hr_loan.hr_employee_loan_view_search
+msgid "My Company"
+msgstr "شركتي"
+
+#. module: radwan_hr_loan
+#: model:ir.model.fields,field_description:radwan_hr_loan.field_hr_employee_loan__installment_count
+msgid "Number of Months"
+msgstr "عدد الأشهر"
+
+#. module: radwan_hr_loan
+#. odoo-python
+#: code:addons/radwan_hr_loan/models/hr_loan.py:0
+msgid "Number of months must be greater than zero."
+msgstr ""
+
+#. module: radwan_hr_loan
+#. odoo-python
+#: code:addons/radwan_hr_loan/models/hr_loan.py:0
+msgid "Only draft or cancelled loans can be deleted."
+msgstr ""
+
+#. module: radwan_hr_loan
+#. odoo-python
+#: code:addons/radwan_hr_loan/models/hr_loan.py:0
+msgid "Only second approved loans can be disbursed."
+msgstr ""
+
+#. module: radwan_hr_loan
+#: model_terms:ir.ui.view,arch_db:radwan_hr_loan.hr_loan_report_wizard_view_form
+msgid "Open Report"
+msgstr "فتح التقرير"
+
+#. module: radwan_hr_loan
+#: model:ir.model.fields,help:radwan_hr_loan.field_hr_loan_payment_method__payroll_credit_account_id
+#: model:ir.model.fields,help:radwan_hr_loan.field_hr_loan_payment_method__payroll_debit_account_id
+msgid "Optional account to use on the payroll loan deduction rule."
+msgstr "حساب اختياري لاستخدامه في قاعدة خصم السلفة من الرواتب."
+
+#. module: radwan_hr_loan
+#: model:ir.model.fields,field_description:radwan_hr_loan.field_hr_employee_loan__paid_amount
+#: model:ir.model.fields,field_description:radwan_hr_loan.field_hr_loan_installment__paid_amount
+msgid "Paid Amount"
+msgstr "المبلغ المدفوع"
+
+#. module: radwan_hr_loan
+#. odoo-python
+#: code:addons/radwan_hr_loan/models/hr_loan.py:0
+msgid "Paid amount cannot be negative."
+msgstr ""
+
+#. module: radwan_hr_loan
+#. odoo-python
+#: code:addons/radwan_hr_loan/models/hr_loan.py:0
+msgid "Paid amount cannot exceed installment amount."
+msgstr ""
+
+#. module: radwan_hr_loan
+#: model:ir.model.fields.selection,name:radwan_hr_loan.selection__hr_loan_installment__state__partial
+msgid "Partially Paid"
+msgstr "مدفوع جزئيًا"
+
+#. module: radwan_hr_loan
+#: model:ir.model,name:radwan_hr_loan.model_hr_payslip
+msgid "Pay Slip"
+msgstr "قسيمة المرتب"
+
+#. module: radwan_hr_loan
+#: model_terms:ir.ui.view,arch_db:radwan_hr_loan.hr_employee_loan_view_form
+msgid "Payment"
+msgstr "الدفع"
+
+#. module: radwan_hr_loan
+#: model:ir.model.fields,field_description:radwan_hr_loan.field_hr_employee_loan__payment_method_id
+#: model:ir.model.fields,field_description:radwan_hr_loan.field_hr_loan_payment_wizard__payment_method_id
+msgid "Payment Method"
+msgstr "طريقة الدفع"
+
+#. module: radwan_hr_loan
+#: model:ir.model.fields,field_description:radwan_hr_loan.field_hr_loan_payment_method__name
+msgid "Payment Name"
+msgstr "اسم الدفع"
+
+#. module: radwan_hr_loan
+#. odoo-python
+#: code:addons/radwan_hr_loan/wizard/hr_loan_payment_wizard.py:0
+msgid ""
+"Payment amount cannot exceed due installments. Enable \"Settle Future "
+"Installments\" for early settlement."
+msgstr ""
+
+#. module: radwan_hr_loan
+#. odoo-python
+#: code:addons/radwan_hr_loan/wizard/hr_loan_payment_wizard.py:0
+msgid "Payment amount must be greater than zero."
+msgstr ""
+
+#. module: radwan_hr_loan
+#: model:ir.model.fields,field_description:radwan_hr_loan.field_hr_employee_loan__installment_ids
+#: model_terms:ir.ui.view,arch_db:radwan_hr_loan.hr_employee_loan_view_form
+msgid "Payments Loan"
+msgstr "مدفوعات السلفة"
+
+#. module: radwan_hr_loan
+#: model:ir.model.fields,field_description:radwan_hr_loan.field_hr_loan_payment_method__payroll_credit_account_id
+msgid "Payroll Credit Account"
+msgstr "حساب دائن الرواتب"
+
+#. module: radwan_hr_loan
+#: model:ir.model.fields,field_description:radwan_hr_loan.field_hr_loan_payment_method__payroll_debit_account_id
+msgid "Payroll Debit Account"
+msgstr "حساب مدين الرواتب"
+
+#. module: radwan_hr_loan
+#: model:ir.model.fields,field_description:radwan_hr_loan.field_hr_loan_installment__payslip_id
+msgid "Payslip"
+msgstr "قسيمة الراتب"
+
+#. module: radwan_hr_loan
+#: model:ir.model.fields,field_description:radwan_hr_loan.field_hr_employee_loan__payslip_count
+msgid "Payslip Count"
+msgstr "عدد قسائم الرواتب"
+
+#. module: radwan_hr_loan
+#: model:ir.model,name:radwan_hr_loan.model_hr_payslip_input
+msgid "Payslip Input"
+msgstr "مدخلات المرتب"
+
+#. module: radwan_hr_loan
+#. odoo-python
+#: code:addons/radwan_hr_loan/models/hr_loan.py:0
+#: model_terms:ir.ui.view,arch_db:radwan_hr_loan.hr_employee_loan_view_form
+msgid "Payslips"
+msgstr "قسائم الرواتب"
+
+#. module: radwan_hr_loan
+#: model:ir.model.fields.selection,name:radwan_hr_loan.selection__hr_loan_installment__state__pending
+msgid "Pending"
+msgstr "قيد الانتظار"
+
+#. module: radwan_hr_loan
+#. odoo-python
+#: code:addons/radwan_hr_loan/wizard/hr_loan_payment_wizard.py:0
+msgid "Please configure a journal on the loan payment method."
+msgstr ""
+
+#. module: radwan_hr_loan
+#. odoo-python
+#: code:addons/radwan_hr_loan/models/hr_loan.py:0
+msgid "Please select a loan payment method."
+msgstr ""
+
+#. module: radwan_hr_loan
+#. odoo-python
+#: code:addons/radwan_hr_loan/models/hr_loan.py:0
+msgid "Please set the start date first."
+msgstr ""
+
+#. module: radwan_hr_loan
+#: model_terms:ir.ui.view,arch_db:radwan_hr_loan.hr_employee_loan_view_form
+msgid "Print Loan"
+msgstr "طباعة السلفة"
+
+#. module: radwan_hr_loan
+#: model_terms:ir.ui.view,arch_db:radwan_hr_loan.hr_employee_loan_view_form
+msgid "Reason"
+msgstr "السبب"
+
+#. module: radwan_hr_loan
+#: model:ir.model.fields,help:radwan_hr_loan.field_hr_employee_loan__loan_account_id
+#: model:ir.model.fields,help:radwan_hr_loan.field_hr_loan_payment_method__loan_account_id
+msgid "Receivable account used to track employee loan balances."
+msgstr "حساب ذمم يستخدم لتتبع أرصدة سلف الموظفين."
+
+#. module: radwan_hr_loan
+#. odoo-python
+#: code:addons/radwan_hr_loan/models/hr_loan.py:0
+#: model:ir.actions.act_window,name:radwan_hr_loan.hr_loan_payment_wizard_action
+#: model:ir.model,name:radwan_hr_loan.model_hr_loan_payment_wizard
+#: model_terms:ir.ui.view,arch_db:radwan_hr_loan.hr_loan_payment_wizard_view_form
+msgid "Register Loan Payment"
+msgstr "تسجيل دفعة سلفة"
+
+#. module: radwan_hr_loan
+#: model_terms:ir.ui.view,arch_db:radwan_hr_loan.hr_employee_loan_view_form
+msgid "Register Payment"
+msgstr "تسجيل دفعة"
+
+#. module: radwan_hr_loan
+#: model:ir.ui.menu,name:radwan_hr_loan.hr_employee_loan_menu_report
+msgid "Report"
+msgstr "التقرير"
+
+#. module: radwan_hr_loan
+#: model:ir.model.fields,field_description:radwan_hr_loan.field_hr_loan_report_wizard__report_type
+msgid "Report Type"
+msgstr "نوع التقرير"
+
+#. module: radwan_hr_loan
+#. odoo-python
+#: code:addons/radwan_hr_loan/models/hr_loan.py:0
+msgid "Reverse the journal entry before resetting to draft."
+msgstr ""
+
+#. module: radwan_hr_loan
+#: model:ir.model.fields.selection,name:radwan_hr_loan.selection__hr_employee_loan__state__running
+#: model:ir.model.fields.selection,name:radwan_hr_loan.selection__hr_loan_report_wizard__state__running
+#: model_terms:ir.ui.view,arch_db:radwan_hr_loan.hr_employee_loan_view_search
+msgid "Running"
+msgstr "جارية"
+
+#. module: radwan_hr_loan
+#: model_terms:ir.ui.view,arch_db:radwan_hr_loan.hr_employee_loan_view_form
+msgid "Second Approve"
+msgstr "الاعتماد الثاني"
+
+#. module: radwan_hr_loan
+#: model:ir.model.fields.selection,name:radwan_hr_loan.selection__hr_employee_loan__state__second_approved
+#: model:ir.model.fields.selection,name:radwan_hr_loan.selection__hr_loan_report_wizard__state__second_approved
+msgid "Second Approved"
+msgstr "معتمد ثانٍ"
+
+#. module: radwan_hr_loan
+#: model:ir.model.fields,field_description:radwan_hr_loan.field_hr_employee_loan__second_approved_by
+msgid "Second Approved By"
+msgstr "الاعتماد الثاني بواسطة"
+
+#. module: radwan_hr_loan
+#: model:ir.model.fields,field_description:radwan_hr_loan.field_hr_employee_loan__second_approved_date
+msgid "Second Approved Date"
+msgstr "تاريخ الاعتماد الثاني"
+
+#. module: radwan_hr_loan
+#: model:ir.model.fields,field_description:radwan_hr_loan.field_hr_loan_payment_wizard__apply_future_installments
+msgid "Settle Future Installments"
+msgstr "تسوية الأقساط المستقبلية"
+
+#. module: radwan_hr_loan
+#: model:ir.model.fields,field_description:radwan_hr_loan.field_hr_employee_loan__start_date
+msgid "Start Date"
+msgstr "تاريخ البدء"
+
+#. module: radwan_hr_loan
+#: model:ir.model.constraint,message:radwan_hr_loan.constraint_hr_loan_payment_method_name_company_unique
+msgid "The loan payment method must be unique per company."
+msgstr ""
+
+#. module: radwan_hr_loan
+#. odoo-python
+#: code:addons/radwan_hr_loan/wizard/hr_loan_payment_wizard.py:0
+msgid "There are no due loan installments to pay."
+msgstr ""
+
+#. module: radwan_hr_loan
+#: model_terms:ir.ui.view,arch_db:radwan_hr_loan.hr_employee_loan_view_search
+msgid "To Approve"
+msgstr "للاعتماد"
+
+#. module: radwan_hr_loan
+#. odoo-python
+#: code:addons/radwan_hr_loan/models/hr_loan.py:0
+msgid "You cannot cancel a loan that has paid installments."
+msgstr ""
+
+#. module: radwan_hr_loan
+#. odoo-python
+#: code:addons/radwan_hr_loan/models/hr_loan.py:0
+msgid "You cannot regenerate installments after they are linked to payroll."
+msgstr ""
+
+#. module: radwan_hr_loan
+#. odoo-python
+#: code:addons/radwan_hr_loan/models/hr_loan.py:0
+#: code:addons/radwan_hr_loan/models/hr_payslip.py:0
+msgid "id"
+msgstr ""

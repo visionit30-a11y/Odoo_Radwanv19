@@ -1,0 +1,622 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* radwan_approvals
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0-20260516\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-05-19 22:58+0000\n"
+"PO-Revision-Date: 2026-05-19 22:58+0000\n"
+"Last-Translator: RADWAN\n"
+"Language-Team: Arabic\n"
+"Language: ar_001\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
+
+#. module: radwan_approvals
+#: model_terms:ir.ui.view,arch_db:radwan_approvals.approval_request_view_form
+msgid "<i class=\"fa fa-long-arrow-right\" title=\"To\"/>"
+msgstr ""
+
+#. module: radwan_approvals
+#: model:ir.actions.act_window,name:radwan_approvals.approval_request_action_all
+#: model:ir.ui.menu,name:radwan_approvals.approval_all_menu
+msgid "All Approvals"
+msgstr "كل الموافقات"
+
+#. module: radwan_approvals
+#: model:ir.model.fields,field_description:radwan_approvals.field_radwan_approval_request__amount_mode
+msgid "Amount Requirement"
+msgstr "متطلب المبلغ"
+
+#. module: radwan_approvals
+#: model:ir.model,name:radwan_approvals.model_radwan_approver
+msgid "Approval Approver"
+msgstr "معتمد الموافقة"
+
+#. module: radwan_approvals
+#: model:ir.actions.act_window,name:radwan_approvals.approval_category_action
+#: model_terms:ir.ui.view,arch_db:radwan_approvals.approval_category_view_list
+#: model_terms:ir.ui.view,arch_db:radwan_approvals.approval_category_view_search
+msgid "Approval Categories"
+msgstr "فئات الموافقات"
+
+#. module: radwan_approvals
+#: model_terms:ir.ui.view,arch_db:radwan_approvals.approval_category_view_form
+msgid "Approval Category"
+msgstr "فئة الموافقة"
+
+#. module: radwan_approvals
+#: model_terms:ir.ui.view,arch_db:radwan_approvals.approval_product_line_view_form
+msgid "Approval Product"
+msgstr "منتج الموافقة"
+
+#. module: radwan_approvals
+#: model:ir.model,name:radwan_approvals.model_radwan_approval_product_line
+msgid "Approval Product Line"
+msgstr "بند منتج الموافقة"
+
+#. module: radwan_approvals
+#: model_terms:ir.ui.view,arch_db:radwan_approvals.approval_product_line_view_list
+msgid "Approval Products"
+msgstr "منتجات الموافقة"
+
+#. module: radwan_approvals
+#: model:ir.model,name:radwan_approvals.model_radwan_approval_request
+#: model_terms:ir.ui.view,arch_db:radwan_approvals.approval_request_view_form
+msgid "Approval Request"
+msgstr "طلب الموافقة"
+
+#. module: radwan_approvals
+#: model:ir.model.fields,field_description:radwan_approvals.field_radwan_approval_request__name
+msgid "Approval Subject"
+msgstr "موضوع الموافقة"
+
+#. module: radwan_approvals
+#: model:ir.model,name:radwan_approvals.model_radwan_approval_category
+msgid "Approval Type"
+msgstr "نوع الموافقة"
+
+#. module: radwan_approvals
+#: model:ir.model,name:radwan_approvals.model_radwan_approval_category_approver
+msgid "Approval Type Approver"
+msgstr "معتمد نوع الموافقة"
+
+#. module: radwan_approvals
+#. odoo-python
+#: code:addons/radwan_approvals/models/approval_request.py:0
+msgid "Approval request approved."
+msgstr ""
+
+#. module: radwan_approvals
+#. odoo-python
+#: code:addons/radwan_approvals/models/approval_request.py:0
+msgid "Approval request refused."
+msgstr ""
+
+#. module: radwan_approvals
+#. odoo-python
+#: code:addons/radwan_approvals/models/approval_request.py:0
+msgid "Approval request submitted."
+msgstr ""
+
+#. module: radwan_approvals
+#. odoo-python
+#: code:addons/radwan_approvals/models/approval_request.py:0
+msgid "Approval required"
+msgstr ""
+
+#. module: radwan_approvals
+#: model_terms:ir.ui.view,arch_db:radwan_approvals.approval_category_view_kanban
+msgid "Approval type"
+msgstr "نوع الموافقة"
+
+#. module: radwan_approvals
+#: model:ir.ui.menu,name:radwan_approvals.approval_menu_root
+#: model:res.groups.privilege,name:radwan_approvals.radwan_approvals_privilege
+#: model_terms:ir.ui.view,arch_db:radwan_approvals.approval_request_view_list
+#: model_terms:ir.ui.view,arch_db:radwan_approvals.approval_request_view_search
+msgid "Approvals"
+msgstr "الموافقات"
+
+#. module: radwan_approvals
+#: model:res.groups,name:radwan_approvals.radwan_approvals_group_manager
+msgid "Approvals Manager"
+msgstr ""
+
+#. module: radwan_approvals
+#: model:ir.ui.menu,name:radwan_approvals.approval_category_menu
+msgid "Approvals Types"
+msgstr "أنواع الموافقات"
+
+#. module: radwan_approvals
+#: model:res.groups,name:radwan_approvals.radwan_approvals_group_user
+msgid "Approvals User"
+msgstr ""
+
+#. module: radwan_approvals
+#. odoo-python
+#: code:addons/radwan_approvals/models/approval_category.py:0
+#: model:ir.actions.act_window,name:radwan_approvals.approval_request_action_to_review
+#: model:ir.ui.menu,name:radwan_approvals.approval_to_review_menu
+msgid "Approvals to Review"
+msgstr "موافقات للمراجعة"
+
+#. module: radwan_approvals
+#: model_terms:ir.ui.view,arch_db:radwan_approvals.approval_request_view_form
+msgid "Approve"
+msgstr "اعتماد"
+
+#. module: radwan_approvals
+#: model:ir.model.fields,field_description:radwan_approvals.field_radwan_approval_category_approver__user_id
+#: model:ir.model.fields,field_description:radwan_approvals.field_radwan_approver__user_id
+msgid "Approver"
+msgstr "المعتمد"
+
+#. module: radwan_approvals
+#: model:ir.model.fields,field_description:radwan_approvals.field_radwan_approval_request__approver_ids
+#: model_terms:ir.ui.view,arch_db:radwan_approvals.approval_request_view_form
+msgid "Approver(s)"
+msgstr "المعتمدون"
+
+#. module: radwan_approvals
+#: model:ir.model.fields,field_description:radwan_approvals.field_radwan_approval_category__approver_ids
+#: model_terms:ir.ui.view,arch_db:radwan_approvals.approval_category_view_form
+msgid "Approvers"
+msgstr "المعتمدون"
+
+#. module: radwan_approvals
+#: model:ir.model.fields,field_description:radwan_approvals.field_radwan_approval_category__approver_sequence
+#: model:ir.model.fields,field_description:radwan_approvals.field_radwan_approval_request__approver_sequence
+msgid "Approvers Sequence"
+msgstr "تسلسل المعتمدين"
+
+#. module: radwan_approvals
+#: model_terms:ir.ui.view,arch_db:radwan_approvals.approval_request_view_form
+msgid "Attach Document"
+msgstr "إرفاق مستند"
+
+#. module: radwan_approvals
+#: model:ir.model.fields,field_description:radwan_approvals.field_radwan_approval_category__automated_sequence
+#: model:ir.model.fields,field_description:radwan_approvals.field_radwan_approval_request__automated_sequence
+msgid "Automated Sequence"
+msgstr "تسلسل آلي"
+
+#. module: radwan_approvals
+#: model:ir.model.fields,field_description:radwan_approvals.field_radwan_approval_request__can_approve
+msgid "Can Approve"
+msgstr "يمكنه الاعتماد"
+
+#. module: radwan_approvals
+#: model:ir.model.fields,field_description:radwan_approvals.field_radwan_approval_category_approver__category_id
+#: model:ir.model.fields,field_description:radwan_approvals.field_radwan_approval_request__category_id
+#: model_terms:ir.ui.view,arch_db:radwan_approvals.approval_request_view_search
+msgid "Category"
+msgstr "الفئة"
+
+#. module: radwan_approvals
+#. odoo-python
+#: code:addons/radwan_approvals/models/approval_request.py:0
+#: model:ir.model.fields,field_description:radwan_approvals.field_radwan_approval_category__contact_mode
+#: model:ir.model.fields,field_description:radwan_approvals.field_radwan_approval_request__contact_id
+msgid "Contact"
+msgstr "جهة الاتصال"
+
+#. module: radwan_approvals
+#: model:ir.model.fields,field_description:radwan_approvals.field_radwan_approval_request__contact_mode
+msgid "Contact Requirement"
+msgstr "متطلب جهة الاتصال"
+
+#. module: radwan_approvals
+#: model_terms:ir.actions.act_window,help:radwan_approvals.approval_category_action_dashboard
+msgid "Create approval types to start handling requests."
+msgstr ""
+
+#. module: radwan_approvals
+#: model:ir.actions.act_window,name:radwan_approvals.approval_category_action_dashboard
+msgid "Dashboard"
+msgstr "لوحة المعلومات"
+
+#. module: radwan_approvals
+#: model:ir.model.fields,field_description:radwan_approvals.field_radwan_approval_request__date_mode
+msgid "Date Requirement"
+msgstr "متطلب التاريخ"
+
+#. module: radwan_approvals
+#: model:ir.model.fields,field_description:radwan_approvals.field_radwan_approval_request__document_mode
+msgid "Document Requirement"
+msgstr "متطلب المستند"
+
+#. module: radwan_approvals
+#: model:ir.model.fields,field_description:radwan_approvals.field_radwan_approval_request__attachment_count
+msgid "Documents Count"
+msgstr "عدد المستندات"
+
+#. module: radwan_approvals
+#: model:ir.model.constraint,message:radwan_approvals.constraint_radwan_approval_category_approver_category_user_unique
+msgid "Each approver can be configured once per approval type."
+msgstr ""
+
+#. module: radwan_approvals
+#: model:ir.model.fields,field_description:radwan_approvals.field_radwan_approval_category__manager_approval
+#: model:ir.model.fields,field_description:radwan_approvals.field_radwan_approval_request__manager_approval
+msgid "Employee's Manager Is Approver"
+msgstr "مدير الموظف معتمد"
+
+#. module: radwan_approvals
+#: model_terms:ir.ui.view,arch_db:radwan_approvals.approval_category_view_form
+msgid "Fields"
+msgstr "الحقول"
+
+#. module: radwan_approvals
+#: model:ir.model.fields,field_description:radwan_approvals.field_radwan_approval_category__image_128
+#: model:ir.model.fields,field_description:radwan_approvals.field_radwan_approval_request__category_image_128
+msgid "Image 128"
+msgstr "صورة 128"
+
+#. module: radwan_approvals
+#: model:ir.model.fields,field_description:radwan_approvals.field_radwan_approval_category__image_1920
+msgid "Image 1920"
+msgstr "صورة 1920"
+
+#. module: radwan_approvals
+#. odoo-python
+#: code:addons/radwan_approvals/models/approval_request.py:0
+#: model:ir.model.fields,field_description:radwan_approvals.field_radwan_approval_category__location_mode
+#: model:ir.model.fields,field_description:radwan_approvals.field_radwan_approval_request__location
+msgid "Location"
+msgstr "الموقع"
+
+#. module: radwan_approvals
+#: model:ir.model.fields,field_description:radwan_approvals.field_radwan_approval_request__location_mode
+msgid "Location Requirement"
+msgstr "متطلب الموقع"
+
+#. module: radwan_approvals
+#: model:ir.model.fields,field_description:radwan_approvals.field_radwan_approval_category__minimum_approval
+#: model:ir.model.fields,field_description:radwan_approvals.field_radwan_approval_request__minimum_approval
+msgid "Minimum Approval"
+msgstr "الحد الأدنى للاعتماد"
+
+#. module: radwan_approvals
+#: model:ir.model.constraint,message:radwan_approvals.constraint_radwan_approval_category_minimum_approval_positive
+msgid "Minimum Approval must be greater than or equal to 1."
+msgstr ""
+
+#. module: radwan_approvals
+#: model:ir.ui.menu,name:radwan_approvals.approval_my_menu
+msgid "My Approvals"
+msgstr "موافقاتي"
+
+#. module: radwan_approvals
+#: model:ir.actions.act_window,name:radwan_approvals.approval_request_action_my
+#: model:ir.ui.menu,name:radwan_approvals.approval_my_request_menu
+#: model_terms:ir.ui.view,arch_db:radwan_approvals.approval_request_view_search
+msgid "My Requests"
+msgstr "طلباتي"
+
+#. module: radwan_approvals
+#. odoo-python
+#: code:addons/radwan_approvals/models/approval_category.py:0
+msgid "New Approval Request"
+msgstr ""
+
+#. module: radwan_approvals
+#: model:ir.ui.menu,name:radwan_approvals.approval_new_request_menu
+#: model_terms:ir.ui.view,arch_db:radwan_approvals.approval_category_view_kanban
+msgid "New Request"
+msgstr "طلب جديد"
+
+#. module: radwan_approvals
+#: model:ir.model.fields.selection,name:radwan_approvals.selection__radwan_approval_category__amount_mode__none
+#: model:ir.model.fields.selection,name:radwan_approvals.selection__radwan_approval_category__contact_mode__none
+#: model:ir.model.fields.selection,name:radwan_approvals.selection__radwan_approval_category__date_mode__none
+#: model:ir.model.fields.selection,name:radwan_approvals.selection__radwan_approval_category__document_mode__none
+#: model:ir.model.fields.selection,name:radwan_approvals.selection__radwan_approval_category__location_mode__none
+#: model:ir.model.fields.selection,name:radwan_approvals.selection__radwan_approval_category__period_mode__none
+#: model:ir.model.fields.selection,name:radwan_approvals.selection__radwan_approval_category__product_mode__none
+#: model:ir.model.fields.selection,name:radwan_approvals.selection__radwan_approval_category__quantity_mode__none
+#: model:ir.model.fields.selection,name:radwan_approvals.selection__radwan_approval_category__reference_mode__none
+msgid "None"
+msgstr "لا شيء"
+
+#. module: radwan_approvals
+#. odoo-python
+#: code:addons/radwan_approvals/models/approval_request.py:0
+msgid "Only assigned approvers can approve this request."
+msgstr ""
+
+#. module: radwan_approvals
+#. odoo-python
+#: code:addons/radwan_approvals/models/approval_request.py:0
+msgid "Only assigned approvers can refuse this request."
+msgstr ""
+
+#. module: radwan_approvals
+#: model:ir.model.fields.selection,name:radwan_approvals.selection__radwan_approval_category__amount_mode__optional
+#: model:ir.model.fields.selection,name:radwan_approvals.selection__radwan_approval_category__contact_mode__optional
+#: model:ir.model.fields.selection,name:radwan_approvals.selection__radwan_approval_category__date_mode__optional
+#: model:ir.model.fields.selection,name:radwan_approvals.selection__radwan_approval_category__document_mode__optional
+#: model:ir.model.fields.selection,name:radwan_approvals.selection__radwan_approval_category__location_mode__optional
+#: model:ir.model.fields.selection,name:radwan_approvals.selection__radwan_approval_category__period_mode__optional
+#: model:ir.model.fields.selection,name:radwan_approvals.selection__radwan_approval_category__product_mode__optional
+#: model:ir.model.fields.selection,name:radwan_approvals.selection__radwan_approval_category__quantity_mode__optional
+#: model:ir.model.fields.selection,name:radwan_approvals.selection__radwan_approval_category__reference_mode__optional
+msgid "Optional"
+msgstr "اختياري"
+
+#. module: radwan_approvals
+#: model_terms:ir.ui.view,arch_db:radwan_approvals.approval_category_view_form
+msgid "Options"
+msgstr "الخيارات"
+
+#. module: radwan_approvals
+#: model:ir.model.fields,field_description:radwan_approvals.field_radwan_approval_request__period_end
+msgid "Period End"
+msgstr "نهاية الفترة"
+
+#. module: radwan_approvals
+#: model:ir.model.fields,field_description:radwan_approvals.field_radwan_approval_request__period_mode
+msgid "Period Requirement"
+msgstr "متطلب الفترة"
+
+#. module: radwan_approvals
+#: model:ir.model.fields,field_description:radwan_approvals.field_radwan_approval_request__period_start
+msgid "Period Start"
+msgstr "بداية الفترة"
+
+#. module: radwan_approvals
+#. odoo-python
+#: code:addons/radwan_approvals/models/approval_request.py:0
+msgid "Please configure at least one approver."
+msgstr ""
+
+#. module: radwan_approvals
+#. odoo-python
+#: code:addons/radwan_approvals/models/approval_request.py:0
+msgid "Please fill the required approval fields: %s"
+msgstr ""
+
+#. module: radwan_approvals
+#. odoo-python
+#: code:addons/radwan_approvals/models/approval_request.py:0
+msgid "Please review approval request %s."
+msgstr ""
+
+#. module: radwan_approvals
+#: model:ir.model.fields,field_description:radwan_approvals.field_radwan_approval_product_line__price_unit
+msgid "Price Unit"
+msgstr "سعر الوحدة"
+
+#. module: radwan_approvals
+#. odoo-python
+#: code:addons/radwan_approvals/models/approval_request.py:0
+#: model:ir.model.fields,field_description:radwan_approvals.field_radwan_approval_category__product_mode
+#: model:ir.model.fields,field_description:radwan_approvals.field_radwan_approval_product_line__product_id
+msgid "Product"
+msgstr "المنتج"
+
+#. module: radwan_approvals
+#: model:ir.model.fields,field_description:radwan_approvals.field_radwan_approval_request__product_mode
+msgid "Product Requirement"
+msgstr "متطلب المنتج"
+
+#. module: radwan_approvals
+#: model:ir.actions.act_window,name:radwan_approvals.approval_product_variant_action
+#: model:ir.ui.menu,name:radwan_approvals.approval_product_variant_menu
+msgid "Product Variants"
+msgstr "متغيرات المنتج"
+
+#. module: radwan_approvals
+#: model:ir.actions.act_window,name:radwan_approvals.approval_product_template_action
+#: model:ir.model.fields,field_description:radwan_approvals.field_radwan_approval_request__product_line_ids
+#: model:ir.ui.menu,name:radwan_approvals.approval_product_template_menu
+#: model:ir.ui.menu,name:radwan_approvals.approval_products_menu
+#: model_terms:ir.ui.view,arch_db:radwan_approvals.approval_request_view_form
+msgid "Products"
+msgstr "المنتجات"
+
+#. module: radwan_approvals
+#. odoo-python
+#: code:addons/radwan_approvals/models/approval_request.py:0
+#: model:ir.model.fields,field_description:radwan_approvals.field_radwan_approval_category__quantity_mode
+#: model:ir.model.fields,field_description:radwan_approvals.field_radwan_approval_product_line__quantity
+msgid "Quantity"
+msgstr "الكمية"
+
+#. module: radwan_approvals
+#: model:ir.model.fields,field_description:radwan_approvals.field_radwan_approval_request__quantity_mode
+msgid "Quantity Requirement"
+msgstr "متطلب الكمية"
+
+#. module: radwan_approvals
+#. odoo-python
+#: code:addons/radwan_approvals/models/approval_request.py:0
+#: model:ir.model.fields,field_description:radwan_approvals.field_radwan_approval_category__reference_mode
+#: model:ir.model.fields,field_description:radwan_approvals.field_radwan_approval_request__reference
+msgid "Reference"
+msgstr "المرجع"
+
+#. module: radwan_approvals
+#: model:ir.model.fields,field_description:radwan_approvals.field_radwan_approval_request__reference_mode
+msgid "Reference Requirement"
+msgstr "متطلب المرجع"
+
+#. module: radwan_approvals
+#: model_terms:ir.ui.view,arch_db:radwan_approvals.approval_request_view_form
+msgid "Refuse"
+msgstr "رفض"
+
+#. module: radwan_approvals
+#: model:ir.model.fields.selection,name:radwan_approvals.selection__radwan_approval_request__state__refused
+#: model:ir.model.fields.selection,name:radwan_approvals.selection__radwan_approver__status__refused
+#: model_terms:ir.ui.view,arch_db:radwan_approvals.approval_request_view_search
+msgid "Refused"
+msgstr "مرفوض"
+
+#. module: radwan_approvals
+#: model:ir.model.fields,field_description:radwan_approvals.field_radwan_approval_product_line__request_id
+#: model:ir.model.fields,field_description:radwan_approvals.field_radwan_approver__request_id
+msgid "Request"
+msgstr "الطلب"
+
+#. module: radwan_approvals
+#: model:ir.model.fields,field_description:radwan_approvals.field_radwan_approval_category__request_count
+msgid "Request Count"
+msgstr "عدد الطلبات"
+
+#. module: radwan_approvals
+#: model:ir.model.fields,field_description:radwan_approvals.field_radwan_approval_request__request_owner_id
+#: model_terms:ir.ui.view,arch_db:radwan_approvals.approval_request_view_search
+msgid "Request Owner"
+msgstr "مالك الطلب"
+
+#. module: radwan_approvals
+#: model_terms:ir.ui.view,arch_db:radwan_approvals.approval_category_view_list
+msgid "Requests"
+msgstr "الطلبات"
+
+#. module: radwan_approvals
+#: model:ir.model.fields,field_description:radwan_approvals.field_radwan_approval_category_approver__required
+#: model:ir.model.fields,field_description:radwan_approvals.field_radwan_approver__required
+#: model:ir.model.fields.selection,name:radwan_approvals.selection__radwan_approval_category__amount_mode__required
+#: model:ir.model.fields.selection,name:radwan_approvals.selection__radwan_approval_category__contact_mode__required
+#: model:ir.model.fields.selection,name:radwan_approvals.selection__radwan_approval_category__date_mode__required
+#: model:ir.model.fields.selection,name:radwan_approvals.selection__radwan_approval_category__document_mode__required
+#: model:ir.model.fields.selection,name:radwan_approvals.selection__radwan_approval_category__location_mode__required
+#: model:ir.model.fields.selection,name:radwan_approvals.selection__radwan_approval_category__period_mode__required
+#: model:ir.model.fields.selection,name:radwan_approvals.selection__radwan_approval_category__product_mode__required
+#: model:ir.model.fields.selection,name:radwan_approvals.selection__radwan_approval_category__quantity_mode__required
+#: model:ir.model.fields.selection,name:radwan_approvals.selection__radwan_approval_category__reference_mode__required
+msgid "Required"
+msgstr "مطلوب"
+
+#. module: radwan_approvals
+#: model:ir.model.fields,field_description:radwan_approvals.field_radwan_approval_category__has_amount
+#: model:ir.model.fields,field_description:radwan_approvals.field_radwan_approval_request__has_amount
+msgid "Show Amount"
+msgstr "إظهار المبلغ"
+
+#. module: radwan_approvals
+#: model:ir.model.fields,field_description:radwan_approvals.field_radwan_approval_category__has_contact
+#: model:ir.model.fields,field_description:radwan_approvals.field_radwan_approval_request__has_contact
+msgid "Show Contact"
+msgstr "إظهار جهة الاتصال"
+
+#. module: radwan_approvals
+#: model:ir.model.fields,field_description:radwan_approvals.field_radwan_approval_category__has_date
+#: model:ir.model.fields,field_description:radwan_approvals.field_radwan_approval_request__has_date
+msgid "Show Date"
+msgstr "إظهار التاريخ"
+
+#. module: radwan_approvals
+#: model:ir.model.fields,field_description:radwan_approvals.field_radwan_approval_category__has_document
+#: model:ir.model.fields,field_description:radwan_approvals.field_radwan_approval_request__has_document
+msgid "Show Document"
+msgstr "إظهار المستند"
+
+#. module: radwan_approvals
+#: model:ir.model.fields,field_description:radwan_approvals.field_radwan_approval_category__has_location
+#: model:ir.model.fields,field_description:radwan_approvals.field_radwan_approval_request__has_location
+msgid "Show Location"
+msgstr "إظهار الموقع"
+
+#. module: radwan_approvals
+#: model:ir.model.fields,field_description:radwan_approvals.field_radwan_approval_category__has_period
+#: model:ir.model.fields,field_description:radwan_approvals.field_radwan_approval_request__has_period
+msgid "Show Period"
+msgstr "إظهار الفترة"
+
+#. module: radwan_approvals
+#: model:ir.model.fields,field_description:radwan_approvals.field_radwan_approval_category__has_product
+#: model:ir.model.fields,field_description:radwan_approvals.field_radwan_approval_request__has_product
+msgid "Show Products"
+msgstr "إظهار المنتجات"
+
+#. module: radwan_approvals
+#: model:ir.model.fields,field_description:radwan_approvals.field_radwan_approval_category__has_reference
+#: model:ir.model.fields,field_description:radwan_approvals.field_radwan_approval_request__has_reference
+msgid "Show Reference"
+msgstr "إظهار المرجع"
+
+#. module: radwan_approvals
+#: model:ir.model.fields,field_description:radwan_approvals.field_radwan_approval_product_line__subtotal
+msgid "Subtotal"
+msgstr "الإجمالي الفرعي"
+
+#. module: radwan_approvals
+#: model_terms:ir.ui.view,arch_db:radwan_approvals.approval_category_view_list
+#: model_terms:ir.ui.view,arch_db:radwan_approvals.approval_request_view_search
+msgid "To Review"
+msgstr "للمراجعة"
+
+#. module: radwan_approvals
+#: model:ir.model.fields,field_description:radwan_approvals.field_radwan_approval_category__to_review_count
+msgid "To Review Count"
+msgstr "عدد ما للمراجعة"
+
+#. module: radwan_approvals
+#: model_terms:ir.ui.view,arch_db:radwan_approvals.approval_category_view_kanban
+msgid "To Review:"
+msgstr "للمراجعة:"
+
+#. module: radwan_approvals
+#: model:ir.model.fields.selection,name:radwan_approvals.selection__radwan_approval_request__state__new
+#: model_terms:ir.ui.view,arch_db:radwan_approvals.approval_request_view_search
+msgid "To Submit"
+msgstr "للإرسال"
+
+#. module: radwan_approvals
+#: model:ir.model.fields,field_description:radwan_approvals.field_radwan_approval_product_line__product_uom_id
+msgid "Unit of Measure"
+msgstr "وحدة القياس"
+
+#. module: radwan_approvals
+#. odoo-python
+#: code:addons/radwan_approvals/models/approval_category.py:0
+msgid "category_id"
+msgstr ""
+
+#. module: radwan_approvals
+#: model_terms:ir.ui.view,arch_db:radwan_approvals.approval_request_view_form
+msgid "e.g. Jeddah"
+msgstr "مثال: جدة"
+
+#. module: radwan_approvals
+#: model_terms:ir.ui.view,arch_db:radwan_approvals.approval_request_view_form
+msgid "e.g. Laptop purchase approval"
+msgstr "مثال: موافقة شراء حاسب محمول"
+
+#. module: radwan_approvals
+#: model_terms:ir.ui.view,arch_db:radwan_approvals.approval_category_view_form
+msgid "e.g. Procurement Approval"
+msgstr "مثال: موافقة مشتريات"
+
+#. module: radwan_approvals
+#. odoo-python
+#: code:addons/radwan_approvals/models/approval_request.py:0
+msgid "res_model"
+msgstr ""
+
+#. module: radwan_approvals
+#: model:ir.model.fields,field_description:radwan_approvals.field_radwan_approval_request__amount
+msgid "Amount"
+msgstr "المبلغ"
+
+#. module: radwan_approvals
+#: model:ir.model.fields,field_description:radwan_approvals.field_radwan_approval_request__state
+msgid "State"
+msgstr "الحالة"
+
+#. module: radwan_approvals
+#: model:ir.ui.menu,name:radwan_approvals.approval_configuration_menu
+msgid "Configuration"
+msgstr "الإعدادات"
+
+#. module: radwan_approvals
+#: model:ir.ui.menu,name:radwan_approvals.approval_manager_menu
+msgid "Manager"
+msgstr "المدير"

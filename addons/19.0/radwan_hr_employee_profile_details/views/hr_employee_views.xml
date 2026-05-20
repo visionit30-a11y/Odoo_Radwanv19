@@ -12,6 +12,14 @@
                 <field name="radwan_sponser_id" options="{'no_create_edit': False}"/>
             </xpath>
 
+            <xpath expr="//field[@name='sex']" position="after">
+                <field name="radwan_religion_id" options="{'no_create_edit': False}"/>
+            </xpath>
+
+            <xpath expr="//group[@name='hr_family_group']/field[@name='marital']" position="after">
+                <field name="radwan_family_status"/>
+            </xpath>
+
             <xpath expr="//page[@name='work_information']" position="after">
                 <page name="radwan_documents_date" string="Documents Date" groups="hr.group_hr_user">
                     <field name="radwan_document_date_ids" nolabel="1">
@@ -143,7 +151,22 @@
                 <xpath expr="//page[@name='radwan_documents_date']" position="move"/>
             </xpath>
             <xpath expr="//page[@name='radwan_documents_date']" position="after">
+                <xpath expr="//page[@name='radwan_work_injuries']" position="move"/>
+            </xpath>
+            <xpath expr="//page[@name='radwan_work_injuries']" position="after">
                 <xpath expr="//page[@name='received_badges']" position="move"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="hr_employee_view_form_payroll_contract_number" model="ir.ui.view">
+        <field name="name">hr.employee.view.form.inherit.radwan.profile.details.payroll.contract.number</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_form"/>
+        <field name="priority" eval="130"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='payroll_information']//details[@name='radwan_contract_overview']//field[@name='contract_date_start']" position="before">
+                <field name="radwan_contract_number"/>
             </xpath>
         </field>
     </record>

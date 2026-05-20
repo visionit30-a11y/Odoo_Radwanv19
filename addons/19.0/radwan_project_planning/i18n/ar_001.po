@@ -1,0 +1,889 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* radwan_project_planning
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0-20260516\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-05-19 22:58+0000\n"
+"PO-Revision-Date: 2026-05-19 22:58+0000\n"
+"Last-Translator: RADWAN\n"
+"Language-Team: Arabic\n"
+"Language: ar_001\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
+
+#. module: radwan_project_planning
+#: model_terms:ir.ui.view,arch_db:radwan_project_planning.res_config_settings_view_form
+msgid "<span>Generate shifts</span>"
+msgstr ""
+
+#. module: radwan_project_planning
+#: model_terms:ir.ui.view,arch_db:radwan_project_planning.res_config_settings_view_form
+msgid "<span>months ahead</span>"
+msgstr ""
+
+#. module: radwan_project_planning
+#: model_terms:ir.ui.view,arch_db:radwan_project_planning.radwan_planning_slot_view_list
+msgid "Actual"
+msgstr "فعلي"
+
+#. module: radwan_project_planning
+#: model:ir.model.fields,field_description:radwan_project_planning.field_radwan_planning_slot__actual_hours
+msgid "Actual Hours"
+msgstr "الساعات الفعلية"
+
+#. module: radwan_project_planning
+#: model:ir.ui.menu,name:radwan_project_planning.menu_radwan_planning_all_shifts
+msgid "All Shifts"
+msgstr "كل الورديات"
+
+#. module: radwan_project_planning
+#: model:ir.model.fields,field_description:radwan_project_planning.field_radwan_planning_slot__allocated_hours
+msgid "Allocated Hours"
+msgstr "الساعات المخصصة"
+
+#. module: radwan_project_planning
+#: model:ir.model.fields,field_description:radwan_project_planning.field_res_config_settings__radwan_planning_allow_unassignment
+msgid "Allow Unassignment"
+msgstr "السماح بإلغاء التعيين"
+
+#. module: radwan_project_planning
+#: model:ir.model,name:radwan_project_planning.model_account_analytic_line
+msgid "Analytic Line"
+msgstr "البند التحليلي"
+
+#. module: radwan_project_planning
+#: model:ir.actions.act_window,name:radwan_project_planning.action_radwan_planning_generate_wizard
+#: model:ir.ui.menu,name:radwan_project_planning.menu_radwan_planning_auto_plan
+#: model_terms:ir.ui.view,arch_db:radwan_project_planning.radwan_planning_generate_wizard_view_form
+msgid "Auto Plan"
+msgstr "تخطيط آلي"
+
+#. module: radwan_project_planning
+#. odoo-javascript
+#: code:addons/radwan_project_planning/static/src/xml/planning_gantt_action.xml:0
+#: model:ir.ui.menu,name:radwan_project_planning.menu_radwan_planning_by_project
+msgid "By Project"
+msgstr "حسب المشروع"
+
+#. module: radwan_project_planning
+#. odoo-javascript
+#: code:addons/radwan_project_planning/static/src/xml/planning_gantt_action.xml:0
+#: model:ir.ui.menu,name:radwan_project_planning.menu_radwan_planning_by_resource
+msgid "By Resource"
+msgstr "حسب المورد"
+
+#. module: radwan_project_planning
+#. odoo-javascript
+#: code:addons/radwan_project_planning/static/src/xml/planning_gantt_action.xml:0
+#: model:ir.ui.menu,name:radwan_project_planning.menu_radwan_planning_by_role
+msgid "By Role"
+msgstr "حسب الدور"
+
+#. module: radwan_project_planning
+#. odoo-javascript
+#: code:addons/radwan_project_planning/static/src/xml/planning_gantt_action.xml:0
+msgid "Calendar"
+msgstr ""
+
+#. module: radwan_project_planning
+#: model:ir.model,name:radwan_project_planning.model_res_config_settings
+msgid "Config Settings"
+msgstr "تهيئة الإعدادات"
+
+#. module: radwan_project_planning
+#: model_terms:ir.ui.view,arch_db:radwan_project_planning.radwan_planning_slot_view_form
+msgid "Create Timesheet"
+msgstr "إنشاء سجل وقت"
+
+#. module: radwan_project_planning
+#: model_terms:ir.actions.act_window,help:radwan_project_planning.action_radwan_planning_role
+msgid "Create planning roles for employee and material scheduling."
+msgstr ""
+
+#. module: radwan_project_planning
+#: model_terms:ir.actions.act_window,help:radwan_project_planning.action_radwan_planning_template
+msgid "Create reusable shifts for faster planning."
+msgstr ""
+
+#. module: radwan_project_planning
+#: model:ir.model.fields,field_description:radwan_project_planning.field_radwan_planning_generate_wizard__date_start
+msgid "Date Start"
+msgstr "تاريخ البداية"
+
+#. module: radwan_project_planning
+#: model:ir.model.fields,field_description:radwan_project_planning.field_radwan_planning_generate_wizard__date_stop
+msgid "Date Stop"
+msgstr "تاريخ النهاية"
+
+#. module: radwan_project_planning
+#: model:ir.model.fields,field_description:radwan_project_planning.field_radwan_planning_material__default_role_id
+#: model_terms:ir.ui.view,arch_db:radwan_project_planning.radwan_planning_material_view_search
+msgid "Default Role"
+msgstr "الدور الافتراضي"
+
+#. module: radwan_project_planning
+#: model_terms:ir.ui.view,arch_db:radwan_project_planning.res_config_settings_view_form
+msgid "Default planning horizon used by the Auto Plan wizard."
+msgstr "أفق التخطيط الافتراضي المستخدم في معالج التخطيط الآلي."
+
+#. module: radwan_project_planning
+#: model:ir.model.fields.selection,name:radwan_project_planning.selection__radwan_planning_slot__state__done
+#: model_terms:ir.ui.view,arch_db:radwan_project_planning.radwan_planning_slot_view_search
+msgid "Done"
+msgstr "منجز"
+
+#. module: radwan_project_planning
+#. odoo-javascript
+#: code:addons/radwan_project_planning/static/src/js/planning_gantt_action.js:0
+msgid "Draft shifts were published."
+msgstr ""
+
+#. module: radwan_project_planning
+#: model:ir.model.fields,field_description:radwan_project_planning.field_radwan_planning_template__duration
+msgid "Duration"
+msgstr "المدة"
+
+#. module: radwan_project_planning
+#. odoo-python
+#: code:addons/radwan_project_planning/models/radwan_planning_template.py:0
+msgid "Duration must be positive."
+msgstr ""
+
+#. module: radwan_project_planning
+#: model_terms:ir.ui.view,arch_db:radwan_project_planning.radwan_planning_slot_view_search
+msgid "Employee Shifts"
+msgstr "ورديات الموظفين"
+
+#. module: radwan_project_planning
+#: model:ir.actions.act_window,name:radwan_project_planning.action_radwan_planning_employee
+#: model:ir.model.fields,field_description:radwan_project_planning.field_radwan_planning_generate_wizard__employee_ids
+#: model:ir.model.fields,field_description:radwan_project_planning.field_radwan_planning_role__employee_ids
+#: model:ir.ui.menu,name:radwan_project_planning.menu_radwan_planning_config_employees
+msgid "Employees"
+msgstr "الموظفون"
+
+#. module: radwan_project_planning
+#: model:ir.model.fields,field_description:radwan_project_planning.field_radwan_planning_slot__end_datetime
+msgid "End Datetime"
+msgstr "تاريخ ووقت النهاية"
+
+#. module: radwan_project_planning
+#: model:ir.model.fields,field_description:radwan_project_planning.field_radwan_planning_template__end_hour
+msgid "End Hour"
+msgstr "ساعة النهاية"
+
+#. module: radwan_project_planning
+#. odoo-python
+#: code:addons/radwan_project_planning/wizard/radwan_planning_generate_wizard.py:0
+msgid "End date must be after start date."
+msgstr ""
+
+#. module: radwan_project_planning
+#. odoo-javascript
+#: code:addons/radwan_project_planning/static/src/xml/planning_gantt_action.xml:0
+msgid "Gantt"
+msgstr ""
+
+#. module: radwan_project_planning
+#: model:ir.model,name:radwan_project_planning.model_radwan_planning_generate_wizard
+msgid "Generate Planning Shifts"
+msgstr "إنشاء ورديات التخطيط"
+
+#. module: radwan_project_planning
+#: model_terms:ir.ui.view,arch_db:radwan_project_planning.radwan_planning_generate_wizard_view_form
+msgid "Generate Shifts"
+msgstr "إنشاء الورديات"
+
+#. module: radwan_project_planning
+#: model:ir.model.fields,field_description:radwan_project_planning.field_res_config_settings__radwan_planning_recurring_months_ahead
+msgid "Generate Shifts Months Ahead"
+msgstr "إنشاء الورديات لأشهر قادمة"
+
+#. module: radwan_project_planning
+#. odoo-javascript
+#: code:addons/radwan_project_planning/static/src/xml/planning_gantt_action.xml:0
+msgid "Graph"
+msgstr ""
+
+#. module: radwan_project_planning
+#: model:ir.model.fields,field_description:radwan_project_planning.field_radwan_planning_material__hourly_cost
+msgid "Hourly Cost"
+msgstr "التكلفة بالساعة"
+
+#. module: radwan_project_planning
+#: model:ir.model.fields,field_description:radwan_project_planning.field_radwan_planning_generate_wizard__include_weekends
+msgid "Include Weekends"
+msgstr "تضمين عطلات نهاية الأسبوع"
+
+#. module: radwan_project_planning
+#. odoo-javascript
+#: code:addons/radwan_project_planning/static/src/xml/planning_gantt_action.xml:0
+msgid "Kanban"
+msgstr ""
+
+#. module: radwan_project_planning
+#: model_terms:ir.ui.view,arch_db:radwan_project_planning.res_config_settings_view_form
+msgid "Let employees unassign themselves from their own planning shifts."
+msgstr "السماح للموظفين بإلغاء تعيين أنفسهم من وردياتهم المخططة."
+
+#. module: radwan_project_planning
+#. odoo-javascript
+#: code:addons/radwan_project_planning/static/src/xml/planning_gantt_action.xml:0
+msgid "List"
+msgstr ""
+
+#. module: radwan_project_planning
+#. odoo-javascript
+#: code:addons/radwan_project_planning/static/src/xml/planning_gantt_action.xml:0
+msgid "Loading..."
+msgstr ""
+
+#. module: radwan_project_planning
+#: model_terms:ir.ui.view,arch_db:radwan_project_planning.radwan_planning_slot_view_form
+msgid "Mark Done"
+msgstr "تعليم كمنجز"
+
+#. module: radwan_project_planning
+#: model_terms:ir.ui.view,arch_db:radwan_project_planning.radwan_planning_slot_view_form
+msgid "Match Timesheets"
+msgstr "مطابقة سجلات الوقت"
+
+#. module: radwan_project_planning
+#: model:ir.model.fields,field_description:radwan_project_planning.field_radwan_planning_slot__material_id
+#: model:ir.model.fields,field_description:radwan_project_planning.field_radwan_planning_template__material_id
+#: model:ir.model.fields.selection,name:radwan_project_planning.selection__radwan_planning_slot__resource_type__material
+#: model_terms:ir.ui.view,arch_db:radwan_project_planning.radwan_planning_slot_view_search
+msgid "Material"
+msgstr "مورد مادي"
+
+#. module: radwan_project_planning
+#: model_terms:ir.ui.view,arch_db:radwan_project_planning.radwan_planning_slot_view_search
+msgid "Material Shifts"
+msgstr "ورديات الموارد المادية"
+
+#. module: radwan_project_planning
+#: model:ir.actions.act_window,name:radwan_project_planning.action_radwan_planning_material
+#: model:ir.ui.menu,name:radwan_project_planning.menu_radwan_planning_config_materials
+#: model_terms:ir.ui.view,arch_db:radwan_project_planning.radwan_planning_material_view_list
+msgid "Materials"
+msgstr "الموارد المادية"
+
+#. module: radwan_project_planning
+#: model:ir.actions.act_window,name:radwan_project_planning.action_radwan_my_planning
+#: model:ir.ui.menu,name:radwan_project_planning.menu_radwan_my_planning
+#: model_terms:ir.ui.view,arch_db:radwan_project_planning.radwan_planning_slot_view_search
+msgid "My Planning"
+msgstr "تخطيطي"
+
+#. module: radwan_project_planning
+#. odoo-javascript
+#: code:addons/radwan_project_planning/static/src/js/planning_gantt_action.js:0
+msgid "No Employee"
+msgstr ""
+
+#. module: radwan_project_planning
+#. odoo-javascript
+#: code:addons/radwan_project_planning/static/src/js/planning_gantt_action.js:0
+msgid "No Material"
+msgstr ""
+
+#. module: radwan_project_planning
+#. odoo-javascript
+#: code:addons/radwan_project_planning/static/src/js/planning_gantt_action.js:0
+msgid "No Project"
+msgstr ""
+
+#. module: radwan_project_planning
+#. odoo-javascript
+#: code:addons/radwan_project_planning/static/src/js/planning_gantt_action.js:0
+msgid "No Role"
+msgstr ""
+
+#. module: radwan_project_planning
+#: model_terms:ir.actions.act_window,help:radwan_project_planning.action_radwan_open_shifts
+msgid "No open shifts found. Create one to publish unassigned work."
+msgstr ""
+
+#. module: radwan_project_planning
+#: model_terms:ir.actions.act_window,help:radwan_project_planning.action_radwan_planning_slot
+msgid ""
+"No shifts found. Create a shift to schedule resources by role, project, or "
+"employee."
+msgstr ""
+
+#. module: radwan_project_planning
+#. odoo-javascript
+#: code:addons/radwan_project_planning/static/src/xml/planning_gantt_action.xml:0
+msgid "No shifts found. Let's create one."
+msgstr ""
+
+#. module: radwan_project_planning
+#. odoo-python
+#: code:addons/radwan_project_planning/models/radwan_planning_slot.py:0
+msgid "Only employee shifts can create timesheets."
+msgstr ""
+
+#. module: radwan_project_planning
+#: model:ir.model.fields.selection,name:radwan_project_planning.selection__radwan_planning_slot__resource_type__open
+msgid "Open Shift"
+msgstr "وردية مفتوحة"
+
+#. module: radwan_project_planning
+#. odoo-javascript
+#: code:addons/radwan_project_planning/static/src/js/planning_gantt_action.js:0
+#: model:ir.actions.act_window,name:radwan_project_planning.action_radwan_open_shifts
+#: model:ir.ui.menu,name:radwan_project_planning.menu_radwan_planning_open_shifts
+#: model_terms:ir.ui.view,arch_db:radwan_project_planning.radwan_planning_slot_view_search
+msgid "Open Shifts"
+msgstr "الورديات المفتوحة"
+
+#. module: radwan_project_planning
+#. odoo-javascript
+#: code:addons/radwan_project_planning/static/src/xml/planning_gantt_action.xml:0
+msgid "Pivot"
+msgstr ""
+
+#. module: radwan_project_planning
+#: model_terms:ir.ui.view,arch_db:radwan_project_planning.res_config_settings_view_form
+msgid "Plan resource allocation across projects and tasks."
+msgstr "تخطيط توزيع الموارد عبر المشاريع والمهام."
+
+#. module: radwan_project_planning
+#: model_terms:ir.ui.view,arch_db:radwan_project_planning.radwan_planning_slot_view_list
+msgid "Planned"
+msgstr "مخطط"
+
+#. module: radwan_project_planning
+#: model:ir.model.fields,field_description:radwan_project_planning.field_radwan_planning_slot__planned_cost
+#: model_terms:ir.ui.view,arch_db:radwan_project_planning.radwan_planning_slot_view_list
+msgid "Planned Cost"
+msgstr "التكلفة المخططة"
+
+#. module: radwan_project_planning
+#: model:ir.actions.act_window,name:radwan_project_planning.action_radwan_planning_analysis
+#: model:ir.ui.menu,name:radwan_project_planning.menu_radwan_planning_analysis
+#: model_terms:ir.ui.view,arch_db:radwan_project_planning.radwan_planning_slot_view_graph
+#: model_terms:ir.ui.view,arch_db:radwan_project_planning.radwan_planning_slot_view_pivot
+msgid "Planning Analysis"
+msgstr "تحليل التخطيط"
+
+#. module: radwan_project_planning
+#: model:res.groups,name:radwan_project_planning.group_radwan_planning_manager
+msgid "Planning Manager"
+msgstr ""
+
+#. module: radwan_project_planning
+#: model_terms:ir.ui.view,arch_db:radwan_project_planning.radwan_planning_material_view_form
+msgid "Planning Material"
+msgstr "مورد تخطيط"
+
+#. module: radwan_project_planning
+#: model:ir.model,name:radwan_project_planning.model_radwan_planning_material
+msgid "Planning Material Resource"
+msgstr "مورد تخطيط مادي"
+
+#. module: radwan_project_planning
+#: model:ir.model,name:radwan_project_planning.model_radwan_planning_role
+#: model_terms:ir.ui.view,arch_db:radwan_project_planning.radwan_planning_role_view_form
+msgid "Planning Role"
+msgstr "دور التخطيط"
+
+#. module: radwan_project_planning
+#: model:ir.model.fields,field_description:radwan_project_planning.field_hr_employee__radwan_planning_role_ids
+msgid "Planning Roles"
+msgstr "أدوار التخطيط"
+
+#. module: radwan_project_planning
+#. odoo-javascript
+#: code:addons/radwan_project_planning/static/src/js/planning_gantt_action.js:0
+#: model:ir.model,name:radwan_project_planning.model_radwan_planning_slot
+#: model:ir.model.fields,field_description:radwan_project_planning.field_account_analytic_line__radwan_planning_slot_id
+#: model_terms:ir.ui.view,arch_db:radwan_project_planning.radwan_planning_slot_view_form
+msgid "Planning Shift"
+msgstr "وردية التخطيط"
+
+#. module: radwan_project_planning
+#: model:ir.model,name:radwan_project_planning.model_radwan_planning_template
+msgid "Planning Shift Template"
+msgstr "قالب وردية التخطيط"
+
+#. module: radwan_project_planning
+#: model:ir.actions.act_window,name:radwan_project_planning.action_radwan_planning_slot
+#: model:ir.model.fields,field_description:radwan_project_planning.field_hr_employee__radwan_planning_slot_ids
+#: model:ir.model.fields,field_description:radwan_project_planning.field_project_project__radwan_planning_slot_ids
+#: model_terms:ir.ui.view,arch_db:radwan_project_planning.radwan_planning_slot_view_list
+msgid "Planning Shifts"
+msgstr "ورديات التخطيط"
+
+#. module: radwan_project_planning
+#: model:res.groups,name:radwan_project_planning.group_radwan_planning_user
+msgid "Planning User"
+msgstr ""
+
+#. module: radwan_project_planning
+#: model:ir.model.fields,field_description:radwan_project_planning.field_radwan_planning_slot__progress
+msgid "Progress"
+msgstr "التقدم"
+
+#. module: radwan_project_planning
+#. odoo-javascript
+#: code:addons/radwan_project_planning/static/src/js/planning_gantt_action.js:0
+#: model:ir.model,name:radwan_project_planning.model_project_project
+#: model:ir.model.fields,field_description:radwan_project_planning.field_radwan_planning_generate_wizard__project_id
+#: model:ir.model.fields,field_description:radwan_project_planning.field_radwan_planning_slot__project_id
+#: model:ir.model.fields,field_description:radwan_project_planning.field_radwan_planning_template__project_id
+#: model_terms:ir.ui.view,arch_db:radwan_project_planning.radwan_planning_slot_view_form
+#: model_terms:ir.ui.view,arch_db:radwan_project_planning.radwan_planning_slot_view_search
+#: model_terms:ir.ui.view,arch_db:radwan_project_planning.radwan_planning_template_view_form
+#: model_terms:ir.ui.view,arch_db:radwan_project_planning.radwan_planning_template_view_search
+msgid "Project"
+msgstr "المشروع"
+
+#. module: radwan_project_planning
+#: model:ir.model.fields,field_description:radwan_project_planning.field_res_config_settings__radwan_planning_project_planning
+msgid "Project Planning"
+msgstr "تخطيط المشاريع"
+
+#. module: radwan_project_planning
+#: model:ir.model.fields,field_description:radwan_project_planning.field_radwan_planning_role__project_ids
+#: model_terms:ir.ui.view,arch_db:radwan_project_planning.radwan_planning_role_view_form
+msgid "Projects"
+msgstr "المشاريع"
+
+#. module: radwan_project_planning
+#. odoo-javascript
+#: code:addons/radwan_project_planning/static/src/xml/planning_gantt_action.xml:0
+#: model_terms:ir.ui.view,arch_db:radwan_project_planning.radwan_planning_slot_view_form
+msgid "Publish"
+msgstr "نشر"
+
+#. module: radwan_project_planning
+#: model:ir.model.fields,field_description:radwan_project_planning.field_radwan_planning_generate_wizard__publish
+msgid "Publish Generated Shifts"
+msgstr "نشر الورديات المنشأة"
+
+#. module: radwan_project_planning
+#: model:ir.model.fields.selection,name:radwan_project_planning.selection__radwan_planning_slot__state__published
+#: model_terms:ir.ui.view,arch_db:radwan_project_planning.radwan_planning_slot_view_search
+msgid "Published"
+msgstr "منشور"
+
+#. module: radwan_project_planning
+#: model:ir.model.fields,field_description:radwan_project_planning.field_radwan_planning_slot__published_by_id
+msgid "Published By"
+msgstr "نشر بواسطة"
+
+#. module: radwan_project_planning
+#: model:ir.model.fields,field_description:radwan_project_planning.field_radwan_planning_slot__published_date
+msgid "Published Date"
+msgstr "تاريخ النشر"
+
+#. module: radwan_project_planning
+#: model:ir.model.fields,field_description:radwan_project_planning.field_project_project__radwan_planned_hours
+msgid "Radwan Planned Hours"
+msgstr "ساعات رادوان المخططة"
+
+#. module: radwan_project_planning
+#: model:ir.model.fields,field_description:radwan_project_planning.field_hr_employee__radwan_planning_slot_count
+#: model:ir.model.fields,field_description:radwan_project_planning.field_project_project__radwan_planning_slot_count
+msgid "Radwan Planning Slot Count"
+msgstr "عدد خانات تخطيط رادوان"
+
+#. module: radwan_project_planning
+#: model_terms:ir.ui.view,arch_db:radwan_project_planning.res_config_settings_view_form
+msgid "Recurring Shifts"
+msgstr "ورديات متكررة"
+
+#. module: radwan_project_planning
+#: model_terms:ir.actions.act_window,help:radwan_project_planning.action_radwan_planning_material
+msgid "Register equipment, rooms, vehicles, or any non-employee resource."
+msgstr ""
+
+#. module: radwan_project_planning
+#: model_terms:ir.ui.view,arch_db:radwan_project_planning.radwan_planning_slot_view_list
+msgid "Remaining"
+msgstr "المتبقي"
+
+#. module: radwan_project_planning
+#: model:ir.model.fields,field_description:radwan_project_planning.field_radwan_planning_slot__remaining_hours
+msgid "Remaining Hours"
+msgstr "الساعات المتبقية"
+
+#. module: radwan_project_planning
+#: model:ir.ui.menu,name:radwan_project_planning.menu_radwan_planning_reporting
+msgid "Reporting"
+msgstr "التقارير"
+
+#. module: radwan_project_planning
+#. odoo-javascript
+#: code:addons/radwan_project_planning/static/src/js/planning_gantt_action.js:0
+#: model_terms:ir.ui.view,arch_db:radwan_project_planning.radwan_planning_slot_view_form
+msgid "Resource"
+msgstr "المورد"
+
+#. module: radwan_project_planning
+#: model:ir.model.fields,field_description:radwan_project_planning.field_radwan_planning_slot__resource_type
+msgid "Resource Type"
+msgstr "نوع المورد"
+
+#. module: radwan_project_planning
+#: model_terms:ir.ui.view,arch_db:radwan_project_planning.radwan_planning_role_view_form
+msgid "Resources"
+msgstr "الموارد"
+
+#. module: radwan_project_planning
+#. odoo-javascript
+#: code:addons/radwan_project_planning/static/src/js/planning_gantt_action.js:0
+#: model:ir.model.fields,field_description:radwan_project_planning.field_radwan_planning_slot__role_id
+#: model:ir.model.fields,field_description:radwan_project_planning.field_radwan_planning_template__role_id
+#: model_terms:ir.ui.view,arch_db:radwan_project_planning.radwan_planning_slot_view_search
+#: model_terms:ir.ui.view,arch_db:radwan_project_planning.radwan_planning_template_view_search
+msgid "Role"
+msgstr "الدور"
+
+#. module: radwan_project_planning
+#: model:ir.actions.act_window,name:radwan_project_planning.action_radwan_planning_role
+#: model:ir.model.fields,field_description:radwan_project_planning.field_radwan_planning_material__role_ids
+#: model:ir.ui.menu,name:radwan_project_planning.menu_radwan_planning_config_roles
+#: model_terms:ir.ui.view,arch_db:radwan_project_planning.radwan_planning_material_view_form
+#: model_terms:ir.ui.view,arch_db:radwan_project_planning.radwan_planning_role_view_list
+msgid "Roles"
+msgstr "الأدوار"
+
+#. module: radwan_project_planning
+#. odoo-javascript
+#: code:addons/radwan_project_planning/static/src/xml/planning_gantt_action.xml:0
+msgid "Schedule by"
+msgstr ""
+
+#. module: radwan_project_planning
+#. odoo-javascript
+#: code:addons/radwan_project_planning/static/src/js/planning_gantt_action.js:0
+msgid "Schedule by %s"
+msgstr ""
+
+#. module: radwan_project_planning
+#: model:ir.actions.act_window,name:radwan_project_planning.action_radwan_planning_by_project
+#: model:ir.actions.client,name:radwan_project_planning.action_radwan_planning_gantt_project
+msgid "Schedule by Project"
+msgstr "الجدولة حسب المشروع"
+
+#. module: radwan_project_planning
+#: model:ir.actions.act_window,name:radwan_project_planning.action_radwan_planning_by_resource
+#: model:ir.actions.client,name:radwan_project_planning.action_radwan_planning_gantt_resource
+msgid "Schedule by Resource"
+msgstr "الجدولة حسب المورد"
+
+#. module: radwan_project_planning
+#: model:ir.actions.act_window,name:radwan_project_planning.action_radwan_planning_by_role
+#: model:ir.actions.client,name:radwan_project_planning.action_radwan_planning_gantt_role
+msgid "Schedule by Role"
+msgstr "الجدولة حسب الدور"
+
+#. module: radwan_project_planning
+#: model_terms:ir.ui.view,arch_db:radwan_project_planning.radwan_planning_generate_wizard_view_form
+msgid "Scope"
+msgstr "النطاق"
+
+#. module: radwan_project_planning
+#. odoo-javascript
+#: code:addons/radwan_project_planning/static/src/xml/planning_gantt_action.xml:0
+msgid "Search..."
+msgstr ""
+
+#. module: radwan_project_planning
+#. odoo-python
+#: code:addons/radwan_project_planning/models/radwan_planning_slot.py:0
+msgid "Select a project before creating a timesheet."
+msgstr ""
+
+#. module: radwan_project_planning
+#: model:ir.actions.act_window,name:radwan_project_planning.action_radwan_planning_settings
+#: model:ir.ui.menu,name:radwan_project_planning.menu_radwan_planning_config_settings
+msgid "Settings"
+msgstr "الإعدادات"
+
+#. module: radwan_project_planning
+#: model_terms:ir.ui.view,arch_db:radwan_project_planning.radwan_planning_template_view_form
+msgid "Shift Template"
+msgstr "قالب الوردية"
+
+#. module: radwan_project_planning
+#: model:ir.actions.act_window,name:radwan_project_planning.action_radwan_planning_template
+#: model:ir.ui.menu,name:radwan_project_planning.menu_radwan_planning_config_templates
+#: model_terms:ir.ui.view,arch_db:radwan_project_planning.radwan_planning_template_view_list
+msgid "Shift Templates"
+msgstr "قوالب الورديات"
+
+#. module: radwan_project_planning
+#: model_terms:ir.ui.view,arch_db:radwan_project_planning.radwan_planning_material_view_form
+#: model_terms:ir.ui.view,arch_db:radwan_project_planning.radwan_planning_role_view_form
+msgid "Shifts"
+msgstr "الورديات"
+
+#. module: radwan_project_planning
+#: model:ir.model.fields,field_description:radwan_project_planning.field_radwan_planning_material__slot_count
+#: model:ir.model.fields,field_description:radwan_project_planning.field_radwan_planning_role__slot_count
+msgid "Slot Count"
+msgstr "عدد الخانات"
+
+#. module: radwan_project_planning
+#: model:ir.model.fields,field_description:radwan_project_planning.field_radwan_planning_slot__start_datetime
+msgid "Start Datetime"
+msgstr "تاريخ ووقت البداية"
+
+#. module: radwan_project_planning
+#: model:ir.model.fields,field_description:radwan_project_planning.field_radwan_planning_template__start_hour
+msgid "Start Hour"
+msgstr "ساعة البداية"
+
+#. module: radwan_project_planning
+#. odoo-python
+#: code:addons/radwan_project_planning/models/radwan_planning_template.py:0
+msgid "Start hour must be between 0 and 24."
+msgstr ""
+
+#. module: radwan_project_planning
+#: model:ir.model.fields,field_description:radwan_project_planning.field_radwan_planning_slot__task_id
+#: model:ir.model.fields,field_description:radwan_project_planning.field_radwan_planning_template__task_id
+#: model_terms:ir.ui.view,arch_db:radwan_project_planning.radwan_planning_slot_view_search
+msgid "Task"
+msgstr "المهمة"
+
+#. module: radwan_project_planning
+#: model:ir.model.fields,field_description:radwan_project_planning.field_radwan_planning_generate_wizard__template_ids
+#: model_terms:ir.ui.view,arch_db:radwan_project_planning.radwan_planning_generate_wizard_view_form
+msgid "Templates"
+msgstr "القوالب"
+
+#. module: radwan_project_planning
+#. odoo-python
+#: code:addons/radwan_project_planning/models/radwan_planning_template.py:0
+msgid "Templates cannot cross midnight."
+msgstr ""
+
+#. module: radwan_project_planning
+#. odoo-python
+#: code:addons/radwan_project_planning/models/radwan_planning_material.py:0
+msgid "The default role must be one of the material roles."
+msgstr ""
+
+#. module: radwan_project_planning
+#. odoo-python
+#: code:addons/radwan_project_planning/models/radwan_planning_slot.py:0
+msgid "The end date must be after the start date."
+msgstr ""
+
+#. module: radwan_project_planning
+#. odoo-python
+#: code:addons/radwan_project_planning/models/res_config_settings.py:0
+msgid "The planning horizon must be at least one month."
+msgstr ""
+
+#. module: radwan_project_planning
+#. odoo-javascript
+#: code:addons/radwan_project_planning/static/src/js/planning_gantt_action.js:0
+msgid "There are no draft shifts to publish."
+msgstr ""
+
+#. module: radwan_project_planning
+#. odoo-python
+#: code:addons/radwan_project_planning/models/radwan_planning_slot.py:0
+msgid "This resource already has a shift in this period."
+msgstr ""
+
+#. module: radwan_project_planning
+#: model_terms:ir.ui.view,arch_db:radwan_project_planning.radwan_planning_template_view_form
+msgid "Time"
+msgstr "الوقت"
+
+#. module: radwan_project_planning
+#: model:ir.model.fields,field_description:radwan_project_planning.field_radwan_planning_slot__timesheet_count
+msgid "Timesheet Count"
+msgstr "عدد سجلات الوقت"
+
+#. module: radwan_project_planning
+#: model_terms:ir.ui.view,arch_db:radwan_project_planning.radwan_planning_slot_view_form
+msgid "Timesheet Progress"
+msgstr "تقدم سجلات الوقت"
+
+#. module: radwan_project_planning
+#: model:ir.model.fields,field_description:radwan_project_planning.field_radwan_planning_slot__timesheet_line_ids
+#: model_terms:ir.ui.view,arch_db:radwan_project_planning.radwan_planning_slot_view_form
+msgid "Timesheets"
+msgstr ""
+
+#. module: radwan_project_planning
+#. odoo-python
+#: code:addons/radwan_project_planning/models/radwan_planning_slot.py:0
+msgid "Timesheets must be enabled on the selected project."
+msgstr ""
+
+#. module: radwan_project_planning
+#. odoo-javascript
+#: code:addons/radwan_project_planning/static/src/xml/planning_gantt_action.xml:0
+msgid "Today"
+msgstr "اليوم"
+
+#. module: radwan_project_planning
+#: model_terms:ir.ui.view,arch_db:radwan_project_planning.radwan_planning_slot_view_form
+msgid "Unassign"
+msgstr ""
+
+#. module: radwan_project_planning
+#. odoo-python
+#: code:addons/radwan_project_planning/models/radwan_planning_slot.py:0
+msgid "Unassignment is disabled in settings."
+msgstr ""
+
+#. module: radwan_project_planning
+#. odoo-javascript
+#: code:addons/radwan_project_planning/static/src/xml/planning_gantt_action.xml:0
+msgid "Week"
+msgstr "الأسبوع"
+
+#. module: radwan_project_planning
+#: model:ir.model.fields,field_description:radwan_project_planning.field_radwan_planning_material__calendar_id
+msgid "Working Time"
+msgstr ""
+
+#. module: radwan_project_planning
+#. odoo-python
+#: code:addons/radwan_project_planning/models/radwan_planning_slot.py:0
+msgid "You can only unassign your own planning shifts."
+msgstr ""
+
+#. module: radwan_project_planning
+#. odoo-javascript
+#: code:addons/radwan_project_planning/static/src/xml/planning_gantt_action.xml:0
+msgid "shifts"
+msgstr ""
+
+#. module: radwan_project_planning
+#: model:ir.ui.menu,name:radwan_project_planning.menu_radwan_planning_root
+msgid "Planning"
+msgstr "التخطيط"
+
+#. module: radwan_project_planning
+#: model:ir.ui.menu,name:radwan_project_planning.menu_radwan_planning_configuration
+msgid "Configuration"
+msgstr "الإعدادات"
+
+#. module: radwan_project_planning
+#: model:ir.model.fields,field_description:radwan_project_planning.field_radwan_planning_slot__state
+msgid "State"
+msgstr "الحالة"
+
+#. module: radwan_project_planning
+#: model:ir.ui.menu,name:radwan_project_planning.menu_radwan_planning_schedule
+#: model_terms:ir.ui.view,arch_db:radwan_project_planning.radwan_planning_gantt_action
+msgid "Schedule"
+msgstr "الجدولة"
+
+#. module: radwan_project_planning
+#: model:ir.ui.menu,name:radwan_project_planning.menu_radwan_planning_by_resource
+#: model_terms:ir.ui.view,arch_db:radwan_project_planning.radwan_planning_gantt_action
+msgid "By Resource"
+msgstr "حسب المورد"
+
+#. module: radwan_project_planning
+#: model:ir.ui.menu,name:radwan_project_planning.menu_radwan_planning_by_role
+#: model_terms:ir.ui.view,arch_db:radwan_project_planning.radwan_planning_gantt_action
+msgid "By Role"
+msgstr "حسب الدور"
+
+#. module: radwan_project_planning
+#: model:ir.ui.menu,name:radwan_project_planning.menu_radwan_planning_by_project
+#: model_terms:ir.ui.view,arch_db:radwan_project_planning.radwan_planning_gantt_action
+msgid "By Project"
+msgstr "حسب المشروع"
+
+#. module: radwan_project_planning
+#: model:ir.ui.menu,name:radwan_project_planning.menu_radwan_planning_all_shifts
+msgid "All Shifts"
+msgstr "كل المناوبات"
+
+#. module: radwan_project_planning
+#: model:ir.ui.menu,name:radwan_project_planning.menu_radwan_planning_auto_plan
+msgid "Auto Plan"
+msgstr "التخطيط التلقائي"
+
+#. module: radwan_project_planning
+#: model:ir.ui.menu,name:radwan_project_planning.menu_radwan_my_planning
+msgid "My Planning"
+msgstr "تخطيطي"
+
+#. module: radwan_project_planning
+#: model:ir.ui.menu,name:radwan_project_planning.menu_radwan_planning_open_shifts
+msgid "Open Shifts"
+msgstr "المناوبات المفتوحة"
+
+#. module: radwan_project_planning
+#: model:ir.ui.menu,name:radwan_project_planning.menu_radwan_planning_reporting
+msgid "Reporting"
+msgstr "التقارير"
+
+#. module: radwan_project_planning
+#: model:ir.ui.menu,name:radwan_project_planning.menu_radwan_planning_analysis
+msgid "Planning Analysis"
+msgstr "تحليل التخطيط"
+
+#. module: radwan_project_planning
+#: model:ir.ui.menu,name:radwan_project_planning.menu_radwan_planning_config_settings
+msgid "Settings"
+msgstr "الإعدادات"
+
+#. module: radwan_project_planning
+#: model:ir.ui.menu,name:radwan_project_planning.menu_radwan_planning_config_employees
+msgid "Employees"
+msgstr "الموظفون"
+
+#. module: radwan_project_planning
+#: model:ir.ui.menu,name:radwan_project_planning.menu_radwan_planning_config_materials
+msgid "Materials"
+msgstr "الموارد المادية"
+
+#. module: radwan_project_planning
+#: model:ir.ui.menu,name:radwan_project_planning.menu_radwan_planning_config_roles
+msgid "Roles"
+msgstr "الأدوار"
+
+#. module: radwan_project_planning
+#: model:ir.ui.menu,name:radwan_project_planning.menu_radwan_planning_config_templates
+msgid "Shift Templates"
+msgstr "قوالب المناوبات"
+
+#. module: radwan_project_planning
+#. odoo-javascript
+#: code:addons/radwan_project_planning/static/src/xml/planning_gantt_action.xml:0
+msgid "Month"
+msgstr "الشهر"
+
+#. module: radwan_project_planning
+#. odoo-javascript
+#: code:addons/radwan_project_planning/static/src/xml/planning_gantt_action.xml:0
+msgid "New"
+msgstr "جديد"
+
+#. module: radwan_project_planning
+#. odoo-javascript
+#: code:addons/radwan_project_planning/static/src/xml/planning_gantt_action.xml:0
+msgid "Publish"
+msgstr "نشر"
+
+#. module: radwan_project_planning
+#. odoo-javascript
+#: code:addons/radwan_project_planning/static/src/xml/planning_gantt_action.xml:0
+msgid "Search..."
+msgstr "بحث..."
+
+#. module: radwan_project_planning
+#. odoo-javascript
+#: code:addons/radwan_project_planning/static/src/xml/planning_gantt_action.xml:0
+msgid "No shifts found. Let's create one."
+msgstr "لا توجد مناوبات. أنشئ مناوبة جديدة."
