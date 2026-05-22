@@ -1,3 +1,8 @@
+/* radwan_rtl_scope_start */
+html[dir="rtl"],
+html[lang^="ar"],
+body.o_rtl,
+.o_rtl {
 .o_hr_employee_form_view,
 .radwan_employee_rtl_form {
     direction: rtl;
@@ -629,5 +634,189 @@
     .o_notebook .tab-pane .o_data_table tbody td {
         padding-top: 6px !important;
         padding-bottom: 6px !important;
+    }
+}
+
+}
+/* radwan_rtl_scope_end */
+
+
+/* radwan_employee_common_field_style */
+.o_hr_employee_form_view,
+.radwan_employee_rtl_form {
+    --radwan-grid-border: #dddddd;
+    --radwan-grid-border-soft: #e8e8e8;
+    --radwan-grid-title-bg: #f3f3f3;
+    --radwan-grid-label-bg: #fafafa;
+
+    .o_notebook .tab-pane .o_inner_group,
+    details > div .o_inner_group {
+        border: 1px solid var(--radwan-grid-border-soft) !important;
+        border-radius: 4px !important;
+        overflow: hidden !important;
+        background: #ffffff !important;
+        margin-bottom: 16px !important;
+    }
+
+    .o_notebook .tab-pane .o_inner_group > .o_horizontal_separator,
+    details summary,
+    details > summary {
+        background: var(--radwan-grid-title-bg) !important;
+        border: 1px solid var(--radwan-grid-border-soft) !important;
+        border-radius: 4px !important;
+        color: #111827 !important;
+        min-height: 36px !important;
+        padding: 7px 14px !important;
+        margin: 0 0 10px 0 !important;
+        display: flex !important;
+        align-items: center !important;
+        font-weight: 700 !important;
+    }
+
+    .o_notebook .tab-pane .o_inner_group > .o_horizontal_separator {
+        border-left: 0 !important;
+        border-right: 0 !important;
+        border-top: 0 !important;
+        border-radius: 0 !important;
+        margin-bottom: 0 !important;
+    }
+
+    details {
+        border: 1px solid var(--radwan-grid-border-soft) !important;
+        border-radius: 4px !important;
+        overflow: hidden !important;
+        background: #ffffff !important;
+        margin-bottom: 14px !important;
+    }
+
+    details > summary {
+        border: 0 !important;
+        border-radius: 0 !important;
+        margin: 0 !important;
+    }
+
+    details > div {
+        padding: 12px 14px !important;
+        border-top: 1px solid var(--radwan-grid-border-soft) !important;
+        background: #ffffff !important;
+    }
+
+    .o_notebook .tab-pane table.o_inner_group,
+    .o_notebook .tab-pane .o_inner_group table {
+        width: 100% !important;
+        border-collapse: collapse !important;
+        border-spacing: 0 !important;
+    }
+
+    .o_notebook .tab-pane table.o_inner_group tbody tr,
+    .o_notebook .tab-pane .o_inner_group tbody tr {
+        border-bottom: 1px solid var(--radwan-grid-border-soft) !important;
+    }
+
+    .o_notebook .tab-pane table.o_inner_group tbody td,
+    .o_notebook .tab-pane .o_inner_group tbody td {
+        padding: 5px 12px !important;
+        vertical-align: middle !important;
+        border-inline-end: 1px solid var(--radwan-grid-border-soft) !important;
+    }
+
+    .o_notebook .tab-pane table.o_inner_group tbody td:last-child,
+    .o_notebook .tab-pane .o_inner_group tbody td:last-child {
+        border-inline-end: 0 !important;
+    }
+
+    .o_notebook .tab-pane .o_wrap_field,
+    details .o_wrap_field,
+    .o_notebook .tab-pane .o_cell,
+    details .o_cell {
+        min-height: 34px !important;
+        padding: 5px 12px !important;
+        border-bottom: 1px solid var(--radwan-grid-border-soft) !important;
+        border-inline-end: 1px solid var(--radwan-grid-border-soft) !important;
+        display: flex !important;
+        align-items: center !important;
+    }
+
+    .o_notebook .tab-pane .o_wrap_field:last-child,
+    details .o_wrap_field:last-child,
+    .o_notebook .tab-pane .o_cell:last-child,
+    details .o_cell:last-child {
+        border-inline-end: 0 !important;
+    }
+
+    .o_notebook .tab-pane .o_td_label,
+    .o_notebook .tab-pane .o_wrap_label,
+    details .o_td_label,
+    details .o_wrap_label {
+        background: var(--radwan-grid-label-bg) !important;
+        color: #111827 !important;
+        font-weight: 700 !important;
+        min-height: 34px !important;
+        padding-top: 5px !important;
+        padding-bottom: 5px !important;
+    }
+
+    .o_notebook .tab-pane .o_field_widget,
+    details .o_field_widget {
+        width: 100% !important;
+        min-height: 24px !important;
+        padding-bottom: 0 !important;
+        border-bottom: 1px solid rgba(113, 75, 103, .18);
+    }
+
+    .o_notebook .tab-pane .o_field_widget input,
+    .o_notebook .tab-pane .o_field_widget textarea,
+    .o_notebook .tab-pane .o_field_widget .o_input,
+    details .o_field_widget input,
+    details .o_field_widget textarea,
+    details .o_field_widget .o_input {
+        min-height: 24px !important;
+        padding-top: 2px !important;
+        padding-bottom: 2px !important;
+        line-height: 1.25 !important;
+        border-top: 0 !important;
+        border-left: 0 !important;
+        border-right: 0 !important;
+        border-bottom: 1px solid #dcdcdc !important;
+        border-radius: 0 !important;
+        background-color: transparent !important;
+        box-shadow: none !important;
+    }
+
+    .o_notebook .tab-pane .o_list_renderer,
+    .o_notebook .tab-pane table.o_list_table,
+    .o_notebook .tab-pane .o_data_table {
+        border: 1px solid var(--radwan-grid-border) !important;
+        border-radius: 4px !important;
+        overflow: hidden !important;
+    }
+
+    .o_notebook .tab-pane .o_list_renderer table,
+    .o_notebook .tab-pane table.o_list_table,
+    .o_notebook .tab-pane .o_data_table {
+        border-collapse: collapse !important;
+        border-spacing: 0 !important;
+    }
+
+    .o_notebook .tab-pane .o_list_renderer table thead th,
+    .o_notebook .tab-pane table.o_list_table thead th,
+    .o_notebook .tab-pane .o_data_table thead th {
+        background: #d9d9d9 !important;
+        border-inline-end: 1px solid #c8c8c8 !important;
+        border-bottom: 1px solid #c8c8c8 !important;
+        color: #111827 !important;
+        padding: 6px 12px !important;
+        vertical-align: middle !important;
+        white-space: nowrap !important;
+        font-weight: 700 !important;
+    }
+
+    .o_notebook .tab-pane .o_list_renderer table tbody td,
+    .o_notebook .tab-pane table.o_list_table tbody td,
+    .o_notebook .tab-pane .o_data_table tbody td {
+        border-inline-end: 1px solid var(--radwan-grid-border-soft) !important;
+        border-bottom: 1px solid var(--radwan-grid-border-soft) !important;
+        padding: 6px 12px !important;
+        vertical-align: middle !important;
     }
 }
