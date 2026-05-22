@@ -12,6 +12,34 @@
                 <attribute name="class" add="radwan_employee_rtl_form" separator=" "/>
             </xpath>
 
+            <xpath expr="//field[@name='birthday']" position="attributes">
+                <attribute name="options">{'numeric': True}</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='spouse_birthdate']" position="attributes">
+                <attribute name="options">{'numeric': True}</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='visa_expire']" position="attributes">
+                <attribute name="options">{'numeric': True}</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='work_permit_expiration_date']" position="attributes">
+                <attribute name="options">{'numeric': True}</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='passport_expiration_date']" position="attributes">
+                <attribute name="options">{'numeric': True}</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='contract_date_start']" position="attributes">
+                <attribute name="options">{'numeric': True}</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='contract_date_end']" position="attributes">
+                <attribute name="options">{'numeric': True}</attribute>
+            </xpath>
+
             <xpath expr="//notebook" position="inside">
 
                 <page name="radwan_hr_information" string="معلومات الموارد البشرية">
@@ -95,7 +123,7 @@
                                 <group>
                                     <field name="radwan_employee_code"/>
                                     <field name="radwan_file_number"/>
-                                    <field name="radwan_joining_date"/>
+                                    <field name="radwan_joining_date" options="{'numeric': True}"/>
                                 </group>
                                 <group>
                                     <field name="radwan_employment_status"/>
@@ -117,8 +145,8 @@
                                 <group>
                                     <field name="identification_id" string="ID / Iqama Number"/>
                                     <field name="radwan_id_type"/>
-                                    <field name="radwan_id_issue_date"/>
-                                    <field name="radwan_id_expiry_date"/>
+                                    <field name="radwan_id_issue_date" options="{'numeric': True}"/>
+                                    <field name="radwan_id_expiry_date" options="{'numeric': True}"/>
                                     <field name="radwan_id_expiry_hijri"/>
                                 </group>
                                 <group>
@@ -140,7 +168,7 @@
                         <div style="padding:14px 16px 16px 16px; background-color:#ffffff;">
                             <group>
                                 <group>
-                                    <field name="radwan_passport_expiry_date"/>
+                                    <field name="radwan_passport_expiry_date" options="{'numeric': True}"/>
                                 </group>
                             </group>
                         </div>
@@ -161,7 +189,7 @@
                                 </group>
                                 <group>
                                     <field name="radwan_medical_insurance_class"/>
-                                    <field name="radwan_medical_insurance_end"/>
+                                    <field name="radwan_medical_insurance_end" options="{'numeric': True}"/>
                                 </group>
                             </group>
                         </div>
@@ -178,8 +206,8 @@
                             <group>
                                 <group>
                                     <field name="radwan_contract_number"/>
-                                    <field name="radwan_contract_start_date"/>
-                                    <field name="radwan_contract_end_date"/>
+                                    <field name="radwan_contract_start_date" options="{'numeric': True}"/>
+                                    <field name="radwan_contract_end_date" options="{'numeric': True}"/>
                                 </group>
                             </group>
                         </div>
@@ -192,6 +220,21 @@
         </field>
     </record>
 
+    <!-- Employee Contract Form: keep date fields in full numeric format -->
+    <record id="radwan_hr_version_form_full_numeric_dates" model="ir.ui.view">
+        <field name="name">radwan.hr.version.form.full.numeric.dates</field>
+        <field name="model">hr.version</field>
+        <field name="inherit_id" ref="hr.hr_contract_template_form_view"/>
+        <field name="priority">99</field>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='contract_date_start']" position="attributes">
+                <attribute name="options">{'numeric': True}</attribute>
+            </xpath>
+            <xpath expr="//field[@name='contract_date_end']" position="attributes">
+                <attribute name="options">{'numeric': True}</attribute>
+            </xpath>
+        </field>
+    </record>
 
     <!-- Employee List View: Add Important HR Custom Fields -->
     <record id="radwan_hr_employee_list_custom_fields" model="ir.ui.view">
