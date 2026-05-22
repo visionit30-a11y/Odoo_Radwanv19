@@ -220,22 +220,6 @@
         </field>
     </record>
 
-    <!-- Employee Contract Form: keep date fields in full numeric format -->
-    <record id="radwan_hr_version_form_full_numeric_dates" model="ir.ui.view">
-        <field name="name">radwan.hr.version.form.full.numeric.dates</field>
-        <field name="model">hr.version</field>
-        <field name="inherit_id" ref="hr.hr_contract_template_form_view"/>
-        <field name="priority">99</field>
-        <field name="arch" type="xml">
-            <xpath expr="//field[@name='contract_date_start']" position="attributes">
-                <attribute name="options">{'numeric': True}</attribute>
-            </xpath>
-            <xpath expr="//field[@name='contract_date_end']" position="attributes">
-                <attribute name="options">{'numeric': True}</attribute>
-            </xpath>
-        </field>
-    </record>
-
     <!-- Employee List View: Add Important HR Custom Fields -->
     <record id="radwan_hr_employee_list_custom_fields" model="ir.ui.view">
         <field name="name">radwan.hr.employee.list.custom.fields</field>

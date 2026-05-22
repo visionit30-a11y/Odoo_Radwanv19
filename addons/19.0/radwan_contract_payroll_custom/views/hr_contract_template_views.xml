@@ -9,10 +9,10 @@
             <xpath expr="//group[@name='contract']" position="replace">
                 <group name="contract" string="Contract Overview" groups="hr.group_hr_user">
                     <label for="contract_date_start" class="radwan_contract_custom_label"/>
-                    <field name="contract_date_start" nolabel="1"/>
+                    <field name="contract_date_start" nolabel="1" options="{'numeric': True}"/>
 
                     <label for="contract_date_end" class="radwan_contract_custom_label"/>
-                    <field name="contract_date_end" nolabel="1"/>
+                    <field name="contract_date_end" nolabel="1" options="{'numeric': True}"/>
 
                     <label for="radwan_notice_period" class="radwan_contract_custom_label"/>
                     <field name="radwan_notice_period" nolabel="1"/>
@@ -124,8 +124,8 @@
                             </div>
                             <group>
                                 <group>
-                                    <field name="contract_date_start" string="Contract Start Date" placeholder="Not Employed"/>
-                                    <field name="contract_date_end" placeholder="Indefinite"/>
+                                    <field name="contract_date_start" string="Contract Start Date" placeholder="Not Employed" options="{'numeric': True}"/>
+                                    <field name="contract_date_end" placeholder="Indefinite" options="{'numeric': True}"/>
                                     <field name="radwan_notice_period"/>
                                     <field name="radwan_non_renewal"/>
                                     <field name="employee_type"/>
