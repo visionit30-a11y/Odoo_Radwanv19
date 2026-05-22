@@ -1,0 +1,633 @@
+.o_hr_employee_form_view,
+.radwan_employee_rtl_form {
+    direction: rtl;
+    text-align: right;
+
+    .o_form_renderer,
+    .o_form_sheet,
+    .o_notebook,
+    .tab-content,
+    .tab-pane,
+    .o_group,
+    .o_inner_group {
+        direction: rtl;
+        text-align: right;
+    }
+
+    .o_form_sheet > .d-flex.flex-column.flex-sm-row.align-items-center,
+    .d-flex.flex-column.flex-sm-row.align-items-center {
+        flex-direction: row-reverse !important;
+        justify-content: flex-start;
+        text-align: right;
+    }
+
+    .o_employee_avatar {
+        margin-left: 1.5rem !important;
+        margin-right: 0 !important;
+        align-items: flex-end;
+    }
+
+    .o_employee_form_header_info {
+        padding-right: 0 !important;
+        padding-left: 1.5rem !important;
+        text-align: right;
+    }
+
+    .o_employee_form_header_info h1,
+    .o_employee_form_header_info h5,
+    .o_employee_form_header_info p {
+        justify-content: flex-start;
+        text-align: right;
+    }
+
+    .o_employee_form_header_info .fa,
+    .o_employee_form_header_info i {
+        margin-left: .35rem !important;
+        margin-right: 0 !important;
+    }
+
+    .o_notebook .nav,
+    .o_notebook .nav-tabs {
+        direction: rtl;
+        flex-direction: row-reverse;
+        justify-content: flex-start;
+    }
+
+    .o_group.row,
+    .o_inner_group.row,
+    .tab-pane > .o_group {
+        direction: rtl;
+    }
+
+    .o_group.row > [class*="col-"],
+    .o_inner_group.row > [class*="col-"],
+    .tab-pane > .o_group > .o_inner_group {
+        text-align: right;
+    }
+
+    .o_form_label,
+    label,
+    .o_field_widget,
+    .o_input,
+    input,
+    textarea {
+        direction: rtl;
+        text-align: right;
+        unicode-bidi: plaintext;
+    }
+
+    .o_force_ltr,
+    .o_force_ltr *,
+    input[type="email"],
+    input[type="tel"] {
+        direction: ltr;
+        text-align: left;
+    }
+
+    .o_group .o_field_widget:not(.o_field_boolean):not(.o_field_boolean_toggle):not(.o_field_badge):not(.o_field_image),
+    .o_employee_form_header_info .o_field_widget:not(.o_field_boolean):not(.o_field_boolean_toggle):not(.o_field_badge):not(.o_field_image) {
+        min-height: 1.8rem;
+        padding-bottom: 2px;
+        border-bottom: 1px solid rgba(113, 75, 103, .18);
+    }
+
+    .o_group .o_field_widget:not(.o_field_boolean):not(.o_field_boolean_toggle):not(.o_field_badge):not(.o_field_image),
+    .o_employee_form_header_info .o_field_widget:not(.o_field_boolean):not(.o_field_boolean_toggle):not(.o_field_badge):not(.o_field_image) {
+        input,
+        textarea,
+        select,
+        .o_input,
+        .o_field_many2one_selection,
+        .o_field_tags,
+        .o_field_char,
+        .o_field_text {
+            border-top: 0;
+            border-left: 0;
+            border-right: 0;
+            border-bottom: 0;
+            border-radius: 0;
+            background-color: transparent;
+            box-shadow: none;
+        }
+    }
+
+    .o_group .o_field_widget:not(.o_field_boolean):not(.o_field_boolean_toggle):not(.o_field_badge):not(.o_field_image):focus-within,
+    .o_employee_form_header_info .o_field_widget:not(.o_field_boolean):not(.o_field_boolean_toggle):not(.o_field_badge):not(.o_field_image):focus-within {
+        border-bottom-color: rgba(113, 75, 103, .55);
+        box-shadow: 0 1px 0 rgba(113, 75, 103, .2);
+    }
+
+    .o_group .o_field_widget:not(.o_field_boolean):not(.o_field_boolean_toggle):not(.o_field_badge):not(.o_field_image),
+    .o_employee_form_header_info .o_field_widget:not(.o_field_boolean):not(.o_field_boolean_toggle):not(.o_field_badge):not(.o_field_image) {
+        input:focus,
+        textarea:focus,
+        select:focus,
+        .o_input:focus,
+        .o_field_many2one_selection:focus-within,
+        .o_field_tags:focus-within {
+            box-shadow: none;
+        }
+    }
+}
+
+/* radwan_employee_group_titles */
+.o_hr_employee_form_view .o_inner_group > .o_horizontal_separator,
+.radwan_employee_rtl_form .o_inner_group > .o_horizontal_separator,
+.o_hr_employee_form_view .o_group .o_horizontal_separator,
+.radwan_employee_rtl_form .o_group .o_horizontal_separator {
+    background-color: #f7f7f7 !important;
+    border: 1px solid #ececec !important;
+    border-radius: 4px !important;
+    padding: 8px 12px !important;
+    margin: 0 0 12px 0 !important;
+    min-height: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    color: #111827;
+}
+
+.o_hr_employee_form_view .o_inner_group > .o_horizontal_separator::before,
+.radwan_employee_rtl_form .o_inner_group > .o_horizontal_separator::before,
+.o_hr_employee_form_view .o_group .o_horizontal_separator::before,
+.radwan_employee_rtl_form .o_group .o_horizontal_separator::before {
+    display: none !important;
+}
+
+/* radwan_employee_strict_rtl_alignment */
+.o_hr_employee_form_view,
+.radwan_employee_rtl_form {
+    .o_notebook .tab-pane,
+    .o_notebook .tab-pane .row,
+    .o_notebook .tab-pane .o_group,
+    .o_notebook .tab-pane .o_inner_group,
+    #o_work_information,
+    #o_work_information_right,
+    #o_hr_skills_resume_container {
+        direction: rtl !important;
+        text-align: right !important;
+    }
+
+    .o_inner_group > .o_horizontal_separator,
+    .o_group .o_horizontal_separator {
+        justify-content: flex-start !important;
+        text-align: right !important;
+        direction: rtl !important;
+    }
+
+    .o_wrap_field,
+    .o_cell,
+    .o_row,
+    .o_field_widget {
+        direction: rtl !important;
+        text-align: right !important;
+    }
+
+    .o_field_widget,
+    .o_field_widget > *,
+    .o_field_widget span,
+    .o_field_widget a,
+    .o_field_widget div:not(.dropdown-menu):not(.o-autocomplete--dropdown-menu),
+    .o_field_many2one_selection,
+    .o_field_many2many_tags,
+    .o_tag,
+    .badge {
+        text-align: right !important;
+    }
+
+    .o_field_widget input,
+    .o_field_widget textarea,
+    .o_field_widget .o_input,
+    .o_field_widget .o-autocomplete--input,
+    .o_field_char,
+    .o_field_text,
+    .o_field_phone,
+    .o_field_email,
+    .o_field_url {
+        text-align: right !important;
+    }
+
+    .o_force_ltr,
+    .o_force_ltr *,
+    input[type="email"],
+    input[type="tel"],
+    .o_field_email,
+    .o_field_phone {
+        direction: ltr !important;
+        text-align: right !important;
+    }
+
+    .o_field_tags,
+    .o_field_many2many_tags,
+    .o_field_many2one_selection {
+        display: flex !important;
+        flex-direction: row-reverse !important;
+        justify-content: flex-start !important;
+    }
+
+    .o_form_label,
+    .o_td_label,
+    label {
+        text-align: right !important;
+    }
+
+    #o_hr_skills_resume_container {
+        flex-direction: row-reverse !important;
+    }
+
+    .o_hr_org_chart,
+    .o_org_chart,
+    .o_employee_org_chart {
+        direction: rtl !important;
+        text-align: right !important;
+    }
+}
+
+
+/* radwan_employee_table_headers */
+.o_hr_employee_form_view .o_list_renderer table thead th,
+.radwan_employee_rtl_form .o_list_renderer table thead th,
+.o_hr_employee_form_view table.o_list_table thead th,
+.radwan_employee_rtl_form table.o_list_table thead th,
+.o_hr_employee_form_view .o_data_table thead th,
+.radwan_employee_rtl_form .o_data_table thead th {
+    background-color: #d9d9d9 !important;
+    color: #111827 !important;
+    border-color: #c7c7c7 !important;
+    font-weight: 700 !important;
+    text-align: right !important;
+    vertical-align: middle !important;
+}
+
+.o_hr_employee_form_view .o_list_renderer table thead th .o_column_title,
+.radwan_employee_rtl_form .o_list_renderer table thead th .o_column_title,
+.o_hr_employee_form_view table.o_list_table thead th .o_column_title,
+.radwan_employee_rtl_form table.o_list_table thead th .o_column_title {
+    display: block;
+    width: 100%;
+    text-align: right !important;
+}
+
+
+/* radwan_employee_header_rtl_final */
+.o_hr_employee_form_view .o_form_sheet > .d-flex.flex-column.flex-sm-row.align-items-center,
+.radwan_employee_rtl_form .o_form_sheet > .d-flex.flex-column.flex-sm-row.align-items-center {
+    direction: rtl !important;
+    flex-direction: row !important;
+    justify-content: flex-start !important;
+    align-items: flex-start !important;
+    gap: 28px !important;
+    text-align: right !important;
+}
+
+.o_hr_employee_form_view .o_employee_avatar,
+.radwan_employee_rtl_form .o_employee_avatar {
+    order: 0 !important;
+    margin-right: 0 !important;
+    margin-left: 0 !important;
+    flex: 0 0 auto !important;
+    align-items: flex-end !important;
+}
+
+.o_hr_employee_form_view .o_employee_form_header_info,
+.radwan_employee_rtl_form .o_employee_form_header_info {
+    order: 1 !important;
+    flex: 1 1 auto !important;
+    padding: 0 !important;
+    text-align: right !important;
+    align-items: flex-start !important;
+}
+
+.o_hr_employee_form_view .o_employee_form_header_info .oe_title,
+.radwan_employee_rtl_form .o_employee_form_header_info .oe_title,
+.o_hr_employee_form_view .o_employee_form_header_info h1,
+.radwan_employee_rtl_form .o_employee_form_header_info h1,
+.o_hr_employee_form_view .o_employee_form_header_info h5,
+.radwan_employee_rtl_form .o_employee_form_header_info h5,
+.o_hr_employee_form_view .o_employee_form_header_info p,
+.radwan_employee_rtl_form .o_employee_form_header_info p {
+    direction: rtl !important;
+    text-align: right !important;
+    justify-content: flex-start !important;
+    align-items: center !important;
+}
+
+.o_hr_employee_form_view .o_employee_form_header_info h1,
+.radwan_employee_rtl_form .o_employee_form_header_info h1 {
+    width: 100% !important;
+    margin-right: 0 !important;
+    margin-left: auto !important;
+}
+
+.o_hr_employee_form_view .o_employee_form_header_info .o_field_widget,
+.radwan_employee_rtl_form .o_employee_form_header_info .o_field_widget,
+.o_hr_employee_form_view .o_employee_form_header_info .o_field_tags,
+.radwan_employee_rtl_form .o_employee_form_header_info .o_field_tags,
+.o_hr_employee_form_view .o_employee_form_header_info .o_field_many2many_tags,
+.radwan_employee_rtl_form .o_employee_form_header_info .o_field_many2many_tags {
+    justify-content: flex-start !important;
+    text-align: right !important;
+}
+
+.o_hr_employee_form_view .o_presence_status_pill_wrapper,
+.radwan_employee_rtl_form .o_presence_status_pill_wrapper {
+    order: 2 !important;
+    flex: 0 0 auto !important;
+    margin-right: auto !important;
+    margin-left: 0 !important;
+}
+
+.o_hr_employee_form_view .o_employee_form_header_info .fa,
+.radwan_employee_rtl_form .o_employee_form_header_info .fa,
+.o_hr_employee_form_view .o_employee_form_header_info i,
+.radwan_employee_rtl_form .o_employee_form_header_info i {
+    margin-right: 0 !important;
+    margin-left: .35rem !important;
+}
+
+@media (max-width: 575.98px) {
+    .o_hr_employee_form_view .o_form_sheet > .d-flex.flex-column.flex-sm-row.align-items-center,
+    .radwan_employee_rtl_form .o_form_sheet > .d-flex.flex-column.flex-sm-row.align-items-center {
+        flex-direction: column !important;
+        align-items: flex-end !important;
+    }
+}
+
+
+/* radwan_employee_table_like_form_layout */
+.o_hr_employee_form_view,
+.radwan_employee_rtl_form {
+    --radwan-grid-border: #dddddd;
+    --radwan-grid-border-soft: #e8e8e8;
+    --radwan-grid-title-bg: #f3f3f3;
+    --radwan-grid-label-bg: #fafafa;
+
+    .o_notebook .tab-pane .o_group,
+    .o_notebook .tab-pane .o_inner_group,
+    details > div > .o_group,
+    details > div .o_inner_group {
+        border-color: var(--radwan-grid-border-soft) !important;
+    }
+
+    .o_notebook .tab-pane .o_inner_group,
+    details > div .o_inner_group {
+        border: 1px solid var(--radwan-grid-border-soft) !important;
+        border-radius: 4px !important;
+        overflow: hidden !important;
+        background: #ffffff !important;
+        margin-bottom: 16px !important;
+    }
+
+    .o_notebook .tab-pane .o_inner_group > .o_horizontal_separator,
+    details summary,
+    details > summary {
+        background: var(--radwan-grid-title-bg) !important;
+        border: 1px solid var(--radwan-grid-border-soft) !important;
+        border-radius: 4px !important;
+        color: #111827 !important;
+        min-height: 42px !important;
+        padding: 10px 14px !important;
+        margin: 0 0 10px 0 !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: flex-start !important;
+        text-align: right !important;
+        direction: rtl !important;
+        font-weight: 700 !important;
+    }
+
+    .o_notebook .tab-pane .o_inner_group > .o_horizontal_separator {
+        border-left: 0 !important;
+        border-right: 0 !important;
+        border-top: 0 !important;
+        border-radius: 0 !important;
+        margin-bottom: 0 !important;
+    }
+
+    details {
+        border: 1px solid var(--radwan-grid-border-soft) !important;
+        border-radius: 4px !important;
+        overflow: hidden !important;
+        background: #ffffff !important;
+        margin-bottom: 14px !important;
+    }
+
+    details > summary {
+        border: 0 !important;
+        border-radius: 0 !important;
+        margin: 0 !important;
+    }
+
+    details > div {
+        padding: 12px 14px !important;
+        border-top: 1px solid var(--radwan-grid-border-soft) !important;
+        background: #ffffff !important;
+    }
+
+    .o_notebook .tab-pane .o_inner_group table,
+    .o_notebook .tab-pane table.o_inner_group {
+        width: 100% !important;
+        border-collapse: collapse !important;
+        border-spacing: 0 !important;
+    }
+
+    .o_notebook .tab-pane table.o_inner_group tbody tr,
+    .o_notebook .tab-pane .o_inner_group tbody tr {
+        border-bottom: 1px solid var(--radwan-grid-border-soft) !important;
+    }
+
+    .o_notebook .tab-pane table.o_inner_group tbody tr:last-child,
+    .o_notebook .tab-pane .o_inner_group tbody tr:last-child {
+        border-bottom: 0 !important;
+    }
+
+    .o_notebook .tab-pane table.o_inner_group tbody td,
+    .o_notebook .tab-pane .o_inner_group tbody td {
+        padding: 9px 12px !important;
+        vertical-align: middle !important;
+        border-left: 1px solid var(--radwan-grid-border-soft) !important;
+    }
+
+    .o_notebook .tab-pane table.o_inner_group tbody td:last-child,
+    .o_notebook .tab-pane .o_inner_group tbody td:last-child {
+        border-left: 0 !important;
+    }
+
+    .o_notebook .tab-pane .o_wrap_field,
+    details .o_wrap_field,
+    .o_notebook .tab-pane .o_cell,
+    details .o_cell {
+        min-height: 42px !important;
+        padding: 8px 12px !important;
+        border-bottom: 1px solid var(--radwan-grid-border-soft) !important;
+        border-left: 1px solid var(--radwan-grid-border-soft) !important;
+        display: flex !important;
+        align-items: center !important;
+    }
+
+    .o_notebook .tab-pane .o_wrap_field:last-child,
+    details .o_wrap_field:last-child,
+    .o_notebook .tab-pane .o_cell:last-child,
+    details .o_cell:last-child {
+        border-left: 0 !important;
+    }
+
+    .o_notebook .tab-pane .o_td_label,
+    .o_notebook .tab-pane .o_wrap_label,
+    details .o_td_label,
+    details .o_wrap_label {
+        background: var(--radwan-grid-label-bg) !important;
+        color: #111827 !important;
+        font-weight: 700 !important;
+        text-align: right !important;
+        vertical-align: middle !important;
+        border-left: 1px solid var(--radwan-grid-border-soft) !important;
+    }
+
+    .o_notebook .tab-pane .o_field_widget,
+    details .o_field_widget {
+        width: 100% !important;
+        min-height: 30px !important;
+        border-bottom-color: transparent !important;
+    }
+
+    .o_notebook .tab-pane .o_field_widget input,
+    .o_notebook .tab-pane .o_field_widget textarea,
+    .o_notebook .tab-pane .o_field_widget .o_input,
+    details .o_field_widget input,
+    details .o_field_widget textarea,
+    details .o_field_widget .o_input {
+        border-bottom: 1px solid #dcdcdc !important;
+        min-height: 28px !important;
+    }
+
+    .o_notebook .tab-pane .o_list_renderer,
+    .o_notebook .tab-pane table.o_list_table,
+    .o_notebook .tab-pane .o_data_table {
+        border: 1px solid var(--radwan-grid-border) !important;
+        border-radius: 4px !important;
+        overflow: hidden !important;
+    }
+
+    .o_notebook .tab-pane .o_list_renderer table,
+    .o_notebook .tab-pane table.o_list_table,
+    .o_notebook .tab-pane .o_data_table {
+        border-collapse: collapse !important;
+        border-spacing: 0 !important;
+    }
+
+    .o_notebook .tab-pane .o_list_renderer table thead th,
+    .o_notebook .tab-pane table.o_list_table thead th,
+    .o_notebook .tab-pane .o_data_table thead th {
+        background: #d9d9d9 !important;
+        border-left: 1px solid #c8c8c8 !important;
+        border-bottom: 1px solid #c8c8c8 !important;
+        color: #111827 !important;
+        padding: 10px 12px !important;
+        text-align: right !important;
+        vertical-align: middle !important;
+        white-space: nowrap !important;
+    }
+
+    .o_notebook .tab-pane .o_list_renderer table tbody td,
+    .o_notebook .tab-pane table.o_list_table tbody td,
+    .o_notebook .tab-pane .o_data_table tbody td {
+        border-left: 1px solid var(--radwan-grid-border-soft) !important;
+        border-bottom: 1px solid var(--radwan-grid-border-soft) !important;
+        padding: 9px 12px !important;
+        text-align: right !important;
+        vertical-align: middle !important;
+    }
+
+    .o_notebook .tab-pane .o_list_renderer table thead th:last-child,
+    .o_notebook .tab-pane table.o_list_table thead th:last-child,
+    .o_notebook .tab-pane .o_data_table thead th:last-child,
+    .o_notebook .tab-pane .o_list_renderer table tbody td:last-child,
+    .o_notebook .tab-pane table.o_list_table tbody td:last-child,
+    .o_notebook .tab-pane .o_data_table tbody td:last-child {
+        border-left: 0 !important;
+    }
+
+    .o_notebook .tab-pane .o_list_renderer table tbody tr:last-child td,
+    .o_notebook .tab-pane table.o_list_table tbody tr:last-child td,
+    .o_notebook .tab-pane .o_data_table tbody tr:last-child td {
+        border-bottom: 0 !important;
+    }
+}
+
+
+/* radwan_employee_compact_fields */
+.o_hr_employee_form_view,
+.radwan_employee_rtl_form {
+    .o_notebook .tab-pane .o_wrap_field,
+    details .o_wrap_field,
+    .o_notebook .tab-pane .o_cell,
+    details .o_cell {
+        min-height: 34px !important;
+        padding-top: 5px !important;
+        padding-bottom: 5px !important;
+    }
+
+    .o_notebook .tab-pane .o_td_label,
+    .o_notebook .tab-pane .o_wrap_label,
+    details .o_td_label,
+    details .o_wrap_label {
+        min-height: 34px !important;
+        padding-top: 5px !important;
+        padding-bottom: 5px !important;
+    }
+
+    .o_notebook .tab-pane .o_field_widget,
+    details .o_field_widget {
+        min-height: 24px !important;
+        padding-bottom: 0 !important;
+    }
+
+    .o_notebook .tab-pane .o_field_widget input,
+    .o_notebook .tab-pane .o_field_widget textarea,
+    .o_notebook .tab-pane .o_field_widget .o_input,
+    details .o_field_widget input,
+    details .o_field_widget textarea,
+    details .o_field_widget .o_input {
+        min-height: 24px !important;
+        padding-top: 2px !important;
+        padding-bottom: 2px !important;
+        line-height: 1.25 !important;
+    }
+
+    .o_notebook .tab-pane .o_field_many2many_tags,
+    .o_notebook .tab-pane .o_field_tags,
+    details .o_field_many2many_tags,
+    details .o_field_tags {
+        min-height: 26px !important;
+        align-items: center !important;
+    }
+
+    .o_notebook .tab-pane .o_tag,
+    details .o_tag,
+    .o_notebook .tab-pane .badge,
+    details .badge {
+        min-height: 22px !important;
+        padding-top: 2px !important;
+        padding-bottom: 2px !important;
+        line-height: 1.2 !important;
+    }
+
+    .o_notebook .tab-pane .o_inner_group > .o_horizontal_separator,
+    details summary,
+    details > summary {
+        min-height: 36px !important;
+        padding-top: 7px !important;
+        padding-bottom: 7px !important;
+    }
+
+    .o_notebook .tab-pane .o_list_renderer table thead th,
+    .o_notebook .tab-pane table.o_list_table thead th,
+    .o_notebook .tab-pane .o_data_table thead th,
+    .o_notebook .tab-pane .o_list_renderer table tbody td,
+    .o_notebook .tab-pane table.o_list_table tbody td,
+    .o_notebook .tab-pane .o_data_table tbody td {
+        padding-top: 6px !important;
+        padding-bottom: 6px !important;
+    }
+}

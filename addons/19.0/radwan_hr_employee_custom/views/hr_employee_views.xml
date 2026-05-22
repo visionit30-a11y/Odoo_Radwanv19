@@ -8,14 +8,18 @@
         <field name="inherit_id" ref="hr.view_employee_form"/>
         <field name="arch" type="xml">
 
+            <xpath expr="//form" position="attributes">
+                <attribute name="class" add="radwan_employee_rtl_form" separator=" "/>
+            </xpath>
+
             <xpath expr="//notebook" position="inside">
 
-                <page name="radwan_hr_information" string="HR Custom Information">
+                <page name="radwan_hr_information" string="معلومات الموارد البشرية">
 
                     <!-- Expiry Status Summary -->
                     <details open="open" style="margin-bottom:12px; border:1px solid #e6e1e5; border-radius:6px; overflow:hidden;">
                         <summary style="background-color:#714B67; color:#ffffff; padding:9px 14px; font-weight:700; cursor:pointer; letter-spacing:.2px;">
-                            EXPIRY STATUS SUMMARY
+                            ملخص حالة الانتهاء
                         </summary>
 
                         <div style="padding:14px 16px 16px 16px; background-color:#ffffff;">
@@ -83,7 +87,7 @@
                     <!-- Internal HR Data -->
                     <details open="open" style="margin-bottom:12px; border:1px solid #e6e1e5; border-radius:6px; overflow:hidden;">
                         <summary style="background-color:#714B67; color:#ffffff; padding:9px 14px; font-weight:700; cursor:pointer; letter-spacing:.2px;">
-                            INTERNAL HR DATA
+                            بيانات الموارد البشرية الداخلية
                         </summary>
 
                         <div style="padding:14px 16px 16px 16px; background-color:#ffffff;">
@@ -105,7 +109,7 @@
                     <!-- Identity / Iqama Data -->
                     <details open="open" style="margin-bottom:12px; border:1px solid #e6e1e5; border-radius:6px; overflow:hidden;">
                         <summary style="background-color:#714B67; color:#ffffff; padding:9px 14px; font-weight:700; cursor:pointer; letter-spacing:.2px;">
-                            IDENTITY / IQAMA DATA
+                            بيانات الهوية / الإقامة
                         </summary>
 
                         <div style="padding:14px 16px 16px 16px; background-color:#ffffff;">
@@ -130,7 +134,7 @@
                     <!-- Passport Data -->
                     <details open="open" style="margin-bottom:12px; border:1px solid #e6e1e5; border-radius:6px; overflow:hidden;">
                         <summary style="background-color:#714B67; color:#ffffff; padding:9px 14px; font-weight:700; cursor:pointer; letter-spacing:.2px;">
-                            PASSPORT DATA
+                            بيانات الجواز
                         </summary>
 
                         <div style="padding:14px 16px 16px 16px; background-color:#ffffff;">
@@ -146,7 +150,7 @@
                     <!-- Medical Insurance Data -->
                     <details open="open" style="margin-bottom:12px; border:1px solid #e6e1e5; border-radius:6px; overflow:hidden;">
                         <summary style="background-color:#714B67; color:#ffffff; padding:9px 14px; font-weight:700; cursor:pointer; letter-spacing:.2px;">
-                            MEDICAL INSURANCE DATA
+                            بيانات التأمين الطبي
                         </summary>
 
                         <div style="padding:14px 16px 16px 16px; background-color:#ffffff;">
@@ -167,7 +171,7 @@
                     <!-- Contract Data -->
                     <details open="open" style="margin-bottom:12px; border:1px solid #e6e1e5; border-radius:6px; overflow:hidden;">
                         <summary style="background-color:#714B67; color:#ffffff; padding:9px 14px; font-weight:700; cursor:pointer; letter-spacing:.2px;">
-                            CONTRACT DATA
+                            بيانات العقد
                         </summary>
 
                         <div style="padding:14px 16px 16px 16px; background-color:#ffffff;">

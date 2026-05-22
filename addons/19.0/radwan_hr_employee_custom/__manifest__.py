@@ -14,6 +14,11 @@
         "views/expiry_monitoring_views.xml",
         "reports/employee_reports.xml",
     ],
+    "assets": {
+        "web.assets_backend": [
+            "radwan_hr_employee_custom/static/src/scss/hr_employee_rtl.scss",
+        ],
+    },
     "installable": True,
     "application": False,
     "auto_install": False,
