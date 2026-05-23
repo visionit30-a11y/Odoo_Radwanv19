@@ -820,3 +820,57 @@ body.o_rtl,
         vertical-align: middle !important;
     }
 }
+
+
+/* radwan_employee_smart_button_icon_spacing */
+.o_hr_employee_form_view,
+.radwan_employee_rtl_form {
+    .oe_button_box .oe_stat_button,
+    .o_button_box .oe_stat_button {
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 0.55rem !important;
+        min-width: 0 !important;
+        white-space: nowrap !important;
+    }
+
+    .oe_button_box .oe_stat_button > .fa,
+    .oe_button_box .oe_stat_button > i,
+    .o_button_box .oe_stat_button > .fa,
+    .o_button_box .oe_stat_button > i {
+        flex: 0 0 auto !important;
+        margin: 0 !important;
+        line-height: 1 !important;
+    }
+
+    .oe_button_box .oe_stat_button .o_stat_info,
+    .oe_button_box .oe_stat_button .o_field_widget,
+    .o_button_box .oe_stat_button .o_stat_info,
+    .o_button_box .oe_stat_button .o_field_widget {
+        min-width: 0 !important;
+        margin: 0 !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+    }
+}
+
+html[dir="rtl"] .o_hr_employee_form_view,
+html[dir="rtl"] .radwan_employee_rtl_form,
+body.o_rtl .o_hr_employee_form_view,
+body.o_rtl .radwan_employee_rtl_form {
+    .oe_button_box .oe_stat_button,
+    .o_button_box .oe_stat_button {
+        flex-direction: row-reverse !important;
+    }
+}
+
+html[dir="ltr"] .o_hr_employee_form_view,
+html[dir="ltr"] .radwan_employee_rtl_form,
+body:not(.o_rtl) .o_hr_employee_form_view,
+body:not(.o_rtl) .radwan_employee_rtl_form {
+    .oe_button_box .oe_stat_button,
+    .o_button_box .oe_stat_button {
+        flex-direction: row !important;
+    }
+}
