@@ -1,17 +1,66 @@
+/*
+ * Radwan grouped apps menu.
+ * Scope: the custom apps dropdown/sidebar only.
+ * Goal: use more vertical space without changing colors, width, or menu logic.
+ */
+
+:root {
+    --radwan-app-menu-height: calc(100dvh - 72px);
+    --radwan-app-menu-mobile-height: calc(100dvh - 56px);
+}
+
 .o_app_menu_sidebar {
     width: min(390px, 78%) !important;
+    max-height: var(--radwan-app-menu-height) !important;
 }
 
 .o_app_menu_sidebar .o_burger_menu_content {
-    height: calc(100dvh - 2px) !important;
-    min-height: calc(100dvh - 2px) !important;
-    max-height: calc(100dvh - 2px) !important;
+    height: var(--radwan-app-menu-height) !important;
+    min-height: var(--radwan-app-menu-height) !important;
+    max-height: var(--radwan-app-menu-height) !important;
     font-size: 1.08rem;
-    overflow-y: auto;
+    overflow-y: auto !important;
+    overscroll-behavior: contain;
+    padding-bottom: 0.5rem;
+}
+
+.o_navbar_apps_menu .o-dropdown--menu,
+.o_navbar_apps_menu .dropdown-menu,
+.o_burger_menu .o-dropdown--menu,
+.o_burger_menu .dropdown-menu {
+    min-width: 24rem;
+    height: var(--radwan-app-menu-height) !important;
+    min-height: var(--radwan-app-menu-height) !important;
+    max-height: var(--radwan-app-menu-height) !important;
+    overflow-y: auto !important;
+    overscroll-behavior: contain;
+    padding: 0.38rem;
+}
+
+/*
+ * In Odoo 19 the dropdown can be rendered in a popover outside the navbar
+ * DOM subtree. These selectors catch that rendered menu without affecting
+ * unrelated dropdowns.
+ */
+.o_popover:has(.o_radwan_app_dropdown_group),
+.o-dropdown--menu:has(.o_radwan_app_dropdown_group),
+.dropdown-menu:has(.o_radwan_app_dropdown_group) {
+    height: var(--radwan-app-menu-height) !important;
+    min-height: var(--radwan-app-menu-height) !important;
+    max-height: var(--radwan-app-menu-height) !important;
+    overflow-y: auto !important;
+    overscroll-behavior: contain;
+}
+
+.o_popover:has(.o_radwan_app_dropdown_group) .o-dropdown--menu,
+.o_popover:has(.o_radwan_app_dropdown_group) .dropdown-menu {
+    height: 100% !important;
+    max-height: 100% !important;
+    overflow-y: auto !important;
 }
 
 .o_radwan_app_group {
-    margin: 0.45rem 0.75rem 0.8rem;
+    margin: 0.32rem 0.75rem 0.48rem;
 }
 
 .o_radwan_app_group_header {
@@ -20,13 +69,13 @@
     width: 100%;
     border: 0;
     border-radius: 0.25rem;
-    padding-block: 0.7rem;
-    padding-inline: 2.4rem 1rem;
+    padding-block: 0.52rem;
+    padding-inline: 2.25rem 0.9rem;
     background: #f3f4f6;
     color: #202428;
     font-size: 1.02rem;
     font-weight: 700;
-    line-height: 1.25;
+    line-height: 1.22;
     text-align: start;
     user-select: none;
     cursor: pointer;
@@ -42,23 +91,25 @@
 .o_radwan_app_group_header > i {
     position: absolute;
     top: 50%;
-    inset-inline-start: 0.9rem;
+    inset-inline-start: 0.82rem;
     transform: translateY(-50%);
     font-size: 0.8rem;
 }
 
 .o_radwan_app_group_items {
-    margin-top: 0.35rem;
+    margin-top: 0.22rem;
+    margin-bottom: 0.28rem !important;
 }
 
 .o_radwan_app_item {
     border-radius: 0.25rem;
-    margin: 0.08rem 0.25rem;
-    padding-right: 1rem;
-    padding-left: 1rem !important;
+    margin: 0.02rem 0.25rem;
+    padding-block: 0.42rem !important;
+    padding-inline: 1rem !important;
     color: #2f3438;
     font-size: 1.05rem;
     font-weight: 500;
+    line-height: 1.22;
     cursor: pointer;
 }
 
@@ -68,46 +119,30 @@
     color: #111827;
 }
 
-.o_navbar_apps_menu .o-dropdown--menu,
-.o_navbar_apps_menu .dropdown-menu,
-.o_burger_menu .o-dropdown--menu,
-.o_burger_menu .dropdown-menu {
-    min-width: 24rem;
-    height: calc(100dvh - 2px) !important;
-    max-height: calc(100dvh - 2px) !important;
-    overflow-y: auto !important;
-    padding: 0.5rem;
+.o_radwan_app_item .o_app_icon {
+    flex: 0 0 auto;
+    height: 2.15em !important;
 }
 
-@media (min-width: 992px) {
-    .o_app_menu_sidebar {
-        height: calc(100dvh - 2px) !important;
-        max-height: calc(100dvh - 2px) !important;
-    }
-
-    .o_navbar_apps_menu .o-dropdown--menu,
-    .o_navbar_apps_menu .dropdown-menu,
-    .o_burger_menu .o-dropdown--menu,
-    .o_burger_menu .dropdown-menu {
-        height: calc(100dvh - 2px) !important;
-        max-height: calc(100dvh - 2px) !important;
-    }
+.o_radwan_app_item span {
+    min-width: 0;
 }
 
 .o_radwan_app_dropdown_group {
-    margin-bottom: 0.35rem;
+    margin-bottom: 0.18rem;
 }
 
 .o_radwan_app_group_header_dropdown {
-    margin: 0.25rem 0;
-    padding-top: 0.55rem;
-    padding-bottom: 0.55rem;
+    margin: 0.14rem 0;
+    padding-top: 0.48rem;
+    padding-bottom: 0.48rem;
 }
 
 .o_radwan_app_dropdown_item {
     border-radius: 0.25rem;
-    padding: 0.55rem 0.85rem !important;
+    padding: 0.46rem 0.78rem !important;
     font-size: 1.02rem;
+    line-height: 1.2;
 }
 
 .o_radwan_skill_select_dialog .modal-body .btn.o_radwan_skill_option_selected {
@@ -126,4 +161,82 @@
     background: #fff;
     content: "";
     vertical-align: middle;
+}
+
+html[dir="rtl"] .o_app_menu_sidebar,
+html[dir="rtl"] .o_navbar_apps_menu .o-dropdown--menu,
+html[dir="rtl"] .o_navbar_apps_menu .dropdown-menu,
+html[dir="rtl"] .o_burger_menu .o-dropdown--menu,
+html[dir="rtl"] .o_burger_menu .dropdown-menu,
+body.o_rtl .o_app_menu_sidebar,
+body.o_rtl .o_navbar_apps_menu .o-dropdown--menu,
+body.o_rtl .o_navbar_apps_menu .dropdown-menu,
+body.o_rtl .o_burger_menu .o-dropdown--menu,
+body.o_rtl .o_burger_menu .dropdown-menu {
+    direction: rtl;
+}
+
+html[dir="rtl"] .o_radwan_app_item .d-flex,
+body.o_rtl .o_radwan_app_item .d-flex {
+    flex-direction: row-reverse;
+    text-align: right;
+}
+
+html[dir="rtl"] .o_radwan_app_item .o_app_icon,
+body.o_rtl .o_radwan_app_item .o_app_icon {
+    margin-inline-start: 0.75rem !important;
+    margin-inline-end: 0 !important;
+}
+
+html[dir="ltr"] .o_app_menu_sidebar,
+html[dir="ltr"] .o_navbar_apps_menu .o-dropdown--menu,
+html[dir="ltr"] .o_navbar_apps_menu .dropdown-menu,
+html[dir="ltr"] .o_burger_menu .o-dropdown--menu,
+html[dir="ltr"] .o_burger_menu .dropdown-menu,
+body:not(.o_rtl) .o_app_menu_sidebar,
+body:not(.o_rtl) .o_navbar_apps_menu .o-dropdown--menu,
+body:not(.o_rtl) .o_navbar_apps_menu .dropdown-menu,
+body:not(.o_rtl) .o_burger_menu .o-dropdown--menu,
+body:not(.o_rtl) .o_burger_menu .dropdown-menu {
+    direction: ltr;
+}
+
+@media (min-width: 992px) {
+    .o_app_menu_sidebar {
+        height: var(--radwan-app-menu-height) !important;
+        min-height: var(--radwan-app-menu-height) !important;
+        max-height: var(--radwan-app-menu-height) !important;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .o_app_menu_sidebar {
+        width: min(390px, 92vw) !important;
+    }
+
+    .o_app_menu_sidebar,
+    .o_app_menu_sidebar .o_burger_menu_content,
+    .o_navbar_apps_menu .o-dropdown--menu,
+    .o_navbar_apps_menu .dropdown-menu,
+    .o_burger_menu .o-dropdown--menu,
+    .o_burger_menu .dropdown-menu,
+    .o_popover:has(.o_radwan_app_dropdown_group),
+    .o-dropdown--menu:has(.o_radwan_app_dropdown_group),
+    .dropdown-menu:has(.o_radwan_app_dropdown_group) {
+        height: var(--radwan-app-menu-mobile-height) !important;
+        min-height: 0 !important;
+        max-height: var(--radwan-app-menu-mobile-height) !important;
+    }
+
+    .o_radwan_app_group {
+        margin-inline: 0.45rem;
+    }
+
+    .o_radwan_app_group_header {
+        padding-block: 0.5rem;
+    }
+
+    .o_radwan_app_item {
+        padding-block: 0.4rem !important;
+    }
 }
