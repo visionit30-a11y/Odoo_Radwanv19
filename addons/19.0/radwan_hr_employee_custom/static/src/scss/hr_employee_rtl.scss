@@ -822,7 +822,7 @@ body.o_rtl,
 }
 
 
-/* radwan_employee_smart_button_icon_spacing */
+/* radwan_employee_smart_button_vertical_layout */
 .o_hr_employee_form_view,
 .radwan_employee_rtl_form {
     .oe_button_box,
@@ -830,80 +830,74 @@ body.o_rtl,
     div[name="button_box"] {
         .oe_stat_button {
             display: inline-flex !important;
+            flex-direction: column !important;
             align-items: center !important;
             justify-content: center !important;
-            column-gap: 0.65rem !important;
+            gap: 2px !important;
             min-width: 0 !important;
-            white-space: nowrap !important;
+            min-height: 48px !important;
+            padding-top: 4px !important;
+            padding-bottom: 4px !important;
+            white-space: normal !important;
+            text-align: center !important;
         }
 
         .oe_stat_button > .fa,
         .oe_stat_button > i,
         .oe_stat_button .o_button_icon {
+            order: 1 !important;
             flex: 0 0 auto !important;
             margin: 0 !important;
             line-height: 1 !important;
+            font-size: 1.25rem !important;
         }
 
         .oe_stat_button .o_stat_info,
-        .oe_stat_button .o_field_widget,
+        .oe_stat_button .o_field_widget {
+            order: 2 !important;
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: center !important;
+            justify-content: center !important;
+            min-width: 0 !important;
+            max-width: 100% !important;
+            margin: 0 !important;
+            overflow: hidden !important;
+        }
+
         .oe_stat_button .o_stat_text,
         .oe_stat_button .o_stat_value {
+            display: block !important;
+            width: 100% !important;
             min-width: 0 !important;
             margin: 0 !important;
             overflow: hidden !important;
+            text-align: center !important;
             text-overflow: ellipsis !important;
+            white-space: nowrap !important;
+            line-height: 1.05 !important;
+        }
+
+        .oe_stat_button .o_stat_text {
+            order: 1 !important;
+            font-size: 0.82rem !important;
+        }
+
+        .oe_stat_button .o_stat_value {
+            order: 2 !important;
+            font-size: 0.78rem !important;
         }
     }
-
-    .oe_button_box .oe_stat_button,
-    .o_button_box .oe_stat_button {
-        display: inline-flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-        gap: 0.55rem !important;
-        min-width: 0 !important;
-        white-space: nowrap !important;
-    }
-
-    .oe_button_box .oe_stat_button > .fa,
-    .oe_button_box .oe_stat_button > i,
-    .o_button_box .oe_stat_button > .fa,
-    .o_button_box .oe_stat_button > i {
-        flex: 0 0 auto !important;
-        margin: 0 !important;
-        line-height: 1 !important;
-    }
-
-    .oe_button_box .oe_stat_button .o_stat_info,
-    .oe_button_box .oe_stat_button .o_field_widget,
-    .o_button_box .oe_stat_button .o_stat_info,
-    .o_button_box .oe_stat_button .o_field_widget {
-        min-width: 0 !important;
-        margin: 0 !important;
-        overflow: hidden !important;
-        text-overflow: ellipsis !important;
-    }
 }
 
-html[dir="rtl"] .o_hr_employee_form_view,
-html[dir="rtl"] .radwan_employee_rtl_form,
-body.o_rtl .o_hr_employee_form_view,
-body.o_rtl .radwan_employee_rtl_form {
-    .oe_button_box .oe_stat_button,
-    .o_button_box .oe_stat_button,
-    div[name="button_box"] .oe_stat_button {
-        flex-direction: row-reverse !important;
-    }
-}
-
-html[dir="ltr"] .o_hr_employee_form_view,
-html[dir="ltr"] .radwan_employee_rtl_form,
-body:not(.o_rtl) .o_hr_employee_form_view,
-body:not(.o_rtl) .radwan_employee_rtl_form {
-    .oe_button_box .oe_stat_button,
-    .o_button_box .oe_stat_button,
-    div[name="button_box"] .oe_stat_button {
-        flex-direction: row !important;
+@media (max-width: 575.98px) {
+    .o_hr_employee_form_view,
+    .radwan_employee_rtl_form {
+        .oe_button_box .oe_stat_button,
+        .o_button_box .oe_stat_button,
+        div[name="button_box"] .oe_stat_button {
+            min-height: 46px !important;
+            padding-inline: 6px !important;
+        }
     }
 }
