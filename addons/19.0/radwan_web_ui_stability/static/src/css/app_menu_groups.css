@@ -119,40 +119,9 @@
     color: #111827;
 }
 
-.o_radwan_app_menu_entry {
-    display: flex;
-    align-items: center;
-    gap: 0.45rem;
-    min-width: 0;
-    max-width: 100%;
-    flex-wrap: nowrap;
-}
-
-.o_radwan_app_icon,
-.o_radwan_app_fallback_icon {
-    width: 18px;
-    height: 18px !important;
-    flex: 0 0 18px;
-    margin: 0 !important;
-}
-
-.o_radwan_app_icon {
-    object-fit: contain;
-}
-
-.o_radwan_app_fallback_icon {
-    color: inherit;
-    font-size: 16px;
-    line-height: 18px;
-    text-align: center;
-    opacity: 0.9;
-}
-
-.o_radwan_app_label {
-    min-width: 0;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+.o_radwan_app_item .o_app_icon {
+    flex: 0 0 auto;
+    height: 2.15em !important;
 }
 
 .o_radwan_app_item span {
@@ -207,15 +176,16 @@ body.o_rtl .o_burger_menu .dropdown-menu {
     direction: rtl;
 }
 
-html[dir="rtl"] .o_radwan_app_menu_entry,
-body.o_rtl .o_radwan_app_menu_entry {
+html[dir="rtl"] .o_radwan_app_item .d-flex,
+body.o_rtl .o_radwan_app_item .d-flex {
     flex-direction: row-reverse;
     text-align: right;
 }
 
-html[dir="rtl"] .o_radwan_app_label,
-body.o_rtl .o_radwan_app_label {
-    text-align: right;
+html[dir="rtl"] .o_radwan_app_item .o_app_icon,
+body.o_rtl .o_radwan_app_item .o_app_icon {
+    margin-inline-start: 0.75rem !important;
+    margin-inline-end: 0 !important;
 }
 
 html[dir="ltr"] .o_app_menu_sidebar,
