@@ -18,6 +18,35 @@ const RADWAN_APP_DISPLAY_NAMES = {
     loans: "\u0627\u0644\u0633\u0644\u0641",
 };
 
+const RADWAN_APP_ICON_FALLBACKS = [
+    { fragments: ["account_accountant", "accounting", "account"], icon: "fa fa-calculator" },
+    { fragments: ["expense"], icon: "fa fa-credit-card" },
+    { fragments: ["employee", "employees"], icon: "fa fa-users" },
+    { fragments: ["payroll", "payslip"], icon: "fa fa-money" },
+    { fragments: ["attendance", "attendances"], icon: "fa fa-clock-o" },
+    { fragments: ["recruitment", "recruit"], icon: "fa fa-briefcase" },
+    { fragments: ["fleet"], icon: "fa fa-car" },
+    { fragments: ["project"], icon: "fa fa-tasks" },
+    { fragments: ["timesheet", "timesheets"], icon: "fa fa-clock-o" },
+    { fragments: ["helpdesk", "support"], icon: "fa fa-life-ring" },
+    { fragments: ["website"], icon: "fa fa-globe" },
+    { fragments: ["elearning", "e learning", "website_slides", "slides"], icon: "fa fa-graduation-cap" },
+    { fragments: ["survey", "surveys"], icon: "fa fa-check-square-o" },
+    { fragments: ["apps", "menu_apps"], icon: "fa fa-th-large" },
+    { fragments: ["settings", "administration"], icon: "fa fa-cog" },
+    { fragments: ["documents", "document"], icon: "fa fa-file-text-o" },
+    { fragments: ["knowledge"], icon: "fa fa-book" },
+    { fragments: ["discuss", "mail"], icon: "fa fa-comments" },
+    { fragments: ["calendar"], icon: "fa fa-calendar" },
+    { fragments: ["contacts", "contact"], icon: "fa fa-address-card-o" },
+    { fragments: ["crm", "sales", "sale"], icon: "fa fa-line-chart" },
+    { fragments: ["planning"], icon: "fa fa-calendar-check-o" },
+    { fragments: ["purchase"], icon: "fa fa-shopping-cart" },
+    { fragments: ["stock", "inventory"], icon: "fa fa-cubes" },
+    { fragments: ["maintenance"], icon: "fa fa-wrench" },
+    { fragments: ["dashboard", "dashboards", "board"], icon: "fa fa-pie-chart" },
+];
+
 const RADWAN_APP_GROUPS = [
     {
         key: "productivity",
@@ -115,6 +144,10 @@ function appMatchesGroup(app, group) {
     );
 }
 
+function getAppSearchText(app) {
+    return normalize([app.name, app.xmlid, app.actionPath].filter(Boolean).join(" "));
+}
+
 patch(NavBar.prototype, {
     setup() {
         super.setup(...arguments);
@@ -157,6 +190,19 @@ patch(NavBar.prototype, {
 
     radwanGetAppDisplayName(app) {
         return RADWAN_APP_DISPLAY_NAMES[normalize(app.name)] || app.name;
+    },
+
+    radwanGetAppIconData(app) {
+        const iconData = app.webIconData || app.webIcon;
+        return typeof iconData === "string" && iconData ? iconData : false;
+    },
+
+    radwanGetAppIconClass(app) {
+        const searchText = getAppSearchText(app);
+        const fallback = RADWAN_APP_ICON_FALLBACKS.find((item) =>
+            item.fragments.some((fragment) => searchText.includes(normalize(fragment)))
+        );
+        return fallback?.icon || "fa fa-square-o";
     },
 
     radwanIsAppGroupOpen(groupKey) {

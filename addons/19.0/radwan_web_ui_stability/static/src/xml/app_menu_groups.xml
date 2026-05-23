@@ -22,9 +22,17 @@
                             <DropdownItem
                                 class="{ 'o_app': true, 'o_radwan_app_dropdown_item': true, focus: menuService.getCurrentApp() === app }"
                                 onSelected="() => this.onNavBarDropdownItemSelection(app)"
-                                t-esc="this.radwanGetAppDisplayName(app)"
-                                attrs="{ href: getMenuItemHref(app), 'data-menu-xmlid': app.xmlid, 'data-section': app.id }"
-                            />
+                                attrs="{ href: getMenuItemHref(app), 'data-menu-xmlid': app.xmlid, 'data-section': app.id }">
+                                <span class="o_radwan_app_menu_entry">
+                                    <img t-if="this.radwanGetAppIconData(app)"
+                                         class="o_radwan_app_icon"
+                                         t-att-src="this.radwanGetAppIconData(app)"
+                                         alt=""/>
+                                    <i t-else=""
+                                       t-att-class="this.radwanGetAppIconClass(app) + ' o_radwan_app_fallback_icon'"/>
+                                    <span class="o_radwan_app_label" t-esc="this.radwanGetAppDisplayName(app)"/>
+                                </span>
+                            </DropdownItem>
                         </t>
                     </div>
                 </t>
@@ -53,9 +61,14 @@
                                     class="o_app o_radwan_app_item py-2"
                                     t-att-class="{'bg-primary-subtle': menuService.getCurrentApp() === app}"
                                     t-on-click="() => {this.onNavBarDropdownItemSelection(app); this._closeAppMenuSidebar();}">
-                                    <div class="d-flex align-items-center">
-                                        <img style="height: 2.45em;" t-if="app.webIconData" class="o_app_icon me-3" t-attf-src="{{app.webIconData}}"/>
-                                        <span t-esc="this.radwanGetAppDisplayName(app)"/>
+                                    <div class="o_radwan_app_menu_entry">
+                                        <img t-if="this.radwanGetAppIconData(app)"
+                                             class="o_radwan_app_icon"
+                                             t-att-src="this.radwanGetAppIconData(app)"
+                                             alt=""/>
+                                        <i t-else=""
+                                           t-att-class="this.radwanGetAppIconClass(app) + ' o_radwan_app_fallback_icon'"/>
+                                        <span class="o_radwan_app_label" t-esc="this.radwanGetAppDisplayName(app)"/>
                                     </div>
                                 </li>
                             </t>
