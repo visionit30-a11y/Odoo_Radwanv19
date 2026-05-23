@@ -825,6 +825,37 @@ body.o_rtl,
 /* radwan_employee_smart_button_icon_spacing */
 .o_hr_employee_form_view,
 .radwan_employee_rtl_form {
+    .oe_button_box,
+    .o_button_box,
+    div[name="button_box"] {
+        .oe_stat_button {
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            column-gap: 0.65rem !important;
+            min-width: 0 !important;
+            white-space: nowrap !important;
+        }
+
+        .oe_stat_button > .fa,
+        .oe_stat_button > i,
+        .oe_stat_button .o_button_icon {
+            flex: 0 0 auto !important;
+            margin: 0 !important;
+            line-height: 1 !important;
+        }
+
+        .oe_stat_button .o_stat_info,
+        .oe_stat_button .o_field_widget,
+        .oe_stat_button .o_stat_text,
+        .oe_stat_button .o_stat_value {
+            min-width: 0 !important;
+            margin: 0 !important;
+            overflow: hidden !important;
+            text-overflow: ellipsis !important;
+        }
+    }
+
     .oe_button_box .oe_stat_button,
     .o_button_box .oe_stat_button {
         display: inline-flex !important;
@@ -860,7 +891,8 @@ html[dir="rtl"] .radwan_employee_rtl_form,
 body.o_rtl .o_hr_employee_form_view,
 body.o_rtl .radwan_employee_rtl_form {
     .oe_button_box .oe_stat_button,
-    .o_button_box .oe_stat_button {
+    .o_button_box .oe_stat_button,
+    div[name="button_box"] .oe_stat_button {
         flex-direction: row-reverse !important;
     }
 }
@@ -870,7 +902,8 @@ html[dir="ltr"] .radwan_employee_rtl_form,
 body:not(.o_rtl) .o_hr_employee_form_view,
 body:not(.o_rtl) .radwan_employee_rtl_form {
     .oe_button_box .oe_stat_button,
-    .o_button_box .oe_stat_button {
+    .o_button_box .oe_stat_button,
+    div[name="button_box"] .oe_stat_button {
         flex-direction: row !important;
     }
 }
