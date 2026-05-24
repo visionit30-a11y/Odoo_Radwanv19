@@ -31,12 +31,12 @@ class ResConfigSettings(models.TransientModel):
         config_parameter="radwan_attendance_portal.show_distance_details",
         default=True,
     )
-    radwan_attendance_outside_range_message = fields.Text(
+    radwan_attendance_outside_range_message = fields.Char(
         string="Outside Range Message",
         config_parameter="radwan_attendance_portal.outside_range_message",
         default="You are outside your allowed attendance locations. The operation cannot be recorded from this location.",
     )
-    radwan_attendance_weak_accuracy_message = fields.Text(
+    radwan_attendance_weak_accuracy_message = fields.Char(
         string="Weak Accuracy Message",
         config_parameter="radwan_attendance_portal.weak_accuracy_message",
         default="Location accuracy is weak. Please try again from a clearer location.",

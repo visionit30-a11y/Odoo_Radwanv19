@@ -2,7 +2,7 @@
 
 {
     "name": "Radwan Attendance Portal",
-    "version": "19.0.1.1.0",
+    "version": "19.0.1.1.1",
     "summary": "Employee attendance portal with GPS check in and check out",
     "author": "Radwan",
     "category": "Human Resources/Attendances",
