@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="radwan_attendance_no_employee" name="Employee Attendance Portal - No Employee">
+        <t t-call="website.layout">
+            <main class="radwan-attendance-page">
+                <section class="container py-5">
+                    <div class="radwan-attendance-card p-4 text-center">
+                        <h1 class="h4 mb-3">Employee Attendance Portal</h1>
+                        <p class="mb-0 text-muted">No employee is linked to your user. Please contact HR.</p>
+                    </div>
+                </section>
+            </main>
+        </t>
+    </template>
+
+    <template id="radwan_attendance_portal_page" name="Employee Attendance Portal">
+        <t t-call="website.layout">
+            <main
+                class="radwan-attendance-page"
+                t-att-dir="'rtl' if request.env.lang and request.env.lang.startswith('ar') else 'ltr'"
+            >
+                <section class="container py-3 py-lg-4 radwan_attendance_portal">
+                    <div class="d-flex flex-column flex-lg-row justify-content-between gap-2 mb-3">
+                        <div>
+                            <h1 class="h4 mb-1">Employee Attendance Portal</h1>
+                            <div class="text-muted small">
+                                <span>Today</span>
+                                <span class="mx-1">:</span>
+                                <span t-out="today"/>
+                            </div>
+                        </div>
+                        <span t-attf-class="radwan-attendance-status radwan-attendance-status-#{employee['status']}">
+                            <t t-out="employee['status_label']"/>
+                        </span>
+                    </div>
+
+                    <div class="radwan-attendance-card p-3 p-lg-4 mb-3">
+                        <div class="row g-3 align-items-center">
+                            <div class="col-auto">
+                                <img
+                                    class="radwan-attendance-avatar"
+                                    t-att-src="employee['image_url']"
+                                    alt="Employee"
+                                />
+                            </div>
+                            <div class="col">
+                                <h2 class="h5 mb-3" t-out="employee['name']"/>
+                                <div class="radwan-employee-info-grid">
+                                    <div class="radwan-info-row">
+                                        <span class="radwan-info-label">Department</span>
+                                        <span class="radwan-info-value" t-out="employee['department'] or '-'"/>
+                                    </div>
+                                    <div class="radwan-info-row">
+                                        <span class="radwan-info-label">Direct Manager</span>
+                                        <span class="radwan-info-value" t-out="employee['manager'] or '-'"/>
+                                    </div>
+                                    <div class="radwan-info-row">
+                                        <span class="radwan-info-label">Profession</span>
+                                        <span class="radwan-info-value" t-out="employee['job_title'] or '-'"/>
+                                    </div>
+                                    <div class="radwan-info-row">
+                                        <span class="radwan-info-label">Job Position</span>
+                                        <span class="radwan-info-value" t-out="employee['job'] or '-'"/>
+                                    </div>
+                                    <div class="radwan-info-row">
+                                        <span class="radwan-info-label">Nationality</span>
+                                        <span class="radwan-info-value" t-out="employee['nationality'] or '-'"/>
+                                    </div>
+                                    <div class="radwan-info-row">
+                                        <span class="radwan-info-label">Current Status</span>
+                                        <span class="radwan-info-value" t-out="employee['status_label']"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="radwan-attendance-card p-3 mb-3">
+                        <div class="radwan-attendance-actions">
+                            <button type="button" class="btn radwan-btn-check-in" data-radwan-attendance-action="check_in">
+                                Check In
+                            </button>
+                            <button type="button" class="btn radwan-btn-check-out" data-radwan-attendance-action="check_out">
+                                Check Out
+                            </button>
+                            <button type="button" class="btn radwan-btn-permission" data-bs-toggle="modal" data-bs-target="#radwanAttendancePermissionModal">
+                                Permission
+                            </button>
+                        </div>
+                        <div class="radwan-attendance-message mt-3 d-none" role="alert"/>
+                    </div>
+
+                    <div class="radwan-attendance-card p-0 overflow-hidden">
+                        <div class="radwan-card-title px-3 py-2">Today's Log</div>
+                        <div class="table-responsive">
+                            <table class="table table-sm table-hover mb-0 radwan-attendance-table">
+                                <thead>
+                                    <tr>
+                                        <th>Check In Date</th>
+                                        <th>Check In Time</th>
+                                        <th>Check In Location</th>
+                                        <th>Check Out Date</th>
+                                        <th>Check Out Time</th>
+                                        <th>Check Out Location</th>
+                                        <th>Worked Hours</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr t-foreach="attendance_rows" t-as="row">
+                                        <td t-out="row['check_in_date']"/>
+                                        <td t-out="row['check_in_time']"/>
+                                        <td>
+                                            <a t-if="row['in_maps']" t-att-href="row['in_maps']" target="_blank" rel="noopener">
+                                                View Map
+                                            </a>
+                                            <span t-else="">-</span>
+                                        </td>
+                                        <td t-out="row['check_out_date'] or '-'"/>
+                                        <td t-out="row['check_out_time'] or '-'"/>
+                                        <td>
+                                            <a t-if="row['out_maps']" t-att-href="row['out_maps']" target="_blank" rel="noopener">
+                                                View Map
+                                            </a>
+                                            <span t-else="">-</span>
+                                        </td>
+                                        <td t-out="row['worked_hours']"/>
+                                        <td t-out="row['status']"/>
+                                    </tr>
+                                    <tr t-if="not attendance_rows">
+                                        <td colspan="8" class="text-center text-muted py-4">No attendance records today.</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="modal fade" id="radwanAttendancePermissionModal" tabindex="-1" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <form class="modal-content radwan-attendance-permission-form">
+                                <div class="modal-header">
+                                    <h2 class="modal-title h5">Permission Request</h2>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"/>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="mb-3">
+                                        <label class="form-label" for="radwan_permission_type">Permission Type</label>
+                                        <select class="form-select" id="radwan_permission_type" name="permission_type" required="required">
+                                            <option t-foreach="permission_types" t-as="permission_type" t-att-value="permission_type[0]">
+                                                <t t-out="permission_type[1]"/>
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <div class="row g-2">
+                                        <div class="col-12 col-sm-6 mb-3">
+                                            <label class="form-label" for="radwan_time_from">From</label>
+                                            <input class="form-control" id="radwan_time_from" name="time_from" type="time" required="required"/>
+                                        </div>
+                                        <div class="col-12 col-sm-6 mb-3">
+                                            <label class="form-label" for="radwan_time_to">To</label>
+                                            <input class="form-control" id="radwan_time_to" name="time_to" type="time" required="required"/>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label" for="radwan_reason">Reason</label>
+                                        <input class="form-control" id="radwan_reason" name="reason" required="required"/>
+                                    </div>
+                                    <div class="mb-0">
+                                        <label class="form-label" for="radwan_note">Notes</label>
+                                        <textarea class="form-control" id="radwan_note" name="note" rows="3"/>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
+                                    <button type="submit" class="btn radwan-btn-permission">Submit Request</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </section>
+            </main>
+        </t>
+    </template>
+
+    <template id="radwan_attendance_portal_home_entry" inherit_id="portal.portal_my_home" name="Attendance Portal Home Entry">
+        <xpath expr="//div[@id='portal_common_category']" position="inside">
+            <t t-call="portal.portal_docs_entry">
+                <t t-set="title">Employee Attendance</t>
+                <t t-set="text">Track daily check in, check out, and permissions</t>
+                <t t-set="url" t-value="'/my/attendance'"/>
+                <t t-set="config_card" t-value="True"/>
+            </t>
+        </xpath>
+    </template>
+</odoo>

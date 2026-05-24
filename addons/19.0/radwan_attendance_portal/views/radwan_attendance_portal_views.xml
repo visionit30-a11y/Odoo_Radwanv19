@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="radwan_attendance_permission_list_view" model="ir.ui.view">
+        <field name="name">radwan.attendance.permission.list</field>
+        <field name="model">radwan.attendance.permission</field>
+        <field name="arch" type="xml">
+            <list string="Attendance Permissions">
+                <field name="request_date"/>
+                <field name="employee_id"/>
+                <field name="permission_type"/>
+                <field name="time_from" widget="float_time"/>
+                <field name="time_to" widget="float_time"/>
+                <field name="reason"/>
+                <field name="state"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="radwan_attendance_permission_form_view" model="ir.ui.view">
+        <field name="name">radwan.attendance.permission.form</field>
+        <field name="model">radwan.attendance.permission</field>
+        <field name="arch" type="xml">
+            <form string="Attendance Permission">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="employee_id"/>
+                            <field name="user_id"/>
+                            <field name="attendance_id"/>
+                            <field name="request_date"/>
+                            <field name="state"/>
+                        </group>
+                        <group>
+                            <field name="permission_type"/>
+                            <field name="time_from" widget="float_time"/>
+                            <field name="time_to" widget="float_time"/>
+                            <field name="reason"/>
+                        </group>
+                    </group>
+                    <group string="Location">
+                        <field name="latitude"/>
+                        <field name="longitude"/>
+                        <field name="accuracy"/>
+                    </group>
+                    <group>
+                        <field name="note"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="radwan_attendance_permission_action" model="ir.actions.act_window">
+        <field name="name">Attendance Permissions</field>
+        <field name="res_model">radwan.attendance.permission</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <menuitem
+        id="radwan_attendance_permission_menu"
+        name="Attendance Permissions"
+        parent="hr_attendance.menu_hr_attendance_root"
+        action="radwan_attendance_permission_action"
+        sequence="80"
+        groups="hr_attendance.group_hr_attendance_user"
+    />
+</odoo>

@@ -1,0 +1,226 @@
+.radwan-attendance-page {
+    background: #f7f8fa;
+    min-height: 100vh;
+
+    .radwan-attendance-card {
+        background: #fff;
+        border: 1px solid #dee2e6;
+        border-radius: 8px;
+    }
+
+    .radwan-attendance-avatar {
+        width: 88px;
+        height: 88px;
+        border-radius: 6px;
+        object-fit: cover;
+        border: 1px solid #dee2e6;
+        background: #f1f3f5;
+    }
+
+    .radwan-employee-info-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 8px 12px;
+    }
+
+    .radwan-info-row {
+        display: grid;
+        grid-template-columns: minmax(120px, 34%) minmax(0, 1fr);
+        align-items: stretch;
+        min-height: 36px;
+        border: 1px solid #e9ecef;
+        border-radius: 6px;
+        overflow: hidden;
+    }
+
+    .radwan-info-label {
+        display: flex;
+        align-items: center;
+        padding: 7px 10px;
+        background: #f1f3f5;
+        color: #495057;
+        font-weight: 600;
+        font-size: 0.875rem;
+    }
+
+    .radwan-info-value {
+        display: flex;
+        align-items: center;
+        padding: 7px 10px;
+        min-width: 0;
+        overflow-wrap: anywhere;
+    }
+
+    .radwan-attendance-status {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        align-self: flex-start;
+        min-width: 118px;
+        padding: 6px 12px;
+        border-radius: 999px;
+        font-weight: 700;
+        border: 1px solid transparent;
+    }
+
+    .radwan-attendance-status-present {
+        color: #0f5132;
+        background: #d1e7dd;
+        border-color: #badbcc;
+    }
+
+    .radwan-attendance-status-checked_out {
+        color: #084298;
+        background: #cfe2ff;
+        border-color: #b6d4fe;
+    }
+
+    .radwan-attendance-status-permission {
+        color: #664d03;
+        background: #fff3cd;
+        border-color: #ffecb5;
+    }
+
+    .radwan-attendance-status-not_checked_in {
+        color: #41464b;
+        background: #e2e3e5;
+        border-color: #d3d6d8;
+    }
+
+    .radwan-attendance-actions {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 10px;
+    }
+
+    .radwan-btn-check-in,
+    .radwan-btn-check-out,
+    .radwan-btn-permission {
+        min-height: 44px;
+        border-radius: 6px;
+        font-weight: 700;
+    }
+
+    .radwan-btn-check-in {
+        background: #198754;
+        border-color: #198754;
+        color: #fff;
+    }
+
+    .radwan-btn-check-in:hover {
+        background: #157347;
+        border-color: #146c43;
+        color: #fff;
+    }
+
+    .radwan-btn-check-out {
+        background: #4f6f8f;
+        border-color: #4f6f8f;
+        color: #fff;
+    }
+
+    .radwan-btn-check-out:hover {
+        background: #435f7a;
+        border-color: #435f7a;
+        color: #fff;
+    }
+
+    .radwan-btn-permission {
+        background: #f59f00;
+        border-color: #f59f00;
+        color: #212529;
+    }
+
+    .radwan-btn-permission:hover {
+        background: #e67700;
+        border-color: #e67700;
+        color: #fff;
+    }
+
+    .radwan-attendance-message {
+        border-radius: 6px;
+        padding: 10px 12px;
+        border: 1px solid transparent;
+    }
+
+    .radwan-attendance-message.is-success {
+        color: #0f5132;
+        background: #d1e7dd;
+        border-color: #badbcc;
+    }
+
+    .radwan-attendance-message.is-error {
+        color: #842029;
+        background: #f8d7da;
+        border-color: #f5c2c7;
+    }
+
+    .radwan-card-title {
+        background: #f1f3f5;
+        border-bottom: 1px solid #dee2e6;
+        font-weight: 700;
+    }
+
+    .radwan-attendance-table {
+        min-width: 860px;
+        vertical-align: middle;
+    }
+
+    .radwan-attendance-table th {
+        white-space: nowrap;
+        font-weight: 700;
+        background: #fafafa;
+    }
+
+    &[dir="rtl"] {
+        direction: rtl;
+        text-align: right;
+
+        .radwan-info-row {
+            direction: rtl;
+        }
+
+        .radwan-attendance-table {
+            direction: rtl;
+            text-align: right;
+        }
+
+        .modal {
+            direction: rtl;
+            text-align: right;
+        }
+
+        .btn-close {
+            margin: 0 auto 0 0;
+        }
+    }
+}
+
+@media (max-width: 991.98px) {
+    .radwan-attendance-page {
+        .radwan-employee-info-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+}
+
+@media (max-width: 575.98px) {
+    .radwan-attendance-page {
+        .radwan-attendance-avatar {
+            width: 72px;
+            height: 72px;
+        }
+
+        .radwan-attendance-actions {
+            grid-template-columns: 1fr;
+        }
+
+        .radwan-info-row {
+            grid-template-columns: 1fr;
+        }
+
+        .radwan-info-value {
+            min-height: 36px;
+        }
+    }
+}

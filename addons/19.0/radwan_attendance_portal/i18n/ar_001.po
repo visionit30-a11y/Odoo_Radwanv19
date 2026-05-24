@@ -1,0 +1,242 @@
+# Translation of Radwan Attendance Portal.
+msgid ""
+msgstr ""
+"Project-Id-Version: radwan_attendance_portal 19.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-05-25 00:00+0000\n"
+"PO-Revision-Date: 2026-05-25 00:00+0000\n"
+"Last-Translator: Radwan\n"
+"Language-Team: Arabic\n"
+"Language: ar_001\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 ? 4 : 5;\n"
+
+#. module: radwan_attendance_portal
+#: model_terms:ir.ui.view,arch_db:radwan_attendance_portal.radwan_attendance_portal_page
+#: model_terms:ir.ui.view,arch_db:radwan_attendance_portal.radwan_attendance_no_employee
+msgid "Employee Attendance Portal"
+msgstr "بوابة حضور الموظف"
+
+#. module: radwan_attendance_portal
+#: model_terms:ir.ui.view,arch_db:radwan_attendance_portal.radwan_attendance_portal_page
+msgid "Today"
+msgstr "اليوم"
+
+#. module: radwan_attendance_portal
+#: model_terms:ir.ui.view,arch_db:radwan_attendance_portal.radwan_attendance_portal_page
+msgid "Department"
+msgstr "الإدارة"
+
+#. module: radwan_attendance_portal
+#: model_terms:ir.ui.view,arch_db:radwan_attendance_portal.radwan_attendance_portal_page
+msgid "Direct Manager"
+msgstr "المدير المباشر"
+
+#. module: radwan_attendance_portal
+#: model_terms:ir.ui.view,arch_db:radwan_attendance_portal.radwan_attendance_portal_page
+msgid "Profession"
+msgstr "المهنة"
+
+#. module: radwan_attendance_portal
+#: model_terms:ir.ui.view,arch_db:radwan_attendance_portal.radwan_attendance_portal_page
+msgid "Job Position"
+msgstr "الوظيفة"
+
+#. module: radwan_attendance_portal
+#: model_terms:ir.ui.view,arch_db:radwan_attendance_portal.radwan_attendance_portal_page
+msgid "Nationality"
+msgstr "الجنسية"
+
+#. module: radwan_attendance_portal
+#: model_terms:ir.ui.view,arch_db:radwan_attendance_portal.radwan_attendance_portal_page
+msgid "Current Status"
+msgstr "الحالة الحالية"
+
+#. module: radwan_attendance_portal
+#: model_terms:ir.ui.view,arch_db:radwan_attendance_portal.radwan_attendance_portal_page
+msgid "Check In"
+msgstr "تسجيل حضور"
+
+#. module: radwan_attendance_portal
+#: model_terms:ir.ui.view,arch_db:radwan_attendance_portal.radwan_attendance_portal_page
+msgid "Check Out"
+msgstr "تسجيل انصراف"
+
+#. module: radwan_attendance_portal
+#: model_terms:ir.ui.view,arch_db:radwan_attendance_portal.radwan_attendance_portal_page
+msgid "Permission"
+msgstr "استئذان"
+
+#. module: radwan_attendance_portal
+#: model_terms:ir.ui.view,arch_db:radwan_attendance_portal.radwan_attendance_portal_page
+msgid "Today's Log"
+msgstr "سجل اليوم"
+
+#. module: radwan_attendance_portal
+#: model_terms:ir.ui.view,arch_db:radwan_attendance_portal.radwan_attendance_portal_page
+msgid "Check In Date"
+msgstr "تاريخ الدخول"
+
+#. module: radwan_attendance_portal
+#: model_terms:ir.ui.view,arch_db:radwan_attendance_portal.radwan_attendance_portal_page
+msgid "Check In Time"
+msgstr "وقت الدخول"
+
+#. module: radwan_attendance_portal
+#: model_terms:ir.ui.view,arch_db:radwan_attendance_portal.radwan_attendance_portal_page
+msgid "Check In Location"
+msgstr "إحداثيات الدخول"
+
+#. module: radwan_attendance_portal
+#: model_terms:ir.ui.view,arch_db:radwan_attendance_portal.radwan_attendance_portal_page
+msgid "Check Out Date"
+msgstr "تاريخ الخروج"
+
+#. module: radwan_attendance_portal
+#: model_terms:ir.ui.view,arch_db:radwan_attendance_portal.radwan_attendance_portal_page
+msgid "Check Out Time"
+msgstr "وقت الخروج"
+
+#. module: radwan_attendance_portal
+#: model_terms:ir.ui.view,arch_db:radwan_attendance_portal.radwan_attendance_portal_page
+msgid "Check Out Location"
+msgstr "إحداثيات الخروج"
+
+#. module: radwan_attendance_portal
+#: model_terms:ir.ui.view,arch_db:radwan_attendance_portal.radwan_attendance_portal_page
+msgid "Worked Hours"
+msgstr "ساعات العمل"
+
+#. module: radwan_attendance_portal
+#: model_terms:ir.ui.view,arch_db:radwan_attendance_portal.radwan_attendance_portal_page
+#: model:ir.model.fields,field_description:radwan_attendance_portal.field_radwan_attendance_permission__state
+msgid "Status"
+msgstr "الحالة"
+
+#. module: radwan_attendance_portal
+#: model_terms:ir.ui.view,arch_db:radwan_attendance_portal.radwan_attendance_portal_page
+msgid "View Map"
+msgstr "عرض الخريطة"
+
+#. module: radwan_attendance_portal
+#: model_terms:ir.ui.view,arch_db:radwan_attendance_portal.radwan_attendance_portal_page
+msgid "No attendance records today."
+msgstr "لا توجد سجلات حضور اليوم."
+
+#. module: radwan_attendance_portal
+#: model_terms:ir.ui.view,arch_db:radwan_attendance_portal.radwan_attendance_portal_page
+msgid "Permission Request"
+msgstr "طلب استئذان"
+
+#. module: radwan_attendance_portal
+#: model_terms:ir.ui.view,arch_db:radwan_attendance_portal.radwan_attendance_portal_page
+#: model:ir.model.fields,field_description:radwan_attendance_portal.field_radwan_attendance_permission__permission_type
+msgid "Permission Type"
+msgstr "نوع الاستئذان"
+
+#. module: radwan_attendance_portal
+#: model_terms:ir.ui.view,arch_db:radwan_attendance_portal.radwan_attendance_portal_page
+#: model:ir.model.fields,field_description:radwan_attendance_portal.field_radwan_attendance_permission__time_from
+msgid "From"
+msgstr "من الساعة"
+
+#. module: radwan_attendance_portal
+#: model_terms:ir.ui.view,arch_db:radwan_attendance_portal.radwan_attendance_portal_page
+#: model:ir.model.fields,field_description:radwan_attendance_portal.field_radwan_attendance_permission__time_to
+msgid "To"
+msgstr "إلى الساعة"
+
+#. module: radwan_attendance_portal
+#: model_terms:ir.ui.view,arch_db:radwan_attendance_portal.radwan_attendance_portal_page
+#: model:ir.model.fields,field_description:radwan_attendance_portal.field_radwan_attendance_permission__reason
+msgid "Reason"
+msgstr "السبب"
+
+#. module: radwan_attendance_portal
+#: model_terms:ir.ui.view,arch_db:radwan_attendance_portal.radwan_attendance_portal_page
+#: model:ir.model.fields,field_description:radwan_attendance_portal.field_radwan_attendance_permission__note
+msgid "Notes"
+msgstr "ملاحظات"
+
+#. module: radwan_attendance_portal
+#: model_terms:ir.ui.view,arch_db:radwan_attendance_portal.radwan_attendance_portal_page
+msgid "Cancel"
+msgstr "إلغاء"
+
+#. module: radwan_attendance_portal
+#: model_terms:ir.ui.view,arch_db:radwan_attendance_portal.radwan_attendance_portal_page
+msgid "Submit Request"
+msgstr "إرسال الطلب"
+
+#. module: radwan_attendance_portal
+#: model_terms:ir.ui.view,arch_db:radwan_attendance_portal.radwan_attendance_portal_home_entry
+msgid "Employee Attendance"
+msgstr "حضور الموظف"
+
+#. module: radwan_attendance_portal
+#: model_terms:ir.ui.view,arch_db:radwan_attendance_portal.radwan_attendance_portal_home_entry
+msgid "Track daily check in, check out, and permissions"
+msgstr "متابعة الحضور والانصراف والاستئذانات اليومية"
+
+#. module: radwan_attendance_portal
+#: code:addons/radwan_attendance_portal/controllers/main.py:0
+msgid "Present"
+msgstr "حاضر"
+
+#. module: radwan_attendance_portal
+#: code:addons/radwan_attendance_portal/controllers/main.py:0
+msgid "Checked Out"
+msgstr "منصرف"
+
+#. module: radwan_attendance_portal
+#: code:addons/radwan_attendance_portal/controllers/main.py:0
+msgid "Not Checked In"
+msgstr "لم يسجل حضور"
+
+#. module: radwan_attendance_portal
+#: code:addons/radwan_attendance_portal/controllers/main.py:0
+msgid "Open"
+msgstr "مفتوح"
+
+#. module: radwan_attendance_portal
+#: code:addons/radwan_attendance_portal/controllers/main.py:0
+msgid "Done"
+msgstr "مكتمل"
+
+#. module: radwan_attendance_portal
+#: code:addons/radwan_attendance_portal/controllers/main.py:0
+msgid "Check in recorded successfully."
+msgstr "تم تسجيل الحضور بنجاح."
+
+#. module: radwan_attendance_portal
+#: code:addons/radwan_attendance_portal/controllers/main.py:0
+msgid "Check out recorded successfully."
+msgstr "تم تسجيل الانصراف بنجاح."
+
+#. module: radwan_attendance_portal
+#: code:addons/radwan_attendance_portal/controllers/main.py:0
+msgid "Permission request submitted."
+msgstr "تم إرسال طلب الاستئذان."
+
+#. module: radwan_attendance_portal
+#: code:addons/radwan_attendance_portal/controllers/main.py:0
+#: code:addons/radwan_attendance_portal/static/src/js/radwan_attendance_portal.js:0
+msgid "You must allow geolocation."
+msgstr "يجب السماح بالموقع الجغرافي."
+
+#. module: radwan_attendance_portal
+#: code:addons/radwan_attendance_portal/controllers/main.py:0
+msgid "You cannot check out without check in."
+msgstr "لا يمكن تسجيل انصراف بدون حضور."
+
+#. module: radwan_attendance_portal
+#: code:addons/radwan_attendance_portal/controllers/main.py:0
+msgid "Check in is already recorded."
+msgstr "تم تسجيل الحضور مسبقًا."
+
+#. module: radwan_attendance_portal
+#: code:addons/radwan_attendance_portal/controllers/main.py:0
+msgid "You cannot request permission without check in."
+msgstr "لا يمكن تسجيل استئذان بدون حضور."
