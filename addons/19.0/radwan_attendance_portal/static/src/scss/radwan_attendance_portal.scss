@@ -172,6 +172,14 @@
         background: #fafafa;
     }
 
+    .radwan-attendance-camera-video {
+        width: 100%;
+        max-height: 60vh;
+        border-radius: 8px;
+        background: #111827;
+        object-fit: cover;
+    }
+
     &[dir="rtl"] {
         direction: rtl;
         text-align: right;

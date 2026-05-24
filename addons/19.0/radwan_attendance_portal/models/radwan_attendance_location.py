@@ -14,6 +14,7 @@ class RadwanAttendanceLocation(models.Model):
     latitude = fields.Float(string="Latitude", digits=(10, 7), aggregator=None)
     longitude = fields.Float(string="Longitude", digits=(10, 7), aggregator=None)
     allowed_radius = fields.Float(string="Allowed Radius (m)", default=100.0, required=True, aggregator=None)
+    radwan_require_attendance_photo = fields.Boolean(string="Require Attendance Photo")
     note = fields.Text(string="Notes")
     employee_ids = fields.Many2many(
         "hr.employee",

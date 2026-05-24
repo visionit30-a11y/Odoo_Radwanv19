@@ -81,6 +81,7 @@
                             <field name="sequence"/>
                             <field name="active"/>
                             <field name="allowed_radius"/>
+                            <field name="radwan_require_attendance_photo"/>
                         </group>
                         <group>
                             <field name="latitude"/>
@@ -195,6 +196,7 @@
         <field name="arch" type="xml">
             <xpath expr="//field[@name='out_location']" position="after">
                 <field name="radwan_location_status" optional="show" widget="badge" decoration-success="radwan_location_status == 'inside'" decoration-warning="radwan_location_status in ['outside', 'weak_accuracy']" decoration-danger="radwan_location_status == 'unavailable'"/>
+                <field name="radwan_approval_state" optional="show" widget="badge" decoration-info="radwan_approval_state == 'to_review'" decoration-success="radwan_approval_state == 'approved'" decoration-danger="radwan_approval_state == 'rejected'"/>
                 <field name="radwan_nearest_attendance_location_id" optional="show"/>
                 <field name="radwan_distance_to_nearest_location" optional="hide"/>
                 <field name="radwan_location_warning_message" optional="hide"/>
@@ -207,6 +209,11 @@
         <field name="model">hr.attendance</field>
         <field name="inherit_id" ref="hr_attendance.hr_attendance_view_form"/>
         <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <button name="action_radwan_approve_attendance" type="object" string="Approve Attendance" class="btn-primary" icon="fa-check" invisible="radwan_approval_state == 'approved'" groups="hr_attendance.group_hr_attendance_user"/>
+                <button name="action_radwan_reject_attendance" type="object" string="Reject Attendance" class="btn-secondary" icon="fa-times" invisible="radwan_approval_state == 'rejected'" groups="hr_attendance.group_hr_attendance_user"/>
+                <field name="radwan_approval_state" widget="statusbar" statusbar_visible="to_review,approved,rejected"/>
+            </xpath>
             <xpath expr="//group[@name='check_in_group']" position="after">
                 <separator string="Attendance Location Review"/>
                 <group name="radwan_attendance_location_review" colspan="2">
@@ -221,6 +228,27 @@
                         <field name="radwan_checkout_location_id"/>
                         <field name="radwan_location_warning_message"/>
                         <button name="action_radwan_open_nearest_location" type="object" string="View Nearest Location" class="btn-link ps-0" icon="fa-map" invisible="not radwan_nearest_attendance_location_id"/>
+                    </group>
+                </group>
+                <separator string="Attendance Photos"/>
+                <group name="radwan_attendance_photos" colspan="2">
+                    <group string="Check In Photo">
+                        <field name="radwan_checkin_photo" widget="image" class="oe_avatar"/>
+                    </group>
+                    <group string="Check Out Photo">
+                        <field name="radwan_checkout_photo" widget="image" class="oe_avatar"/>
+                    </group>
+                </group>
+                <separator string="Approval Review"/>
+                <group name="radwan_attendance_approval_review" colspan="2">
+                    <group>
+                        <field name="radwan_approved_by_id"/>
+                        <field name="radwan_approved_date"/>
+                    </group>
+                    <group>
+                        <field name="radwan_rejected_by_id"/>
+                        <field name="radwan_rejected_date"/>
+                        <field name="radwan_rejection_reason"/>
                     </group>
                 </group>
             </xpath>

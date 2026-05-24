@@ -121,6 +121,11 @@ class RadwanAttendancePortal(http.Controller):
             "out_maps": out_maps,
             "worked_hours": "%.2f" % attendance.worked_hours if attendance.worked_hours else "0.00",
             "status": _("Open") if not attendance.check_out else _("Done"),
+            "approval_status": _(
+                dict(attendance._fields["radwan_approval_state"].selection).get(attendance.radwan_approval_state)
+            )
+            if attendance.radwan_approval_state
+            else "",
         }
 
     def _employee_values(self, employee):
@@ -159,6 +164,13 @@ class RadwanAttendancePortal(http.Controller):
             "longitude": float(longitude or 0.0),
             "accuracy": float(accuracy or 0.0),
         }
+
+    def _clean_photo_data(self, photo_data=None):
+        if not photo_data:
+            return False
+        if "," in photo_data:
+            return photo_data.split(",", 1)[1]
+        return photo_data
 
     def _distance_meters(self, lat1, lon1, lat2, lon2):
         earth_radius = 6371000.0
@@ -278,7 +290,8 @@ class RadwanAttendancePortal(http.Controller):
         )
         return result
 
-    def _location_payload(self, location, check_result, prefix):
+    def _location_payload(self, location, check_result, prefix, photo_data=None):
+        photo = self._clean_photo_data(photo_data)
         values = {
             "radwan_location_status": check_result["status"],
             "radwan_location_warning_message": check_result["warning"],
@@ -300,6 +313,7 @@ class RadwanAttendancePortal(http.Controller):
                     "radwan_checkin_location_id": check_result["accepted_location"].id
                     if check_result["accepted_location"]
                     else False,
+                    "radwan_checkin_photo": photo,
                 }
             )
         else:
@@ -314,6 +328,7 @@ class RadwanAttendancePortal(http.Controller):
                     "radwan_checkout_location_id": check_result["accepted_location"].id
                     if check_result["accepted_location"]
                     else False,
+                    "radwan_checkout_photo": photo,
                 }
             )
         return values
@@ -391,8 +406,8 @@ class RadwanAttendancePortal(http.Controller):
         )
         return {"success": True, "message": _("Attendance location saved successfully.")}
 
-    @http.route("/my/attendance/action", type="jsonrpc", auth="user", website=True, methods=["POST"])
-    def attendance_action(self, action, latitude=None, longitude=None, accuracy=None):
+    @http.route("/my/attendance/photo-policy", type="jsonrpc", auth="user", website=True, methods=["POST"])
+    def attendance_photo_policy(self, action, latitude=None, longitude=None, accuracy=None):
         employee = self._get_employee()
         if not employee:
             return {"success": False, "message": _("No employee is linked to your user.")}
@@ -409,6 +424,35 @@ class RadwanAttendancePortal(http.Controller):
             self._log_rejected_attempt(employee, action, location, check_result)
             return {"success": False, "message": check_result["warning"]}
 
+        accepted_location = check_result["accepted_location"]
+        return {
+            "success": True,
+            "require_photo": bool(accepted_location and accepted_location.radwan_require_attendance_photo),
+            "message": _("Please capture an attendance photo before continuing."),
+        }
+
+    @http.route("/my/attendance/action", type="jsonrpc", auth="user", website=True, methods=["POST"])
+    def attendance_action(self, action, latitude=None, longitude=None, accuracy=None, photo_data=None):
+        employee = self._get_employee()
+        if not employee:
+            return {"success": False, "message": _("No employee is linked to your user.")}
+
+        if action == "check_in" and self._open_attendance(employee):
+            return {"success": False, "message": _("Check in is already recorded.")}
+
+        if action == "check_out" and not self._open_attendance(employee):
+            return {"success": False, "message": _("You cannot check out without check in.")}
+
+        location = self._location_values(latitude, longitude, accuracy)
+        check_result = self._location_check(employee, location)
+        if check_result["reject"]:
+            self._log_rejected_attempt(employee, action, location, check_result)
+            return {"success": False, "message": check_result["warning"]}
+
+        accepted_location = check_result["accepted_location"]
+        if accepted_location and accepted_location.radwan_require_attendance_photo and not photo_data:
+            return {"success": False, "message": _("Please capture an attendance photo before continuing.")}
+
         Attendance = request.env["hr.attendance"].sudo()
         now = fields.Datetime.now()
 
@@ -420,7 +464,7 @@ class RadwanAttendancePortal(http.Controller):
                     "radwan_check_in_user_id": request.env.user.id,
                     "radwan_check_in_source": "portal",
                     "in_mode": "manual",
-                    **self._location_payload(location, check_result, "in"),
+                    **self._location_payload(location, check_result, "in", photo_data),
                 }
             )
             return {"success": True, "message": _("Check in recorded successfully."), "reload": True}
@@ -435,7 +479,7 @@ class RadwanAttendancePortal(http.Controller):
                     "radwan_check_out_user_id": request.env.user.id,
                     "radwan_check_out_source": "portal",
                     "out_mode": "manual",
-                    **self._location_payload(location, check_result, "out"),
+                    **self._location_payload(location, check_result, "out", photo_data),
                 }
             )
             return {"success": True, "message": _("Check out recorded successfully."), "reload": True}

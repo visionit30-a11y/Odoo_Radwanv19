@@ -360,3 +360,91 @@ msgstr "دقة الموقع ضعيفة. يرجى المحاولة مرة أخر�
 #. module: radwan_attendance_portal
 msgid "No attendance locations are configured for this employee."
 msgstr "لا توجد مواقع دوام معرفة لهذا الموظف."
+
+#. module: radwan_attendance_portal
+msgid "Require Attendance Photo"
+msgstr "إلزامية التقاط صورة للحضور"
+
+#. module: radwan_attendance_portal
+msgid "Attendance Photo"
+msgstr "صورة الدوام"
+
+#. module: radwan_attendance_portal
+msgid "Please capture an attendance photo before continuing."
+msgstr "يرجى التقاط صورة للدوام قبل المتابعة."
+
+#. module: radwan_attendance_portal
+msgid "Capture Photo"
+msgstr "التقاط الصورة"
+
+#. module: radwan_attendance_portal
+msgid "Camera is not supported by this browser."
+msgstr "الكاميرا غير مدعومة في هذا المتصفح."
+
+#. module: radwan_attendance_portal
+msgid "Camera capture is not available."
+msgstr "التقاط الصورة غير متاح."
+
+#. module: radwan_attendance_portal
+msgid "Attendance photo capture was cancelled."
+msgstr "تم إلغاء التقاط صورة الدوام."
+
+#. module: radwan_attendance_portal
+msgid "Check In Photo"
+msgstr "صورة الحضور"
+
+#. module: radwan_attendance_portal
+msgid "Check Out Photo"
+msgstr "صورة الانصراف"
+
+#. module: radwan_attendance_portal
+msgid "Approval"
+msgstr "الاعتماد"
+
+#. module: radwan_attendance_portal
+msgid "Approval Status"
+msgstr "حالة الاعتماد"
+
+#. module: radwan_attendance_portal
+msgid "To Review"
+msgstr "بانتظار المراجعة"
+
+#. module: radwan_attendance_portal
+msgid "Approved"
+msgstr "معتمد"
+
+#. module: radwan_attendance_portal
+msgid "Rejected"
+msgstr "مرفوض"
+
+#. module: radwan_attendance_portal
+msgid "Approve Attendance"
+msgstr "اعتماد سجل الدوام"
+
+#. module: radwan_attendance_portal
+msgid "Reject Attendance"
+msgstr "رفض سجل الدوام"
+
+#. module: radwan_attendance_portal
+msgid "Approved By"
+msgstr "اعتمد بواسطة"
+
+#. module: radwan_attendance_portal
+msgid "Approved Date"
+msgstr "تاريخ الاعتماد"
+
+#. module: radwan_attendance_portal
+msgid "Rejected By"
+msgstr "رفض بواسطة"
+
+#. module: radwan_attendance_portal
+msgid "Rejected Date"
+msgstr "تاريخ الرفض"
+
+#. module: radwan_attendance_portal
+msgid "Rejection Reason"
+msgstr "سبب الرفض"
+
+#. module: radwan_attendance_portal
+msgid "Rejected from Odoo attendance review."
+msgstr "تم الرفض من مراجعة سجل الدوام داخل أودو."

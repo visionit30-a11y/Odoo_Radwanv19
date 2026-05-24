@@ -104,6 +104,7 @@
                                         <th>Check Out Location</th>
                                         <th>Worked Hours</th>
                                         <th>Status</th>
+                                        <th>Approval</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -126,12 +127,35 @@
                                         </td>
                                         <td t-out="row['worked_hours']"/>
                                         <td t-out="row['status']"/>
+                                        <td t-out="row['approval_status'] or '-'"/>
                                     </tr>
                                     <tr t-if="not attendance_rows">
-                                        <td colspan="8" class="text-center text-muted py-4">No attendance records today.</td>
+                                        <td colspan="9" class="text-center text-muted py-4">No attendance records today.</td>
                                     </tr>
                                 </tbody>
                             </table>
+                        </div>
+                    </div>
+
+                    <div class="modal fade" id="radwanAttendanceCameraModal" tabindex="-1" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h2 class="modal-title h5">Attendance Photo</h2>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"/>
+                                </div>
+                                <div class="modal-body">
+                                    <p class="radwan-attendance-camera-message small text-muted mb-3">
+                                        Please capture an attendance photo before continuing.
+                                    </p>
+                                    <video class="radwan-attendance-camera-video" playsinline="playsinline" autoplay="autoplay"/>
+                                    <canvas class="radwan-attendance-camera-canvas d-none"/>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-light" data-radwan-camera-cancel="1" data-bs-dismiss="modal">Cancel</button>
+                                    <button type="button" class="btn btn-primary" data-radwan-camera-capture="1">Capture Photo</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
