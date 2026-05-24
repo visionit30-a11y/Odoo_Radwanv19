@@ -50,10 +50,226 @@
         </field>
     </record>
 
+    <record id="radwan_attendance_location_list_view" model="ir.ui.view">
+        <field name="name">radwan.attendance.location.list</field>
+        <field name="model">radwan.attendance.location</field>
+        <field name="arch" type="xml">
+            <list string="Attendance Work Locations">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="latitude"/>
+                <field name="longitude"/>
+                <field name="allowed_radius"/>
+                <field name="active"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="radwan_attendance_location_form_view" model="ir.ui.view">
+        <field name="name">radwan.attendance.location.form</field>
+        <field name="model">radwan.attendance.location</field>
+        <field name="arch" type="xml">
+            <form string="Attendance Work Location">
+                <header>
+                    <button name="action_open_map_picker" type="object" string="Choose Location on Map" class="btn-primary" icon="fa-map-marker"/>
+                    <button name="action_open_google_maps" type="object" string="View on Map" class="btn-secondary" icon="fa-map" invisible="not latitude or not longitude"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="sequence"/>
+                            <field name="active"/>
+                            <field name="allowed_radius"/>
+                        </group>
+                        <group>
+                            <field name="latitude"/>
+                            <field name="longitude"/>
+                            <field name="google_maps_url" readonly="1" widget="url" invisible="not google_maps_url"/>
+                            <field name="map_picker_url" readonly="1" widget="url"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Employees">
+                            <field name="employee_ids" widget="many2many_tags"/>
+                        </page>
+                        <page string="Notes">
+                            <field name="note" nolabel="1"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="radwan_attendance_attempt_log_list_view" model="ir.ui.view">
+        <field name="name">radwan.attendance.attempt.log.list</field>
+        <field name="model">radwan.attendance.attempt.log</field>
+        <field name="arch" type="xml">
+            <list string="Rejected Attendance Attempts" create="false" edit="false">
+                <field name="attempt_datetime"/>
+                <field name="employee_id"/>
+                <field name="action_type"/>
+                <field name="rejection_reason"/>
+                <field name="nearest_attendance_location_id"/>
+                <field name="distance_to_nearest_location"/>
+                <field name="allowed_radius"/>
+                <field name="accuracy"/>
+                <field name="ip_address" optional="hide"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="radwan_attendance_attempt_log_form_view" model="ir.ui.view">
+        <field name="name">radwan.attendance.attempt.log.form</field>
+        <field name="model">radwan.attendance.attempt.log</field>
+        <field name="arch" type="xml">
+            <form string="Rejected Attendance Attempt" create="false" edit="false">
+                <header>
+                    <button name="action_open_google_maps" type="object" string="View Attempt Location" class="btn-secondary" icon="fa-map" invisible="not latitude or not longitude"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="employee_id"/>
+                            <field name="user_id"/>
+                            <field name="action_type"/>
+                            <field name="attempt_datetime"/>
+                            <field name="rejection_reason"/>
+                        </group>
+                        <group>
+                            <field name="latitude"/>
+                            <field name="longitude"/>
+                            <field name="accuracy"/>
+                            <field name="google_maps_url" widget="url"/>
+                        </group>
+                    </group>
+                    <group string="Geofence Review">
+                        <field name="nearest_attendance_location_id"/>
+                        <field name="distance_to_nearest_location"/>
+                        <field name="allowed_radius"/>
+                        <field name="warning_message"/>
+                    </group>
+                    <group string="Request Context">
+                        <field name="ip_address"/>
+                        <field name="user_agent"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
     <record id="radwan_attendance_permission_action" model="ir.actions.act_window">
         <field name="name">Attendance Permissions</field>
         <field name="res_model">radwan.attendance.permission</field>
         <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="radwan_attendance_location_action" model="ir.actions.act_window">
+        <field name="name">Attendance Work Locations</field>
+        <field name="res_model">radwan.attendance.location</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="radwan_attendance_attempt_log_action" model="ir.actions.act_window">
+        <field name="name">Rejected Attendance Attempts</field>
+        <field name="res_model">radwan.attendance.attempt.log</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="radwan_hr_employee_attendance_locations_form_view" model="ir.ui.view">
+        <field name="name">hr.employee.form.radwan.attendance.locations</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='work_information']//field[@name='work_location_id']" position="after">
+                <field name="radwan_attendance_location_ids" widget="many2many_tags" options="{'no_create_edit': False}" groups="hr_attendance.group_hr_attendance_user"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="radwan_hr_attendance_list_geofence_view" model="ir.ui.view">
+        <field name="name">hr.attendance.list.radwan.geofence</field>
+        <field name="model">hr.attendance</field>
+        <field name="inherit_id" ref="hr_attendance.view_attendance_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='out_location']" position="after">
+                <field name="radwan_location_status" optional="show" widget="badge" decoration-success="radwan_location_status == 'inside'" decoration-warning="radwan_location_status in ['outside', 'weak_accuracy']" decoration-danger="radwan_location_status == 'unavailable'"/>
+                <field name="radwan_nearest_attendance_location_id" optional="show"/>
+                <field name="radwan_distance_to_nearest_location" optional="hide"/>
+                <field name="radwan_location_warning_message" optional="hide"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="radwan_hr_attendance_form_geofence_view" model="ir.ui.view">
+        <field name="name">hr.attendance.form.radwan.geofence</field>
+        <field name="model">hr.attendance</field>
+        <field name="inherit_id" ref="hr_attendance.hr_attendance_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//group[@name='check_in_group']" position="after">
+                <separator string="Attendance Location Review"/>
+                <group name="radwan_attendance_location_review" colspan="2">
+                    <group>
+                        <field name="radwan_location_status" widget="badge"/>
+                        <field name="radwan_nearest_attendance_location_id"/>
+                        <field name="radwan_distance_to_nearest_location"/>
+                        <field name="radwan_allowed_radius"/>
+                    </group>
+                    <group>
+                        <field name="radwan_checkin_location_id"/>
+                        <field name="radwan_checkout_location_id"/>
+                        <field name="radwan_location_warning_message"/>
+                        <button name="action_radwan_open_nearest_location" type="object" string="View Nearest Location" class="btn-link ps-0" icon="fa-map" invisible="not radwan_nearest_attendance_location_id"/>
+                    </group>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="radwan_attendance_res_config_settings_view_form" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.radwan.attendance.portal</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form" position="inside">
+                <app data-string="Attendance Portal" string="Attendance Portal" name="radwan_attendance_portal" logo="/hr_attendance/static/description/icon.png" groups="hr_attendance.group_hr_attendance_manager">
+                    <block title="Geolocation Rules" name="radwan_attendance_geolocation_settings">
+                        <setting id="radwan_attendance_geo_required" help="Require the browser to provide a location before employee attendance actions.">
+                            <field name="radwan_attendance_geo_required"/>
+                        </setting>
+                        <setting id="radwan_attendance_reject_outside_range" help="Reject check in, check out, and permission requests outside the employee's allowed attendance locations.">
+                            <field name="radwan_attendance_reject_outside_range"/>
+                        </setting>
+                        <setting id="radwan_attendance_log_rejected_attempts" help="Keep a review log when an attendance operation is rejected.">
+                            <field name="radwan_attendance_log_rejected_attempts"/>
+                        </setting>
+                        <setting id="radwan_attendance_show_distance_details" help="Show nearest location and distance details to the employee.">
+                            <field name="radwan_attendance_show_distance_details"/>
+                        </setting>
+                        <setting id="radwan_attendance_max_accuracy" help="Reject locations with browser accuracy worse than this number of meters.">
+                            <field name="radwan_attendance_max_accuracy" class="oe_inline"/>
+                            <span class="ms-2">meters</span>
+                        </setting>
+                    </block>
+                    <block title="Employee Messages" name="radwan_attendance_message_settings">
+                        <setting id="radwan_attendance_outside_range_message">
+                            <field name="radwan_attendance_outside_range_message"/>
+                        </setting>
+                        <setting id="radwan_attendance_weak_accuracy_message">
+                            <field name="radwan_attendance_weak_accuracy_message"/>
+                        </setting>
+                    </block>
+                </app>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="radwan_attendance_portal_settings_action" model="ir.actions.act_window">
+        <field name="name">Attendance Portal Settings</field>
+        <field name="res_model">res.config.settings</field>
+        <field name="view_mode">form</field>
+        <field name="context">{'module': 'radwan_attendance_portal', 'bin_size': False}</field>
     </record>
 
     <menuitem
@@ -63,5 +279,32 @@
         action="radwan_attendance_permission_action"
         sequence="80"
         groups="hr_attendance.group_hr_attendance_user"
+    />
+
+    <menuitem
+        id="radwan_attendance_location_menu"
+        name="Attendance Work Locations"
+        parent="hr_attendance.menu_hr_attendance_configuration"
+        action="radwan_attendance_location_action"
+        sequence="20"
+        groups="hr_attendance.group_hr_attendance_manager"
+    />
+
+    <menuitem
+        id="radwan_attendance_attempt_log_menu"
+        name="Rejected Attendance Attempts"
+        parent="hr_attendance.menu_hr_attendance_root"
+        action="radwan_attendance_attempt_log_action"
+        sequence="85"
+        groups="hr_attendance.group_hr_attendance_user"
+    />
+
+    <menuitem
+        id="radwan_attendance_portal_settings_menu"
+        name="Attendance Portal Settings"
+        parent="hr_attendance.menu_hr_attendance_configuration"
+        action="radwan_attendance_portal_settings_action"
+        sequence="90"
+        groups="hr_attendance.group_hr_attendance_manager"
     />
 </odoo>

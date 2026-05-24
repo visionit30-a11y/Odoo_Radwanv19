@@ -127,3 +127,113 @@ export class RadwanAttendancePortal extends Interaction {
 }
 
 registry.category("public.interactions").add("radwan_attendance_portal.portal", RadwanAttendancePortal);
+
+export class RadwanAttendanceLocationMapPicker extends Interaction {
+    static selector = ".radwan_attendance_location_picker";
+
+    start() {
+        this.locationId = parseInt(this.el.dataset.locationId, 10);
+        this.latInput = this.el.querySelector("[name='latitude']");
+        this.lngInput = this.el.querySelector("[name='longitude']");
+        this.radiusInput = this.el.querySelector("[name='allowed_radius']");
+        this.messageEl = this.el.querySelector(".radwan-map-picker-message");
+        this.mapEl = this.el.querySelector(".radwan-location-map");
+        this.marker = null;
+        this.circle = null;
+
+        this.el.querySelector("[data-radwan-map-current]")?.addEventListener("click", () => this.useCurrentLocation());
+        this.el.querySelector("[data-radwan-map-save]")?.addEventListener("click", () => this.saveLocation());
+
+        this.initMapWhenReady();
+    }
+
+    initMapWhenReady() {
+        if (window.L) {
+            this.initMap();
+            return;
+        }
+        window.setTimeout(() => this.initMapWhenReady(), 150);
+    }
+
+    initMap() {
+        const latitude = parseFloat(this.latInput.value) || 24.7136;
+        const longitude = parseFloat(this.lngInput.value) || 46.6753;
+        this.map = window.L.map(this.mapEl).setView([latitude, longitude], 15);
+        window.L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+            maxZoom: 19,
+            attribution: "&copy; OpenStreetMap",
+        }).addTo(this.map);
+        this.setMarker(latitude, longitude);
+        this.map.on("click", (ev) => this.setMarker(ev.latlng.lat, ev.latlng.lng));
+        this.radiusInput.addEventListener("input", () => this.drawCircle());
+    }
+
+    setMarker(latitude, longitude) {
+        const lat = Number(latitude).toFixed(7);
+        const lng = Number(longitude).toFixed(7);
+        this.latInput.value = lat;
+        this.lngInput.value = lng;
+        if (!this.marker) {
+            this.marker = window.L.marker([latitude, longitude], { draggable: true }).addTo(this.map);
+            this.marker.on("dragend", () => {
+                const position = this.marker.getLatLng();
+                this.setMarker(position.lat, position.lng);
+            });
+        } else {
+            this.marker.setLatLng([latitude, longitude]);
+        }
+        this.drawCircle();
+    }
+
+    drawCircle() {
+        const latitude = parseFloat(this.latInput.value);
+        const longitude = parseFloat(this.lngInput.value);
+        const radius = parseFloat(this.radiusInput.value) || 100;
+        if (this.circle) {
+            this.circle.remove();
+        }
+        this.circle = window.L.circle([latitude, longitude], {
+            radius,
+            color: "#6f5aa7",
+            fillColor: "#6f5aa7",
+            fillOpacity: 0.12,
+            weight: 2,
+        }).addTo(this.map);
+    }
+
+    showMessage(message, type = "success") {
+        this.messageEl.textContent = message;
+        this.messageEl.classList.remove("d-none", "is-success", "is-error");
+        this.messageEl.classList.add(type === "success" ? "is-success" : "is-error");
+    }
+
+    async useCurrentLocation() {
+        try {
+            const position = await new Promise((resolve, reject) => {
+                navigator.geolocation.getCurrentPosition(resolve, reject, {
+                    enableHighAccuracy: true,
+                    timeout: 15000,
+                    maximumAge: 0,
+                });
+            });
+            const { latitude, longitude } = position.coords;
+            this.setMarker(latitude, longitude);
+            this.map.setView([latitude, longitude], 17);
+        } catch {
+            this.showMessage(_t("You must allow geolocation."), "error");
+        }
+    }
+
+    async saveLocation() {
+        const result = await rpc(`/radwan/attendance/location/${this.locationId}/save-map`, {
+            latitude: this.latInput.value,
+            longitude: this.lngInput.value,
+            allowed_radius: this.radiusInput.value,
+        });
+        this.showMessage(result.message, result.success ? "success" : "error");
+    }
+}
+
+registry
+    .category("public.interactions")
+    .add("radwan_attendance_portal.location_map_picker", RadwanAttendanceLocationMapPicker);

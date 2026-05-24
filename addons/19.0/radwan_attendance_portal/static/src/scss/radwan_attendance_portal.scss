@@ -196,6 +196,45 @@
     }
 }
 
+.radwan-location-picker-page {
+    background: #f7f8fa;
+    min-height: 100vh;
+
+    .radwan-location-map {
+        min-height: 460px;
+        border: 1px solid #dee2e6;
+        border-radius: 8px;
+        overflow: hidden;
+        background: #edf0f2;
+    }
+
+    .radwan-map-picker-message {
+        border-radius: 6px;
+        padding: 10px 12px;
+        border: 1px solid transparent;
+    }
+
+    .radwan-map-picker-message.is-success {
+        color: #0f5132;
+        background: #d1e7dd;
+        border-color: #badbcc;
+    }
+
+    .radwan-map-picker-message.is-error {
+        color: #842029;
+        background: #f8d7da;
+        border-color: #f5c2c7;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .radwan-location-picker-page {
+        .radwan-location-map {
+            min-height: 360px;
+        }
+    }
+}
+
 @media (max-width: 991.98px) {
     .radwan-attendance-page {
         .radwan-employee-info-grid {

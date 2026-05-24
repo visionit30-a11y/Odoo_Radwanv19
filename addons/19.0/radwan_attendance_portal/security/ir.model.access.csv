@@ -1,3 +1,8 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_radwan_attendance_permission_user,radwan.attendance.permission user,model_radwan_attendance_permission,base.group_user,1,0,0,0
 access_radwan_attendance_permission_hr_user,radwan.attendance.permission hr user,model_radwan_attendance_permission,hr_attendance.group_hr_attendance_user,1,1,1,0
+access_radwan_attendance_location_user,radwan.attendance.location user,model_radwan_attendance_location,base.group_user,1,0,0,0
+access_radwan_attendance_location_hr_user,radwan.attendance.location hr user,model_radwan_attendance_location,hr_attendance.group_hr_attendance_user,1,1,1,0
+access_radwan_attendance_location_hr_manager,radwan.attendance.location hr manager,model_radwan_attendance_location,hr_attendance.group_hr_attendance_manager,1,1,1,1
+access_radwan_attendance_attempt_log_hr_user,radwan.attendance.attempt.log hr user,model_radwan_attendance_attempt_log,hr_attendance.group_hr_attendance_user,1,1,1,0
+access_radwan_attendance_attempt_log_hr_manager,radwan.attendance.attempt.log hr manager,model_radwan_attendance_attempt_log,hr_attendance.group_hr_attendance_manager,1,1,1,1

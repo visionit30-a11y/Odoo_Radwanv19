@@ -192,4 +192,78 @@
             </t>
         </xpath>
     </template>
+
+    <template id="radwan_attendance_location_map_picker" name="Attendance Location Map Picker">
+        <t t-call="website.layout">
+            <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+            <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+            <main
+                class="radwan-location-picker-page"
+                t-att-dir="'rtl' if request.env.lang and request.env.lang.startswith('ar') else 'ltr'"
+            >
+                <section
+                    class="container py-3 py-lg-4 radwan_attendance_location_picker"
+                    t-att-data-location-id="location.id"
+                >
+                    <div class="radwan-attendance-card p-3 p-lg-4">
+                        <div class="d-flex flex-column flex-lg-row justify-content-between gap-2 mb-3">
+                            <div>
+                                <h1 class="h4 mb-1">Select Attendance Location</h1>
+                                <div class="text-muted" t-out="location.name"/>
+                            </div>
+                            <a class="btn btn-light" t-att-href="location.google_maps_url" target="_blank" rel="noopener">
+                                View on Google Maps
+                            </a>
+                        </div>
+                        <div class="row g-3">
+                            <div class="col-12 col-lg-8">
+                                <div class="radwan-location-map"/>
+                            </div>
+                            <div class="col-12 col-lg-4">
+                                <div class="mb-3">
+                                    <label class="form-label" for="radwan_location_latitude">Latitude</label>
+                                    <input
+                                        class="form-control"
+                                        id="radwan_location_latitude"
+                                        name="latitude"
+                                        t-att-value="location.latitude"
+                                    />
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label" for="radwan_location_longitude">Longitude</label>
+                                    <input
+                                        class="form-control"
+                                        id="radwan_location_longitude"
+                                        name="longitude"
+                                        t-att-value="location.longitude"
+                                    />
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label" for="radwan_location_radius">Allowed Radius (m)</label>
+                                    <input
+                                        class="form-control"
+                                        id="radwan_location_radius"
+                                        name="allowed_radius"
+                                        type="number"
+                                        min="10"
+                                        step="5"
+                                        t-att-value="location.allowed_radius"
+                                    />
+                                </div>
+                                <div class="d-grid gap-2">
+                                    <button type="button" class="btn btn-light" data-radwan-map-current="1">
+                                        Use My Current Location
+                                    </button>
+                                    <button type="button" class="btn btn-primary" data-radwan-map-save="1">
+                                        Save Location
+                                    </button>
+                                </div>
+                                <div class="radwan-map-picker-message mt-3 d-none" role="alert"/>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </main>
+        </t>
+    </template>
 </odoo>
