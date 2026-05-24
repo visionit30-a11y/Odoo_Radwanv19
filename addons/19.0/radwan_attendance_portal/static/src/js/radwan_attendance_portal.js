@@ -16,7 +16,9 @@ export class RadwanAttendancePortal extends Interaction {
         this.cameraCanvas = this.el.querySelector(".radwan-attendance-camera-canvas");
         this.cameraCaptureButton = this.el.querySelector("[data-radwan-camera-capture]");
         this.cameraCancelButton = this.el.querySelector("[data-radwan-camera-cancel]");
+        this.cameraCloseButton = this.cameraModalEl?.querySelector(".btn-close");
         this.cameraStream = null;
+        this.cameraModal = null;
 
         for (const button of this.actionButtons) {
             button.addEventListener("click", (ev) => this.onAttendanceAction(ev));
@@ -75,6 +77,49 @@ export class RadwanAttendancePortal extends Interaction {
         }
     }
 
+    showCameraModal() {
+        if (!this.cameraModalEl) {
+            return;
+        }
+        if (window.bootstrap?.Modal) {
+            this.cameraModal = window.bootstrap.Modal.getOrCreateInstance(this.cameraModalEl, {
+                backdrop: "static",
+                keyboard: false,
+            });
+            this.cameraModal.show();
+            return;
+        }
+        this.cameraModalEl.classList.add("show");
+        this.cameraModalEl.removeAttribute("aria-hidden");
+        this.cameraModalEl.setAttribute("aria-modal", "true");
+        this.cameraModalEl.setAttribute("role", "dialog");
+        this.cameraModalEl.style.display = "block";
+        document.body.classList.add("modal-open");
+        if (!document.querySelector(".radwan-attendance-camera-backdrop")) {
+            const backdrop = document.createElement("div");
+            backdrop.className = "modal-backdrop fade show radwan-attendance-camera-backdrop";
+            document.body.appendChild(backdrop);
+        }
+    }
+
+    hideCameraModal() {
+        if (!this.cameraModalEl) {
+            return;
+        }
+        if (this.cameraModal) {
+            this.cameraModal.hide();
+            this.cameraModal = null;
+            return;
+        }
+        this.cameraModalEl.classList.remove("show");
+        this.cameraModalEl.setAttribute("aria-hidden", "true");
+        this.cameraModalEl.removeAttribute("aria-modal");
+        this.cameraModalEl.removeAttribute("role");
+        this.cameraModalEl.style.display = "none";
+        document.body.classList.remove("modal-open");
+        document.querySelector(".radwan-attendance-camera-backdrop")?.remove();
+    }
+
     async captureAttendancePhoto(message) {
         if (!navigator.mediaDevices?.getUserMedia) {
             throw new Error(_t("Camera is not supported by this browser."));
@@ -89,24 +134,42 @@ export class RadwanAttendancePortal extends Interaction {
         }
 
         this.stopCamera();
-        this.cameraStream = await navigator.mediaDevices.getUserMedia({
-            video: { facingMode: "user" },
-            audio: false,
-        });
-        this.cameraVideo.srcObject = this.cameraStream;
-        await this.cameraVideo.play();
-
-        const modal = window.bootstrap?.Modal.getOrCreateInstance(this.cameraModalEl);
-        modal?.show();
+        this.showCameraModal();
+        try {
+            this.cameraStream = await navigator.mediaDevices.getUserMedia({
+                video: { facingMode: "user" },
+                audio: false,
+            });
+            this.cameraVideo.muted = true;
+            this.cameraVideo.srcObject = this.cameraStream;
+            await new Promise((resolve) => {
+                if (this.cameraVideo.readyState >= 2) {
+                    resolve();
+                    return;
+                }
+                this.cameraVideo.addEventListener("loadedmetadata", resolve, { once: true });
+            });
+            await this.cameraVideo.play();
+        } catch (error) {
+            this.stopCamera();
+            this.hideCameraModal();
+            throw error;
+        }
 
         return new Promise((resolve, reject) => {
+            let finished = false;
             const cleanup = () => {
                 this.cameraCaptureButton?.removeEventListener("click", onCapture);
                 this.cameraCancelButton?.removeEventListener("click", onCancel);
+                this.cameraCloseButton?.removeEventListener("click", onCancel);
                 this.cameraModalEl.removeEventListener("hidden.bs.modal", onCancel);
                 this.stopCamera();
             };
             const onCapture = () => {
+                if (finished) {
+                    return;
+                }
+                finished = true;
                 const width = this.cameraVideo.videoWidth || 640;
                 const height = this.cameraVideo.videoHeight || 480;
                 this.cameraCanvas.width = width;
@@ -114,15 +177,21 @@ export class RadwanAttendancePortal extends Interaction {
                 this.cameraCanvas.getContext("2d").drawImage(this.cameraVideo, 0, 0, width, height);
                 const photo = this.cameraCanvas.toDataURL("image/jpeg", 0.82);
                 cleanup();
-                modal?.hide();
+                this.hideCameraModal();
                 resolve(photo);
             };
             const onCancel = () => {
+                if (finished) {
+                    return;
+                }
+                finished = true;
                 cleanup();
+                this.hideCameraModal();
                 reject(new Error(_t("Attendance photo capture was cancelled.")));
             };
             this.cameraCaptureButton?.addEventListener("click", onCapture);
             this.cameraCancelButton?.addEventListener("click", onCancel);
+            this.cameraCloseButton?.addEventListener("click", onCancel);
             this.cameraModalEl.addEventListener("hidden.bs.modal", onCancel);
         });
     }
