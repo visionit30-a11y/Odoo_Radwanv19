@@ -287,6 +287,8 @@ class RadwanAttendancePortal(http.Controller):
             "distance": 0.0,
             "allowed_radius": 0.0,
             "warning": "",
+            "validity_status": False,
+            "validity_warning": "",
             "reject": False,
             "reason": False,
         }
@@ -343,6 +345,7 @@ class RadwanAttendancePortal(http.Controller):
                 break
 
         if accepted:
+            validity_review = accepted.radwan_get_validity_review(fields.Date.context_today(request.env.user))
             result.update(
                 {
                     "status": "inside",
@@ -350,6 +353,8 @@ class RadwanAttendancePortal(http.Controller):
                     "nearest_location": accepted,
                     "distance": nearest_distance if nearest else 0.0,
                     "allowed_radius": accepted.allowed_radius,
+                    "validity_status": validity_review["status"],
+                    "validity_warning": validity_review["warning"],
                 }
             )
             return result
@@ -382,6 +387,8 @@ class RadwanAttendancePortal(http.Controller):
         values = {
             "radwan_location_status": check_result["status"],
             "radwan_location_warning_message": check_result["warning"],
+            "radwan_location_validity_status": check_result["validity_status"],
+            "radwan_location_validity_warning": check_result["validity_warning"],
             "radwan_nearest_attendance_location_id": check_result["nearest_location"].id
             if check_result["nearest_location"]
             else False,

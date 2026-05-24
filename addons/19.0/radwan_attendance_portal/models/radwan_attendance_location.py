@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from odoo import fields, models
+from odoo import _, fields, models
 
 
 class RadwanAttendanceLocation(models.Model):
@@ -15,6 +15,8 @@ class RadwanAttendanceLocation(models.Model):
     longitude = fields.Float(string="Longitude", digits=(10, 7), aggregator=None)
     allowed_radius = fields.Float(string="Allowed Radius (m)", default=100.0, required=True, aggregator=None)
     radwan_require_attendance_photo = fields.Boolean(string="Require Attendance Photo")
+    radwan_valid_from = fields.Date(string="Valid From")
+    radwan_valid_to = fields.Date(string="Valid To")
     note = fields.Text(string="Notes")
     employee_ids = fields.Many2many(
         "hr.employee",
@@ -53,3 +55,28 @@ class RadwanAttendanceLocation(models.Model):
             "url": self.map_picker_url,
             "target": "new",
         }
+
+    def radwan_get_validity_review(self, check_date=None):
+        self.ensure_one()
+        check_date = check_date or fields.Date.context_today(self)
+        if self.radwan_valid_from and check_date < self.radwan_valid_from:
+            return {
+                "status": "not_started",
+                "warning": _(
+                    "Attendance location %(location)s is not valid yet. Valid from %(date)s.",
+                    location=self.name,
+                    date=self.radwan_valid_from,
+                ),
+            }
+        if self.radwan_valid_to and check_date > self.radwan_valid_to:
+            return {
+                "status": "expired",
+                "warning": _(
+                    "Attendance location %(location)s validity expired on %(date)s. Attendance was accepted for review.",
+                    location=self.name,
+                    date=self.radwan_valid_to,
+                ),
+            }
+        if self.radwan_valid_from or self.radwan_valid_to:
+            return {"status": "valid", "warning": ""}
+        return {"status": "no_dates", "warning": ""}

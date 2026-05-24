@@ -38,6 +38,17 @@ class HrAttendance(models.Model):
         readonly=True,
     )
     radwan_location_warning_message = fields.Text(string="Location Warning Message", readonly=True)
+    radwan_location_validity_status = fields.Selection(
+        selection=[
+            ("valid", "Valid"),
+            ("not_started", "Not Started"),
+            ("expired", "Expired"),
+            ("no_dates", "No Validity Dates"),
+        ],
+        string="Location Validity Status",
+        readonly=True,
+    )
+    radwan_location_validity_warning = fields.Text(string="Location Validity Warning", readonly=True)
     radwan_nearest_attendance_location_id = fields.Many2one(
         "radwan.attendance.location",
         string="Nearest Attendance Location",
