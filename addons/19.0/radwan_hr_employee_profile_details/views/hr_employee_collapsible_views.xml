@@ -22,7 +22,18 @@
                     <group>
                         <field name="passport_id" string="Passport Number"/>
                         <field name="radwan_passport_issue_date"/>
-                        <field name="radwan_passport_expiry_date"/>
+                        <label for="radwan_passport_expiry_date"/>
+                        <div class="o_row radwan_expiry_date_status">
+                            <field name="radwan_passport_expiry_date" nolabel="1"/>
+                            <field name="radwan_passport_status"
+                                   readonly="1"
+                                   nolabel="1"
+                                   widget="badge"
+                                   decoration-success="radwan_passport_status == 'valid'"
+                                   decoration-warning="radwan_passport_status == 'expiring_soon'"
+                                   decoration-danger="radwan_passport_status == 'expired'"
+                                   decoration-muted="radwan_passport_status == 'not_set'"/>
+                        </div>
                     </group>
                     <group>
                         <field name="radwan_passport_issue_place"/>

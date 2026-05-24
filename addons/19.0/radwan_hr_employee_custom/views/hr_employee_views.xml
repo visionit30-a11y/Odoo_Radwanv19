@@ -44,8 +44,8 @@
 
                 <page name="radwan_hr_information" string="معلومات الموارد البشرية">
 
-                    <!-- Expiry Status Summary -->
-                    <details open="open" style="margin-bottom:12px; border:1px solid #e6e1e5; border-radius:6px; overflow:hidden;">
+                    <!-- Expiry Status Summary: hidden because status badges are shown next to each date field. -->
+                    <details invisible="1" style="margin-bottom:12px; border:1px solid #e6e1e5; border-radius:6px; overflow:hidden;">
                         <summary style="background-color:#714B67; color:#ffffff; padding:9px 14px; font-weight:700; cursor:pointer; letter-spacing:.2px;">
                             ملخص حالة الانتهاء
                         </summary>
@@ -146,7 +146,18 @@
                                     <field name="identification_id" string="ID / Iqama Number"/>
                                     <field name="radwan_id_type"/>
                                     <field name="radwan_id_issue_date" options="{'numeric': True}"/>
-                                    <field name="radwan_id_expiry_date" options="{'numeric': True}"/>
+                                    <label for="radwan_id_expiry_date"/>
+                                    <div class="o_row radwan_expiry_date_status">
+                                        <field name="radwan_id_expiry_date" options="{'numeric': True}" nolabel="1"/>
+                                        <field name="radwan_id_status"
+                                               readonly="1"
+                                               nolabel="1"
+                                               widget="badge"
+                                               decoration-success="radwan_id_status == 'valid'"
+                                               decoration-warning="radwan_id_status == 'expiring_soon'"
+                                               decoration-danger="radwan_id_status == 'expired'"
+                                               decoration-muted="radwan_id_status == 'not_set'"/>
+                                    </div>
                                     <field name="radwan_id_expiry_hijri"/>
                                 </group>
                                 <group>
@@ -168,7 +179,18 @@
                         <div style="padding:14px 16px 16px 16px; background-color:#ffffff;">
                             <group>
                                 <group>
-                                    <field name="radwan_passport_expiry_date" options="{'numeric': True}"/>
+                                    <label for="radwan_passport_expiry_date"/>
+                                    <div class="o_row radwan_expiry_date_status">
+                                        <field name="radwan_passport_expiry_date" options="{'numeric': True}" nolabel="1"/>
+                                        <field name="radwan_passport_status"
+                                               readonly="1"
+                                               nolabel="1"
+                                               widget="badge"
+                                               decoration-success="radwan_passport_status == 'valid'"
+                                               decoration-warning="radwan_passport_status == 'expiring_soon'"
+                                               decoration-danger="radwan_passport_status == 'expired'"
+                                               decoration-muted="radwan_passport_status == 'not_set'"/>
+                                    </div>
                                 </group>
                             </group>
                         </div>
@@ -189,7 +211,18 @@
                                 </group>
                                 <group>
                                     <field name="radwan_medical_insurance_class"/>
-                                    <field name="radwan_medical_insurance_end" options="{'numeric': True}"/>
+                                    <label for="radwan_medical_insurance_end"/>
+                                    <div class="o_row radwan_expiry_date_status">
+                                        <field name="radwan_medical_insurance_end" options="{'numeric': True}" nolabel="1"/>
+                                        <field name="radwan_medical_insurance_status"
+                                               readonly="1"
+                                               nolabel="1"
+                                               widget="badge"
+                                               decoration-success="radwan_medical_insurance_status == 'valid'"
+                                               decoration-warning="radwan_medical_insurance_status == 'expiring_soon'"
+                                               decoration-danger="radwan_medical_insurance_status == 'expired'"
+                                               decoration-muted="radwan_medical_insurance_status == 'not_set'"/>
+                                    </div>
                                 </group>
                             </group>
                         </div>
@@ -207,7 +240,18 @@
                                 <group>
                                     <field name="radwan_contract_number"/>
                                     <field name="radwan_contract_start_date" options="{'numeric': True}"/>
-                                    <field name="radwan_contract_end_date" options="{'numeric': True}"/>
+                                    <label for="radwan_contract_end_date"/>
+                                    <div class="o_row radwan_expiry_date_status">
+                                        <field name="radwan_contract_end_date" options="{'numeric': True}" nolabel="1"/>
+                                        <field name="radwan_contract_status"
+                                               readonly="1"
+                                               nolabel="1"
+                                               widget="badge"
+                                               decoration-success="radwan_contract_status == 'valid'"
+                                               decoration-warning="radwan_contract_status == 'expiring_soon'"
+                                               decoration-danger="radwan_contract_status == 'expired'"
+                                               decoration-muted="radwan_contract_status == 'not_set'"/>
+                                    </div>
                                 </group>
                             </group>
                         </div>

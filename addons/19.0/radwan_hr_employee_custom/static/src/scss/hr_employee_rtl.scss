@@ -819,6 +819,30 @@ body.o_rtl,
         padding: 6px 12px !important;
         vertical-align: middle !important;
     }
+
+    .radwan_expiry_date_status {
+        display: flex !important;
+        align-items: center !important;
+        gap: 0.55rem !important;
+        width: 100% !important;
+        min-width: 0 !important;
+        flex-wrap: wrap !important;
+    }
+
+    .radwan_expiry_date_status > .o_field_widget:not(.o_field_badge) {
+        flex: 0 1 13rem !important;
+        width: auto !important;
+        min-width: 8rem !important;
+        max-width: 100% !important;
+    }
+
+    .radwan_expiry_date_status .o_field_badge,
+    .radwan_expiry_date_status .badge {
+        flex: 0 0 auto !important;
+        width: auto !important;
+        margin: 0 !important;
+        white-space: nowrap !important;
+    }
 }
 
 
