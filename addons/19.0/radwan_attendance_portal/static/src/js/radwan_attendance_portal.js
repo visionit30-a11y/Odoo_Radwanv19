@@ -19,6 +19,12 @@ export class RadwanAttendancePortal extends Interaction {
         this.cameraCloseButton = this.cameraModalEl?.querySelector(".btn-close");
         this.cameraStream = null;
         this.cameraModal = null;
+        this.confirmModalEl = this.el.querySelector("#radwanAttendanceUpdateConfirmModal");
+        this.confirmModal = null;
+        this.confirmMessageEl = this.confirmModalEl?.querySelector(".radwan-attendance-confirm-message");
+        this.confirmButton = this.confirmModalEl?.querySelector("[data-radwan-confirm-update]");
+        this.confirmCancelButton = this.confirmModalEl?.querySelector("[data-radwan-confirm-cancel]");
+        this.confirmCloseButton = this.confirmModalEl?.querySelector(".btn-close");
 
         for (const button of this.actionButtons) {
             button.addEventListener("click", (ev) => this.onAttendanceAction(ev));
@@ -120,6 +126,93 @@ export class RadwanAttendancePortal extends Interaction {
         document.querySelector(".radwan-attendance-camera-backdrop")?.remove();
     }
 
+    showFallbackModal(modalEl, backdropClass) {
+        modalEl.classList.add("show");
+        modalEl.removeAttribute("aria-hidden");
+        modalEl.setAttribute("aria-modal", "true");
+        modalEl.setAttribute("role", "dialog");
+        modalEl.style.display = "block";
+        document.body.classList.add("modal-open");
+        if (!document.querySelector(`.${backdropClass}`)) {
+            const backdrop = document.createElement("div");
+            backdrop.className = `modal-backdrop fade show ${backdropClass}`;
+            document.body.appendChild(backdrop);
+        }
+    }
+
+    hideFallbackModal(modalEl, backdropClass) {
+        modalEl.classList.remove("show");
+        modalEl.setAttribute("aria-hidden", "true");
+        modalEl.removeAttribute("aria-modal");
+        modalEl.removeAttribute("role");
+        modalEl.style.display = "none";
+        document.body.classList.remove("modal-open");
+        document.querySelector(`.${backdropClass}`)?.remove();
+    }
+
+    showConfirmModal() {
+        if (!this.confirmModalEl) {
+            return;
+        }
+        if (window.bootstrap?.Modal) {
+            this.confirmModal = window.bootstrap.Modal.getOrCreateInstance(this.confirmModalEl, {
+                backdrop: "static",
+                keyboard: false,
+            });
+            this.confirmModal.show();
+            return;
+        }
+        this.showFallbackModal(this.confirmModalEl, "radwan-attendance-confirm-backdrop");
+    }
+
+    hideConfirmModal() {
+        if (!this.confirmModalEl) {
+            return;
+        }
+        if (this.confirmModal) {
+            this.confirmModal.hide();
+            this.confirmModal = null;
+            return;
+        }
+        this.hideFallbackModal(this.confirmModalEl, "radwan-attendance-confirm-backdrop");
+    }
+
+    async confirmAttendanceUpdate(policy) {
+        if (!this.confirmModalEl || !this.confirmButton || !this.confirmCancelButton) {
+            return window.confirm(policy.message);
+        }
+        if (this.confirmMessageEl) {
+            this.confirmMessageEl.textContent = policy.message;
+        }
+        this.confirmButton.textContent = policy.confirm_label || _t("Yes, update");
+        this.confirmCancelButton.textContent = policy.cancel_label || _t("No, keep current record");
+        this.showConfirmModal();
+        return new Promise((resolve) => {
+            let finished = false;
+            const cleanup = () => {
+                this.confirmButton.removeEventListener("click", onConfirm);
+                this.confirmCancelButton.removeEventListener("click", onCancel);
+                this.confirmCloseButton?.removeEventListener("click", onCancel);
+                this.confirmModalEl.removeEventListener("hidden.bs.modal", onCancel);
+            };
+            const finish = (value) => {
+                if (finished) {
+                    return;
+                }
+                finished = true;
+                cleanup();
+                this.hideConfirmModal();
+                resolve(value);
+            };
+            const onConfirm = () => finish(true);
+            const onCancel = () => finish(false);
+            this.confirmButton.addEventListener("click", onConfirm);
+            this.confirmCancelButton.addEventListener("click", onCancel);
+            this.confirmCloseButton?.addEventListener("click", onCancel);
+            this.confirmModalEl.addEventListener("hidden.bs.modal", onCancel);
+        });
+    }
+
     async captureAttendancePhoto(message) {
         if (!navigator.mediaDevices?.getUserMedia) {
             throw new Error(_t("Camera is not supported by this browser."));
@@ -206,10 +299,25 @@ export class RadwanAttendancePortal extends Interaction {
         this.setBusy(true);
         try {
             const location = await this.getLocation();
-            const policy = await rpc("/my/attendance/photo-policy", {
+            let updateExisting = false;
+            let policy = await rpc("/my/attendance/photo-policy", {
                 action,
+                update_existing: updateExisting,
                 ...location,
             });
+            if (policy.needs_confirmation) {
+                const confirmed = await this.confirmAttendanceUpdate(policy);
+                if (!confirmed) {
+                    this.showMessage(policy.cancel_message || _t("No changes were made."), "success");
+                    return;
+                }
+                updateExisting = true;
+                policy = await rpc("/my/attendance/photo-policy", {
+                    action,
+                    update_existing: updateExisting,
+                    ...location,
+                });
+            }
             if (!policy.success) {
                 this.showMessage(policy.message, "error");
                 return;
@@ -218,8 +326,13 @@ export class RadwanAttendancePortal extends Interaction {
             const result = await rpc("/my/attendance/action", {
                 action,
                 photo_data: photoData,
+                update_existing: updateExisting,
                 ...location,
             });
+            if (result.needs_confirmation) {
+                this.showMessage(result.message, "error");
+                return;
+            }
             this.showMessage(result.message, result.success ? "success" : "error");
             if (result.success && result.reload) {
                 window.setTimeout(() => window.location.reload(), 650);

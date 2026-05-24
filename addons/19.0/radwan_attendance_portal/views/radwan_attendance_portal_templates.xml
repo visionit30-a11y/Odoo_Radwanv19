@@ -172,6 +172,28 @@
                         </div>
                     </div>
 
+                    <div class="modal fade" id="radwanAttendanceUpdateConfirmModal" tabindex="-1" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h2 class="modal-title h5">Update Attendance Record</h2>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"/>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="radwan-attendance-confirm-box">
+                                        <p class="radwan-attendance-confirm-message mb-0">
+                                            Attendance is already recorded. Do you want to update it?
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-light" data-radwan-confirm-cancel="1" data-bs-dismiss="modal">No, keep current record</button>
+                                    <button type="button" class="btn btn-primary" data-radwan-confirm-update="1">Yes, update</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="modal fade" id="radwanAttendanceCameraModal" tabindex="-1" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered">
                             <div class="modal-content">

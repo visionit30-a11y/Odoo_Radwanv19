@@ -520,3 +520,43 @@ msgstr "سبب الرفض"
 #. module: radwan_attendance_portal
 msgid "Rejected from Odoo attendance review."
 msgstr "تم الرفض من مراجعة سجل الدوام داخل أودو."
+
+#. module: radwan_attendance_portal
+msgid "Check in"
+msgstr "تسجيل الحضور"
+
+#. module: radwan_attendance_portal
+msgid "Check out"
+msgstr "تسجيل الانصراف"
+
+#. module: radwan_attendance_portal
+msgid "%(action)s is already recorded for this date at %(time)s. Do you want to update it?"
+msgstr "تم تسجيل %(action)s مسبقًا لهذا التاريخ عند الساعة %(time)s. هل تريد تحديث السجل؟"
+
+#. module: radwan_attendance_portal
+msgid "Yes, update"
+msgstr "نعم، تحديث"
+
+#. module: radwan_attendance_portal
+msgid "No, keep current record"
+msgstr "لا، إبقاء السجل الحالي"
+
+#. module: radwan_attendance_portal
+msgid "No changes were made."
+msgstr "لم يتم إجراء أي تغييرات."
+
+#. module: radwan_attendance_portal
+msgid "Check in updated successfully."
+msgstr "تم تحديث تسجيل الحضور بنجاح."
+
+#. module: radwan_attendance_portal
+msgid "Check out updated successfully."
+msgstr "تم تحديث تسجيل الانصراف بنجاح."
+
+#. module: radwan_attendance_portal
+msgid "Update Attendance Record"
+msgstr "تحديث سجل الدوام"
+
+#. module: radwan_attendance_portal
+msgid "Attendance is already recorded. Do you want to update it?"
+msgstr "تم تسجيل الحركة مسبقًا. هل تريد تحديثها؟"

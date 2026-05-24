@@ -27,6 +27,9 @@ class RadwanAttendancePortal(http.Controller):
     def _config_text(self, key, default=""):
         return request.env["ir.config_parameter"].sudo().get_param(key) or default
 
+    def _bool_param(self, value):
+        return value in (True, 1, "1", "True", "true", "yes", "on")
+
     def _get_employee(self):
         user = request.env.user
         employee = request.env["hr.employee"].sudo().search([("user_id", "=", user.id)], limit=1)
@@ -56,6 +59,45 @@ class RadwanAttendancePortal(http.Controller):
             order="check_in desc",
             limit=1,
         )
+
+    def _latest_attendance_today(self, employee):
+        today, domain = self._attendance_domain_today(employee)
+        return request.env["hr.attendance"].sudo().search(domain, order="check_in desc, id desc", limit=1)
+
+    def _duplicate_attendance_for_action(self, employee, action):
+        latest_today = self._latest_attendance_today(employee)
+        if action == "check_in":
+            return latest_today
+        if action == "check_out":
+            open_attendance = self._open_attendance(employee)
+            if open_attendance:
+                return False
+            return latest_today if latest_today and latest_today.check_out else False
+        return False
+
+    def _duplicate_attendance_message(self, attendance, action):
+        field_name = "check_in" if action == "check_in" else "check_out"
+        action_label = _("Check in") if action == "check_in" else _("Check out")
+        action_time = format_time(
+            request.env,
+            attendance[field_name],
+            tz=self._employee_timezone(attendance.employee_id),
+        )
+        return _(
+            "%(action)s is already recorded for this date at %(time)s. Do you want to update it?",
+            action=action_label,
+            time=action_time,
+        )
+
+    def _duplicate_attendance_response(self, attendance, action):
+        return {
+            "success": False,
+            "needs_confirmation": True,
+            "message": self._duplicate_attendance_message(attendance, action),
+            "confirm_label": _("Yes, update"),
+            "cancel_label": _("No, keep current record"),
+            "cancel_message": _("No changes were made."),
+        }
 
     def _attendance_status(self, employee):
         open_attendance = self._open_attendance(employee)
@@ -452,16 +494,20 @@ class RadwanAttendancePortal(http.Controller):
         return {"success": True, "message": _("Attendance location saved successfully.")}
 
     @http.route("/my/attendance/photo-policy", type="jsonrpc", auth="user", website=True, methods=["POST"])
-    def attendance_photo_policy(self, action, latitude=None, longitude=None, accuracy=None):
+    def attendance_photo_policy(self, action, latitude=None, longitude=None, accuracy=None, update_existing=False):
         employee = self._get_employee()
         if not employee:
             return {"success": False, "message": _("No employee is linked to your user.")}
 
-        if action == "check_in" and self._open_attendance(employee):
-            return {"success": False, "message": _("Check in is already recorded.")}
+        update_existing = self._bool_param(update_existing)
+        duplicate_attendance = self._duplicate_attendance_for_action(employee, action)
+        if duplicate_attendance and not update_existing:
+            return self._duplicate_attendance_response(duplicate_attendance, action)
 
         if action == "check_out" and not self._open_attendance(employee):
-            return {"success": False, "message": _("You cannot check out without check in.")}
+            duplicate_attendance = self._duplicate_attendance_for_action(employee, action)
+            if not duplicate_attendance:
+                return {"success": False, "message": _("You cannot check out without check in.")}
 
         location = self._location_values(latitude, longitude, accuracy)
         check_result = self._location_check(employee, location)
@@ -476,16 +522,20 @@ class RadwanAttendancePortal(http.Controller):
         }
 
     @http.route("/my/attendance/action", type="jsonrpc", auth="user", website=True, methods=["POST"])
-    def attendance_action(self, action, latitude=None, longitude=None, accuracy=None, photo_data=None):
+    def attendance_action(self, action, latitude=None, longitude=None, accuracy=None, photo_data=None, update_existing=False):
         employee = self._get_employee()
         if not employee:
             return {"success": False, "message": _("No employee is linked to your user.")}
 
-        if action == "check_in" and self._open_attendance(employee):
-            return {"success": False, "message": _("Check in is already recorded.")}
+        update_existing = self._bool_param(update_existing)
+        duplicate_attendance = self._duplicate_attendance_for_action(employee, action)
+        if duplicate_attendance and not update_existing:
+            return self._duplicate_attendance_response(duplicate_attendance, action)
 
         if action == "check_out" and not self._open_attendance(employee):
-            return {"success": False, "message": _("You cannot check out without check in.")}
+            duplicate_attendance = self._duplicate_attendance_for_action(employee, action)
+            if not duplicate_attendance:
+                return {"success": False, "message": _("You cannot check out without check in.")}
 
         location = self._location_values(latitude, longitude, accuracy)
         check_result = self._location_check(employee, location)
@@ -500,6 +550,23 @@ class RadwanAttendancePortal(http.Controller):
         now = fields.Datetime.now()
 
         if action == "check_in":
+            if update_existing and duplicate_attendance:
+                duplicate_attendance.write(
+                    {
+                        "check_in": now,
+                        "radwan_check_in_user_id": request.env.user.id,
+                        "radwan_check_in_source": "portal",
+                        "in_mode": "manual",
+                        "radwan_approval_state": "to_review",
+                        "radwan_approved_by_id": False,
+                        "radwan_approved_date": False,
+                        "radwan_rejected_by_id": False,
+                        "radwan_rejected_date": False,
+                        "radwan_rejection_reason": False,
+                        **self._location_payload(location, check_result, "in", photo_data),
+                    }
+                )
+                return {"success": True, "message": _("Check in updated successfully."), "reload": True}
             Attendance.create(
                 {
                     "employee_id": employee.id,
@@ -513,7 +580,7 @@ class RadwanAttendancePortal(http.Controller):
             return {"success": True, "message": _("Check in recorded successfully."), "reload": True}
 
         if action == "check_out":
-            attendance = self._open_attendance(employee)
+            attendance = duplicate_attendance if update_existing and duplicate_attendance else self._open_attendance(employee)
             if not attendance:
                 return {"success": False, "message": _("You cannot check out without check in.")}
             attendance.write(
@@ -522,10 +589,17 @@ class RadwanAttendancePortal(http.Controller):
                     "radwan_check_out_user_id": request.env.user.id,
                     "radwan_check_out_source": "portal",
                     "out_mode": "manual",
+                    "radwan_approval_state": "to_review",
+                    "radwan_approved_by_id": False,
+                    "radwan_approved_date": False,
+                    "radwan_rejected_by_id": False,
+                    "radwan_rejected_date": False,
+                    "radwan_rejection_reason": False,
                     **self._location_payload(location, check_result, "out", photo_data),
                 }
             )
-            return {"success": True, "message": _("Check out recorded successfully."), "reload": True}
+            message = _("Check out updated successfully.") if update_existing and duplicate_attendance else _("Check out recorded successfully.")
+            return {"success": True, "message": message, "reload": True}
 
         return {"success": False, "message": _("Unsupported attendance action.")}
 
