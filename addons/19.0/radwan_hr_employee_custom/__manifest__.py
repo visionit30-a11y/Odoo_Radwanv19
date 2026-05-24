@@ -2,7 +2,7 @@
 
 {
     "name": "Radwan HR Employee Custom Fields",
-    "version": "19.0.1.5.0",
+    "version": "19.0.1.6.0",
     "summary": "Custom fields for employee profile in Odoo 19 Community",
     "description": "Custom HR fields, expiry statuses, Hijri/Gregorian conversion, and ID/Iqama validations.",
     "author": "Radwan",
@@ -10,7 +10,7 @@
     "depends": ["hr"],
     "data": [
         "data/ir_cron.xml",
-        "views/hr_employee_views.xml",
+        "views/hr_employee_hr_information.xml",
         "views/expiry_monitoring_views.xml",
         "reports/employee_reports.xml",
     ],
