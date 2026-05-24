@@ -2,7 +2,7 @@
 
 {
     "name": "Radwan Web UI Stability",
-    "version": "19.0.1.0.0",
+    "version": "19.0.1.1.0",
     "summary": "Small UI compatibility fixes for Radwan custom modules",
     "author": "Radwan",
     "category": "Technical",

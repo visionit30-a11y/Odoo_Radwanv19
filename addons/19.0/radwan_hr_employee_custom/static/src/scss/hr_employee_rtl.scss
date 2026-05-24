@@ -236,6 +236,43 @@ body.o_rtl .radwan_employee_rtl_form,
         border-bottom: 1px solid var(--radwan-hr-border-soft) !important;
     }
 
+    @media (min-width: 576px) {
+        .o_notebook .tab-pane table.o_inner_group tbody tr,
+        .o_notebook .tab-pane .o_inner_group tbody tr,
+        details table.o_inner_group tbody tr,
+        details .o_inner_group tbody tr {
+            display: flex !important;
+            flex-direction: row-reverse !important;
+            align-items: stretch !important;
+            width: 100% !important;
+        }
+
+        .o_notebook .tab-pane table.o_inner_group tbody td.o_td_label,
+        .o_notebook .tab-pane .o_inner_group tbody td.o_td_label,
+        .o_notebook .tab-pane table.o_inner_group tbody td.o_wrap_label,
+        .o_notebook .tab-pane .o_inner_group tbody td.o_wrap_label,
+        details table.o_inner_group tbody td.o_td_label,
+        details .o_inner_group tbody td.o_td_label,
+        details table.o_inner_group tbody td.o_wrap_label,
+        details .o_inner_group tbody td.o_wrap_label {
+            flex: 0 0 190px !important;
+            width: 190px !important;
+            max-width: 230px !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: flex-start !important;
+        }
+
+        .o_notebook .tab-pane table.o_inner_group tbody td:not(.o_td_label):not(.o_wrap_label),
+        .o_notebook .tab-pane .o_inner_group tbody td:not(.o_td_label):not(.o_wrap_label),
+        details table.o_inner_group tbody td:not(.o_td_label):not(.o_wrap_label),
+        details .o_inner_group tbody td:not(.o_td_label):not(.o_wrap_label) {
+            flex: 1 1 auto !important;
+            width: auto !important;
+            min-width: 0 !important;
+        }
+    }
+
     .o_notebook .tab-pane table.o_inner_group tbody tr:last-child,
     .o_notebook .tab-pane .o_inner_group tbody tr:last-child {
         border-bottom: 0 !important;

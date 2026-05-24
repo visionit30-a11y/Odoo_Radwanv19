@@ -405,3 +405,59 @@ msgstr "التقييمات"
 #. module: radwan_hr_employee_custom
 msgid "More"
 msgstr "المزيد"
+
+#. module: radwan_hr_employee_custom
+msgid "Performance Appraisals"
+msgstr "تقييمات الأداء"
+
+#. module: radwan_hr_employee_custom
+msgid "Orientations"
+msgstr "التوجيه"
+
+#. module: radwan_hr_employee_custom
+msgid "Employee Orientation"
+msgstr "توجيه الموظف"
+
+#. module: radwan_hr_employee_custom
+msgid "Orientation Request"
+msgstr "طلب التوجيه"
+
+#. module: radwan_hr_employee_custom
+msgid "Training Program"
+msgstr "برنامج التدريب"
+
+#. module: radwan_hr_employee_custom
+msgid "Training Attendances"
+msgstr "حضور التدريب"
+
+#. module: radwan_hr_employee_custom
+msgid "Expiry Monitoring"
+msgstr "متابعة تواريخ الانتهاء"
+
+#. module: radwan_hr_employee_custom
+msgid "Employment Types"
+msgstr "أنواع التوظيف"
+
+#. module: radwan_hr_employee_custom
+msgid "Orientation Checklist"
+msgstr "قائمة تحقق التوجيه"
+
+#. module: radwan_hr_employee_custom
+msgid "Orientation Checklist Line"
+msgstr "بند قائمة تحقق التوجيه"
+
+#. module: radwan_hr_employee_custom
+msgid "USUAL WORK LOCATION"
+msgstr "موقع العمل المعتاد"
+
+#. module: radwan_hr_employee_custom
+msgid "Salary Structure"
+msgstr "هيكل الراتب"
+
+#. module: radwan_hr_employee_custom
+msgid "RFID/Badge Number"
+msgstr "رقم RFID / الشارة"
+
+#. module: radwan_hr_employee_custom
+msgid "Overtime Ruleset"
+msgstr "مجموعة قواعد العمل الإضافي"

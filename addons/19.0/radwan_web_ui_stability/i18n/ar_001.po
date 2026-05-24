@@ -1,98 +1,117 @@
-# Translation of Odoo Server.
-# This file contains the translation of the following modules:
-# 	* radwan_web_ui_stability
-#
+# Translation of Radwan Web UI Stability.
+# This file contains Arabic UI labels only.
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 19.0-20260516\n"
+"Project-Id-Version: radwan_web_ui_stability 19.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-19 22:58+0000\n"
-"PO-Revision-Date: 2026-05-19 22:58+0000\n"
-"Last-Translator: RADWAN\n"
+"POT-Creation-Date: 2026-05-24 00:00+0000\n"
+"PO-Revision-Date: 2026-05-24 00:00+0000\n"
+"Last-Translator: Radwan\n"
 "Language-Team: Arabic\n"
 "Language: ar_001\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 ? 4 : 5;\n"
 
 #. module: radwan_web_ui_stability
-#: model:ir.actions.act_window,name:radwan_web_ui_stability.radwan_hr_contract_action
-#: model:ir.ui.menu,name:radwan_web_ui_stability.radwan_hr_contract_menu
 msgid "Contracts"
 msgstr "العقود"
 
 #. module: radwan_web_ui_stability
-#: model:ir.ui.menu,name:radwan_web_ui_stability.radwan_hr_development_menu
 msgid "Development"
 msgstr "التطوير"
 
 #. module: radwan_web_ui_stability
-#: model_terms:ir.ui.view,arch_db:radwan_web_ui_stability.hr_version_search_view
 msgid "My Contracts"
 msgstr "عقودي"
 
 #. module: radwan_web_ui_stability
-#: model_terms:ir.actions.act_window,help:radwan_web_ui_stability.radwan_hr_contract_action
 msgid "No running contracts found."
-msgstr ""
+msgstr "لا توجد عقود سارية."
 
 #. module: radwan_web_ui_stability
 #. odoo-javascript
-#: code:addons/radwan_web_ui_stability/static/src/js/app_menu_groups.js:0
 msgid "Productivity & Communication"
 msgstr "الإنتاجية والتواصل"
 
 #. module: radwan_web_ui_stability
 #. odoo-javascript
-#: code:addons/radwan_web_ui_stability/static/src/js/app_menu_groups.js:0
 msgid "Sales & Customer Service"
 msgstr "المبيعات وخدمة العملاء"
 
 #. module: radwan_web_ui_stability
 #. odoo-javascript
-#: code:addons/radwan_web_ui_stability/static/src/js/app_menu_groups.js:0
 msgid "Finance & Accounting"
 msgstr "المالية والمحاسبة"
 
 #. module: radwan_web_ui_stability
 #. odoo-javascript
-#: code:addons/radwan_web_ui_stability/static/src/js/app_menu_groups.js:0
 msgid "Projects & Services"
 msgstr "المشاريع والخدمات"
 
 #. module: radwan_web_ui_stability
 #. odoo-javascript
-#: code:addons/radwan_web_ui_stability/static/src/js/app_menu_groups.js:0
 msgid "Human Resources"
 msgstr "الموارد البشرية"
 
 #. module: radwan_web_ui_stability
 #. odoo-javascript
-#: code:addons/radwan_web_ui_stability/static/src/js/app_menu_groups.js:0
 msgid "Purchasing, Inventory & Operations"
 msgstr "المشتريات والمخزون والعمليات"
 
 #. module: radwan_web_ui_stability
 #. odoo-javascript
-#: code:addons/radwan_web_ui_stability/static/src/js/app_menu_groups.js:0
 msgid "Website, Learning & Surveys"
 msgstr "الموقع والتعلم والاستبيانات"
 
 #. module: radwan_web_ui_stability
 #. odoo-javascript
-#: code:addons/radwan_web_ui_stability/static/src/js/app_menu_groups.js:0
 msgid "Analytics & Reporting"
 msgstr "التحليلات والتقارير"
 
 #. module: radwan_web_ui_stability
 #. odoo-javascript
-#: code:addons/radwan_web_ui_stability/static/src/js/app_menu_groups.js:0
 msgid "Administration & Settings"
 msgstr "الإدارة والإعدادات"
 
 #. module: radwan_web_ui_stability
 #. odoo-javascript
-#: code:addons/radwan_web_ui_stability/static/src/js/app_menu_groups.js:0
 msgid "Other Apps"
 msgstr "تطبيقات أخرى"
+
+#. module: radwan_web_ui_stability
+msgid "Performance Appraisals"
+msgstr "تقييمات الأداء"
+
+#. module: radwan_web_ui_stability
+msgid "Orientations"
+msgstr "التوجيه"
+
+#. module: radwan_web_ui_stability
+msgid "Employee Orientation"
+msgstr "توجيه الموظف"
+
+#. module: radwan_web_ui_stability
+msgid "Orientation Request"
+msgstr "طلب التوجيه"
+
+#. module: radwan_web_ui_stability
+msgid "Training Program"
+msgstr "برنامج التدريب"
+
+#. module: radwan_web_ui_stability
+msgid "Training Attendances"
+msgstr "حضور التدريب"
+
+#. module: radwan_web_ui_stability
+msgid "Employment Types"
+msgstr "أنواع التوظيف"
+
+#. module: radwan_web_ui_stability
+msgid "Orientation Checklist"
+msgstr "قائمة تحقق التوجيه"
+
+#. module: radwan_web_ui_stability
+msgid "Orientation Checklist Line"
+msgstr "بند قائمة تحقق التوجيه"
