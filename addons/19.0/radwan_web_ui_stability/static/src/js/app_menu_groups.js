@@ -7,15 +7,15 @@ import { NavBar } from "@web/webclient/navbar/navbar";
 const RADWAN_DEFAULT_OPEN_APP_GROUPS = new Set(["finance", "human_resources"]);
 
 const RADWAN_APP_DISPLAY_NAMES = {
-    documents: "\u0627\u0644\u0645\u0633\u062a\u0646\u062f\u0627\u062a",
-    knowledge: "\u0627\u0644\u0645\u0639\u0631\u0641\u0629",
-    "radwan helpdesk": "\u0645\u0631\u0643\u0632 \u0627\u0644\u0645\u0633\u0627\u0639\u062f\u0629",
-    helpdesk: "\u0645\u0631\u0643\u0632 \u0627\u0644\u0645\u0633\u0627\u0639\u062f\u0629",
-    "link tracker": "\u0645\u062a\u062a\u0628\u0639 \u0627\u0644\u0631\u0648\u0627\u0628\u0637",
-    "performance appraisals": "\u062a\u0642\u064a\u064a\u0645\u0627\u062a \u0627\u0644\u0623\u062f\u0627\u0621",
-    orientations: "\u0627\u0644\u062a\u0648\u062c\u064a\u0647",
-    "training program": "\u0628\u0631\u0646\u0627\u0645\u062c \u0627\u0644\u062a\u062f\u0631\u064a\u0628",
-    loans: "\u0627\u0644\u0633\u0644\u0641",
+    documents: _t("Documents"),
+    knowledge: _t("Knowledge"),
+    "radwan helpdesk": _t("Helpdesk"),
+    helpdesk: _t("Helpdesk"),
+    "link tracker": _t("Link Tracker"),
+    "performance appraisals": _t("Performance Appraisals"),
+    orientations: _t("Orientations"),
+    "training program": _t("Training Program"),
+    loans: _t("Loans"),
 };
 
 const RADWAN_APP_GROUPS = [
