@@ -16,6 +16,8 @@ const RADWAN_APP_DISPLAY_NAMES = {
     orientations: _t("Orientations"),
     "training program": _t("Training Program"),
     loans: _t("Loans"),
+    approvals: _t("Approvals"),
+    approval: _t("Approvals"),
 };
 
 const RADWAN_APP_GROUPS = [
@@ -65,8 +67,26 @@ const RADWAN_APP_GROUPS = [
     {
         key: "human_resources",
         name: _t("Human Resources"),
-        names: ["Employees", "Payroll", "Attendances", "Recruitment", "Time Off", "Fleet"],
-        fragments: ["hr", "payroll", "attendance", "recruitment", "holidays", "fleet"],
+        names: [
+            "Employees",
+            "Payroll",
+            "Attendances",
+            "Recruitment",
+            "Time Off",
+            "Fleet",
+            "Loans",
+            "Approvals",
+        ],
+        fragments: [
+            "hr",
+            "payroll",
+            "attendance",
+            "recruitment",
+            "holidays",
+            "fleet",
+            "loan",
+            "approval",
+        ],
     },
     {
         key: "operations",

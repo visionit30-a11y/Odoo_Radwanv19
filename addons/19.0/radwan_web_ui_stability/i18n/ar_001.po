@@ -148,6 +148,12 @@ msgid "Loans"
 msgstr "السلف"
 
 #. module: radwan_web_ui_stability
+#. odoo-javascript
+#: code:addons/radwan_web_ui_stability/static/src/js/app_menu_groups.js:0
+msgid "Approvals"
+msgstr "الموافقات"
+
+#. module: radwan_web_ui_stability
 #: model:ir.ui.menu,name:employee_orientation.menu_employee_orientation
 msgid "Employee Orientation"
 msgstr "توجيه الموظف"
