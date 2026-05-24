@@ -1,0 +1,407 @@
+# Translation of Radwan HR Employee Custom Fields.
+# This file contains Arabic UI labels only. It must not translate user-entered data.
+msgid ""
+msgstr ""
+"Project-Id-Version: radwan_hr_employee_custom 19.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-05-24 00:00+0000\n"
+"PO-Revision-Date: 2026-05-24 00:00+0000\n"
+"Last-Translator: Radwan\n"
+"Language-Team: Arabic\n"
+"Language: ar_001\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 ? 4 : 5;\n"
+
+#. module: radwan_hr_employee_custom
+msgid "HR Information"
+msgstr "معلومات الموارد البشرية"
+
+#. module: radwan_hr_employee_custom
+msgid "Expiry Status Summary"
+msgstr "ملخص حالة الانتهاء"
+
+#. module: radwan_hr_employee_custom
+msgid "Internal HR Data"
+msgstr "بيانات الموارد البشرية الداخلية"
+
+#. module: radwan_hr_employee_custom
+msgid "Identity / Iqama Data"
+msgstr "بيانات الهوية / الإقامة"
+
+#. module: radwan_hr_employee_custom
+msgid "Passport Data"
+msgstr "بيانات الجواز"
+
+#. module: radwan_hr_employee_custom
+msgid "Medical Insurance Data"
+msgstr "بيانات التأمين الطبي"
+
+#. module: radwan_hr_employee_custom
+msgid "Contract Data"
+msgstr "بيانات العقد"
+
+#. module: radwan_hr_employee_custom
+msgid "Employee Internal Code"
+msgstr "الرمز الداخلي للموظف"
+
+#. module: radwan_hr_employee_custom
+msgid "Paper File Number"
+msgstr "رقم الملف الورقي"
+
+#. module: radwan_hr_employee_custom
+msgid "Actual Joining Date"
+msgstr "تاريخ الالتحاق الفعلي"
+
+#. module: radwan_hr_employee_custom
+msgid "Operational Employment Status"
+msgstr "الحالة الوظيفية التشغيلية"
+
+#. module: radwan_hr_employee_custom
+msgid "Actual Operation Site"
+msgstr "موقع العمل الفعلي"
+
+#. module: radwan_hr_employee_custom
+msgid "ID / Iqama Number"
+msgstr "رقم الهوية / الإقامة"
+
+#. module: radwan_hr_employee_custom
+msgid "ID / Iqama No"
+msgstr "رقم الهوية / الإقامة"
+
+#. module: radwan_hr_employee_custom
+msgid "ID Type"
+msgstr "نوع الهوية"
+
+#. module: radwan_hr_employee_custom
+msgid "ID / Iqama Issue Date"
+msgstr "تاريخ إصدار الهوية / الإقامة"
+
+#. module: radwan_hr_employee_custom
+msgid "ID / Iqama Expiry Date"
+msgstr "تاريخ انتهاء الهوية / الإقامة"
+
+#. module: radwan_hr_employee_custom
+msgid "ID / Iqama Expiry Date Hijri"
+msgstr "تاريخ انتهاء الهوية / الإقامة هجري"
+
+#. module: radwan_hr_employee_custom
+msgid "ID / Iqama Status"
+msgstr "حالة الهوية / الإقامة"
+
+#. module: radwan_hr_employee_custom
+msgid "Iqama Profession"
+msgstr "المهنة في الإقامة"
+
+#. module: radwan_hr_employee_custom
+msgid "Border Number"
+msgstr "رقم الحدود"
+
+#. module: radwan_hr_employee_custom
+msgid "Sponsor Name"
+msgstr "اسم الكفيل"
+
+#. module: radwan_hr_employee_custom
+msgid "Passport Expiry Date"
+msgstr "تاريخ انتهاء الجواز"
+
+#. module: radwan_hr_employee_custom
+msgid "Passport Status"
+msgstr "حالة الجواز"
+
+#. module: radwan_hr_employee_custom
+msgid "Medical Insurance Company"
+msgstr "شركة التأمين الطبي"
+
+#. module: radwan_hr_employee_custom
+msgid "Medical Policy Number"
+msgstr "رقم وثيقة التأمين الطبي"
+
+#. module: radwan_hr_employee_custom
+msgid "Medical Insurance Class"
+msgstr "فئة التأمين الطبي"
+
+#. module: radwan_hr_employee_custom
+msgid "Medical Insurance End Date"
+msgstr "تاريخ نهاية التأمين الطبي"
+
+#. module: radwan_hr_employee_custom
+msgid "Medical Insurance Status"
+msgstr "حالة التأمين الطبي"
+
+#. module: radwan_hr_employee_custom
+msgid "Contract Number"
+msgstr "رقم العقد"
+
+#. module: radwan_hr_employee_custom
+msgid "Contract Start Date"
+msgstr "تاريخ بداية العقد"
+
+#. module: radwan_hr_employee_custom
+msgid "Contract End Date"
+msgstr "تاريخ نهاية العقد"
+
+#. module: radwan_hr_employee_custom
+msgid "Contract Status"
+msgstr "حالة العقد"
+
+#. module: radwan_hr_employee_custom
+msgid "Active Employees"
+msgstr "الموظفون النشطون"
+
+#. module: radwan_hr_employee_custom
+msgid "On Vacation"
+msgstr "في إجازة"
+
+#. module: radwan_hr_employee_custom
+msgid "Suspended"
+msgstr "موقوف"
+
+#. module: radwan_hr_employee_custom
+msgid "Service Ended"
+msgstr "منتهية خدمته"
+
+#. module: radwan_hr_employee_custom
+msgid "Expired ID / Iqama"
+msgstr "هوية / إقامة منتهية"
+
+#. module: radwan_hr_employee_custom
+msgid "Expired Passport"
+msgstr "جواز منتهي"
+
+#. module: radwan_hr_employee_custom
+msgid "Expired Medical Insurance"
+msgstr "تأمين طبي منتهي"
+
+#. module: radwan_hr_employee_custom
+msgid "Expired Contract"
+msgstr "عقد منتهي"
+
+#. module: radwan_hr_employee_custom
+msgid "ID / Iqama Expiring Soon"
+msgstr "هوية / إقامة تنتهي قريبًا"
+
+#. module: radwan_hr_employee_custom
+msgid "Passport Expiring Soon"
+msgstr "جواز ينتهي قريبًا"
+
+#. module: radwan_hr_employee_custom
+msgid "Medical Insurance Expiring Soon"
+msgstr "تأمين طبي ينتهي قريبًا"
+
+#. module: radwan_hr_employee_custom
+msgid "Contract Expiring Soon"
+msgstr "عقد ينتهي قريبًا"
+
+#. module: radwan_hr_employee_custom
+msgid "valid"
+msgstr "ساري"
+
+#. module: radwan_hr_employee_custom
+msgid "Valid"
+msgstr "ساري"
+
+#. module: radwan_hr_employee_custom
+msgid "expiring soon"
+msgstr "ينتهي قريبًا"
+
+#. module: radwan_hr_employee_custom
+msgid "Expiring Soon"
+msgstr "ينتهي قريبًا"
+
+#. module: radwan_hr_employee_custom
+msgid "expired"
+msgstr "منتهي"
+
+#. module: radwan_hr_employee_custom
+msgid "Expired"
+msgstr "منتهي"
+
+#. module: radwan_hr_employee_custom
+msgid "not set"
+msgstr "غير محدد"
+
+#. module: radwan_hr_employee_custom
+msgid "Not Set"
+msgstr "غير محدد"
+
+#. module: radwan_hr_employee_custom
+msgid "active"
+msgstr "نشط"
+
+#. module: radwan_hr_employee_custom
+msgid "Active"
+msgstr "نشط"
+
+#. module: radwan_hr_employee_custom
+msgid "vacation"
+msgstr "إجازة"
+
+#. module: radwan_hr_employee_custom
+msgid "Vacation"
+msgstr "إجازة"
+
+#. module: radwan_hr_employee_custom
+msgid "suspended"
+msgstr "موقوف"
+
+#. module: radwan_hr_employee_custom
+msgid "ended"
+msgstr "منتهية"
+
+#. module: radwan_hr_employee_custom
+msgid "Iqama"
+msgstr "إقامة"
+
+#. module: radwan_hr_employee_custom
+msgid "National ID"
+msgstr "هوية وطنية"
+
+#. module: radwan_hr_employee_custom
+msgid "Passport"
+msgstr "جواز سفر"
+
+#. module: radwan_hr_employee_custom
+msgid "Other"
+msgstr "أخرى"
+
+#. module: radwan_hr_employee_custom
+msgid "Personal"
+msgstr "البيانات الشخصية"
+
+#. module: radwan_hr_employee_custom
+msgid "Work"
+msgstr "العمل"
+
+#. module: radwan_hr_employee_custom
+msgid "Payroll"
+msgstr "الرواتب"
+
+#. module: radwan_hr_employee_custom
+msgid "Settings"
+msgstr "الإعدادات"
+
+#. module: radwan_hr_employee_custom
+msgid "Private Contact"
+msgstr "جهة اتصال خاصة"
+
+#. module: radwan_hr_employee_custom
+msgid "Emergency Contact"
+msgstr "جهة الاتصال في حالات الطوارئ"
+
+#. module: radwan_hr_employee_custom
+msgid "Visa & Work Permit"
+msgstr "معلومات التأشيرة وتصريح العمل"
+
+#. module: radwan_hr_employee_custom
+msgid "Location"
+msgstr "الموقع"
+
+#. module: radwan_hr_employee_custom
+msgid "Work Information"
+msgstr "معلومات العمل"
+
+#. module: radwan_hr_employee_custom
+msgid "Documents"
+msgstr "المستندات"
+
+#. module: radwan_hr_employee_custom
+msgid "Certifications"
+msgstr "الشهادات"
+
+#. module: radwan_hr_employee_custom
+msgid "Badges"
+msgstr "الإشارات"
+
+#. module: radwan_hr_employee_custom
+msgid "Work Injuries"
+msgstr "إصابات العمل"
+
+#. module: radwan_hr_employee_custom
+msgid "Documents Date"
+msgstr "تواريخ المستندات"
+
+#. module: radwan_hr_employee_custom
+msgid "Family Details"
+msgstr "تفاصيل العائلة"
+
+#. module: radwan_hr_employee_custom
+msgid "Follow-up"
+msgstr "المتابعة"
+
+#. module: radwan_hr_employee_custom
+msgid "Resume"
+msgstr "السيرة الذاتية"
+
+#. module: radwan_hr_employee_custom
+msgid "Personal Information"
+msgstr "البيانات الشخصية"
+
+#. module: radwan_hr_employee_custom
+msgid "PRIVATE CONTACT"
+msgstr "جهة اتصال خاصة"
+
+#. module: radwan_hr_employee_custom
+msgid "EMERGENCY"
+msgstr "الطوارئ"
+
+#. module: radwan_hr_employee_custom
+msgid "Emergency"
+msgstr "الطوارئ"
+
+#. module: radwan_hr_employee_custom
+msgid "Work Mobile"
+msgstr "جوال العمل"
+
+#. module: radwan_hr_employee_custom
+msgid "Work Email"
+msgstr "بريد العمل"
+
+#. module: radwan_hr_employee_custom
+msgid "Department"
+msgstr "القسم"
+
+#. module: radwan_hr_employee_custom
+msgid "Job Position"
+msgstr "المسمى الوظيفي"
+
+#. module: radwan_hr_employee_custom
+msgid "Manager"
+msgstr "المدير"
+
+#. module: radwan_hr_employee_custom
+msgid "Coach"
+msgstr "المشرف"
+
+#. module: radwan_hr_employee_custom
+msgid "Time Off"
+msgstr "الإجازات"
+
+#. module: radwan_hr_employee_custom
+msgid "Equipment"
+msgstr "المعدات"
+
+#. module: radwan_hr_employee_custom
+msgid "Monthly Hours"
+msgstr "الساعات الشهرية"
+
+#. module: radwan_hr_employee_custom
+msgid "Contacts"
+msgstr "جهات الاتصال"
+
+#. module: radwan_hr_employee_custom
+msgid "History"
+msgstr "السجل"
+
+#. module: radwan_hr_employee_custom
+msgid "Payslip"
+msgstr "قسيمة الراتب"
+
+#. module: radwan_hr_employee_custom
+msgid "Appraisals"
+msgstr "التقييمات"
+
+#. module: radwan_hr_employee_custom
+msgid "More"
+msgstr "المزيد"

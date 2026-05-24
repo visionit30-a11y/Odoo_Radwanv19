@@ -42,12 +42,12 @@
 
             <xpath expr="//notebook" position="inside">
 
-                <page name="radwan_hr_information" string="معلومات الموارد البشرية">
+                <page name="radwan_hr_information" string="HR Information">
 
                     <!-- Expiry Status Summary: hidden because status badges are shown next to each date field. -->
                     <details class="d-none radwan_expiry_status_summary_removed" style="display:none !important;">
                         <summary style="background-color:#714B67; color:#ffffff; padding:9px 14px; font-weight:700; cursor:pointer; letter-spacing:.2px;">
-                            ملخص حالة الانتهاء
+                            Expiry Status Summary
                         </summary>
 
                         <div style="padding:14px 16px 16px 16px; background-color:#ffffff;">
@@ -115,7 +115,7 @@
                     <!-- Internal HR Data -->
                     <details open="open" style="margin-bottom:12px; border:1px solid #e6e1e5; border-radius:6px; overflow:hidden;">
                         <summary style="background-color:#714B67; color:#ffffff; padding:9px 14px; font-weight:700; cursor:pointer; letter-spacing:.2px;">
-                            بيانات الموارد البشرية الداخلية
+                            Internal HR Data
                         </summary>
 
                         <div style="padding:14px 16px 16px 16px; background-color:#ffffff;">
@@ -137,7 +137,7 @@
                     <!-- Identity / Iqama Data -->
                     <details open="open" style="margin-bottom:12px; border:1px solid #e6e1e5; border-radius:6px; overflow:hidden;">
                         <summary style="background-color:#714B67; color:#ffffff; padding:9px 14px; font-weight:700; cursor:pointer; letter-spacing:.2px;">
-                            بيانات الهوية / الإقامة
+                            Identity / Iqama Data
                         </summary>
 
                         <div style="padding:14px 16px 16px 16px; background-color:#ffffff;">
@@ -173,7 +173,7 @@
                     <!-- Passport Data -->
                     <details open="open" style="margin-bottom:12px; border:1px solid #e6e1e5; border-radius:6px; overflow:hidden;">
                         <summary style="background-color:#714B67; color:#ffffff; padding:9px 14px; font-weight:700; cursor:pointer; letter-spacing:.2px;">
-                            بيانات الجواز
+                            Passport Data
                         </summary>
 
                         <div style="padding:14px 16px 16px 16px; background-color:#ffffff;">
@@ -200,7 +200,7 @@
                     <!-- Medical Insurance Data -->
                     <details open="open" style="margin-bottom:12px; border:1px solid #e6e1e5; border-radius:6px; overflow:hidden;">
                         <summary style="background-color:#714B67; color:#ffffff; padding:9px 14px; font-weight:700; cursor:pointer; letter-spacing:.2px;">
-                            بيانات التأمين الطبي
+                            Medical Insurance Data
                         </summary>
 
                         <div style="padding:14px 16px 16px 16px; background-color:#ffffff;">
@@ -232,7 +232,7 @@
                     <!-- Contract Data -->
                     <details open="open" style="margin-bottom:12px; border:1px solid #e6e1e5; border-radius:6px; overflow:hidden;">
                         <summary style="background-color:#714B67; color:#ffffff; padding:9px 14px; font-weight:700; cursor:pointer; letter-spacing:.2px;">
-                            بيانات العقد
+                            Contract Data
                         </summary>
 
                         <div style="padding:14px 16px 16px 16px; background-color:#ffffff;">
