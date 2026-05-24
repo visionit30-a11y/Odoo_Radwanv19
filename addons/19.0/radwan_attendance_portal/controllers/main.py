@@ -128,6 +128,35 @@ class RadwanAttendancePortal(http.Controller):
             else "",
         }
 
+    def _permission_state_label(self, state):
+        return {
+            "draft": _("Draft"),
+            "submitted": _("Submitted"),
+            "approved": _("Approved"),
+            "refused": _("Refused"),
+        }.get(state, state or "")
+
+    def _permission_state_class(self, state):
+        return {
+            "draft": "muted",
+            "submitted": "warning",
+            "approved": "success",
+            "refused": "danger",
+        }.get(state, "muted")
+
+    def _permission_row(self, permission):
+        return {
+            "id": permission.id,
+            "request_date": format_date(request.env, permission.request_date) if permission.request_date else "",
+            "permission_type": dict(permission._fields["permission_type"].selection).get(permission.permission_type),
+            "time_from": self._format_float_time(permission.time_from),
+            "time_to": self._format_float_time(permission.time_to),
+            "reason": permission.reason or "",
+            "state": permission.state,
+            "state_label": self._permission_state_label(permission.state),
+            "state_class": self._permission_state_class(permission.state),
+        }
+
     def _employee_values(self, employee):
         status = self._attendance_status(employee)
         return {
@@ -146,10 +175,15 @@ class RadwanAttendancePortal(http.Controller):
     def _page_values(self, employee):
         today, domain = self._attendance_domain_today(employee)
         attendances = request.env["hr.attendance"].sudo().search(domain, order="check_in asc")
+        permissions = request.env["radwan.attendance.permission"].sudo().search(
+            [("employee_id", "=", employee.id), ("request_date", "=", today)],
+            order="request_date desc, id desc",
+        )
         return {
             "employee": self._employee_values(employee),
             "today": format_date(request.env, today),
             "attendance_rows": [self._attendance_row(attendance) for attendance in attendances],
+            "permission_rows": [self._permission_row(permission) for permission in permissions],
             "permission_types": [
                 ("personal", _("Personal Permission")),
                 ("work", _("Work Permission")),

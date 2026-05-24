@@ -382,6 +382,38 @@ msgid "Attendance Permissions"
 msgstr "استئذانات الدوام"
 
 #. module: radwan_attendance_portal
+msgid "Today's Permissions"
+msgstr "استئذانات اليوم"
+
+#. module: radwan_attendance_portal
+msgid "Request Date"
+msgstr "تاريخ الطلب"
+
+#. module: radwan_attendance_portal
+msgid "Submitted"
+msgstr "مقدم"
+
+#. module: radwan_attendance_portal
+msgid "Refused"
+msgstr "مرفوض"
+
+#. module: radwan_attendance_portal
+msgid "Approve"
+msgstr "اعتماد"
+
+#. module: radwan_attendance_portal
+msgid "Refuse"
+msgstr "رفض"
+
+#. module: radwan_attendance_portal
+msgid "Submit"
+msgstr "إرسال"
+
+#. module: radwan_attendance_portal
+msgid "No permission requests today."
+msgstr "لا توجد طلبات استئذان اليوم."
+
+#. module: radwan_attendance_portal
 msgid "Please capture an attendance photo before continuing."
 msgstr "يرجى التقاط صورة للدوام قبل المتابعة."
 

@@ -11,7 +11,7 @@
                 <field name="time_from" widget="float_time"/>
                 <field name="time_to" widget="float_time"/>
                 <field name="reason"/>
-                <field name="state"/>
+                <field name="state" widget="badge" decoration-info="state == 'submitted'" decoration-success="state == 'approved'" decoration-danger="state == 'refused'" decoration-muted="state == 'draft'"/>
             </list>
         </field>
     </record>
@@ -21,6 +21,12 @@
         <field name="model">radwan.attendance.permission</field>
         <field name="arch" type="xml">
             <form string="Attendance Permission">
+                <header>
+                    <button name="action_radwan_submit" type="object" string="Submit" class="btn-secondary" icon="fa-paper-plane" invisible="state != 'draft'" groups="hr_attendance.group_hr_attendance_user"/>
+                    <button name="action_radwan_approve" type="object" string="Approve" class="btn-primary" icon="fa-check" invisible="state == 'approved'" groups="hr_attendance.group_hr_attendance_user"/>
+                    <button name="action_radwan_refuse" type="object" string="Refuse" class="btn-secondary" icon="fa-times" invisible="state == 'refused'" groups="hr_attendance.group_hr_attendance_user"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,submitted,approved,refused"/>
+                </header>
                 <sheet>
                     <group>
                         <group>
@@ -28,7 +34,7 @@
                             <field name="user_id"/>
                             <field name="attendance_id"/>
                             <field name="request_date"/>
-                            <field name="state"/>
+                            <field name="state" widget="badge" decoration-info="state == 'submitted'" decoration-success="state == 'approved'" decoration-danger="state == 'refused'" decoration-muted="state == 'draft'"/>
                         </group>
                         <group>
                             <field name="permission_type"/>

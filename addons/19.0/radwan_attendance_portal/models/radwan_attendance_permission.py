@@ -43,3 +43,12 @@ class RadwanAttendancePermission(models.Model):
         required=True,
         readonly=True,
     )
+
+    def action_radwan_submit(self):
+        self.write({"state": "submitted"})
+
+    def action_radwan_approve(self):
+        self.write({"state": "approved"})
+
+    def action_radwan_refuse(self):
+        self.write({"state": "refused"})

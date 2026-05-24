@@ -137,6 +137,41 @@
                         </div>
                     </div>
 
+                    <div class="radwan-attendance-card p-0 overflow-hidden mt-3">
+                        <div class="radwan-card-title px-3 py-2">Today's Permissions</div>
+                        <div class="table-responsive">
+                            <table class="table table-sm table-hover mb-0 radwan-attendance-table radwan-permission-table">
+                                <thead>
+                                    <tr>
+                                        <th>Request Date</th>
+                                        <th>Permission Type</th>
+                                        <th>From</th>
+                                        <th>To</th>
+                                        <th>Reason</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr t-foreach="permission_rows" t-as="permission">
+                                        <td t-out="permission['request_date']"/>
+                                        <td t-out="permission['permission_type']"/>
+                                        <td t-out="permission['time_from']"/>
+                                        <td t-out="permission['time_to']"/>
+                                        <td t-out="permission['reason']"/>
+                                        <td>
+                                            <span t-attf-class="radwan-permission-badge radwan-permission-badge-#{permission['state_class']}">
+                                                <t t-out="permission['state_label']"/>
+                                            </span>
+                                        </td>
+                                    </tr>
+                                    <tr t-if="not permission_rows">
+                                        <td colspan="6" class="text-center text-muted py-4">No permission requests today.</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
                     <div class="modal fade" id="radwanAttendanceCameraModal" tabindex="-1" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered">
                             <div class="modal-content">
