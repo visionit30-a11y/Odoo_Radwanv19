@@ -402,6 +402,34 @@ msgid "Check Out Photo"
 msgstr "صورة الانصراف"
 
 #. module: radwan_attendance_portal
+msgid "Attendance Photo Preview"
+msgstr "معاينة صورة الدوام"
+
+#. module: radwan_attendance_portal
+msgid "Check In Photo Preview"
+msgstr "معاينة صورة الحضور"
+
+#. module: radwan_attendance_portal
+msgid "Check Out Photo Preview"
+msgstr "معاينة صورة الانصراف"
+
+#. module: radwan_attendance_portal
+msgid "Preview Photo"
+msgstr "معاينة الصورة"
+
+#. module: radwan_attendance_portal
+msgid "No attendance photo is available for preview."
+msgstr "لا توجد صورة دوام متاحة للمعاينة."
+
+#. module: radwan_attendance_portal
+msgid "Photo Type"
+msgstr "نوع الصورة"
+
+#. module: radwan_attendance_portal
+msgid "Photo"
+msgstr "الصورة"
+
+#. module: radwan_attendance_portal
 msgid "Approval"
 msgstr "الاعتماد"
 

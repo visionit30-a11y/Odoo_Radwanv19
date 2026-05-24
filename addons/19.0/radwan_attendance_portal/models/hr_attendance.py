@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from odoo import _, fields, models
+from odoo.exceptions import UserError
 
 
 class HrAttendance(models.Model):
@@ -86,6 +87,42 @@ class HrAttendance(models.Model):
     def action_radwan_open_nearest_location(self):
         self.ensure_one()
         return self.radwan_nearest_attendance_location_id.action_open_google_maps()
+
+    def _radwan_open_photo_preview(self, photo_field, photo_type, title):
+        self.ensure_one()
+        photo = self[photo_field]
+        if not photo:
+            raise UserError(_("No attendance photo is available for preview."))
+        wizard = self.env["radwan.attendance.photo.preview"].create(
+            {
+                "name": title,
+                "attendance_id": self.id,
+                "photo_type": photo_type,
+                "photo": photo,
+            }
+        )
+        return {
+            "type": "ir.actions.act_window",
+            "name": title,
+            "res_model": "radwan.attendance.photo.preview",
+            "view_mode": "form",
+            "res_id": wizard.id,
+            "target": "new",
+        }
+
+    def action_radwan_preview_checkin_photo(self):
+        return self._radwan_open_photo_preview(
+            "radwan_checkin_photo",
+            "check_in",
+            _("Check In Photo Preview"),
+        )
+
+    def action_radwan_preview_checkout_photo(self):
+        return self._radwan_open_photo_preview(
+            "radwan_checkout_photo",
+            "check_out",
+            _("Check Out Photo Preview"),
+        )
 
     def action_radwan_approve_attendance(self):
         self.write(
