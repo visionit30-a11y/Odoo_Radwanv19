@@ -237,6 +237,13 @@
                 <button name="action_radwan_reject_attendance" type="object" string="Reject Attendance" class="btn-secondary" icon="fa-times" invisible="radwan_approval_state == 'rejected'" groups="hr_attendance.group_hr_attendance_user"/>
                 <field name="radwan_approval_state" widget="statusbar" statusbar_visible="to_review,approved,rejected"/>
             </xpath>
+            <xpath expr="//sheet/group[1]" position="before">
+                <div class="oe_button_box" name="button_box">
+                    <button name="action_radwan_open_same_day_permissions" type="object" class="oe_stat_button" icon="fa-clock-o" groups="hr_attendance.group_hr_attendance_user">
+                        <field name="radwan_permission_count" widget="statinfo" string="Permissions"/>
+                    </button>
+                </div>
+            </xpath>
             <xpath expr="//group[@name='check_in_group']" position="after">
                 <separator string="Attendance Location Review"/>
                 <group name="radwan_attendance_location_review" colspan="2">

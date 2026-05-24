@@ -374,6 +374,14 @@ msgid "Attendance Photo"
 msgstr "صورة الدوام"
 
 #. module: radwan_attendance_portal
+msgid "Permissions"
+msgstr "الاستئذانات"
+
+#. module: radwan_attendance_portal
+msgid "Attendance Permissions"
+msgstr "استئذانات الدوام"
+
+#. module: radwan_attendance_portal
 msgid "Please capture an attendance photo before continuing."
 msgstr "يرجى التقاط صورة للدوام قبل المتابعة."
 

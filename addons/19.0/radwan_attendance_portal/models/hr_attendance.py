@@ -83,10 +83,54 @@ class HrAttendance(models.Model):
     radwan_rejected_by_id = fields.Many2one("res.users", string="Rejected By", readonly=True, copy=False)
     radwan_rejected_date = fields.Datetime(string="Rejected Date", readonly=True, copy=False)
     radwan_rejection_reason = fields.Text(string="Rejection Reason", readonly=True, copy=False)
+    radwan_permission_count = fields.Integer(
+        string="Permissions",
+        compute="_compute_radwan_permission_count",
+    )
+
+    def _radwan_attendance_permission_dates(self):
+        self.ensure_one()
+        dates = set()
+        for datetime_value in (self.check_in, self.check_out):
+            if datetime_value:
+                dates.add(fields.Datetime.context_timestamp(self, datetime_value).date())
+        return dates
+
+    def _radwan_attendance_permission_domain(self):
+        self.ensure_one()
+        domain = [("employee_id", "=", self.employee_id.id)]
+        dates = list(self._radwan_attendance_permission_dates())
+        if self.id and dates:
+            domain += ["|", ("attendance_id", "=", self.id), ("request_date", "in", dates)]
+        elif self.id:
+            domain.append(("attendance_id", "=", self.id))
+        elif dates:
+            domain.append(("request_date", "in", dates))
+        return domain
+
+    def _compute_radwan_permission_count(self):
+        Permission = self.env["radwan.attendance.permission"]
+        for attendance in self:
+            attendance.radwan_permission_count = Permission.search_count(
+                attendance._radwan_attendance_permission_domain()
+            )
 
     def action_radwan_open_nearest_location(self):
         self.ensure_one()
         return self.radwan_nearest_attendance_location_id.action_open_google_maps()
+
+    def action_radwan_open_same_day_permissions(self):
+        self.ensure_one()
+        action = self.env["ir.actions.act_window"]._for_xml_id(
+            "radwan_attendance_portal.radwan_attendance_permission_action"
+        )
+        action["name"] = _("Attendance Permissions")
+        action["domain"] = self._radwan_attendance_permission_domain()
+        action["context"] = {
+            "default_employee_id": self.employee_id.id,
+            "default_attendance_id": self.id,
+        }
+        return action
 
     def _radwan_open_photo_preview(self, photo_field, photo_type, title):
         self.ensure_one()
