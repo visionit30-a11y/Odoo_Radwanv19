@@ -31,6 +31,11 @@ class ResConfigSettings(models.TransientModel):
         config_parameter="radwan_attendance_portal.show_distance_details",
         default=True,
     )
+    radwan_attendance_photo_required = fields.Boolean(
+        string="Require Attendance Photo",
+        config_parameter="radwan_attendance_portal.photo_required",
+        default=False,
+    )
     radwan_attendance_outside_range_message = fields.Char(
         string="Outside Range Message",
         config_parameter="radwan_attendance_portal.outside_range_message",

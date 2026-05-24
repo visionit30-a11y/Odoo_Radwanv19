@@ -275,6 +275,9 @@
                         <setting id="radwan_attendance_show_distance_details" help="Show nearest location and distance details to the employee.">
                             <field name="radwan_attendance_show_distance_details"/>
                         </setting>
+                        <setting id="radwan_attendance_photo_required" help="Require camera photo before employee check in and check out.">
+                            <field name="radwan_attendance_photo_required"/>
+                        </setting>
                         <setting id="radwan_attendance_max_accuracy" help="Reject locations with browser accuracy worse than this number of meters.">
                             <field name="radwan_attendance_max_accuracy" class="oe_inline"/>
                             <span class="ms-2">meters</span>

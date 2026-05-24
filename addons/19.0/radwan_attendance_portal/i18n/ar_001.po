@@ -366,6 +366,10 @@ msgid "Require Attendance Photo"
 msgstr "إلزامية التقاط صورة للحضور"
 
 #. module: radwan_attendance_portal
+msgid "Require camera photo before employee check in and check out."
+msgstr "إلزام الموظف بالتقاط صورة قبل تسجيل الحضور والانصراف."
+
+#. module: radwan_attendance_portal
 msgid "Attendance Photo"
 msgstr "صورة الدوام"
 

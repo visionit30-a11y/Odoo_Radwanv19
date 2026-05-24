@@ -172,6 +172,17 @@ class RadwanAttendancePortal(http.Controller):
             return photo_data.split(",", 1)[1]
         return photo_data
 
+    def _attendance_photo_required(self, employee, check_result):
+        if self._config_bool("radwan_attendance_portal.photo_required", False):
+            return True
+        accepted_location = check_result["accepted_location"]
+        if accepted_location and accepted_location.radwan_require_attendance_photo:
+            return True
+        assigned_locations = employee.radwan_attendance_location_ids.filtered(
+            lambda location: location.active and location.radwan_require_attendance_photo
+        )
+        return bool(assigned_locations)
+
     def _distance_meters(self, lat1, lon1, lat2, lon2):
         earth_radius = 6371000.0
         lat1, lon1, lat2, lon2 = map(radians, [lat1, lon1, lat2, lon2])
@@ -424,10 +435,9 @@ class RadwanAttendancePortal(http.Controller):
             self._log_rejected_attempt(employee, action, location, check_result)
             return {"success": False, "message": check_result["warning"]}
 
-        accepted_location = check_result["accepted_location"]
         return {
             "success": True,
-            "require_photo": bool(accepted_location and accepted_location.radwan_require_attendance_photo),
+            "require_photo": self._attendance_photo_required(employee, check_result),
             "message": _("Please capture an attendance photo before continuing."),
         }
 
@@ -449,8 +459,7 @@ class RadwanAttendancePortal(http.Controller):
             self._log_rejected_attempt(employee, action, location, check_result)
             return {"success": False, "message": check_result["warning"]}
 
-        accepted_location = check_result["accepted_location"]
-        if accepted_location and accepted_location.radwan_require_attendance_photo and not photo_data:
+        if self._attendance_photo_required(employee, check_result) and not photo_data:
             return {"success": False, "message": _("Please capture an attendance photo before continuing.")}
 
         Attendance = request.env["hr.attendance"].sudo()
