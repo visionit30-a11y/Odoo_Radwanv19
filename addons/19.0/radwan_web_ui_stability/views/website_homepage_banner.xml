@@ -1,21 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <template id="radwan_website_homepage_banner" inherit_id="website.homepage" name="Radwan Homepage ERP Banner">
-        <xpath expr="//div[@id='wrap']/*[1]" position="before">
-            <section class="radwan-homepage-banner" dir="rtl">
-                <div class="container">
-                    <div class="radwan-homepage-banner__content">
-                        <h1>منصة تخطيط موارد المنشآت</h1>
-                        <p class="radwan-homepage-banner__subtitle">
-                            المبيعات وإدارة علاقات العملاء - المحاسبة - المشتريات والمخزون - الموارد البشرية - التسويق والمتجر الإلكتروني - إدارة المشاريع - أدوات الإنتاجية - التدريب والتطوير
-                        </p>
-                        <p class="radwan-homepage-banner__status">
-                            <i class="fa fa-cog fa-spin" aria-hidden="true"/>
-                            <span>تجريبي قيد التطوير</span>
-                        </p>
+    <template id="radwan_website_homepage_banner" inherit_id="website.layout" name="Radwan Homepage ERP Banner">
+        <xpath expr="//main" position="before">
+            <t t-if="request and request.httprequest and request.httprequest.path in ('/', '')">
+                <section class="radwan-homepage-banner" dir="rtl">
+                    <div class="container">
+                        <div class="radwan-homepage-banner__content">
+                            <h1>منصة تخطيط موارد المنشآت</h1>
+                            <p class="radwan-homepage-banner__subtitle">
+                                المبيعات وإدارة علاقات العملاء - المحاسبة - المشتريات والمخزون - الموارد البشرية - التسويق والمتجر الإلكتروني - إدارة المشاريع - أدوات الإنتاجية - التدريب والتطوير
+                            </p>
+                            <p class="radwan-homepage-banner__status">
+                                <i class="fa fa-cog fa-spin" aria-hidden="true"/>
+                                <span>تجريبي قيد التطوير</span>
+                            </p>
+                        </div>
                     </div>
-                </div>
-            </section>
+                </section>
+            </t>
         </xpath>
     </template>
 </odoo>
