@@ -63,19 +63,15 @@ class RadwanAttendanceLocation(models.Model):
             return {
                 "status": "not_started",
                 "warning": _(
-                    "Attendance location %(location)s is not valid yet. Valid from %(date)s.",
-                    location=self.name,
-                    date=self.radwan_valid_from,
-                ),
+                    "Attendance location %(location)s is not valid yet. Valid from %(date)s."
+                ) % {"location": self.name, "date": self.radwan_valid_from},
             }
         if self.radwan_valid_to and check_date > self.radwan_valid_to:
             return {
                 "status": "expired",
                 "warning": _(
-                    "Attendance location %(location)s validity expired on %(date)s. Attendance was accepted for review.",
-                    location=self.name,
-                    date=self.radwan_valid_to,
-                ),
+                    "Attendance location %(location)s validity expired on %(date)s. Attendance was accepted for review."
+                ) % {"location": self.name, "date": self.radwan_valid_to},
             }
         if self.radwan_valid_from or self.radwan_valid_to:
             return {"status": "valid", "warning": ""}

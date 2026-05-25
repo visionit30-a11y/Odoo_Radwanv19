@@ -84,10 +84,8 @@ class RadwanAttendancePortal(http.Controller):
             tz=self._employee_timezone(attendance.employee_id),
         )
         return _(
-            "%(action)s is already recorded for this date at %(time)s. Do you want to update it?",
-            action=action_label,
-            time=action_time,
-        )
+            "%(action)s is already recorded for this date at %(time)s. Do you want to update it?"
+        ) % {"action": action_label, "time": action_time}
 
     def _duplicate_attendance_response(self, attendance, action):
         return {
@@ -368,12 +366,13 @@ class RadwanAttendancePortal(http.Controller):
         warning = outside_message
         if show_distance and nearest:
             warning = _(
-                "You are outside your allowed attendance locations. Nearest location: %(location)s, current distance: %(distance).0f m, allowed range: %(radius).0f m, current accuracy: %(accuracy).0f m.",
-                location=nearest.name,
-                distance=nearest_distance,
-                radius=allowed_radius,
-                accuracy=location["accuracy"] or 0.0,
-            )
+                "You are outside your allowed attendance locations. Nearest location: %(location)s, current distance: %(distance).0f m, allowed range: %(radius).0f m, current accuracy: %(accuracy).0f m."
+            ) % {
+                "location": nearest.name,
+                "distance": nearest_distance,
+                "radius": allowed_radius,
+                "accuracy": location["accuracy"] or 0.0,
+            }
         result.update(
             {
                 "status": "outside",
