@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 
-from odoo import _, fields, models
+from markupsafe import escape
+
+from odoo import api, _, fields, models
 from odoo.exceptions import UserError
 
 
@@ -38,6 +40,11 @@ class HrAttendance(models.Model):
         readonly=True,
     )
     radwan_location_warning_message = fields.Text(string="Location Warning Message", readonly=True)
+    radwan_location_warning_display = fields.Html(
+        string="Location Warning Message",
+        compute="_compute_radwan_location_review_display",
+        sanitize=False,
+    )
     radwan_location_validity_status = fields.Selection(
         selection=[
             ("valid", "Valid"),
@@ -48,7 +55,22 @@ class HrAttendance(models.Model):
         string="Location Validity Status",
         readonly=True,
     )
+    radwan_location_validity_review_status = fields.Selection(
+        selection=[
+            ("valid", "Valid"),
+            ("not_started", "Not Started"),
+            ("expired", "Expired"),
+            ("no_dates", "No Validity Dates"),
+        ],
+        string="Location Validity Status",
+        compute="_compute_radwan_location_review_display",
+    )
     radwan_location_validity_warning = fields.Text(string="Location Validity Warning", readonly=True)
+    radwan_location_validity_warning_display = fields.Html(
+        string="Location Validity Warning",
+        compute="_compute_radwan_location_review_display",
+        sanitize=False,
+    )
     radwan_nearest_attendance_location_id = fields.Many2one(
         "radwan.attendance.location",
         string="Nearest Attendance Location",
@@ -98,6 +120,56 @@ class HrAttendance(models.Model):
         string="Permissions",
         compute="_compute_radwan_permission_count",
     )
+
+    @api.depends(
+        "check_in",
+        "check_out",
+        "radwan_approval_state",
+        "radwan_location_warning_message",
+        "radwan_location_validity_status",
+        "radwan_location_validity_warning",
+        "radwan_nearest_attendance_location_id",
+        "radwan_nearest_attendance_location_id.radwan_valid_from",
+        "radwan_nearest_attendance_location_id.radwan_valid_to",
+    )
+    def _compute_radwan_location_review_display(self):
+        for attendance in self:
+            color = "#198754" if attendance.radwan_approval_state == "approved" else "#dc3545"
+            validity_status, validity_warning = attendance._radwan_location_validity_review_values()
+            attendance.radwan_location_validity_review_status = validity_status
+            if attendance.radwan_location_warning_message:
+                attendance.radwan_location_warning_display = (
+                    '<span style="color:%s;font-weight:600;">%s</span>'
+                    % (color, escape(attendance.radwan_location_warning_message))
+                )
+            else:
+                attendance.radwan_location_warning_display = False
+            if validity_warning:
+                attendance.radwan_location_validity_warning_display = (
+                    '<span style="color:%s;font-weight:600;">%s</span>'
+                    % (color, escape(validity_warning))
+                )
+            else:
+                attendance.radwan_location_validity_warning_display = False
+
+    def _radwan_attendance_review_date(self):
+        self.ensure_one()
+        datetime_value = self.check_in or self.check_out
+        if datetime_value:
+            return fields.Datetime.context_timestamp(self, datetime_value).date()
+        return fields.Date.context_today(self)
+
+    def _radwan_location_validity_review_values(self):
+        self.ensure_one()
+        status = self.radwan_location_validity_status
+        warning = self.radwan_location_validity_warning
+        if (not status or (status == "no_dates" and not warning)) and self.radwan_nearest_attendance_location_id:
+            review = self.radwan_nearest_attendance_location_id.radwan_get_validity_review(
+                self._radwan_attendance_review_date()
+            )
+            status = review["status"]
+            warning = review["warning"]
+        return status, warning
 
     def _radwan_attendance_permission_dates(self):
         self.ensure_one()

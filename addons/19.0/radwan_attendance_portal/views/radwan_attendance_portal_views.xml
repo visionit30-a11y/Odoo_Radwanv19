@@ -233,7 +233,7 @@
                 <field name="radwan_nearest_attendance_location_id" optional="show"/>
                 <field name="radwan_distance_to_nearest_location" optional="hide"/>
                 <field name="radwan_location_warning_message" optional="hide"/>
-                <field name="radwan_location_validity_status" optional="show" widget="badge" decoration-success="radwan_location_validity_status == 'valid'" decoration-danger="radwan_location_validity_status in ['expired', 'not_started']"/>
+                <field name="radwan_location_validity_review_status" optional="show" widget="badge" decoration-success="radwan_location_validity_review_status == 'valid'" decoration-danger="radwan_location_validity_review_status in ['expired', 'not_started']"/>
                 <field name="radwan_location_validity_warning" optional="show"/>
             </xpath>
         </field>
@@ -268,9 +268,9 @@
                     <group>
                         <field name="radwan_checkin_location_id"/>
                         <field name="radwan_checkout_location_id"/>
-                        <field name="radwan_location_warning_message"/>
-                        <field name="radwan_location_validity_status" widget="badge"/>
-                        <field name="radwan_location_validity_warning" class="text-danger fw-bold" invisible="not radwan_location_validity_warning"/>
+                        <field name="radwan_location_warning_display" invisible="not radwan_location_warning_display"/>
+                        <field name="radwan_location_validity_review_status" widget="badge"/>
+                        <field name="radwan_location_validity_warning_display" invisible="not radwan_location_validity_warning_display"/>
                         <button name="action_radwan_open_nearest_location" type="object" string="View Nearest Location" class="btn-link ps-0" icon="fa-map" invisible="not radwan_nearest_attendance_location_id"/>
                     </group>
                 </group>

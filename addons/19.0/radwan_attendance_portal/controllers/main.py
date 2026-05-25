@@ -360,6 +360,11 @@ class RadwanAttendancePortal(http.Controller):
             return result
 
         allowed_radius = nearest.allowed_radius if nearest else 0.0
+        validity_review = (
+            nearest.radwan_get_validity_review(fields.Date.context_today(request.env.user))
+            if nearest
+            else {"status": False, "warning": ""}
+        )
         warning = outside_message
         if show_distance and nearest:
             warning = _(
@@ -376,6 +381,8 @@ class RadwanAttendancePortal(http.Controller):
                 "distance": nearest_distance,
                 "allowed_radius": allowed_radius,
                 "warning": warning,
+                "validity_status": validity_review["status"],
+                "validity_warning": validity_review["warning"],
                 "reject": self._config_bool("radwan_attendance_portal.reject_outside_range", True),
                 "reason": "outside_range",
             }
