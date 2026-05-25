@@ -1,0 +1,57 @@
+.radwan-homepage-banner {
+    direction: rtl;
+    text-align: center;
+    background: #f7f8fa;
+    border-bottom: 1px solid #d8dde6;
+    padding: 44px 16px 36px;
+}
+
+.radwan-homepage-banner__content {
+    max-width: 980px;
+    margin: 0 auto;
+}
+
+.radwan-homepage-banner h1 {
+    margin: 0 0 14px;
+    color: #2f244f;
+    font-size: 34px;
+    font-weight: 700;
+    line-height: 1.35;
+}
+
+.radwan-homepage-banner__subtitle {
+    margin: 0 auto;
+    color: #3d4754;
+    font-size: 17px;
+    line-height: 1.9;
+}
+
+.radwan-homepage-banner__status {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin: 18px 0 0;
+    color: #c1121f;
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.radwan-homepage-banner__status .fa {
+    font-size: 17px;
+}
+
+@media (max-width: 767.98px) {
+    .radwan-homepage-banner {
+        padding: 30px 14px 26px;
+    }
+
+    .radwan-homepage-banner h1 {
+        font-size: 25px;
+    }
+
+    .radwan-homepage-banner__subtitle {
+        font-size: 15px;
+        line-height: 1.8;
+    }
+}
