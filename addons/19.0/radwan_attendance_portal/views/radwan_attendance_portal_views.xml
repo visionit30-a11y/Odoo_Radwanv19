@@ -230,6 +230,8 @@
             <xpath expr="//field[@name='out_location']" position="after">
                 <field name="radwan_location_status" optional="show" widget="badge" decoration-success="radwan_location_status == 'inside'" decoration-warning="radwan_location_status in ['outside', 'weak_accuracy']" decoration-danger="radwan_location_status == 'unavailable'"/>
                 <field name="radwan_approval_state" optional="show" widget="badge" decoration-info="radwan_approval_state == 'to_review'" decoration-success="radwan_approval_state == 'approved'" decoration-danger="radwan_approval_state == 'rejected'"/>
+                <field name="radwan_checkin_actual_location" optional="hide"/>
+                <field name="radwan_checkout_actual_location" optional="hide"/>
                 <field name="radwan_nearest_attendance_location_id" optional="show"/>
                 <field name="radwan_distance_to_nearest_location" optional="hide"/>
                 <field name="radwan_location_warning_message" optional="hide"/>
@@ -261,9 +263,15 @@
                 <group name="radwan_attendance_location_review" colspan="2">
                     <group>
                         <field name="radwan_location_status" widget="badge"/>
+                        <field name="radwan_checkin_actual_location" readonly="1"/>
+                        <button name="action_radwan_open_actual_checkin_location" type="object" string="View Actual Check In Location" class="btn-link ps-0" icon="fa-map-marker" invisible="not radwan_checkin_maps_url"/>
+                        <field name="radwan_checkout_actual_location" readonly="1"/>
+                        <button name="action_radwan_open_actual_checkout_location" type="object" string="View Actual Check Out Location" class="btn-link ps-0" icon="fa-map-marker" invisible="not radwan_checkout_maps_url"/>
                         <field name="radwan_nearest_attendance_location_id"/>
                         <field name="radwan_distance_to_nearest_location"/>
                         <field name="radwan_allowed_radius"/>
+                        <field name="radwan_checkin_maps_url" invisible="1"/>
+                        <field name="radwan_checkout_maps_url" invisible="1"/>
                     </group>
                     <group>
                         <field name="radwan_checkin_location_id"/>

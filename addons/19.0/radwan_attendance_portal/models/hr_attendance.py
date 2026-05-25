@@ -98,6 +98,22 @@ class HrAttendance(models.Model):
     radwan_checkout_latitude = fields.Float(string="Check Out Latitude", digits=(10, 7), readonly=True, aggregator=None)
     radwan_checkout_longitude = fields.Float(string="Check Out Longitude", digits=(10, 7), readonly=True, aggregator=None)
     radwan_checkout_accuracy = fields.Float(string="Check Out Accuracy", readonly=True, aggregator=None)
+    radwan_checkin_actual_location = fields.Char(
+        string="Actual Check In Location",
+        compute="_compute_radwan_actual_location_display",
+    )
+    radwan_checkout_actual_location = fields.Char(
+        string="Actual Check Out Location",
+        compute="_compute_radwan_actual_location_display",
+    )
+    radwan_checkin_maps_url = fields.Char(
+        string="Actual Check In Map URL",
+        compute="_compute_radwan_actual_location_display",
+    )
+    radwan_checkout_maps_url = fields.Char(
+        string="Actual Check Out Map URL",
+        compute="_compute_radwan_actual_location_display",
+    )
     radwan_checkin_photo = fields.Image(string="Check In Photo", readonly=True, max_width=1280, max_height=1280)
     radwan_checkout_photo = fields.Image(string="Check Out Photo", readonly=True, max_width=1280, max_height=1280)
     radwan_approval_state = fields.Selection(
@@ -197,6 +213,74 @@ class HrAttendance(models.Model):
             attendance.radwan_permission_count = Permission.search_count(
                 attendance._radwan_attendance_permission_domain()
             )
+
+    @api.depends(
+        "radwan_checkin_latitude",
+        "radwan_checkin_longitude",
+        "radwan_checkin_accuracy",
+        "radwan_checkout_latitude",
+        "radwan_checkout_longitude",
+        "radwan_checkout_accuracy",
+        "in_latitude",
+        "in_longitude",
+        "out_latitude",
+        "out_longitude",
+    )
+    def _compute_radwan_actual_location_display(self):
+        for attendance in self:
+            checkin_latitude = attendance.radwan_checkin_latitude or attendance.in_latitude
+            checkin_longitude = attendance.radwan_checkin_longitude or attendance.in_longitude
+            checkout_latitude = attendance.radwan_checkout_latitude or attendance.out_latitude
+            checkout_longitude = attendance.radwan_checkout_longitude or attendance.out_longitude
+
+            attendance.radwan_checkin_actual_location = attendance._radwan_format_actual_location(
+                checkin_latitude,
+                checkin_longitude,
+                attendance.radwan_checkin_accuracy or attendance.radwan_in_accuracy,
+            )
+            attendance.radwan_checkout_actual_location = attendance._radwan_format_actual_location(
+                checkout_latitude,
+                checkout_longitude,
+                attendance.radwan_checkout_accuracy or attendance.radwan_out_accuracy,
+            )
+            attendance.radwan_checkin_maps_url = attendance._radwan_actual_maps_url(
+                checkin_latitude,
+                checkin_longitude,
+            )
+            attendance.radwan_checkout_maps_url = attendance._radwan_actual_maps_url(
+                checkout_latitude,
+                checkout_longitude,
+            )
+
+    def _radwan_format_actual_location(self, latitude, longitude, accuracy=0.0):
+        if not latitude or not longitude:
+            return False
+        if accuracy:
+            return "%.7f, %.7f (%.0f m accuracy)" % (latitude, longitude, accuracy)
+        return "%.7f, %.7f" % (latitude, longitude)
+
+    def _radwan_actual_maps_url(self, latitude, longitude):
+        if not latitude or not longitude:
+            return False
+        return "https://maps.google.com?q=%s,%s" % (latitude, longitude)
+
+    def _radwan_action_open_actual_location(self, url):
+        self.ensure_one()
+        if not url:
+            raise UserError(_("No actual attendance location is available."))
+        return {
+            "type": "ir.actions.act_url",
+            "url": url,
+            "target": "new",
+        }
+
+    def action_radwan_open_actual_checkin_location(self):
+        self.ensure_one()
+        return self._radwan_action_open_actual_location(self.radwan_checkin_maps_url)
+
+    def action_radwan_open_actual_checkout_location(self):
+        self.ensure_one()
+        return self._radwan_action_open_actual_location(self.radwan_checkout_maps_url)
 
     def action_radwan_open_nearest_location(self):
         self.ensure_one()
