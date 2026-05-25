@@ -78,11 +78,11 @@ class RadwanAttendancePortal(http.Controller):
     def _duplicate_attendance_message(self, attendance, action):
         field_name = "check_in" if action == "check_in" else "check_out"
         action_label = _("Check in") if action == "check_in" else _("Check out")
-        action_time = format_time(
-            request.env,
-            attendance[field_name],
-            tz=self._employee_timezone(attendance.employee_id),
-        )
+        action_dt = attendance[field_name]
+        action_time = ""
+        if action_dt:
+            tz = pytz.timezone(self._employee_timezone(attendance.employee_id))
+            action_time = pytz.utc.localize(action_dt).astimezone(tz).strftime("%I:%M:%S %p")
         return _(
             "%(action)s is already recorded for this date at %(time)s. Do you want to update it?"
         ) % {"action": action_label, "time": action_time}
@@ -567,9 +567,21 @@ class RadwanAttendancePortal(http.Controller):
                 duplicate_attendance.write(
                     {
                         "check_in": now,
+                        "check_out": False,
                         "radwan_check_in_user_id": request.env.user.id,
                         "radwan_check_in_source": "portal",
                         "in_mode": "manual",
+                        "out_latitude": False,
+                        "out_longitude": False,
+                        "out_mode": False,
+                        "radwan_out_accuracy": False,
+                        "radwan_check_out_user_id": False,
+                        "radwan_check_out_source": False,
+                        "radwan_checkout_latitude": False,
+                        "radwan_checkout_longitude": False,
+                        "radwan_checkout_accuracy": False,
+                        "radwan_checkout_location_id": False,
+                        "radwan_checkout_photo": False,
                         "radwan_approval_state": "to_review",
                         "radwan_approved_by_id": False,
                         "radwan_approved_date": False,
