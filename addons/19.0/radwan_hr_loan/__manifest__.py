@@ -11,7 +11,7 @@ deductions through standard Odoo models.
     'author': 'RADWAN',
     'website': 'https://www.radwan.local',
     'category': 'Human Resources',
-    'version': '19.0.1.0.0',
+    'version': '19.0.1.1.0',
     'license': 'LGPL-3',
     'depends': [
         'account',

@@ -1,13 +1,15 @@
 <odoo>
     <record id="hr_salary_rule_employee_loan" model="hr.salary.rule">
-        <field name="name">Employee Loan Deduction</field>
-        <field name="code">LOAN</field>
-        <field name="sequence" eval="190"/>
+        <field name="name">Loan_Deduction</field>
+        <field name="code">loan_d</field>
+        <field name="sequence" eval="5"/>
         <field name="category_id" ref="om_hr_payroll.DED"/>
         <field name="condition_select">python</field>
-        <field name="condition_python">result = bool(inputs.dict.get('LOAN') and inputs.dict.get('LOAN').amount)</field>
+        <field name="condition_python">loan_input = inputs.dict.get('LOAN')
+result = bool(loan_input and loan_input.amount)</field>
         <field name="amount_select">code</field>
-        <field name="amount_python_compute">result = -(inputs.dict.get('LOAN') and inputs.dict.get('LOAN').amount or 0.0)</field>
+        <field name="amount_python_compute">loan_input = inputs.dict.get('LOAN')
+result = -(loan_input.amount if loan_input else 0.0)</field>
         <field name="appears_on_payslip" eval="True"/>
     </record>
 
@@ -21,4 +23,6 @@
         <field name="name">Bank &amp; Cash</field>
         <field name="company_id" ref="base.main_company"/>
     </record>
+
+    <function model="hr.salary.rule" name="_radwan_sync_loan_salary_rules"/>
 </odoo>
