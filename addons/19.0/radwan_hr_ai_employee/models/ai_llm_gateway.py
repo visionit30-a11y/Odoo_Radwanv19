@@ -78,7 +78,11 @@ class RadwanHrAiLlmGateway(models.AbstractModel):
             (config.endpoint if config else self._param("radwan_hr_ai.endpoint", "http://127.0.0.1:11434")) or ""
         ).rstrip("/")
         model = config.model_name if config else self._param("radwan_hr_ai.model", "qwen2.5:7b-instruct")
-        url = "%s/api/chat" % endpoint
+        api_key = config.api_key if config else self._param("radwan_hr_ai.api_key", "")
+        url = "%s/chat" % endpoint if endpoint.endswith("/api") else "%s/api/chat" % endpoint
+        headers = {"Content-Type": "application/json"}
+        if api_key:
+            headers["Authorization"] = "Bearer %s" % api_key
         payload = {
             "model": model,
             "messages": self._messages(question, secure_context, scope_summary),
@@ -89,7 +93,7 @@ class RadwanHrAiLlmGateway(models.AbstractModel):
             },
         }
         try:
-            response = requests.post(url, json=payload, timeout=self._timeout())
+            response = requests.post(url, json=payload, headers=headers, timeout=self._timeout())
             response.raise_for_status()
             data = response.json()
             message = data.get("message") or {}
