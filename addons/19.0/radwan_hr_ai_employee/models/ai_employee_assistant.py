@@ -13,6 +13,131 @@ class RadwanHrAiEmployeeAssistant(models.Model):
     _description = "Employee HR AI Assistant"
     _order = "create_date desc, id desc"
 
+    DETAIL_CONTEXT_LIMIT = 12
+    DETAIL_CONTEXT_FIELD_LIMIT = 30
+    DETAIL_CONTEXT_FIELDS = {
+        "hr.attendance": [
+            "employee_id",
+            "check_in",
+            "check_out",
+            "worked_hours",
+            "radwan_approval_state",
+            "radwan_check_in_source",
+            "radwan_check_out_source",
+            "radwan_location_status",
+            "radwan_location_warning_message",
+            "radwan_location_validity_status",
+            "radwan_location_validity_warning",
+            "radwan_nearest_attendance_location_id",
+            "radwan_distance_to_nearest_location",
+            "radwan_allowed_radius",
+            "radwan_checkin_location_id",
+            "radwan_checkout_location_id",
+            "radwan_checkin_actual_location",
+            "radwan_checkout_actual_location",
+            "radwan_checkin_maps_url",
+            "radwan_checkout_maps_url",
+            "radwan_checkin_latitude",
+            "radwan_checkin_longitude",
+            "radwan_checkout_latitude",
+            "radwan_checkout_longitude",
+        ],
+        "hr.leave": [
+            "employee_id",
+            "name",
+            "holiday_status_id",
+            "request_date_from",
+            "request_date_to",
+            "date_from",
+            "date_to",
+            "duration_display",
+            "number_of_days",
+            "state",
+            "create_date",
+        ],
+        "hr.payslip": [
+            "employee_id",
+            "name",
+            "date_from",
+            "date_to",
+            "state",
+            "basic_wage",
+            "gross_wage",
+            "net_wage",
+            "create_date",
+        ],
+        "hr.employee.loan": [
+            "employee_id",
+            "name",
+            "loan_date",
+            "date",
+            "amount",
+            "loan_amount",
+            "total_amount",
+            "paid_amount",
+            "remaining_amount",
+            "state",
+            "create_date",
+        ],
+        "project.task": [
+            "name",
+            "project_id",
+            "user_ids",
+            "date_deadline",
+            "stage_id",
+            "priority",
+            "create_date",
+        ],
+        "helpdesk.ticket": [
+            "name",
+            "user_id",
+            "partner_id",
+            "stage_id",
+            "priority",
+            "create_date",
+        ],
+        "approval.request": [
+            "name",
+            "request_owner_id",
+            "employee_id",
+            "category_id",
+            "request_status",
+            "date_start",
+            "date_end",
+            "reason",
+            "create_date",
+        ],
+        "survey.user_input": [
+            "survey_id",
+            "partner_id",
+            "email",
+            "state",
+            "start_datetime",
+            "end_datetime",
+            "create_date",
+        ],
+        "radwan.attendance.permission": [
+            "employee_id",
+            "attendance_id",
+            "request_type",
+            "request_date",
+            "reason",
+            "state",
+            "create_date",
+        ],
+    }
+    DETAIL_CONTEXT_ORDER = {
+        "hr.attendance": "check_in desc, id desc",
+        "hr.leave": "request_date_from desc, date_from desc, id desc",
+        "hr.payslip": "date_to desc, date_from desc, id desc",
+        "hr.employee.loan": "loan_date desc, date desc, id desc",
+        "project.task": "date_deadline desc, id desc",
+        "helpdesk.ticket": "create_date desc, id desc",
+        "approval.request": "create_date desc, id desc",
+        "survey.user_input": "create_date desc, id desc",
+        "radwan.attendance.permission": "create_date desc, id desc",
+    }
+
     name = fields.Char(default="Employee HR Assistant", readonly=True)
     user_id = fields.Many2one("res.users", default=lambda self: self.env.user, readonly=True)
     employee_id = fields.Many2one("hr.employee", compute="_compute_employee_id", store=False)
@@ -260,6 +385,11 @@ class RadwanHrAiEmployeeAssistant(models.Model):
             lines.append("")
             lines += contract_lines
 
+        detail_lines = self._compose_allowed_record_context(scope, employee_ids)
+        if detail_lines:
+            lines.append("")
+            lines += detail_lines
+
         metrics = [
             ("hr.leave", "Leaves", "employee_id"),
             ("hr.attendance", "Attendance", "employee_id"),
@@ -280,6 +410,164 @@ class RadwanHrAiEmployeeAssistant(models.Model):
         lines.append("- Tasks assigned to current user: %s" % task_count)
         lines.append("- Tickets related to current user: %s" % ticket_count)
         return "\n".join(lines)
+
+    def _compose_allowed_record_context(self, scope, employee_ids):
+        allowed_sources = scope.get("allowed_sources") or []
+        allowed_models = []
+        labels_by_model = {}
+        for source in allowed_sources:
+            model_name = source.get("model")
+            if model_name and model_name not in allowed_models:
+                allowed_models.append(model_name)
+                labels_by_model[model_name] = source.get("label") or model_name
+
+        lines = []
+        for model_name in allowed_models:
+            if model_name in ("hr.employee", "hr.version", "ir.attachment"):
+                continue
+            model_lines = self._compose_model_record_context(
+                model_name,
+                labels_by_model.get(model_name, model_name),
+                employee_ids,
+            )
+            if model_lines:
+                lines += model_lines
+        return lines
+
+    def _compose_model_record_context(self, model_name, label, employee_ids):
+        security = self.env["radwan.hr.ai.security"]
+        if model_name not in self.env or not security._can_use_model_in_ai(model_name):
+            return []
+        fields_to_read = self._context_fields_for_model(model_name)
+        if not fields_to_read:
+            return []
+        rows = security._safe_search_read(
+            model_name,
+            self._context_domain_for_model(model_name, employee_ids),
+            fields_to_read,
+            limit=self.DETAIL_CONTEXT_LIMIT,
+            order=self._context_order_for_model(model_name),
+        )
+        if not rows:
+            return []
+        lines = ["Recent %s records (%s):" % (label, model_name)]
+        for row in rows:
+            lines += self._format_generic_record_context(model_name, row)
+        return lines
+
+    def _context_domain_for_model(self, model_name, employee_ids):
+        Model = self.env[model_name]
+        if model_name == "project.task":
+            return [("user_ids", "in", [self.env.uid])]
+        if model_name == "helpdesk.ticket":
+            return ["|", ("user_id", "=", self.env.uid), ("create_uid", "=", self.env.uid)]
+        if "employee_id" in Model._fields:
+            return [("employee_id", "in", employee_ids or [0])]
+        if "employee_ids" in Model._fields:
+            return [("employee_ids", "in", employee_ids or [0])]
+        if "user_id" in Model._fields:
+            return [("user_id", "=", self.env.uid)]
+        if "user_ids" in Model._fields:
+            return [("user_ids", "in", [self.env.uid])]
+        return []
+
+    def _context_order_for_model(self, model_name):
+        order = self.DETAIL_CONTEXT_ORDER.get(model_name)
+        if order:
+            return order
+        Model = self.env[model_name]
+        for field_name in ("date", "request_date", "date_from", "create_date", "id"):
+            if field_name == "id" or field_name in Model._fields:
+                return "%s desc" % field_name
+        return None
+
+    def _context_fields_for_model(self, model_name):
+        configured = self.DETAIL_CONTEXT_FIELDS.get(model_name)
+        if configured:
+            return self._available_model_fields(model_name, configured)
+        return self._generic_context_fields(model_name)
+
+    def _generic_context_fields(self, model_name):
+        Model = self.env[model_name]
+        safe_types = {"char", "text", "selection", "many2one", "date", "datetime", "float", "integer", "monetary", "boolean"}
+        skipped_names = {
+            "message_ids",
+            "message_follower_ids",
+            "message_partner_ids",
+            "activity_ids",
+            "website_message_ids",
+            "access_token",
+            "api_key",
+            "password",
+        }
+        priority = [
+            "display_name",
+            "name",
+            "employee_id",
+            "user_id",
+            "department_id",
+            "state",
+            "date",
+            "request_date",
+            "date_from",
+            "date_to",
+            "amount",
+            "total_amount",
+            "description",
+            "reason",
+            "create_date",
+        ]
+        fields_to_read = []
+        for field_name in priority:
+            if self._is_context_field_safe(Model, field_name, safe_types, skipped_names):
+                fields_to_read.append(field_name)
+        for field_name in Model._fields:
+            if len(fields_to_read) >= self.DETAIL_CONTEXT_FIELD_LIMIT:
+                break
+            if field_name in fields_to_read:
+                continue
+            if self._is_context_field_safe(Model, field_name, safe_types, skipped_names):
+                fields_to_read.append(field_name)
+        return fields_to_read
+
+    def _is_context_field_safe(self, Model, field_name, safe_types, skipped_names):
+        if field_name not in Model._fields or field_name in skipped_names:
+            return False
+        lowered = field_name.lower()
+        if any(secret in lowered for secret in ("password", "passwd", "token", "api_key", "secret", "private_key")):
+            return False
+        field = Model._fields[field_name]
+        if field.type not in safe_types:
+            return False
+        if field.type == "text" and field_name in ("comment", "note") and "hr" not in Model._name and "radwan" not in Model._name:
+            return False
+        return True
+
+    def _format_generic_record_context(self, model_name, row):
+        Model = self.env[model_name]
+        lines = ["- Record ID: %s" % row.get("id")]
+        for field_name, value in row.items():
+            if field_name == "id" or value in (False, None, "", []):
+                continue
+            field = Model._fields.get(field_name)
+            label = field.string if field else field_name
+            lines.append("  - %s: %s" % (label, self._context_value_to_text(value)))
+        return lines
+
+    def _context_value_to_text(self, value):
+        if isinstance(value, (list, tuple)):
+            if len(value) == 2 and isinstance(value[0], int):
+                return value[1]
+            values = []
+            for item in value[:8]:
+                values.append(self._context_value_to_text(item))
+            suffix = "..." if len(value) > 8 else ""
+            return ", ".join(values) + suffix
+        text = str(value)
+        text = self._plain_chat_body(text)
+        if len(text) > 500:
+            return text[:497] + "..."
+        return text
 
     def _scope_text(self, scope):
         allowed_lines = []
