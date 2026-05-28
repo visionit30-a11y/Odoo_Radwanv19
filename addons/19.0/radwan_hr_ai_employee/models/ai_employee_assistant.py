@@ -474,12 +474,27 @@ class RadwanHrAiEmployeeAssistant(models.Model):
     def _context_order_for_model(self, model_name):
         order = self.DETAIL_CONTEXT_ORDER.get(model_name)
         if order:
-            return order
+            return self._sanitize_context_order(model_name, order)
         Model = self.env[model_name]
         for field_name in ("date", "request_date", "date_from", "create_date", "id"):
             if field_name == "id" or field_name in Model._fields:
                 return "%s desc" % field_name
         return None
+
+    def _sanitize_context_order(self, model_name, order):
+        if not order or model_name not in self.env:
+            return None
+        fields_map = self.env[model_name]._fields
+        valid_parts = []
+        for part in order.split(","):
+            tokens = part.strip().split()
+            if not tokens:
+                continue
+            field_name = tokens[0]
+            if field_name == "id" or field_name in fields_map:
+                direction = tokens[1].lower() if len(tokens) > 1 else "asc"
+                valid_parts.append("%s %s" % (field_name, "desc" if direction == "desc" else "asc"))
+        return ", ".join(valid_parts) or None
 
     def _context_fields_for_model(self, model_name):
         configured = self.DETAIL_CONTEXT_FIELDS.get(model_name)
