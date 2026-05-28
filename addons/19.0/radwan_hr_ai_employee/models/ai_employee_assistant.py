@@ -607,17 +607,32 @@ class RadwanHrAiEmployeeAssistant(models.Model):
         return value or "-"
 
     def _plain_chat_body(self, value):
-        text = html.unescape(value or "")
+        text = value or ""
+        for _index in range(4):
+            unescaped = html.unescape(text)
+            if unescaped == text:
+                break
+            text = unescaped
         text = text.replace("\\n", "\n")
-        text = re.sub(r"(?i)<\s*br\s*/?\s*>", "\n", text)
+        text = re.sub(r"(?i)(?:&amp;lt;|&lt;|<)\s*br\s*/?\s*(?:&amp;gt;|&gt;|>)", "\n", text)
         text = re.sub(r"(?i)</\s*p\s*>", "\n", text)
         text = re.sub(r"(?i)<\s*p[^>]*>", "", text)
+        text = re.sub(r"(?i)<\s*/?\s*br\s*/?\s*>", "\n", text)
+        text = re.sub(r"(?i)&lt;\s*/?\s*br\s*/?\s*&gt;", "\n", text)
         text = re.sub(r"(?i)</?\s*(div|span|strong|b|em|i|ul|ol|li|table|thead|tbody|tr|td|th)[^>]*>", "", text)
+        text = re.sub(r"(?i)<[^>]+>", "", text)
+        text = re.sub(r"(?i)&lt;[^&]+&gt;", "", text)
         text = re.sub(r"(?m)^\s*[-•]\s*", "- ", text)
         text = re.sub(r"\s*(?:<br\s*/?>|&lt;br\s*/?&gt;)\s*", "\n", text, flags=re.IGNORECASE)
         text = re.sub(r"\*\*([^*]+)\*\*", r"\1", text)
         text = re.sub(r"__([^_]+)__", r"\1", text)
+        text = re.sub(r"(?m)^\s{0,3}#{1,6}\s*", "", text)
+        text = re.sub(r"`([^`]+)`", r"\1", text)
+        text = re.sub(r"(?m)^\s*\|?[-:\s|]{3,}\|?\s*$", "", text)
+        text = re.sub(r"\s*\|\s*", " | ", text)
         text = re.sub(r"(?m)^\s*\*\s+", "- ", text)
+        text = re.sub(r"(?m)^(\s*\d+)\.\s*", r"\1. ", text)
+        text = re.sub(r"[ \t]{2,}", " ", text)
         text = re.sub(r"\s+\n", "\n", text)
         text = re.sub(r"\n\s+", "\n", text)
         text = re.sub(r"\n{3,}", "\n\n", text)

@@ -68,7 +68,9 @@ class RadwanHrAiLlmGateway(models.AbstractModel):
             "provided context. Never invent HR data. If the answer is not in "
             "the context, say that the information is not available under the "
             "current user's permissions. Match the user's language. Return plain "
-            "text only. Do not return HTML tags."
+            "text only. Do not return HTML tags, markdown symbols, tables, code "
+            "blocks, <br/> tags, asterisks, or escaped HTML entities. Use short "
+            "sentences and simple numbered lines only when needed."
         )
 
     def _messages(self, question, secure_context, scope_summary):
