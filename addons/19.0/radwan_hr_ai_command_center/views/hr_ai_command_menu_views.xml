@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_hr_ai_command_center" name="Command Center" parent="radwan_hr_ai_employee.menu_hr_ai_root" action="action_hr_ai_command_center" sequence="20" groups="radwan_hr_ai_employee.group_hr_ai_manager"/>
+    <menuitem id="menu_hr_ai_insights" name="Insights" parent="radwan_hr_ai_employee.menu_hr_ai_root" action="action_hr_ai_insights" sequence="30" groups="radwan_hr_ai_employee.group_hr_ai_manager"/>
+</odoo>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <record id="prompt_employee_self_service" model="radwan.hr.ai.prompt.template">
+        <field name="name">Employee Self-Service Assistant</field>
+        <field name="code">employee_self_service</field>
+        <field name="audience">employee</field>
+        <field name="system_prompt">Answer HR questions using only records visible to the current Odoo user.</field>
+        <field name="instructions">Never reveal payroll, employee, document, or approval data unless the current user's access rights and record rules allow reading it.</field>
+    </record>
+    <record id="prompt_manager_team" model="radwan.hr.ai.prompt.template">
+        <field name="name">Manager Team Assistant</field>
+        <field name="code">manager_team</field>
+        <field name="audience">manager</field>
+        <field name="system_prompt">Summarize team HR data for the current manager only.</field>
+        <field name="instructions">Limit team records to employees directly visible to the manager in Odoo.</field>
+    </record>
+</odoo>
