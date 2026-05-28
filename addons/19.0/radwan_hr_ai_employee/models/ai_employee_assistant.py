@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+import html
 import re
 
 from markupsafe import escape
@@ -302,10 +303,15 @@ class RadwanHrAiEmployeeAssistant(models.Model):
         return value or "-"
 
     def _plain_chat_body(self, value):
-        text = value or ""
+        text = html.unescape(value or "")
         text = re.sub(r"(?i)<\s*br\s*/?\s*>", "\n", text)
         text = re.sub(r"(?i)</\s*p\s*>", "\n", text)
         text = re.sub(r"(?i)<\s*p[^>]*>", "", text)
+        text = re.sub(r"(?i)</?\s*(div|span|strong|b|em|i|ul|ol|li|table|thead|tbody|tr|td|th)[^>]*>", "", text)
+        text = re.sub(r"\*\*([^*]+)\*\*", r"\1", text)
+        text = re.sub(r"__([^_]+)__", r"\1", text)
+        text = re.sub(r"(?m)^\s*[-*]\s+", "- ", text)
+        text = re.sub(r"\n{3,}", "\n\n", text)
         return text.strip()
 
     def _available_model_fields(self, model_name, wanted_fields):
