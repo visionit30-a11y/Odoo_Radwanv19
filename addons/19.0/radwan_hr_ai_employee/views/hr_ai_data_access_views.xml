@@ -59,12 +59,9 @@
             <search>
                 <field name="name"/>
                 <field name="model_name"/>
-                <field name="description"/>
                 <filter name="active" string="Active" domain="[('active', '=', True)]"/>
                 <filter name="all_ai_users" string="All AI Users" domain="[('allow_all_ai_users', '=', True)]"/>
-                <group expand="0" string="Group By">
-                    <filter name="group_model" string="Table" context="{'group_by': 'model_id'}"/>
-                </group>
+                <filter name="group_model" string="Group by Table" context="{'group_by': 'model_id'}"/>
             </search>
         </field>
     </record>
