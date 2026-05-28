@@ -141,7 +141,7 @@ class RadwanHrAiEmployeeAssistant(models.Model):
             secure_context,
             scope_text,
         )
-        answer = llm_answer or self._compose_answer(scope)
+        answer = self._plain_chat_body(llm_answer or self._compose_answer(scope))
         model_names = ", ".join(source["model"] for source in scope["allowed_sources"])
         self.write(
             {
@@ -172,6 +172,7 @@ class RadwanHrAiEmployeeAssistant(models.Model):
         return True
 
     def _write_blocked(self, reason):
+        reason = self._plain_chat_body(reason)
         self.write({"answer": reason, "scope_summary": reason, "state": "blocked"})
         self.env["radwan.hr.ai.employee.message"].create(
             {
@@ -304,13 +305,18 @@ class RadwanHrAiEmployeeAssistant(models.Model):
 
     def _plain_chat_body(self, value):
         text = html.unescape(value or "")
+        text = text.replace("\\n", "\n")
         text = re.sub(r"(?i)<\s*br\s*/?\s*>", "\n", text)
         text = re.sub(r"(?i)</\s*p\s*>", "\n", text)
         text = re.sub(r"(?i)<\s*p[^>]*>", "", text)
         text = re.sub(r"(?i)</?\s*(div|span|strong|b|em|i|ul|ol|li|table|thead|tbody|tr|td|th)[^>]*>", "", text)
+        text = re.sub(r"(?m)^\s*[-•]\s*", "- ", text)
+        text = re.sub(r"\s*(?:<br\s*/?>|&lt;br\s*/?&gt;)\s*", "\n", text, flags=re.IGNORECASE)
         text = re.sub(r"\*\*([^*]+)\*\*", r"\1", text)
         text = re.sub(r"__([^_]+)__", r"\1", text)
-        text = re.sub(r"(?m)^\s*[-*]\s+", "- ", text)
+        text = re.sub(r"(?m)^\s*\*\s+", "- ", text)
+        text = re.sub(r"\s+\n", "\n", text)
+        text = re.sub(r"\n\s+", "\n", text)
         text = re.sub(r"\n{3,}", "\n\n", text)
         return text.strip()
 
