@@ -58,7 +58,7 @@ class RadwanHrAiLlmGateway(models.AbstractModel):
         provider = config.provider if config else self._param("radwan_hr_ai.provider", "disabled")
         if provider == "ollama":
             return self._generate_ollama(question, secure_context, scope_summary, config)
-        if provider == "openai_compatible":
+        if provider in ("openai_compatible", "gemini", "deepseek", "qwen3", "groq", "openrouter"):
             return self._generate_openai_compatible(question, secure_context, scope_summary, config)
         return False
 
