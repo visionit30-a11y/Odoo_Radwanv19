@@ -1,6 +1,7 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_hr_ai_prompt_template_manager,hr.ai.prompt.template.manager,model_radwan_hr_ai_prompt_template,group_hr_ai_manager,1,1,1,1
 access_hr_ai_provider_config_manager,hr.ai.provider.config.manager,model_radwan_hr_ai_provider_config,group_hr_ai_manager,1,1,1,1
+access_hr_ai_data_access_manager,hr.ai.data.access.manager,model_radwan_hr_ai_data_access,group_hr_ai_manager,1,1,1,1
 access_hr_ai_query_log_user,hr.ai.query.log.user,model_radwan_hr_ai_query_log,group_hr_ai_employee_user,1,0,1,0
 access_hr_ai_query_log_manager,hr.ai.query.log.manager,model_radwan_hr_ai_query_log,group_hr_ai_manager,1,1,1,0
 access_hr_ai_employee_assistant_user,hr.ai.employee.assistant.user,model_radwan_hr_ai_employee_assistant,group_hr_ai_employee_user,1,1,1,0

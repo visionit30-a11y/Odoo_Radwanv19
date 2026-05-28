@@ -280,13 +280,19 @@ class RadwanHrAiEmployeeAssistant(models.Model):
         return "\n".join(lines)
 
     def _scope_text(self, scope):
-        allowed = ", ".join(source["label"] for source in scope["allowed_sources"]) or "None"
+        allowed_lines = []
+        for source in scope["allowed_sources"]:
+            label = source["label"]
+            description = source.get("description")
+            allowed_lines.append("- %s%s" % (label, ": %s" % description if description else ""))
+        allowed = "\n".join(allowed_lines) or "None"
         return "\n".join(
             [
                 "User: %s" % scope["user_name"],
                 "Employee: %s" % (scope["employee_name"] or "-"),
                 "Visible employees: %s" % len(scope["visible_employee_ids"]),
-                "Allowed sources: %s" % allowed,
+                "Allowed sources:",
+                allowed,
             ]
         )
 
@@ -357,7 +363,7 @@ class RadwanHrAiEmployeeAssistant(models.Model):
 
     def _compose_contract_context(self, employee_ids):
         security = self.env["radwan.hr.ai.security"]
-        if not security._can_read_model("hr.version"):
+        if not security._can_use_model_in_ai("hr.version"):
             return []
         fields_to_read = self._available_model_fields(
             "hr.version",

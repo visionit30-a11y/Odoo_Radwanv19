@@ -4,4 +4,5 @@
     <menuitem id="menu_hr_ai_employee_assistant" name="Employee Assistant" parent="menu_hr_ai_root" action="action_hr_ai_employee_assistant" sequence="10"/>
     <menuitem id="menu_hr_ai_query_logs" name="Query Logs" parent="menu_hr_ai_root" action="action_hr_ai_query_log" sequence="90" groups="radwan_hr_ai_employee.group_hr_ai_manager"/>
     <menuitem id="menu_hr_ai_provider_config" name="AI Provider Connection" parent="menu_hr_ai_root" action="action_hr_ai_provider_config" sequence="80" groups="radwan_hr_ai_employee.group_hr_ai_manager"/>
+    <menuitem id="menu_hr_ai_data_access" name="AI Data Access" parent="menu_hr_ai_root" action="action_hr_ai_data_access" sequence="70" groups="radwan_hr_ai_employee.group_hr_ai_manager"/>
 </odoo>

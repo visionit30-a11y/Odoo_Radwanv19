@@ -18,6 +18,7 @@ AI-ready context without exposing unauthorized data.
         "security/ir.model.access.csv",
         "data/prompt_templates.xml",
         "views/hr_ai_employee_views.xml",
+        "views/hr_ai_data_access_views.xml",
         "views/hr_ai_provider_config_views.xml",
         "views/hr_ai_portal_templates.xml",
         "views/hr_ai_menu_views.xml",

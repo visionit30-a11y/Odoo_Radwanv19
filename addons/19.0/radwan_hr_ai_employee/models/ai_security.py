@@ -29,6 +29,34 @@ class RadwanHrAiSecurity(models.AbstractModel):
             return False
         return self.env[model_name].check_access_rights("read", raise_exception=False)
 
+    def _ai_access_configs(self):
+        if "radwan.hr.ai.data.access" not in self.env:
+            return self.env["ir.model"].browse()
+        return self.env["radwan.hr.ai.data.access"].sudo().search([("active", "=", True)])
+
+    def _has_ai_access_configurations(self):
+        return bool(self._ai_access_configs())
+
+    def _ai_allowed_model_names(self):
+        configs = self._ai_access_configs()
+        if not configs:
+            return set()
+        employee = self._current_employee()
+        is_hr_power_user = self._is_hr_power_user()
+        allowed = set()
+        for config in configs:
+            if config.applies_to_user(self.env.user, employee=employee, is_hr_power_user=is_hr_power_user):
+                allowed.add(config.model_name)
+        return allowed
+
+    def _can_use_model_in_ai(self, model_name):
+        if not self._can_read_model(model_name):
+            return False
+        allowed_model_names = self._ai_allowed_model_names()
+        if not self._has_ai_access_configurations():
+            return True
+        return model_name in allowed_model_names
+
     def _is_hr_power_user(self):
         return (
             self.env.user.has_group("hr.group_hr_manager")
@@ -58,7 +86,7 @@ class RadwanHrAiSecurity(models.AbstractModel):
         return [(employee_field, "in", employee_ids or [0])]
 
     def _safe_search_read(self, model_name, domain=None, fields=None, limit=20, order=None):
-        if not self._can_read_model(model_name):
+        if not self._can_use_model_in_ai(model_name):
             return []
         domain = domain or []
         fields = [field for field in (fields or []) if field in self.env[model_name]._fields]
@@ -94,7 +122,7 @@ class RadwanHrAiSecurity(models.AbstractModel):
         return rows
 
     def _safe_count(self, model_name, domain=None):
-        if not self._can_read_model(model_name):
+        if not self._can_use_model_in_ai(model_name):
             return 0
         try:
             return self.env[model_name].search_count(domain or [])
@@ -102,6 +130,26 @@ class RadwanHrAiSecurity(models.AbstractModel):
             return 0
 
     def _allowed_sources(self):
+        configs = self._ai_access_configs()
+        if configs:
+            employee = self._current_employee()
+            is_hr_power_user = self._is_hr_power_user()
+            sources = []
+            for config in configs:
+                model_name = config.model_name
+                if (
+                    model_name
+                    and self._can_read_model(model_name)
+                    and config.applies_to_user(self.env.user, employee=employee, is_hr_power_user=is_hr_power_user)
+                ):
+                    sources.append(
+                        {
+                            "model": model_name,
+                            "label": config.name or config.model_description or model_name,
+                            "description": config.description or "",
+                        }
+                    )
+            return sources
         sources = []
         for model_name, label in self.HR_MODEL_LABELS.items():
             if self._can_read_model(model_name):
