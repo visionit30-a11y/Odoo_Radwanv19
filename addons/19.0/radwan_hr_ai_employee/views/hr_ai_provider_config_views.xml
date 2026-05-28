@@ -36,7 +36,7 @@
                             <field name="provider"/>
                             <field name="endpoint"/>
                             <field name="model_name"/>
-                            <field name="api_key" password="True"/>
+                            <field name="api_key" widget="password" password="1"/>
                             <field name="timeout"/>
                         </group>
                         <group string="Last Test">

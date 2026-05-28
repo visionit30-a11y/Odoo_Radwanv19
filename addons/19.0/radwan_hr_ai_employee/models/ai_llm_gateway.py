@@ -79,7 +79,7 @@ class RadwanHrAiLlmGateway(models.AbstractModel):
             (config.endpoint if config else self._param("radwan_hr_ai.endpoint", "http://127.0.0.1:11434")) or ""
         ).rstrip("/")
         model = config.model_name if config else self._param("radwan_hr_ai.model", "qwen2.5:7b-instruct")
-        api_key = config.api_key if config else self._param("radwan_hr_ai.api_key", "")
+        api_key = ((config.api_key if config else self._param("radwan_hr_ai.api_key", "")) or "").strip()
         url = "%s/chat" % endpoint if endpoint.endswith("/api") else "%s/api/chat" % endpoint
         headers = {"Content-Type": "application/json"}
         if api_key:
@@ -106,7 +106,7 @@ class RadwanHrAiLlmGateway(models.AbstractModel):
     def _generate_openai_compatible(self, question, secure_context, scope_summary, config=False):
         endpoint = ((config.endpoint if config else self._param("radwan_hr_ai.endpoint", "")) or "").rstrip("/")
         model = config.model_name if config else self._param("radwan_hr_ai.model", "Qwen/Qwen2.5-7B-Instruct")
-        api_key = config.api_key if config else self._param("radwan_hr_ai.api_key", "")
+        api_key = ((config.api_key if config else self._param("radwan_hr_ai.api_key", "")) or "").strip()
         if not endpoint:
             return False
         url = endpoint if endpoint.endswith("/chat/completions") else "%s/v1/chat/completions" % endpoint
