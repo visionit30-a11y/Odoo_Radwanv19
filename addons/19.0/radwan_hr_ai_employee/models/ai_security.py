@@ -46,7 +46,7 @@ class RadwanHrAiSecurity(models.AbstractModel):
         allowed = set()
         for config in configs:
             if config.applies_to_user(self.env.user, employee=employee, is_hr_power_user=is_hr_power_user):
-                allowed.add(config.model_name)
+                allowed.update(config.covered_model_names())
         return allowed
 
     def _can_use_model_in_ai(self, model_name):
@@ -136,19 +136,17 @@ class RadwanHrAiSecurity(models.AbstractModel):
             is_hr_power_user = self._is_hr_power_user()
             sources = []
             for config in configs:
-                model_name = config.model_name
-                if (
-                    model_name
-                    and self._can_read_model(model_name)
-                    and config.applies_to_user(self.env.user, employee=employee, is_hr_power_user=is_hr_power_user)
-                ):
-                    sources.append(
-                        {
-                            "model": model_name,
-                            "label": config.name or config.model_description or model_name,
-                            "description": config.description or "",
-                        }
-                    )
+                if not config.applies_to_user(self.env.user, employee=employee, is_hr_power_user=is_hr_power_user):
+                    continue
+                for model_name in sorted(config.covered_model_names()):
+                    if model_name and self._can_read_model(model_name):
+                        sources.append(
+                            {
+                                "model": model_name,
+                                "label": config.name or model_name,
+                                "description": config.description or "",
+                            }
+                        )
             return sources
         sources = []
         for model_name, label in self.HR_MODEL_LABELS.items():
