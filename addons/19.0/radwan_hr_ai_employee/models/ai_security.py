@@ -140,15 +140,19 @@ class RadwanHrAiSecurity(models.AbstractModel):
             employee = self._current_employee()
             is_hr_power_user = self._is_hr_power_user()
             sources = []
+            seen_models = set()
             for config in configs:
                 if not config.applies_to_user(self.env.user, employee=employee, is_hr_power_user=is_hr_power_user):
                     continue
                 for model_name in sorted(config.covered_model_names()):
-                    if model_name and self._can_read_model(model_name):
+                    if model_name and model_name not in seen_models and self._can_read_model(model_name):
+                        seen_models.add(model_name)
+                        model_record = self.env["ir.model"].sudo().search([("model", "=", model_name)], limit=1)
                         sources.append(
                             {
                                 "model": model_name,
-                                "label": config.name or model_name,
+                                "label": model_record.name or model_name,
+                                "access_rule": config.name or "",
                                 "description": config.description or "",
                             }
                         )

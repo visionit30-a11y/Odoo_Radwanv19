@@ -267,7 +267,7 @@ class RadwanHrAiEmployeeAssistant(models.Model):
             scope_text,
         )
         answer = self._plain_chat_body(llm_answer or self._compose_answer(scope))
-        model_names = ", ".join(source["model"] for source in scope["allowed_sources"])
+        model_names = ", ".join(dict.fromkeys(source["model"] for source in scope["allowed_sources"]))
         self.write(
             {
                 "question": question,
@@ -586,10 +586,23 @@ class RadwanHrAiEmployeeAssistant(models.Model):
 
     def _scope_text(self, scope):
         allowed_lines = []
+        seen_models = set()
         for source in scope["allowed_sources"]:
-            label = source["label"]
+            model_name = source.get("model") or ""
+            if model_name in seen_models:
+                continue
+            seen_models.add(model_name)
+            label = source.get("label") or model_name
+            rule = source.get("access_rule")
             description = source.get("description")
-            allowed_lines.append("- %s%s" % (label, ": %s" % description if description else ""))
+            parts = [label]
+            if model_name:
+                parts.append("(%s)" % model_name)
+            if rule:
+                parts.append("- Rule: %s" % rule)
+            if description:
+                parts.append("- %s" % description)
+            allowed_lines.append("- %s" % " ".join(parts))
         allowed = "\n".join(allowed_lines) or "None"
         return "\n".join(
             [
