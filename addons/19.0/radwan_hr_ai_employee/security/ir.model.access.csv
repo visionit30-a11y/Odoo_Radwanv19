@@ -5,3 +5,5 @@ access_hr_ai_query_log_user,hr.ai.query.log.user,model_radwan_hr_ai_query_log,gr
 access_hr_ai_query_log_manager,hr.ai.query.log.manager,model_radwan_hr_ai_query_log,group_hr_ai_manager,1,1,1,0
 access_hr_ai_employee_assistant_user,hr.ai.employee.assistant.user,model_radwan_hr_ai_employee_assistant,group_hr_ai_employee_user,1,1,1,0
 access_hr_ai_employee_assistant_manager,hr.ai.employee.assistant.manager,model_radwan_hr_ai_employee_assistant,group_hr_ai_manager,1,1,1,1
+access_hr_ai_employee_message_user,hr.ai.employee.message.user,model_radwan_hr_ai_employee_message,group_hr_ai_employee_user,1,1,1,0
+access_hr_ai_employee_message_manager,hr.ai.employee.message.manager,model_radwan_hr_ai_employee_message,group_hr_ai_manager,1,1,1,1

@@ -20,19 +20,30 @@
         <field name="arch" type="xml">
             <form string="Employee HR AI Assistant">
                 <header>
-                    <button name="action_generate_answer" type="object" string="Generate Secure Answer" class="btn-primary" invisible="state != 'draft'"/>
+                    <button name="action_send_message" type="object" string="Send" class="btn-primary"/>
                     <field name="state" widget="statusbar" statusbar_visible="draft,answered,blocked"/>
                 </header>
                 <sheet>
-                    <group>
-                        <field name="user_id" readonly="1"/>
-                        <field name="employee_id" readonly="1"/>
+                    <div class="oe_title">
+                        <h1>Employee HR Assistant</h1>
+                    </div>
+                    <group string="Session">
+                        <group>
+                            <field name="user_id" readonly="1"/>
+                            <field name="employee_id" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="question" readonly="1" string="Last Question"/>
+                        </group>
                     </group>
+                    <field name="chat_html" nolabel="1" readonly="1" widget="html"/>
+                    <separator string="Ask HR AI"/>
                     <group>
-                        <field name="question" placeholder="Ask about your HR data, attendance, leaves, loans, payslips, documents..."/>
+                        <field name="input_text" nolabel="1" placeholder="Type your HR question here..." colspan="4"/>
                     </group>
+                    <button name="action_send_message" type="object" string="Send Message" class="btn-primary"/>
                     <notebook>
-                        <page string="Answer">
+                        <page string="Last Answer">
                             <field name="answer" readonly="1" nolabel="1"/>
                         </page>
                         <page string="Security Scope">
