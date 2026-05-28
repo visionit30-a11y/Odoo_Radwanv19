@@ -32,12 +32,19 @@ class RadwanHrAiEmployeeAssistant(models.Model):
             if not scope["employee_id"] and not scope["is_hr_power_user"]:
                 record._write_blocked(_("No employee profile is linked to your user."))
                 continue
-            answer = record._compose_answer(scope)
+            secure_context = record._compose_secure_context(scope)
+            scope_text = record._scope_text(scope)
+            llm_answer = self.env["radwan.hr.ai.llm.gateway"].generate(
+                record.question,
+                secure_context,
+                scope_text,
+            )
+            answer = llm_answer or record._compose_answer(scope)
             model_names = ", ".join(source["model"] for source in scope["allowed_sources"])
             record.write(
                 {
                     "answer": answer,
-                    "scope_summary": record._scope_text(scope),
+                    "scope_summary": scope_text,
                     "state": "answered",
                 }
             )
@@ -117,6 +124,50 @@ class RadwanHrAiEmployeeAssistant(models.Model):
             "",
             _("Security note: this answer was generated only from models and records your user can read."),
         ]
+        return "\n".join(lines)
+
+    def _compose_secure_context(self, scope):
+        security = self.env["radwan.hr.ai.security"]
+        employee_ids = scope["visible_employee_ids"] or [0]
+        lines = [self._scope_text(scope), ""]
+
+        employee_rows = security._safe_search_read(
+            "hr.employee",
+            [("id", "in", employee_ids)],
+            ["name", "department_id", "job_title", "work_email", "mobile_phone"],
+            limit=10,
+        )
+        if employee_rows:
+            lines.append("Employees:")
+            for emp in employee_rows:
+                lines.append(
+                    "- %s | %s | %s"
+                    % (
+                        emp.get("name", "-"),
+                        self._rel_name(emp.get("department_id")),
+                        emp.get("job_title") or "-",
+                    )
+                )
+
+        metrics = [
+            ("hr.leave", "Leaves", "employee_id"),
+            ("hr.attendance", "Attendance", "employee_id"),
+            ("hr.payslip", "Payslips", "employee_id"),
+            ("hr.employee.loan", "Loans", "employee_id"),
+        ]
+        lines.append("")
+        lines.append("Visible record counts:")
+        for model_name, label, employee_field in metrics:
+            count = security._safe_metric_count(model_name, employee_field)
+            lines.append("- %s: %s" % (label, count))
+
+        task_count = security._safe_count("project.task", [("user_ids", "in", [self.env.uid])])
+        ticket_count = security._safe_count(
+            "helpdesk.ticket",
+            ["|", ("user_id", "=", self.env.uid), ("create_uid", "=", self.env.uid)],
+        )
+        lines.append("- Tasks assigned to current user: %s" % task_count)
+        lines.append("- Tickets related to current user: %s" % ticket_count)
         return "\n".join(lines)
 
     def _scope_text(self, scope):
