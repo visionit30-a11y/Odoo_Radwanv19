@@ -61,15 +61,34 @@ class RadwanHrAiSecurity(models.AbstractModel):
         if not self._can_read_model(model_name):
             return []
         domain = domain or []
+        fields = [field for field in (fields or []) if field in self.env[model_name]._fields]
         try:
             return self.env[model_name].search_read(
                 domain,
-                fields=fields or [],
+                fields=fields,
                 limit=limit,
                 order=order,
             )
         except Exception:
-            return []
+            return self._safe_field_by_field_read(model_name, domain, fields, limit, order)
+
+    def _safe_field_by_field_read(self, model_name, domain=None, fields=None, limit=20, order=None):
+        rows = []
+        try:
+            records = self.env[model_name].search(domain or [], limit=limit, order=order)
+        except Exception:
+            return rows
+        for record in records:
+            row = {"id": record.id}
+            for field in fields or []:
+                if field == "id":
+                    continue
+                try:
+                    row[field] = record.read([field])[0].get(field)
+                except Exception:
+                    continue
+            rows.append(row)
+        return rows
 
     def _safe_count(self, model_name, domain=None):
         if not self._can_read_model(model_name):

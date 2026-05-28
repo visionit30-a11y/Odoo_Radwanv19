@@ -244,24 +244,12 @@ class RadwanHrAiEmployeeAssistant(models.Model):
         security = self.env["radwan.hr.ai.security"]
         employee_ids = scope["visible_employee_ids"] or [0]
         lines = [self._scope_text(scope), ""]
-
-        employee_rows = security._safe_search_read(
-            "hr.employee",
-            [("id", "in", employee_ids)],
-            ["name", "department_id", "job_title", "work_email", "mobile_phone"],
-            limit=10,
-        )
+        employee_fields = self._available_employee_context_fields()
+        employee_rows = security._safe_search_read("hr.employee", [("id", "in", employee_ids)], employee_fields, limit=10)
         if employee_rows:
-            lines.append("Employees:")
+            lines.append("Employee profile records:")
             for emp in employee_rows:
-                lines.append(
-                    "- %s | %s | %s"
-                    % (
-                        emp.get("name", "-"),
-                        self._rel_name(emp.get("department_id")),
-                        emp.get("job_title") or "-",
-                    )
-                )
+                lines += self._format_employee_context(emp)
 
         metrics = [
             ("hr.leave", "Leaves", "employee_id"),
@@ -299,6 +287,101 @@ class RadwanHrAiEmployeeAssistant(models.Model):
         if isinstance(value, (list, tuple)) and len(value) > 1:
             return value[1]
         return value or "-"
+
+    def _available_employee_context_fields(self):
+        Employee = self.env["hr.employee"]
+        wanted_fields = [
+            "id",
+            "name",
+            "radwan_employee_code",
+            "employee_number",
+            "registration_number",
+            "department_id",
+            "parent_id",
+            "job_id",
+            "job_title",
+            "work_email",
+            "private_email",
+            "mobile_phone",
+            "work_phone",
+            "birthday",
+            "country_id",
+            "identification_id",
+            "passport_id",
+            "emergency_contact",
+            "emergency_phone",
+            "bank_account_id",
+            "radwan_joining_date",
+            "radwan_contract_number",
+            "radwan_contract_start_date",
+            "radwan_contract_end_date",
+            "radwan_contract_end_date_display",
+            "radwan_contract_status",
+            "radwan_passport_expiry_date",
+            "radwan_passport_expiry_date_display",
+            "radwan_passport_status",
+            "radwan_id_expiry_date",
+            "radwan_id_expiry_date_display",
+            "radwan_id_expiry_hijri",
+            "radwan_id_status",
+            "radwan_medical_insurance_company",
+            "radwan_medical_policy_number",
+            "radwan_medical_insurance_class",
+            "radwan_medical_insurance_end",
+            "radwan_medical_insurance_end_display",
+            "radwan_medical_insurance_status",
+            "remaining_leaves",
+            "remaining_leave_days",
+            "allocation_remaining_display",
+        ]
+        return [field for field in wanted_fields if field in Employee._fields]
+
+    def _format_employee_context(self, employee):
+        values = [
+            ("Name", employee.get("name")),
+            (
+                "Employee Number",
+                employee.get("radwan_employee_code") or employee.get("employee_number") or employee.get("registration_number"),
+            ),
+            ("Department", self._rel_name(employee.get("department_id"))),
+            ("Direct Manager", self._rel_name(employee.get("parent_id"))),
+            ("Job Position", self._rel_name(employee.get("job_id")) or employee.get("job_title")),
+            ("Job Title", employee.get("job_title")),
+            ("Nationality", self._rel_name(employee.get("country_id"))),
+            ("Birthday", employee.get("birthday")),
+            ("Joining Date", employee.get("radwan_joining_date")),
+            ("Contract Number", employee.get("radwan_contract_number")),
+            ("Contract Start Date", employee.get("radwan_contract_start_date")),
+            ("Contract End Date", employee.get("radwan_contract_end_date_display") or employee.get("radwan_contract_end_date")),
+            ("Contract Status", employee.get("radwan_contract_status")),
+            ("ID Number", employee.get("identification_id")),
+            ("ID Expiry Date", employee.get("radwan_id_expiry_date_display") or employee.get("radwan_id_expiry_date")),
+            ("ID Expiry Date Hijri", employee.get("radwan_id_expiry_hijri")),
+            ("ID Status", employee.get("radwan_id_status")),
+            ("Passport Number", employee.get("passport_id")),
+            ("Passport Expiry Date", employee.get("radwan_passport_expiry_date_display") or employee.get("radwan_passport_expiry_date")),
+            ("Passport Status", employee.get("radwan_passport_status")),
+            ("Mobile Phone", employee.get("mobile_phone")),
+            ("Work Phone", employee.get("work_phone")),
+            ("Personal Email", employee.get("private_email")),
+            ("Work Email", employee.get("work_email")),
+            ("Bank Account", self._rel_name(employee.get("bank_account_id"))),
+            ("Emergency Contact", employee.get("emergency_contact")),
+            ("Emergency Phone", employee.get("emergency_phone")),
+            ("Remaining Leaves", employee.get("remaining_leaves") or employee.get("remaining_leave_days") or employee.get("allocation_remaining_display")),
+            ("Medical Insurance Company", employee.get("radwan_medical_insurance_company")),
+            ("Medical Policy Number", employee.get("radwan_medical_policy_number")),
+            ("Medical Insurance End Date", employee.get("radwan_medical_insurance_end_display") or employee.get("radwan_medical_insurance_end")),
+            ("Medical Insurance Class", employee.get("radwan_medical_insurance_class")),
+            ("Medical Insurance Status", employee.get("radwan_medical_insurance_status")),
+        ]
+        lines = ["- Employee ID: %s" % employee.get("id")]
+        for label, value in values:
+            if value not in (False, None, ""):
+                lines.append("  - %s: %s" % (label, value))
+        if employee.get("id"):
+            lines.append("  - Employee Image URL: /web/image/hr.employee/%s/image_128" % employee["id"])
+        return lines
 
 
 class RadwanHrAiEmployeeMessage(models.Model):
