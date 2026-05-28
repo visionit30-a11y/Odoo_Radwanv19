@@ -77,7 +77,10 @@ class RadwanHrAiSecurity(models.AbstractModel):
         try:
             records = self.env[model_name].search(domain or [], limit=limit, order=order)
         except Exception:
-            return rows
+            try:
+                records = self.env[model_name].search(domain or [], limit=limit)
+            except Exception:
+                return rows
         for record in records:
             row = {"id": record.id}
             for field in fields or []:

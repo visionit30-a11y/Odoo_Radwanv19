@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+import re
+
 from markupsafe import escape
 
 from odoo import _, api, fields, models
@@ -64,7 +66,7 @@ class RadwanHrAiEmployeeAssistant(models.Model):
                 text_color = "#ffffff" if is_user else "#1f2937"
                 align = "flex-end" if is_user else "flex-start"
                 label = _("You") if is_user else _("HR AI")
-                safe_body = escape(message.body or "").replace("\n", "<br/>")
+                safe_body = escape(record._plain_chat_body(message.body)).replace("\n", "<br/>")
                 parts.append(
                     """
                     <div style="display:flex;justify-content:%s;margin:10px 0;">
@@ -79,8 +81,8 @@ class RadwanHrAiEmployeeAssistant(models.Model):
                     % (align, escape(label), bubble_bg, text_color, safe_body)
                 )
             if not messages and record.answer:
-                safe_question = escape(record.question or "").replace("\n", "<br/>")
-                safe_answer = escape(record.answer or "").replace("\n", "<br/>")
+                safe_question = escape(record._plain_chat_body(record.question)).replace("\n", "<br/>")
+                safe_answer = escape(record._plain_chat_body(record.answer)).replace("\n", "<br/>")
                 parts.append(
                     """
                     <div style="display:flex;justify-content:flex-end;margin:10px 0;">
@@ -251,6 +253,11 @@ class RadwanHrAiEmployeeAssistant(models.Model):
             for emp in employee_rows:
                 lines += self._format_employee_context(emp)
 
+        contract_lines = self._compose_contract_context(employee_ids)
+        if contract_lines:
+            lines.append("")
+            lines += contract_lines
+
         metrics = [
             ("hr.leave", "Leaves", "employee_id"),
             ("hr.attendance", "Attendance", "employee_id"),
@@ -288,8 +295,20 @@ class RadwanHrAiEmployeeAssistant(models.Model):
             return value[1]
         return value or "-"
 
+    def _plain_chat_body(self, value):
+        text = value or ""
+        text = re.sub(r"(?i)<\s*br\s*/?\s*>", "\n", text)
+        text = re.sub(r"(?i)</\s*p\s*>", "\n", text)
+        text = re.sub(r"(?i)<\s*p[^>]*>", "", text)
+        return text.strip()
+
+    def _available_model_fields(self, model_name, wanted_fields):
+        if model_name not in self.env:
+            return []
+        Model = self.env[model_name]
+        return [field for field in wanted_fields if field in Model._fields]
+
     def _available_employee_context_fields(self):
-        Employee = self.env["hr.employee"]
         wanted_fields = [
             "id",
             "name",
@@ -334,7 +353,89 @@ class RadwanHrAiEmployeeAssistant(models.Model):
             "remaining_leave_days",
             "allocation_remaining_display",
         ]
-        return [field for field in wanted_fields if field in Employee._fields]
+        return self._available_model_fields("hr.employee", wanted_fields)
+
+    def _compose_contract_context(self, employee_ids):
+        security = self.env["radwan.hr.ai.security"]
+        if not security._can_read_model("hr.version"):
+            return []
+        fields_to_read = self._available_model_fields(
+            "hr.version",
+            [
+                "id",
+                "name",
+                "employee_id",
+                "date_start",
+                "date_end",
+                "contract_date_start",
+                "contract_date_end",
+                "contract_type_id",
+                "employee_type",
+                "resource_calendar_id",
+                "state",
+                "wage",
+                "radwan_basic",
+                "radwan_housing",
+                "radwan_transportation",
+                "radwan_other_allowances",
+                "radwan_total_salary",
+                "radwan_contract_other_notes",
+                "radwan_non_renewal",
+                "trial_date_end",
+                "radwan_trial_start_date",
+                "radwan_extended_trial_start_date",
+                "radwan_extended_trial_end_date",
+            ],
+        )
+        if not fields_to_read:
+            return []
+        order_parts = [
+            "%s desc" % field
+            for field in ("contract_date_start", "date_start", "id")
+            if field in fields_to_read
+        ]
+        rows = security._safe_search_read(
+            "hr.version",
+            [("employee_id", "in", employee_ids or [0])],
+            fields_to_read,
+            limit=20,
+            order=", ".join(order_parts) or None,
+        )
+        if not rows:
+            return []
+        lines = ["Contract/version records:"]
+        for contract in rows:
+            lines += self._format_contract_context(contract)
+        return lines
+
+    def _format_contract_context(self, contract):
+        values = [
+            ("Employee", self._rel_name(contract.get("employee_id"))),
+            ("Reference", contract.get("name")),
+            ("Contract Start Date", contract.get("contract_date_start") or contract.get("date_start")),
+            ("Contract End Date", contract.get("contract_date_end") or contract.get("date_end")),
+            ("Contract Type", self._rel_name(contract.get("contract_type_id"))),
+            ("Employee Type", contract.get("employee_type")),
+            ("Working Schedule", self._rel_name(contract.get("resource_calendar_id"))),
+            ("Status", contract.get("state")),
+            ("Wage", contract.get("wage")),
+            ("Basic Salary", contract.get("radwan_basic")),
+            ("Housing", contract.get("radwan_housing")),
+            ("Transportation", contract.get("radwan_transportation")),
+            ("Other Allowances", contract.get("radwan_other_allowances")),
+            ("Total Salary", contract.get("radwan_total_salary")),
+            ("Non-Renewal", contract.get("radwan_non_renewal")),
+            ("Trial Start Date", contract.get("radwan_trial_start_date")),
+            ("Trial End Date", contract.get("trial_date_end")),
+            ("Extended Trial Start Date", contract.get("radwan_extended_trial_start_date")),
+            ("Extended Trial End Date", contract.get("radwan_extended_trial_end_date")),
+            ("Other Notes", contract.get("radwan_contract_other_notes")),
+        ]
+        lines = ["- Contract/Version ID: %s" % contract.get("id")]
+        for label, value in values:
+            if value not in (False, None, ""):
+                lines.append("  - %s: %s" % (label, value))
+        return lines
 
     def _format_employee_context(self, employee):
         values = [
