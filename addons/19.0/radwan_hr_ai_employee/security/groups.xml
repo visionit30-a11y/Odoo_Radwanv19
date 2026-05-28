@@ -2,12 +2,10 @@
 <odoo>
     <record id="group_hr_ai_employee_user" model="res.groups">
         <field name="name">HR AI Employee User</field>
-        <field name="category_id" ref="base.module_category_human_resources"/>
     </record>
 
     <record id="group_hr_ai_manager" model="res.groups">
         <field name="name">HR AI Manager</field>
-        <field name="category_id" ref="base.module_category_human_resources"/>
         <field name="implied_ids" eval="[(4, ref('group_hr_ai_employee_user'))]"/>
     </record>
 </odoo>
