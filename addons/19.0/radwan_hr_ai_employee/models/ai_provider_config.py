@@ -43,8 +43,11 @@ class RadwanHrAiProviderConfig(models.Model):
 
     def action_test_connection(self):
         for record in self:
+            error_key = "radwan_hr_ai.last_test_error.%s" % record.id
+            self.env["ir.config_parameter"].sudo().set_param(error_key, "")
             answer = self.env["radwan.hr.ai.llm.gateway"].with_context(
-                radwan_hr_ai_config_id=record.id
+                radwan_hr_ai_config_id=record.id,
+                radwan_hr_ai_testing=True,
             ).generate(
                 _("Reply with a short confirmation that the HR AI connection works."),
                 _("Connection test only. No employee data is included."),
@@ -59,12 +62,12 @@ class RadwanHrAiProviderConfig(models.Model):
                     }
                 )
             else:
+                test_error = self.env["ir.config_parameter"].sudo().get_param(error_key, "")
                 record.write(
                     {
                         "last_test_state": "failed",
-                        "last_test_message": _(
-                            "Connection failed. Check provider, endpoint, model name, API key, and network access."
-                        ),
+                        "last_test_message": test_error
+                        or _("Connection failed. Check provider, endpoint, model name, API key, and network access."),
                         "last_test_date": fields.Datetime.now(),
                     }
                 )

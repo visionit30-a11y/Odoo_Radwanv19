@@ -23,6 +23,21 @@ class RadwanHrAiLlmGateway(models.AbstractModel):
     def _param(self, key, default=None):
         return self.env["ir.config_parameter"].sudo().get_param(key, default)
 
+    def _set_test_error(self, config, error):
+        if not self.env.context.get("radwan_hr_ai_testing") or not config:
+            return
+        self.env["ir.config_parameter"].sudo().set_param(
+            "radwan_hr_ai.last_test_error.%s" % config.id,
+            str(error or "")[:1000],
+        )
+
+    def _format_request_error(self, error):
+        response = getattr(error, "response", None)
+        if response is not None:
+            body = (response.text or "").strip()
+            return "HTTP %s: %s" % (response.status_code, body[:800])
+        return str(error)
+
     def _timeout(self):
         config = self._config()
         if config:
@@ -100,6 +115,7 @@ class RadwanHrAiLlmGateway(models.AbstractModel):
             message = data.get("message") or {}
             return (message.get("content") or "").strip()
         except Exception as error:
+            self._set_test_error(config, self._format_request_error(error))
             _logger.warning("Ollama HR AI request failed: %s", error)
             return False
 
@@ -128,5 +144,6 @@ class RadwanHrAiLlmGateway(models.AbstractModel):
             message = choices[0].get("message") or {}
             return (message.get("content") or "").strip()
         except Exception as error:
+            self._set_test_error(config, self._format_request_error(error))
             _logger.warning("OpenAI-compatible HR AI request failed: %s", error)
             return False
