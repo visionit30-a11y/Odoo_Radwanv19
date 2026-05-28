@@ -8,4 +8,12 @@
         <field name="name">HR AI Manager</field>
         <field name="implied_ids" eval="[(4, ref('group_hr_ai_employee_user'))]"/>
     </record>
+
+    <record id="base.group_user" model="res.groups">
+        <field name="implied_ids" eval="[(4, ref('group_hr_ai_employee_user'))]"/>
+    </record>
+
+    <record id="hr.group_hr_manager" model="res.groups">
+        <field name="implied_ids" eval="[(4, ref('group_hr_ai_manager'))]"/>
+    </record>
 </odoo>
