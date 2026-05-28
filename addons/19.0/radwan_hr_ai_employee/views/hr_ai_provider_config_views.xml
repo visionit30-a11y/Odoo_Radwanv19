@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_hr_ai_provider_config_list" model="ir.ui.view">
+        <field name="name">radwan.hr.ai.provider.config.list</field>
+        <field name="model">radwan.hr.ai.provider.config</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="active"/>
+                <field name="name"/>
+                <field name="provider"/>
+                <field name="endpoint"/>
+                <field name="model_name"/>
+                <field name="last_test_state"/>
+                <field name="last_test_date"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_hr_ai_provider_config_form" model="ir.ui.view">
+        <field name="name">radwan.hr.ai.provider.config.form</field>
+        <field name="model">radwan.hr.ai.provider.config</field>
+        <field name="arch" type="xml">
+            <form string="AI Provider Connection">
+                <header>
+                    <button name="action_set_active_connection" type="object" string="Set Active" class="btn-secondary"/>
+                    <button name="action_test_connection" type="object" string="Test Connection" class="btn-primary"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1><field name="name"/></h1>
+                    </div>
+                    <group>
+                        <group string="Connection">
+                            <field name="active"/>
+                            <field name="provider"/>
+                            <field name="endpoint"/>
+                            <field name="model_name"/>
+                            <field name="api_key" password="True"/>
+                            <field name="timeout"/>
+                        </group>
+                        <group string="Last Test">
+                            <field name="last_test_state" readonly="1"/>
+                            <field name="last_test_date" readonly="1"/>
+                            <field name="last_test_message" readonly="1" nolabel="1"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_hr_ai_provider_config" model="ir.actions.act_window">
+        <field name="name">AI Provider Connection</field>
+        <field name="res_model">radwan.hr.ai.provider.config</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

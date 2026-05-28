@@ -13,24 +13,38 @@ class RadwanHrAiLlmGateway(models.AbstractModel):
     _name = "radwan.hr.ai.llm.gateway"
     _description = "Radwan HR AI LLM Gateway"
 
+    def _config(self):
+        config_id = self.env.context.get("radwan_hr_ai_config_id")
+        Config = self.env["radwan.hr.ai.provider.config"].sudo()
+        if config_id:
+            return Config.browse(config_id).exists()
+        return Config.search([("active", "=", True)], limit=1)
+
     def _param(self, key, default=None):
         return self.env["ir.config_parameter"].sudo().get_param(key, default)
 
     def _timeout(self):
+        config = self._config()
+        if config:
+            return config.timeout or 45
         try:
             return int(self._param("radwan_hr_ai.timeout", "45"))
         except (TypeError, ValueError):
             return 45
 
     def is_enabled(self):
+        config = self._config()
+        if config:
+            return config.provider != "disabled"
         return self._param("radwan_hr_ai.provider", "disabled") != "disabled"
 
     def generate(self, question, secure_context, scope_summary):
-        provider = self._param("radwan_hr_ai.provider", "disabled")
+        config = self._config()
+        provider = config.provider if config else self._param("radwan_hr_ai.provider", "disabled")
         if provider == "ollama":
-            return self._generate_ollama(question, secure_context, scope_summary)
+            return self._generate_ollama(question, secure_context, scope_summary, config)
         if provider == "openai_compatible":
-            return self._generate_openai_compatible(question, secure_context, scope_summary)
+            return self._generate_openai_compatible(question, secure_context, scope_summary, config)
         return False
 
     def _system_prompt(self):
@@ -59,9 +73,11 @@ class RadwanHrAiLlmGateway(models.AbstractModel):
             },
         ]
 
-    def _generate_ollama(self, question, secure_context, scope_summary):
-        endpoint = (self._param("radwan_hr_ai.endpoint", "http://127.0.0.1:11434") or "").rstrip("/")
-        model = self._param("radwan_hr_ai.model", "qwen2.5:7b-instruct")
+    def _generate_ollama(self, question, secure_context, scope_summary, config=False):
+        endpoint = (
+            (config.endpoint if config else self._param("radwan_hr_ai.endpoint", "http://127.0.0.1:11434")) or ""
+        ).rstrip("/")
+        model = config.model_name if config else self._param("radwan_hr_ai.model", "qwen2.5:7b-instruct")
         url = "%s/api/chat" % endpoint
         payload = {
             "model": model,
@@ -82,10 +98,10 @@ class RadwanHrAiLlmGateway(models.AbstractModel):
             _logger.warning("Ollama HR AI request failed: %s", error)
             return False
 
-    def _generate_openai_compatible(self, question, secure_context, scope_summary):
-        endpoint = (self._param("radwan_hr_ai.endpoint", "") or "").rstrip("/")
-        model = self._param("radwan_hr_ai.model", "Qwen/Qwen2.5-7B-Instruct")
-        api_key = self._param("radwan_hr_ai.api_key", "")
+    def _generate_openai_compatible(self, question, secure_context, scope_summary, config=False):
+        endpoint = ((config.endpoint if config else self._param("radwan_hr_ai.endpoint", "")) or "").rstrip("/")
+        model = config.model_name if config else self._param("radwan_hr_ai.model", "Qwen/Qwen2.5-7B-Instruct")
+        api_key = config.api_key if config else self._param("radwan_hr_ai.api_key", "")
         if not endpoint:
             return False
         url = endpoint if endpoint.endswith("/chat/completions") else "%s/v1/chat/completions" % endpoint
