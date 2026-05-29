@@ -27,6 +27,7 @@
         'views/hr_employee_views.xml',
         'views/hr_payroll_report.xml',
         'views/hr_work_entry_menus.xml',
+        'views/hr_work_entry_type_views.xml',
         'wizard/hr_payroll_contribution_register_report_views.xml',
         'views/res_config_settings_views.xml',
         'views/report_contribution_register_templates.xml',
