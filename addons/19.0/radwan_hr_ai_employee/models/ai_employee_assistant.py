@@ -728,6 +728,11 @@ class RadwanHrAiEmployeeAssistant(models.Model):
             if unescaped == text:
                 break
             text = unescaped
+        text = re.sub(
+            r'(?is)<a\b[^>]*href=["\']([^"\']+)["\'][^>]*>.*?</a>',
+            r"\1",
+            text,
+        )
         text = text.replace("\\n", "\n")
         text = re.sub(r"(?i)(?:&amp;lt;|&lt;|<)\s*br\s*/?\s*(?:&amp;gt;|&gt;|>)", "\n", text)
         text = re.sub(r"(?i)</\s*p\s*>", "\n", text)
@@ -754,13 +759,26 @@ class RadwanHrAiEmployeeAssistant(models.Model):
         return text.strip()
 
     def _chat_body_html(self, value):
-        text = escape(self._plain_chat_body(value))
-        text = re.sub(
-            r"(/report/(?:html|pdf)/[A-Za-z0-9_.]+/\d+)",
-            r'<a href="\1" target="_blank" style="color:#0b5e93;font-weight:700;text-decoration:underline;">\1</a>',
-            text,
-        )
-        return text.replace("\n", "<br/>")
+        lines = []
+        for line in self._plain_chat_body(value).splitlines():
+            report_match = re.match(
+                r"^\s*(Open printable report|Download PDF)\s*:\s*(/report/(?:html|pdf)/[A-Za-z0-9_.]+/\d+)\s*$",
+                line,
+                flags=re.IGNORECASE,
+            )
+            if report_match:
+                label = report_match.group(1)
+                url = report_match.group(2)
+                lines.append(
+                    '<a href="%s" target="_blank" '
+                    'style="display:inline-block;margin:4px 0;padding:8px 12px;'
+                    'border-radius:10px;background:#e8f3fb;color:#0b5e93;'
+                    'font-weight:700;text-decoration:none;">%s</a>'
+                    % (escape(url), escape(label))
+                )
+                continue
+            lines.append(str(escape(line)))
+        return "<br/>".join(lines)
 
     def _available_model_fields(self, model_name, wanted_fields):
         if model_name not in self.env:
