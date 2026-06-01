@@ -777,6 +777,22 @@ class RadwanHrAiEmployeeAssistant(models.Model):
                     % (escape(url), escape(label))
                 )
                 continue
+            image_match = re.search(r"(/web/image/[A-Za-z0-9_.]+/\d+/[A-Za-z0-9_]+)", line)
+            if image_match:
+                image_url = image_match.group(1)
+                label = line[: image_match.start()].strip(" :-") or _("Employee Image")
+                lines.append(
+                    '<div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">'
+                    '<img src="%s" alt="%s" '
+                    'style="width:96px;height:96px;border-radius:50%%;object-fit:cover;'
+                    'border:3px solid #e8f3fb;background:#f8fafc;"/>'
+                    '<a href="%s" target="_blank" '
+                    'style="display:inline-block;padding:8px 12px;border-radius:10px;'
+                    'background:#e8f3fb;color:#0b5e93;font-weight:700;text-decoration:none;">%s</a>'
+                    "</div>"
+                    % (escape(image_url), escape(label), escape(image_url), escape(label))
+                )
+                continue
             lines.append(str(escape(line)))
         return "<br/>".join(lines)
 
@@ -959,7 +975,7 @@ class RadwanHrAiEmployeeAssistant(models.Model):
             if value not in (False, None, ""):
                 lines.append("  - %s: %s" % (label, value))
         if employee.get("id"):
-            lines.append("  - Employee Image URL: /web/image/hr.employee/%s/image_128" % employee["id"])
+            lines.append("  - Employee Image: /web/image/hr.employee/%s/image_1920" % employee["id"])
         return lines
 
 
