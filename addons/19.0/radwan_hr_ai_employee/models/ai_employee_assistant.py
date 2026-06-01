@@ -261,6 +261,36 @@ class RadwanHrAiEmployeeAssistant(models.Model):
             return False
         secure_context = self._compose_secure_context(scope)
         scope_text = self._scope_text(scope)
+        if self._is_payslip_report_request(question):
+            answer = self._compose_payslip_report_answer(question, scope)
+            model_names = ", ".join(dict.fromkeys(source["model"] for source in scope["allowed_sources"]))
+            self.write(
+                {
+                    "question": question,
+                    "answer": answer,
+                    "scope_summary": scope_text,
+                    "state": "answered",
+                }
+            )
+            self.env["radwan.hr.ai.employee.message"].create(
+                {
+                    "assistant_id": self.id,
+                    "role": "assistant",
+                    "body": answer,
+                }
+            )
+            self.env["radwan.hr.ai.query.log"].create(
+                {
+                    "user_id": self.env.uid,
+                    "employee_id": scope["employee_id"] or False,
+                    "audience": "employee",
+                    "question": question,
+                    "answer": answer,
+                    "allowed_model_names": model_names,
+                    "visible_employee_count": len(scope["visible_employee_ids"]),
+                }
+            )
+            return True
         if self._is_employee_report_request(question):
             answer = self._compose_employee_report_answer(scope)
             model_names = ", ".join(dict.fromkeys(source["model"] for source in scope["allowed_sources"]))
@@ -490,6 +520,69 @@ class RadwanHrAiEmployeeAssistant(models.Model):
         report_words = ("pdf", "تقرير", "طباع", "print", "report")
         employee_words = ("موظف", "الموظفين", "employee", "employees", "اسماء", "أسماء", "الاسماء", "الأسماء")
         return any(word in text for word in report_words) and any(word in text for word in employee_words)
+
+    def _is_payslip_report_request(self, question):
+        text = (question or "").lower()
+        report_words = ("pdf", "qweb", "تقرير", "طباع", "print", "report", "صورة")
+        payslip_words = (
+            "payslip",
+            "pay slip",
+            "salary slip",
+            "مسير",
+            "راتب",
+            "رواتب",
+            "باي سليب",
+            "باى سليب",
+            "سليب",
+        )
+        return any(word in text for word in report_words) and any(word in text for word in payslip_words)
+
+    def _compose_payslip_report_answer(self, question, scope):
+        security = self.env["radwan.hr.ai.security"]
+        if "hr.payslip" not in self.env or not security._can_use_model_in_ai("hr.payslip"):
+            return _("Payslip data is not available under your current HR AI permissions.")
+        payslip = self._find_report_payslip(question, scope)
+        if not payslip:
+            return _("No payslip records are available under your current HR AI permissions.")
+        report_name = "om_hr_payroll.report_payslip"
+        html_url = "/report/html/%s/%s" % (report_name, payslip.id)
+        pdf_url = "/report/pdf/%s/%s" % (report_name, payslip.id)
+        employee_name = payslip.employee_id.name or "-"
+        period = "%s - %s" % (payslip.date_from or "-", payslip.date_to or "-")
+        return "\n".join(
+            [
+                _("Payslip report is ready."),
+                _("Employee: %s") % employee_name,
+                _("Period: %s") % period,
+                _("Open printable report: %s") % html_url,
+                _("Download PDF: %s") % pdf_url,
+            ]
+        )
+
+    def _find_report_payslip(self, question, scope):
+        employee_ids = scope.get("visible_employee_ids") or [0]
+        domain = [("employee_id", "in", employee_ids)]
+        question_text = (question or "").lower()
+        try:
+            with self.env.cr.savepoint():
+                payslips = self.env["hr.payslip"].search(domain, order="date_to desc, date_from desc, id desc", limit=30)
+        except Exception:
+            return self.env["hr.payslip"].browse()
+        if not payslips:
+            return payslips
+        for payslip in payslips:
+            employee_name = (payslip.employee_id.name or "").lower()
+            name_parts = [part for part in re.split(r"\s+", employee_name) if len(part) >= 3]
+            if employee_name and employee_name in question_text:
+                return payslip
+            if name_parts and any(part in question_text for part in name_parts):
+                return payslip
+        current_employee_id = scope.get("employee_id")
+        if current_employee_id:
+            own_payslip = payslips.filtered(lambda slip: slip.employee_id.id == current_employee_id)[:1]
+            if own_payslip:
+                return own_payslip
+        return payslips[:1]
 
     def _compose_employee_report_answer(self, scope):
         security = self.env["radwan.hr.ai.security"]
