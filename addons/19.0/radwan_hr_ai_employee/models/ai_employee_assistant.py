@@ -192,7 +192,7 @@ class RadwanHrAiEmployeeAssistant(models.Model):
                 text_color = "#ffffff" if is_user else "#1f2937"
                 align = "flex-end" if is_user else "flex-start"
                 label = _("You") if is_user else _("HR AI")
-                safe_body = escape(record._plain_chat_body(message.body)).replace("\n", "<br/>")
+                safe_body = record._chat_body_html(message.body)
                 parts.append(
                     """
                     <div style="display:flex;justify-content:%s;margin:10px 0;">
@@ -207,8 +207,8 @@ class RadwanHrAiEmployeeAssistant(models.Model):
                     % (align, escape(label), bubble_bg, text_color, safe_body)
                 )
             if not messages and record.answer:
-                safe_question = escape(record._plain_chat_body(record.question)).replace("\n", "<br/>")
-                safe_answer = escape(record._plain_chat_body(record.answer)).replace("\n", "<br/>")
+                safe_question = record._chat_body_html(record.question)
+                safe_answer = record._chat_body_html(record.answer)
                 parts.append(
                     """
                     <div style="display:flex;justify-content:flex-end;margin:10px 0;">
@@ -261,6 +261,36 @@ class RadwanHrAiEmployeeAssistant(models.Model):
             return False
         secure_context = self._compose_secure_context(scope)
         scope_text = self._scope_text(scope)
+        if self._is_employee_report_request(question):
+            answer = self._compose_employee_report_answer(scope)
+            model_names = ", ".join(dict.fromkeys(source["model"] for source in scope["allowed_sources"]))
+            self.write(
+                {
+                    "question": question,
+                    "answer": answer,
+                    "scope_summary": scope_text,
+                    "state": "answered",
+                }
+            )
+            self.env["radwan.hr.ai.employee.message"].create(
+                {
+                    "assistant_id": self.id,
+                    "role": "assistant",
+                    "body": answer,
+                }
+            )
+            self.env["radwan.hr.ai.query.log"].create(
+                {
+                    "user_id": self.env.uid,
+                    "employee_id": scope["employee_id"] or False,
+                    "audience": "employee",
+                    "question": question,
+                    "answer": answer,
+                    "allowed_model_names": model_names,
+                    "visible_employee_count": len(scope["visible_employee_ids"]),
+                }
+            )
+            return True
         llm_answer = self.env["radwan.hr.ai.llm.gateway"].generate(
             question,
             secure_context,
@@ -454,6 +484,78 @@ class RadwanHrAiEmployeeAssistant(models.Model):
         for row in rows:
             lines += self._format_generic_record_context(model_name, row)
         return lines
+
+    def _is_employee_report_request(self, question):
+        text = (question or "").lower()
+        report_words = ("pdf", "تقرير", "طباع", "print", "report")
+        employee_words = ("موظف", "الموظفين", "employee", "employees", "اسماء", "أسماء", "الاسماء", "الأسماء")
+        return any(word in text for word in report_words) and any(word in text for word in employee_words)
+
+    def _compose_employee_report_answer(self, scope):
+        security = self.env["radwan.hr.ai.security"]
+        if not security._can_use_model_in_ai("hr.employee"):
+            return _("Employee data is not available under your current HR AI permissions.")
+        employee_rows = self._employee_report_rows(scope)
+        if not employee_rows:
+            return _("No employee records are available under your current HR AI permissions.")
+        html_url = "/report/html/radwan_hr_ai_employee.report_hr_ai_employee_names/%s" % self.id
+        pdf_url = "/report/pdf/radwan_hr_ai_employee.report_hr_ai_employee_names/%s" % self.id
+        return "\n".join(
+            [
+                _("Employee names report is ready."),
+                _("Visible employees: %s") % len(employee_rows),
+                _("Open printable report: %s") % html_url,
+                _("Download PDF: %s") % pdf_url,
+            ]
+        )
+
+    def _employee_report_rows(self, scope=None):
+        self.ensure_one()
+        security = self.env["radwan.hr.ai.security"]
+        if not security._can_use_model_in_ai("hr.employee"):
+            return []
+        scope = scope or security.build_user_scope()
+        employee_ids = scope.get("visible_employee_ids") or [0]
+        fields_to_read = self._available_model_fields(
+            "hr.employee",
+            [
+                "name",
+                "radwan_employee_code",
+                "employee_number",
+                "registration_number",
+                "department_id",
+                "job_id",
+                "job_title",
+                "parent_id",
+                "work_email",
+                "mobile_phone",
+            ],
+        )
+        rows = security._safe_search_read(
+            "hr.employee",
+            [("id", "in", employee_ids)],
+            fields_to_read,
+            limit=500,
+            order="name asc",
+        )
+        result = []
+        for index, row in enumerate(rows, start=1):
+            result.append(
+                {
+                    "index": index,
+                    "name": row.get("name") or "-",
+                    "employee_number": row.get("radwan_employee_code")
+                    or row.get("employee_number")
+                    or row.get("registration_number")
+                    or "-",
+                    "department": self._rel_name(row.get("department_id")),
+                    "job": self._rel_name(row.get("job_id")) or row.get("job_title") or "-",
+                    "manager": self._rel_name(row.get("parent_id")),
+                    "work_email": row.get("work_email") or "-",
+                    "mobile_phone": row.get("mobile_phone") or "-",
+                }
+            )
+        return result
 
     def _context_domain_for_model(self, model_name, employee_ids):
         Model = self.env[model_name]
@@ -650,6 +752,15 @@ class RadwanHrAiEmployeeAssistant(models.Model):
         text = re.sub(r"\n\s+", "\n", text)
         text = re.sub(r"\n{3,}", "\n\n", text)
         return text.strip()
+
+    def _chat_body_html(self, value):
+        text = escape(self._plain_chat_body(value))
+        text = re.sub(
+            r"(/report/(?:html|pdf)/[A-Za-z0-9_.]+/\d+)",
+            r'<a href="\1" target="_blank" style="color:#0b5e93;font-weight:700;text-decoration:underline;">\1</a>',
+            text,
+        )
+        return text.replace("\n", "<br/>")
 
     def _available_model_fields(self, model_name, wanted_fields):
         if model_name not in self.env:
