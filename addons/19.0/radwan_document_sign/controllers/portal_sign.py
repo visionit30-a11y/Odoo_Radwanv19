@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import base64
+import re
 
 from odoo import http
 from odoo.exceptions import UserError
@@ -142,11 +143,14 @@ class RadwanDocumentSignPortal(http.Controller):
         return sign_request
 
     def _get_request_document_url(self, sign_request, public=False):
-        if not self._get_document_attachment(sign_request.document_id):
-            return False
-        if public:
+        attachment = self._get_document_attachment(sign_request.document_id)
+        if attachment and public:
             return "/radwan/sign/%s/document" % sign_request.token
-        return "/radwan/sign/request/%s/document" % sign_request.id
+        if attachment:
+            return "/radwan/sign/request/%s/document" % sign_request.id
+        if not public:
+            return self._get_document_preview_url(sign_request.document_id)
+        return False
 
     def _get_document_preview_url(self, document):
         document = document.sudo()
@@ -185,12 +189,9 @@ class RadwanDocumentSignPortal(http.Controller):
             return attachment
         if "content" in document._fields and document.content:
             urls = document.sudo()._get_first_attachment_url() if hasattr(document, "_get_first_attachment_url") else False
-            if urls and "/web/content/" in urls:
-                try:
-                    attachment_id = int(urls.split("/web/content/")[1].split("?")[0].split("/")[0])
-                except (IndexError, TypeError, ValueError):
-                    return False
-                return Attachment.browse(attachment_id).exists()
+            attachment = self._get_attachment_from_url(urls)
+            if attachment:
+                return attachment
         return False
 
     def _make_attachment_preview_response(self, attachment):
@@ -206,3 +207,13 @@ class RadwanDocumentSignPortal(http.Controller):
             ("Content-Disposition", 'inline; filename="%s"' % filename),
         ]
         return request.make_response(raw, headers=headers)
+
+    def _get_attachment_from_url(self, url):
+        if not url:
+            return False
+        match = re.search(r"/web/(?:content|image)/(?:ir\.attachment/)?(\d+)", url)
+        if not match:
+            match = re.search(r"[?&]id=(\d+)", url)
+        if not match:
+            return False
+        return request.env["ir.attachment"].sudo().browse(int(match.group(1))).exists()

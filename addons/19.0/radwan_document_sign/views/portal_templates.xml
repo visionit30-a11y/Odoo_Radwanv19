@@ -142,6 +142,20 @@
                         font-weight: 600;
                         margin-inline-end: 10px;
                     }
+                    .rw-tool-ghost {
+                        position: fixed;
+                        z-index: 1000;
+                        pointer-events: none;
+                        min-width: 140px;
+                        border: 2px solid #7c4dff;
+                        border-radius: 8px;
+                        background: rgba(124, 77, 255, 0.16);
+                        color: #2e1e78;
+                        padding: 12px;
+                        text-align: center;
+                        font-weight: 800;
+                        box-shadow: 0 12px 28px rgba(30, 53, 73, 0.18);
+                    }
                     @media (max-width: 900px) {
                         .rw-workspace { grid-template-columns: 1fr; }
                         .rw-sidebar { border-left: 0; border-top: 1px solid #d8e1ea; }
@@ -238,6 +252,8 @@
                         const deleteButton = document.getElementById("rw-delete-field");
                         let active = null;
                         let drag = null;
+                        let toolDrag = null;
+                        let suppressToolClick = false;
 
                         function setStatus(message) {
                             if (status) {
@@ -369,13 +385,57 @@
                         document.querySelectorAll(".rw-field").forEach(bindField);
                         document.querySelectorAll(".rw-tool").forEach(function (button) {
                             button.addEventListener("click", function () {
+                                if (suppressToolClick) {
+                                    suppressToolClick = false;
+                                    return;
+                                }
                                 addField(button.dataset.type);
+                            });
+                            button.addEventListener("pointerdown", function (event) {
+                                toolDrag = {
+                                    type: button.dataset.type,
+                                    ghost: makeToolGhost(button.textContent.trim(), event.clientX, event.clientY),
+                                };
+                                event.preventDefault();
                             });
                             button.addEventListener("dragstart", function (event) {
                                 event.dataTransfer.effectAllowed = "copy";
                                 event.dataTransfer.setData("text/plain", button.dataset.type);
                             });
                         });
+                        document.addEventListener("pointermove", function (event) {
+                            if (!toolDrag) { return; }
+                            toolDrag.ghost.style.left = event.clientX + 12 + "px";
+                            toolDrag.ghost.style.top = event.clientY + 12 + "px";
+                        });
+                        document.addEventListener("pointerup", function (event) {
+                            if (!toolDrag) { return; }
+                            const parent = doc.getBoundingClientRect();
+                            const inside = (
+                                event.clientX >= parent.left &amp;&amp;
+                                event.clientX &lt;= parent.right &amp;&amp;
+                                event.clientY >= parent.top &amp;&amp;
+                                event.clientY &lt;= parent.bottom
+                            );
+                            if (inside) {
+                                addField(toolDrag.type, {
+                                    left: Math.max(0, Math.min(92, ((event.clientX - parent.left) / parent.width) * 100)),
+                                    top: Math.max(0, Math.min(92, ((event.clientY - parent.top) / parent.height) * 100)),
+                                });
+                                suppressToolClick = true;
+                            }
+                            toolDrag.ghost.remove();
+                            toolDrag = null;
+                        });
+                        function makeToolGhost(label, x, y) {
+                            const ghost = document.createElement("div");
+                            ghost.className = "rw-tool-ghost";
+                            ghost.textContent = label;
+                            ghost.style.left = x + 12 + "px";
+                            ghost.style.top = y + 12 + "px";
+                            document.body.appendChild(ghost);
+                            return ghost;
+                        }
                         doc.addEventListener("dragover", function (event) {
                             event.preventDefault();
                         });
@@ -482,7 +542,7 @@
                         background: #eef5fa;
                         color: #172331;
                     }
-                    .rw-page { width: min(1000px, calc(100% - 28px)); margin: 24px auto; }
+                    .rw-page { width: 100%; margin: 0; }
                     .rw-card {
                         border: 1px solid #d9e5ef;
                         border-radius: 14px;
@@ -528,7 +588,7 @@
                         position: relative;
                         width: min(900px, 100%);
                         height: 1180px;
-                        margin: 18px auto;
+                        margin: 0 auto;
                         background: #fff;
                         border: 1px solid #cbd6df;
                         box-shadow: 0 10px 28px rgba(30, 53, 73, 0.12);
@@ -538,6 +598,12 @@
                         height: 100%;
                         border: 0;
                         pointer-events: none;
+                    }
+                    .rw-empty-preview {
+                        height: 100%;
+                        display: grid;
+                        place-items: center;
+                        color: #607487;
                     }
                     .rw-sign-box {
                         position: absolute;
@@ -590,12 +656,38 @@
                     }
                     .rw-btn-primary { background: #0b5e93; color: #fff; }
                     .rw-btn-secondary { background: #e7f0f7; color: #174361; }
+                    .rw-sign-shell {
+                        display: grid;
+                        grid-template-columns: minmax(0, 1fr) 320px;
+                        min-height: 100vh;
+                    }
+                    .rw-document-area {
+                        padding: 22px;
+                        overflow: auto;
+                    }
+                    .rw-sign-panel {
+                        background: #fff;
+                        border-left: 1px solid #d8e1ea;
+                        padding: 18px;
+                    }
+                    .rw-sign-panel h2 {
+                        font-size: 16px;
+                        margin: 0 0 14px;
+                    }
+                    .rw-panel-help {
+                        color: #607487;
+                        font-size: 13px;
+                        line-height: 1.6;
+                        margin: 0 0 14px;
+                    }
                     @media (max-width: 640px) {
                         .rw-page { margin: 12px auto; width: calc(100% - 18px); }
                         .rw-header, .rw-body { padding: 16px; }
                         .rw-grid { grid-template-columns: 1fr; }
                         .rw-header h1 { font-size: 23px; }
                         .rw-document { height: 760px; }
+                        .rw-sign-shell { grid-template-columns: 1fr; }
+                        .rw-sign-panel { border-left: 0; border-top: 1px solid #d8e1ea; }
                     }
                 </style>
             </head>
@@ -624,45 +716,56 @@
                                     <input type="hidden" name="csrf_token" t-att-value="csrf_token"/>
                                     <input type="hidden" name="signature_data" id="signature_data"/>
                                     <input type="hidden" name="item_payload" id="item_payload"/>
-                                    <div class="rw-grid">
-                                        <div class="rw-field-control">
-                                            <label>Signer Name</label>
-                                            <input name="signer_name" id="rw-signer-name" t-att-value="sign_request.partner_id.name" required="required"/>
-                                        </div>
-                                        <div class="rw-field-control">
-                                            <label>Signer Email</label>
-                                            <input type="email" name="signer_email" t-att-value="sign_request.partner_id.email"/>
-                                        </div>
-                                    </div>
-                                    <div class="rw-sign-tools">
-                                        <button type="button" class="rw-btn rw-btn-secondary" id="rw-auto-signature">Auto Signature</button>
-                                        <button type="button" class="rw-btn rw-btn-secondary" id="rw-upload-trigger">Upload Signature</button>
-                                        <span>or draw directly inside each signature box.</span>
-                                        <input type="file" id="rw-upload-signature" accept="image/*" style="display:none;"/>
-                                    </div>
-                                    <div class="rw-document">
-                                        <t t-if="preview_url"><iframe t-att-src="preview_url"/></t>
-                                        <t t-foreach="sign_request.item_ids" t-as="item">
-                                            <div
-                                                class="rw-sign-box"
-                                                t-att-data-item-id="item.id"
-                                                t-att-data-type="item.field_type"
-                                                t-att-data-required="'1' if item.required else '0'"
-                                                t-att-style="item.css_style"
-                                            >
-                                                <label t-out="item.label"/>
-                                                <t t-if="item.field_type in ('signature', 'initial')">
-                                                    <canvas t-att-data-canvas-id="item.id"/>
-                                                </t>
+                                    <div class="rw-sign-shell">
+                                        <section class="rw-document-area">
+                                            <div class="rw-document">
+                                                <t t-if="preview_url"><iframe t-att-src="preview_url"/></t>
                                                 <t t-else="">
-                                                    <input t-att-data-input-id="item.id" t-att-placeholder="item.label"/>
+                                                    <div class="rw-empty-preview">No previewable document attachment found.</div>
+                                                </t>
+                                                <t t-foreach="sign_request.item_ids" t-as="item">
+                                                    <div
+                                                        class="rw-sign-box"
+                                                        t-att-data-item-id="item.id"
+                                                        t-att-data-type="item.field_type"
+                                                        t-att-data-required="'1' if item.required else '0'"
+                                                        t-att-style="item.css_style"
+                                                    >
+                                                        <label t-out="item.label"/>
+                                                        <t t-if="item.field_type in ('signature', 'initial')">
+                                                            <canvas t-att-data-canvas-id="item.id"/>
+                                                        </t>
+                                                        <t t-else="">
+                                                            <input t-att-data-input-id="item.id" t-att-placeholder="item.label"/>
+                                                        </t>
+                                                    </div>
                                                 </t>
                                             </div>
-                                        </t>
-                                    </div>
-                                    <div class="rw-actions">
-                                        <button type="button" class="rw-btn rw-btn-secondary" id="rw-clear-signature">Clear</button>
-                                        <button type="submit" class="rw-btn rw-btn-primary">Sign Document</button>
+                                        </section>
+                                        <aside class="rw-sign-panel">
+                                            <h2>Signer Details</h2>
+                                            <p class="rw-panel-help">Complete the required fields, then sign the document.</p>
+                                            <div class="rw-grid">
+                                                <div class="rw-field-control">
+                                                    <label>Signer Name</label>
+                                                    <input name="signer_name" id="rw-signer-name" t-att-value="sign_request.partner_id.name" required="required"/>
+                                                </div>
+                                                <div class="rw-field-control">
+                                                    <label>Signer Email</label>
+                                                    <input type="email" name="signer_email" t-att-value="sign_request.partner_id.email"/>
+                                                </div>
+                                            </div>
+                                            <div class="rw-sign-tools">
+                                                <button type="button" class="rw-btn rw-btn-secondary" id="rw-auto-signature">Auto Signature</button>
+                                                <button type="button" class="rw-btn rw-btn-secondary" id="rw-upload-trigger">Upload Signature</button>
+                                                <span>or draw directly inside each signature box.</span>
+                                                <input type="file" id="rw-upload-signature" accept="image/*" style="display:none;"/>
+                                            </div>
+                                            <div class="rw-actions">
+                                                <button type="button" class="rw-btn rw-btn-secondary" id="rw-clear-signature">Clear</button>
+                                                <button type="submit" class="rw-btn rw-btn-primary">Sign Document</button>
+                                            </div>
+                                        </aside>
                                     </div>
                                 </form>
                             </t>
