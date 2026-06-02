@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from odoo import fields, models
+from odoo import api, fields, models
 
 
 class RadwanDocumentSignItem(models.Model):
@@ -34,7 +34,25 @@ class RadwanDocumentSignItem(models.Model):
     pos_y = fields.Float(default=70.0, string="Y (%)", required=True)
     width = fields.Float(default=28.0, string="Width (%)", required=True)
     height = fields.Float(default=8.0, string="Height (%)", required=True)
+    css_style = fields.Char(compute="_compute_css_style")
     value_text = fields.Char(readonly=True, copy=False)
     signature_image = fields.Binary(attachment=True, readonly=True, copy=False)
     signature_filename = fields.Char(default="signature.png", readonly=True, copy=False)
     signed_date = fields.Datetime(readonly=True, copy=False)
+
+    @api.depends("pos_x", "pos_y", "width", "height")
+    def _compute_css_style(self):
+        for item in self:
+            item.css_style = (
+                "left:%s%%;top:%s%%;width:%s%%;height:%s%%;"
+                % (
+                    item._clamp_percent(item.pos_x),
+                    item._clamp_percent(item.pos_y),
+                    item._clamp_percent(item.width),
+                    item._clamp_percent(item.height),
+                )
+            )
+
+    def _clamp_percent(self, value):
+        value = float(value or 0.0)
+        return round(max(0.0, min(100.0, value)), 2)
