@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_document_form_inherit_signature" model="ir.ui.view">
+        <field name="name">document.document.form.inherit.radwan.signature</field>
+        <field name="model">document.document</field>
+        <field name="inherit_id" ref="radwan_document_employee_link.view_document_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form/header" position="inside">
+                <button
+                    name="action_create_signature_request"
+                    type="object"
+                    string="Request Signature"
+                    icon="fa-pencil-square-o"
+                    class="btn-secondary"
+                />
+            </xpath>
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button name="action_view_signature_requests" type="object" class="oe_stat_button" icon="fa-pencil-square-o">
+                    <field name="sign_request_count" widget="statinfo" string="Signatures"/>
+                </button>
+            </xpath>
+            <xpath expr="//field[@name='attachment_preview_url']" position="after">
+                <field name="sign_state" invisible="1"/>
+                <field name="sign_request_count" invisible="1"/>
+            </xpath>
+            <xpath expr="//field[@name='content']" position="before">
+                <group string="Electronic Signature">
+                    <field name="sign_state" widget="badge" readonly="1"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_document_list_inherit_signature" model="ir.ui.view">
+        <field name="name">document.document.list.inherit.radwan.signature</field>
+        <field name="model">document.document</field>
+        <field name="inherit_id" ref="radwan_document_employee_link.view_document_list"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="sign_state" optional="show" widget="badge"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

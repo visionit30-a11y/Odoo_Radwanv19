@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_radwan_document_sign_request_user,radwan.document.sign.request.user,model_radwan_document_sign_request,document_management_system.group_document_user,1,1,1,0
+access_radwan_document_sign_request_manager,radwan.document.sign.request.manager,model_radwan_document_sign_request,document_management_system.group_document_manager,1,1,1,1
