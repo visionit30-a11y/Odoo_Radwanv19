@@ -726,7 +726,10 @@
                             document.getElementById("rw-upload-signature").click();
                         });
                         document.getElementById("rw-upload-signature").addEventListener("change", function (event) {
-                            const file = event.target.files &amp;&amp; event.target.files[0];
+                            let file = false;
+                            if (event.target.files) {
+                                file = event.target.files[0];
+                            }
                             if (!file) { return; }
                             const reader = new FileReader();
                             reader.onload = function () {
@@ -748,14 +751,25 @@
                                 const id = box.dataset.itemId;
                                 if (box.dataset.type === "signature" || box.dataset.type === "initial") {
                                     const item = contexts.get(id);
-                                    const data = item &amp;&amp; item.signed ? item.canvas.toDataURL("image/png") : "";
-                                    if (box.dataset.required === "1" &amp;&amp; !data) { missing = true; }
+                                    let data = "";
+                                    if (item) {
+                                        if (item.signed) {
+                                            data = item.canvas.toDataURL("image/png");
+                                        }
+                                    }
+                                    if (box.dataset.required === "1") {
+                                        if (!data) { missing = true; }
+                                    }
                                     payload[id] = {signature_data: data};
-                                    if (!firstSignature &amp;&amp; data) { firstSignature = data; }
+                                    if (!firstSignature) {
+                                        if (data) { firstSignature = data; }
+                                    }
                                 } else {
                                     const input = box.querySelector("input");
                                     const value = input ? input.value : "";
-                                    if (box.dataset.required === "1" &amp;&amp; !value) { missing = true; }
+                                    if (box.dataset.required === "1") {
+                                        if (!value) { missing = true; }
+                                    }
                                     payload[id] = {value: value};
                                 }
                             });

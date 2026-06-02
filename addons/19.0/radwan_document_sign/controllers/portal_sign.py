@@ -15,7 +15,7 @@ class RadwanDocumentSignPortal(http.Controller):
             "radwan_document_sign.portal_sign_page",
             {
                 "sign_request": sign_request,
-                "preview_url": sign_request.document_id.attachment_preview_url,
+                "preview_url": self._get_document_preview_url(sign_request.document_id),
                 "error": kwargs.get("error"),
                 "csrf_token": request.csrf_token(),
             },
@@ -23,7 +23,7 @@ class RadwanDocumentSignPortal(http.Controller):
 
     @http.route("/radwan/sign/request/<int:request_id>/prepare", type="http", auth="user")
     def prepare_fields(self, request_id, **kwargs):
-        sign_request = request.env["radwan.document.sign.request"].browse(request_id).exists()
+        sign_request = request.env["radwan.document.sign.request"].sudo().browse(request_id).exists()
         if not sign_request:
             raise NotFound()
         sign_request._ensure_default_items()
@@ -31,7 +31,7 @@ class RadwanDocumentSignPortal(http.Controller):
             "radwan_document_sign.prepare_sign_fields_page",
             {
                 "sign_request": sign_request,
-                "preview_url": sign_request.document_id.attachment_preview_url,
+                "preview_url": self._get_document_preview_url(sign_request.document_id),
                 "csrf_token": request.csrf_token(),
             },
         )
@@ -42,10 +42,10 @@ class RadwanDocumentSignPortal(http.Controller):
         auth="user",
     )
     def save_fields(self, request_id, items=None, **kwargs):
-        sign_request = request.env["radwan.document.sign.request"].browse(request_id).exists()
+        sign_request = request.env["radwan.document.sign.request"].sudo().browse(request_id).exists()
         if not sign_request:
             raise NotFound()
-        Item = request.env["radwan.document.sign.item"]
+        Item = request.env["radwan.document.sign.item"].sudo()
         seen_ids = []
         for sequence, values in enumerate(items or [], start=1):
             item_id = values.get("id")
@@ -94,7 +94,7 @@ class RadwanDocumentSignPortal(http.Controller):
                 "radwan_document_sign.portal_sign_page",
                 {
                     "sign_request": sign_request,
-                    "preview_url": sign_request.document_id.attachment_preview_url,
+                    "preview_url": self._get_document_preview_url(sign_request.document_id),
                     "error": error.args[0],
                     "csrf_token": request.csrf_token(),
                 },
@@ -112,3 +112,14 @@ class RadwanDocumentSignPortal(http.Controller):
         if not sign_request:
             raise NotFound()
         return sign_request
+
+    def _get_document_preview_url(self, document):
+        document = document.sudo()
+        if not document:
+            return False
+        if "attachment_preview_url" in document._fields:
+            return document.attachment_preview_url
+        attachment = document.attachment_id if "attachment_id" in document._fields else False
+        if attachment:
+            return "/web/content/%s?download=false" % attachment.id
+        return False
