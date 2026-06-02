@@ -166,7 +166,7 @@
                                     t-att-data-label="item.label"
                                     t-att-data-required="'1' if item.required else '0'"
                                     t-att-data-page="item.page"
-                                    t-att-style="'left:%s%%;top:%s%%;width:%s%%;height:%s%%;' % (item.pos_x, item.pos_y, item.width, item.height)"
+                                    t-attf-style="left:#{item.pos_x}%;top:#{item.pos_y}%;width:#{item.width}%;height:#{item.height}%;"
                                 >
                                     <span t-out="item.label"/>
                                     <i class="rw-resize"/>
@@ -597,7 +597,7 @@
                                                 t-att-data-item-id="item.id"
                                                 t-att-data-type="item.field_type"
                                                 t-att-data-required="'1' if item.required else '0'"
-                                                t-att-style="'left:%s%%;top:%s%%;width:%s%%;height:%s%%;' % (item.pos_x, item.pos_y, item.width, item.height)"
+                                                t-attf-style="left:#{item.pos_x}%;top:#{item.pos_y}%;width:#{item.width}%;height:#{item.height}%;"
                                             >
                                                 <label t-out="item.label"/>
                                                 <t t-if="item.field_type in ('signature', 'initial')">
