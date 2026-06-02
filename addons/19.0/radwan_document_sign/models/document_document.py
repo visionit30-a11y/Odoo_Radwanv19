@@ -29,7 +29,13 @@ class DocumentDocument(models.Model):
             ["document_id"],
             ["document_id"],
         )
-        counts = {document.id: count for document, count in groups}
+        counts = {}
+        for group in groups:
+            document_value = group.get("document_id")
+            if not document_value:
+                continue
+            document_id = document_value[0] if isinstance(document_value, tuple) else document_value
+            counts[document_id] = group.get("document_id_count", 0)
         for document in self:
             document.sign_request_count = counts.get(document.id, 0)
 
