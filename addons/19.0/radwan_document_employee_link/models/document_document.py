@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+import re
 from urllib.parse import parse_qsl, urlencode, urlsplit, urlunsplit
 
 from lxml import html
@@ -94,10 +95,20 @@ class DocumentDocument(models.Model):
         except (ParserError, TypeError, ValueError):
             return False
 
-        for link in document.xpath(".//a[@href]"):
-            href = link.get("href")
-            if self._is_previewable_attachment_url(href):
-                return self._normalize_preview_url(href)
+        urls = []
+        for attr_name in ("href", "src", "data"):
+            for node in document.xpath(".//*[@%s]" % attr_name):
+                urls.append(node.get(attr_name))
+        urls.extend(
+            re.findall(
+                r"""(/web/(?:content|image)[^"' <>\)]*)""",
+                self.content,
+                flags=re.IGNORECASE,
+            )
+        )
+        for url in urls:
+            if self._is_previewable_attachment_url(url):
+                return self._normalize_preview_url(url)
         return False
 
     @api.model

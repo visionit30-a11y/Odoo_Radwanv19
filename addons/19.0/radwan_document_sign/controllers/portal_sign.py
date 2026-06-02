@@ -2,6 +2,7 @@
 
 import base64
 import re
+from urllib.parse import parse_qsl, urlencode, urlsplit, urlunsplit
 
 from odoo import http
 from odoo.exceptions import UserError
@@ -160,6 +161,9 @@ class RadwanDocumentSignPortal(http.Controller):
             preview_url = document.attachment_preview_url
             if preview_url:
                 return preview_url
+        preview_url = self._get_content_preview_url(document)
+        if preview_url:
+            return preview_url
         attachment = self._get_document_attachment(document)
         if attachment:
             return "/web/content/%s?download=false" % attachment.id
@@ -188,8 +192,8 @@ class RadwanDocumentSignPortal(http.Controller):
         if attachment:
             return attachment
         if "content" in document._fields and document.content:
-            urls = document.sudo()._get_first_attachment_url() if hasattr(document, "_get_first_attachment_url") else False
-            attachment = self._get_attachment_from_url(urls)
+            url = self._get_content_preview_url(document)
+            attachment = self._get_attachment_from_url(url)
             if attachment:
                 return attachment
         return False
@@ -217,3 +221,54 @@ class RadwanDocumentSignPortal(http.Controller):
         if not match:
             return False
         return request.env["ir.attachment"].sudo().browse(int(match.group(1))).exists()
+
+    def _get_content_preview_url(self, document):
+        if not document or "content" not in document._fields or not document.content:
+            return False
+        if hasattr(document, "_get_first_attachment_url"):
+            preview_url = document.sudo()._get_first_attachment_url()
+            if preview_url:
+                return preview_url
+        for url in self._extract_preview_urls(document.content):
+            if self._is_previewable_url(url):
+                return self._normalize_preview_url(url)
+        return False
+
+    def _extract_preview_urls(self, content):
+        content = content or ""
+        urls = []
+        urls.extend(
+            re.findall(
+                r"""(?:href|src|data)=["']([^"']+)["']""",
+                content,
+                flags=re.IGNORECASE,
+            )
+        )
+        urls.extend(
+            re.findall(
+                r"""(/web/(?:content|image)[^"' <>\)]*)""",
+                content,
+                flags=re.IGNORECASE,
+            )
+        )
+        return [url for url in urls if url]
+
+    def _is_previewable_url(self, url):
+        return bool(url and ("/web/content" in url or "/web/image" in url))
+
+    def _normalize_preview_url(self, url):
+        split_url = urlsplit(url)
+        query = [
+            (key, value)
+            for key, value in parse_qsl(split_url.query, keep_blank_values=True)
+            if key != "download"
+        ]
+        return urlunsplit(
+            (
+                split_url.scheme,
+                split_url.netloc,
+                split_url.path,
+                urlencode(query),
+                split_url.fragment,
+            )
+        )
