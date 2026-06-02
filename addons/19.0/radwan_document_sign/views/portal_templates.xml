@@ -99,6 +99,7 @@
                         justify-content: center;
                         font-weight: 800;
                         user-select: none;
+                        touch-action: none;
                     }
                     .rw-field.active {
                         box-shadow: 0 0 0 3px rgba(124, 77, 255, 0.18);
@@ -135,6 +136,12 @@
                         gap: 8px;
                         margin-top: 14px;
                     }
+                    .rw-status {
+                        color: #607487;
+                        font-size: 13px;
+                        font-weight: 600;
+                        margin-inline-end: 10px;
+                    }
                     @media (max-width: 900px) {
                         .rw-workspace { grid-template-columns: 1fr; }
                         .rw-sidebar { border-left: 0; border-top: 1px solid #d8e1ea; }
@@ -145,11 +152,12 @@
                 <header class="rw-topbar">
                     <h1>Prepare Signing Fields - <t t-out="sign_request.document_id.display_name"/></h1>
                     <div>
-                        <button class="rw-btn rw-btn-secondary" id="rw-add-signature">Add Signature</button>
-                        <button class="rw-btn rw-btn-primary" id="rw-save-fields">Save Fields</button>
+                        <span class="rw-status" id="rw-status"></span>
+                        <button type="button" class="rw-btn rw-btn-secondary" id="rw-add-signature">Add Signature</button>
+                        <button type="button" class="rw-btn rw-btn-primary" id="rw-save-fields">Save Fields</button>
                     </div>
                 </header>
-                <main class="rw-workspace">
+                <main class="rw-workspace" t-att-data-save-url="'/radwan/sign/request/%s/items/save' % sign_request.id">
                     <section class="rw-document-wrap">
                         <div class="rw-document" id="rw-document">
                             <t t-if="preview_url">
@@ -176,10 +184,10 @@
                     </section>
                     <aside class="rw-sidebar">
                         <h2>Fields</h2>
-                        <button class="rw-btn rw-tool" data-type="signature" draggable="true">Signature</button>
-                        <button class="rw-btn rw-tool" data-type="initial" draggable="true">Initials</button>
-                        <button class="rw-btn rw-tool" data-type="date" draggable="true">Date</button>
-                        <button class="rw-btn rw-tool" data-type="text" draggable="true">Text</button>
+                        <button type="button" class="rw-btn rw-tool" data-type="signature" draggable="true">Signature</button>
+                        <button type="button" class="rw-btn rw-tool" data-type="initial" draggable="true">Initials</button>
+                        <button type="button" class="rw-btn rw-tool" data-type="date" draggable="true">Date</button>
+                        <button type="button" class="rw-btn rw-tool" data-type="text" draggable="true">Text</button>
                         <div class="rw-props">
                             <h2>Selected Field</h2>
                             <label>Label</label>
@@ -206,16 +214,19 @@
                                 Required
                             </label>
                             <div class="rw-actions">
-                                <button class="rw-btn rw-btn-secondary" id="rw-delete-field">Delete</button>
+                                <button type="button" class="rw-btn rw-btn-secondary" id="rw-delete-field">Delete</button>
                             </div>
                         </div>
                     </aside>
                 </main>
                 <script>
                     (function () {
+                        const workspace = document.querySelector(".rw-workspace");
                         const doc = document.getElementById("rw-document");
+                        const saveUrl = workspace.dataset.saveUrl;
                         const saveButton = document.getElementById("rw-save-fields");
                         const addButton = document.getElementById("rw-add-signature");
+                        const status = document.getElementById("rw-status");
                         const propLabel = document.getElementById("rw-prop-label");
                         const propType = document.getElementById("rw-prop-type");
                         const propPage = document.getElementById("rw-prop-page");
@@ -227,6 +238,12 @@
                         const deleteButton = document.getElementById("rw-delete-field");
                         let active = null;
                         let drag = null;
+
+                        function setStatus(message) {
+                            if (status) {
+                                status.textContent = message || "";
+                            }
+                        }
 
                         function rectPercent(element) {
                             const parent = doc.getBoundingClientRect();
@@ -285,14 +302,16 @@
                             doc.appendChild(field);
                             bindField(field);
                             selectField(field);
+                            setStatus("");
                         }
 
                         function bindField(field) {
-                            field.addEventListener("mousedown", function (event) {
+                            field.addEventListener("pointerdown", function (event) {
                                 selectField(field);
                                 const isResize = event.target.classList.contains("rw-resize");
                                 const parent = doc.getBoundingClientRect();
                                 const start = field.getBoundingClientRect();
+                                field.setPointerCapture(event.pointerId);
                                 drag = {
                                     field,
                                     isResize,
@@ -303,35 +322,20 @@
                                     width: start.width,
                                     height: start.height,
                                     parent,
+                                    pointerId: event.pointerId,
                                 };
                                 event.preventDefault();
                             });
+                            field.addEventListener("pointermove", moveField);
+                            field.addEventListener("pointerup", stopField);
+                            field.addEventListener("pointercancel", stopField);
                         }
 
-                        document.querySelectorAll(".rw-field").forEach(bindField);
-                        document.querySelectorAll(".rw-tool").forEach(function (button) {
-                            button.addEventListener("click", function () {
-                                addField(button.dataset.type);
-                            });
-                            button.addEventListener("dragstart", function (event) {
-                                event.dataTransfer.setData("text/plain", button.dataset.type);
-                            });
-                        });
-                        doc.addEventListener("dragover", function (event) {
-                            event.preventDefault();
-                        });
-                        doc.addEventListener("drop", function (event) {
-                            event.preventDefault();
-                            const type = event.dataTransfer.getData("text/plain") || "signature";
-                            const parent = doc.getBoundingClientRect();
-                            addField(type, {
-                                left: Math.max(0, Math.min(92, ((event.clientX - parent.left) / parent.width) * 100)),
-                                top: Math.max(0, Math.min(92, ((event.clientY - parent.top) / parent.height) * 100)),
-                            });
-                        });
-                        addButton.addEventListener("click", function () { addField("signature"); });
-                        document.addEventListener("mousemove", function (event) {
+                        function moveField(event) {
                             if (!drag) {
+                                return;
+                            }
+                            if (drag.pointerId !== event.pointerId) {
                                 return;
                             }
                             const dx = event.clientX - drag.startX;
@@ -350,8 +354,41 @@
                             if (drag.field === active) {
                                 syncPropsFromActive();
                             }
+                            event.preventDefault();
+                        }
+
+                        function stopField(event) {
+                            if (!drag) {
+                                return;
+                            }
+                            if (drag.pointerId === event.pointerId) {
+                                drag = null;
+                            }
+                        }
+
+                        document.querySelectorAll(".rw-field").forEach(bindField);
+                        document.querySelectorAll(".rw-tool").forEach(function (button) {
+                            button.addEventListener("click", function () {
+                                addField(button.dataset.type);
+                            });
+                            button.addEventListener("dragstart", function (event) {
+                                event.dataTransfer.effectAllowed = "copy";
+                                event.dataTransfer.setData("text/plain", button.dataset.type);
+                            });
                         });
-                        document.addEventListener("mouseup", function () { drag = null; });
+                        doc.addEventListener("dragover", function (event) {
+                            event.preventDefault();
+                        });
+                        doc.addEventListener("drop", function (event) {
+                            event.preventDefault();
+                            const type = event.dataTransfer.getData("text/plain") || "signature";
+                            const parent = doc.getBoundingClientRect();
+                            addField(type, {
+                                left: Math.max(0, Math.min(92, ((event.clientX - parent.left) / parent.width) * 100)),
+                                top: Math.max(0, Math.min(92, ((event.clientY - parent.top) / parent.height) * 100)),
+                            });
+                        });
+                        addButton.addEventListener("click", function () { addField("signature"); });
                         propLabel.addEventListener("input", function () {
                             if (!active) { return; }
                             active.dataset.label = propLabel.value;
@@ -368,7 +405,9 @@
                         function bindPercentInput(input, property) {
                             input.addEventListener("input", function () {
                                 if (!active) { return; }
-                                active.style[property] = Math.max(0, Math.min(100, parseFloat(input.value || "0"))) + "%";
+                                const value = Math.max(0, Math.min(100, parseFloat(input.value || "0")));
+                                active.style[property] = value + "%";
+                                syncPropsFromActive();
                             });
                         }
                         bindPercentInput(propX, "left");
@@ -385,6 +424,12 @@
                             active = null;
                         });
                         saveButton.addEventListener("click", function () {
+                            if (!saveUrl) {
+                                setStatus("Save URL is missing.");
+                                return;
+                            }
+                            saveButton.disabled = true;
+                            setStatus("Saving...");
                             const items = Array.from(document.querySelectorAll(".rw-field")).map(function (field) {
                                 const pct = rectPercent(field);
                                 return {
@@ -399,15 +444,21 @@
                                     height: pct.height,
                                 };
                             });
-                            fetch("/radwan/sign/request/<t t-out='sign_request.id'/>/items/save", {
+                            fetch(saveUrl, {
                                 method: "POST",
                                 headers: {"Content-Type": "application/json"},
                                 body: JSON.stringify({jsonrpc: "2.0", method: "call", params: {items: items}}),
                             }).then(function (response) {
                                 return response.json();
-                            }).then(function () {
-                                alert("Signing fields saved.");
+                            }).then(function (payload) {
+                                if (payload.error) {
+                                    throw new Error(payload.error.data &amp;&amp; payload.error.data.message ? payload.error.data.message : "Save failed.");
+                                }
+                                setStatus("Saved.");
                                 window.location.reload();
+                            }).catch(function (error) {
+                                setStatus(error.message || "Save failed.");
+                                saveButton.disabled = false;
                             });
                         });
                     })();

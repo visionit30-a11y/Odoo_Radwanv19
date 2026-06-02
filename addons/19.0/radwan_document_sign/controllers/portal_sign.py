@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+import base64
+
 from odoo import http
 from odoo.exceptions import UserError
 from odoo.http import request
@@ -15,7 +17,7 @@ class RadwanDocumentSignPortal(http.Controller):
             "radwan_document_sign.portal_sign_page",
             {
                 "sign_request": sign_request,
-                "preview_url": self._get_document_preview_url(sign_request.document_id),
+                "preview_url": self._get_request_document_url(sign_request, public=True),
                 "error": kwargs.get("error"),
                 "csrf_token": request.csrf_token(),
             },
@@ -31,7 +33,7 @@ class RadwanDocumentSignPortal(http.Controller):
             "radwan_document_sign.prepare_sign_fields_page",
             {
                 "sign_request": sign_request,
-                "preview_url": self._get_document_preview_url(sign_request.document_id),
+                "preview_url": self._get_request_document_url(sign_request),
                 "csrf_token": request.csrf_token(),
             },
         )
@@ -73,6 +75,32 @@ class RadwanDocumentSignPortal(http.Controller):
         return {"ok": True, "count": len(seen_ids)}
 
     @http.route(
+        "/radwan/sign/request/<int:request_id>/document",
+        type="http",
+        auth="user",
+    )
+    def preview_document(self, request_id, **kwargs):
+        sign_request = request.env["radwan.document.sign.request"].sudo().browse(request_id).exists()
+        if not sign_request:
+            raise NotFound()
+        attachment = self._get_document_attachment(sign_request.document_id)
+        if not attachment:
+            raise NotFound()
+        return self._make_attachment_preview_response(attachment)
+
+    @http.route(
+        "/radwan/sign/<string:token>/document",
+        type="http",
+        auth="public",
+    )
+    def public_preview_document(self, token, **kwargs):
+        sign_request = self._get_request(token)
+        attachment = self._get_document_attachment(sign_request.document_id)
+        if not attachment:
+            raise NotFound()
+        return self._make_attachment_preview_response(attachment)
+
+    @http.route(
         "/radwan/sign/<string:token>/submit",
         type="http",
         auth="public",
@@ -94,7 +122,7 @@ class RadwanDocumentSignPortal(http.Controller):
                 "radwan_document_sign.portal_sign_page",
                 {
                     "sign_request": sign_request,
-                    "preview_url": self._get_document_preview_url(sign_request.document_id),
+                    "preview_url": self._get_request_document_url(sign_request, public=True),
                     "error": error.args[0],
                     "csrf_token": request.csrf_token(),
                 },
@@ -113,13 +141,68 @@ class RadwanDocumentSignPortal(http.Controller):
             raise NotFound()
         return sign_request
 
+    def _get_request_document_url(self, sign_request, public=False):
+        if not self._get_document_attachment(sign_request.document_id):
+            return False
+        if public:
+            return "/radwan/sign/%s/document" % sign_request.token
+        return "/radwan/sign/request/%s/document" % sign_request.id
+
     def _get_document_preview_url(self, document):
         document = document.sudo()
         if not document:
             return False
         if "attachment_preview_url" in document._fields:
-            return document.attachment_preview_url
-        attachment = document.attachment_id if "attachment_id" in document._fields else False
+            preview_url = document.attachment_preview_url
+            if preview_url:
+                return preview_url
+        attachment = self._get_document_attachment(document)
         if attachment:
             return "/web/content/%s?download=false" % attachment.id
         return False
+
+    def _get_document_attachment(self, document):
+        document = document.sudo()
+        if not document:
+            return False
+        if "attachment_id" in document._fields and document.attachment_id:
+            return document.attachment_id.sudo()
+        if "attachment_ids" in document._fields and document.attachment_ids:
+            binary_attachments = document.attachment_ids.sudo().filtered(lambda attachment: attachment.type == "binary")
+            if binary_attachments:
+                return binary_attachments[-1]
+        Attachment = request.env["ir.attachment"].sudo()
+        attachment = Attachment.search(
+            [
+                ("res_model", "=", "document.document"),
+                ("res_id", "=", document.id),
+                ("type", "=", "binary"),
+            ],
+            order="id desc",
+            limit=1,
+        )
+        if attachment:
+            return attachment
+        if "content" in document._fields and document.content:
+            urls = document.sudo()._get_first_attachment_url() if hasattr(document, "_get_first_attachment_url") else False
+            if urls and "/web/content/" in urls:
+                try:
+                    attachment_id = int(urls.split("/web/content/")[1].split("?")[0].split("/")[0])
+                except (IndexError, TypeError, ValueError):
+                    return False
+                return Attachment.browse(attachment_id).exists()
+        return False
+
+    def _make_attachment_preview_response(self, attachment):
+        attachment = attachment.sudo()
+        raw = attachment.raw
+        if not raw and attachment.datas:
+            raw = base64.b64decode(attachment.datas)
+        if not raw:
+            raise NotFound()
+        filename = (attachment.name or "document").replace('"', "")
+        headers = [
+            ("Content-Type", attachment.mimetype or "application/octet-stream"),
+            ("Content-Disposition", 'inline; filename="%s"' % filename),
+        ]
+        return request.make_response(raw, headers=headers)
