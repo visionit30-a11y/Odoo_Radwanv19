@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+import json
 import secrets
 
 from odoo import _, api, fields, models
@@ -56,6 +57,12 @@ class RadwanDocumentSignRequest(models.Model):
     signer_ip = fields.Char(readonly=True, copy=False)
     signer_user_agent = fields.Char(readonly=True, copy=False)
     access_url = fields.Char(compute="_compute_access_url")
+    item_ids = fields.One2many(
+        "radwan.document.sign.item",
+        "request_id",
+        string="Signing Fields",
+    )
+    item_count = fields.Integer(compute="_compute_item_count")
 
     _token_unique = models.Constraint(
         "unique(token)",
@@ -81,6 +88,10 @@ class RadwanDocumentSignRequest(models.Model):
                 else False
             )
 
+    def _compute_item_count(self):
+        for request in self:
+            request.item_count = len(request.item_ids)
+
     def action_send(self):
         for request in self:
             if not request.partner_id.email:
@@ -105,6 +116,16 @@ class RadwanDocumentSignRequest(models.Model):
             "url": self.access_url,
         }
 
+    def action_prepare_fields(self):
+        self.ensure_one()
+        self._ensure_default_items()
+        return {
+            "type": "ir.actions.act_url",
+            "name": _("Prepare Signing Fields"),
+            "target": "new",
+            "url": "/radwan/sign/request/%s/prepare" % self.id,
+        }
+
     def action_reset_to_draft(self):
         self.filtered(lambda item: item.state != "signed").write({"state": "draft"})
 
@@ -122,13 +143,42 @@ class RadwanDocumentSignRequest(models.Model):
             "auto_delete": True,
         }).send()
 
-    def _portal_sign(self, signature_data, signer_name=False, signer_email=False, ip=False, user_agent=False):
+    def _ensure_default_items(self):
+        for request in self:
+            if request.item_ids:
+                continue
+            self.env["radwan.document.sign.item"].create({
+                "request_id": request.id,
+                "field_type": "signature",
+                "label": _("Signature"),
+                "required": True,
+                "page": 1,
+                "pos_x": 8.0,
+                "pos_y": 70.0,
+                "width": 28.0,
+                "height": 8.0,
+            })
+
+    def _portal_sign(
+        self,
+        signature_data=False,
+        signer_name=False,
+        signer_email=False,
+        ip=False,
+        user_agent=False,
+        item_payload=False,
+    ):
         self.ensure_one()
         if self.state in ("signed", "cancelled"):
             raise UserError(_("This signature request is no longer open."))
-        if not signature_data or "," not in signature_data:
+        item_values = self._parse_item_payload(item_payload)
+        first_signature = signature_data
+        if self.item_ids:
+            self._apply_item_payload(item_values)
+            first_signature = first_signature or self._get_first_signature_data(item_values)
+        if not first_signature or "," not in first_signature:
             raise UserError(_("Please draw your signature before submitting."))
-        mime, payload = signature_data.split(",", 1)
+        mime, payload = first_signature.split(",", 1)
         if "image/png" not in mime:
             raise UserError(_("Only PNG signatures are supported."))
         self.write({
@@ -146,3 +196,50 @@ class RadwanDocumentSignRequest(models.Model):
                 body=_("Document signed by %s.") % (self.signer_name or self.partner_id.name)
             )
         return True
+
+    def _parse_item_payload(self, item_payload):
+        if not item_payload:
+            return {}
+        if isinstance(item_payload, dict):
+            return item_payload
+        try:
+            return json.loads(item_payload)
+        except (TypeError, ValueError):
+            return {}
+
+    def _get_first_signature_data(self, item_values):
+        for value in item_values.values():
+            if isinstance(value, dict) and value.get("signature_data"):
+                return value["signature_data"]
+        return False
+
+    def _apply_item_payload(self, item_values):
+        missing = []
+        now = fields.Datetime.now()
+        for item in self.item_ids:
+            value = item_values.get(str(item.id)) or {}
+            if item.field_type in ("signature", "initial"):
+                signature_data = value.get("signature_data")
+                if item.required and not signature_data:
+                    missing.append(item.label or item.field_type)
+                    continue
+                if signature_data and "," in signature_data:
+                    mime, payload = signature_data.split(",", 1)
+                    if "image/png" not in mime:
+                        raise UserError(_("Only PNG signatures are supported."))
+                    item.write({
+                        "signature_image": payload,
+                        "signature_filename": "%s-%s.png" % (self.name or "sign", item.id),
+                        "signed_date": now,
+                    })
+            else:
+                text_value = value.get("value")
+                if item.required and not text_value:
+                    missing.append(item.label or item.field_type)
+                    continue
+                item.write({
+                    "value_text": text_value,
+                    "signed_date": now,
+                })
+        if missing:
+            raise UserError(_("Please complete required fields: %s") % ", ".join(missing))

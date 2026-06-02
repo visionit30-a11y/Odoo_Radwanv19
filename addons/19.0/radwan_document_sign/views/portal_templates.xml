@@ -1,5 +1,421 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+    <template id="prepare_sign_fields_page" name="Prepare Signing Fields">
+        <html>
+            <head>
+                <meta charset="utf-8"/>
+                <meta name="viewport" content="width=device-width, initial-scale=1"/>
+                <title>Prepare Signing Fields</title>
+                <style>
+                    * { box-sizing: border-box; }
+                    body {
+                        margin: 0;
+                        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+                        background: #eef2f6;
+                        color: #172331;
+                    }
+                    .rw-topbar {
+                        height: 58px;
+                        background: #fff;
+                        border-bottom: 1px solid #d8e1ea;
+                        display: flex;
+                        align-items: center;
+                        justify-content: space-between;
+                        padding: 0 18px;
+                        position: sticky;
+                        top: 0;
+                        z-index: 20;
+                    }
+                    .rw-topbar h1 {
+                        font-size: 18px;
+                        margin: 0;
+                    }
+                    .rw-btn {
+                        border: 0;
+                        border-radius: 8px;
+                        padding: 9px 14px;
+                        font-weight: 700;
+                        cursor: pointer;
+                    }
+                    .rw-btn-primary { background: #6f4e7c; color: #fff; }
+                    .rw-btn-secondary { background: #e8eef4; color: #20364a; }
+                    .rw-workspace {
+                        display: grid;
+                        grid-template-columns: minmax(0, 1fr) 300px;
+                        min-height: calc(100vh - 58px);
+                    }
+                    .rw-document-wrap {
+                        padding: 22px;
+                        overflow: auto;
+                    }
+                    .rw-document {
+                        position: relative;
+                        width: min(900px, 100%);
+                        height: 1180px;
+                        margin: 0 auto;
+                        background: #fff;
+                        border: 1px solid #cbd6df;
+                        box-shadow: 0 12px 32px rgba(30, 53, 73, 0.14);
+                    }
+                    .rw-document iframe {
+                        width: 100%;
+                        height: 100%;
+                        border: 0;
+                        display: block;
+                        pointer-events: none;
+                    }
+                    .rw-empty-preview {
+                        height: 100%;
+                        display: grid;
+                        place-items: center;
+                        color: #607487;
+                    }
+                    .rw-sidebar {
+                        background: #fff;
+                        border-left: 1px solid #d8e1ea;
+                        padding: 16px;
+                    }
+                    .rw-sidebar h2 {
+                        font-size: 16px;
+                        margin: 0 0 12px;
+                    }
+                    .rw-tool {
+                        width: 100%;
+                        margin-bottom: 10px;
+                        text-align: start;
+                        background: #eee4f5;
+                        color: #2e2640;
+                    }
+                    .rw-field {
+                        position: absolute;
+                        border: 2px solid #7c4dff;
+                        background: rgba(124, 77, 255, 0.14);
+                        color: #2e1e78;
+                        cursor: move;
+                        min-width: 80px;
+                        min-height: 34px;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        font-weight: 800;
+                        user-select: none;
+                    }
+                    .rw-field.active {
+                        box-shadow: 0 0 0 3px rgba(124, 77, 255, 0.18);
+                    }
+                    .rw-resize {
+                        position: absolute;
+                        right: -7px;
+                        bottom: -7px;
+                        width: 14px;
+                        height: 14px;
+                        border-radius: 50%;
+                        background: #7c4dff;
+                        cursor: nwse-resize;
+                    }
+                    .rw-props {
+                        border-top: 1px solid #e2e8ef;
+                        margin-top: 16px;
+                        padding-top: 16px;
+                    }
+                    .rw-props label {
+                        display: block;
+                        font-size: 12px;
+                        color: #607487;
+                        margin: 10px 0 5px;
+                    }
+                    .rw-props input, .rw-props select {
+                        width: 100%;
+                        border: 1px solid #ccd8e2;
+                        border-radius: 8px;
+                        padding: 8px;
+                    }
+                    .rw-actions {
+                        display: flex;
+                        gap: 8px;
+                        margin-top: 14px;
+                    }
+                    @media (max-width: 900px) {
+                        .rw-workspace { grid-template-columns: 1fr; }
+                        .rw-sidebar { border-left: 0; border-top: 1px solid #d8e1ea; }
+                    }
+                </style>
+            </head>
+            <body>
+                <header class="rw-topbar">
+                    <h1>Prepare Signing Fields - <t t-out="sign_request.document_id.display_name"/></h1>
+                    <div>
+                        <button class="rw-btn rw-btn-secondary" id="rw-add-signature">Add Signature</button>
+                        <button class="rw-btn rw-btn-primary" id="rw-save-fields">Save Fields</button>
+                    </div>
+                </header>
+                <main class="rw-workspace">
+                    <section class="rw-document-wrap">
+                        <div class="rw-document" id="rw-document">
+                            <t t-if="preview_url">
+                                <iframe t-att-src="preview_url"/>
+                            </t>
+                            <t t-else="">
+                                <div class="rw-empty-preview">No previewable document attachment found.</div>
+                            </t>
+                            <t t-foreach="sign_request.item_ids" t-as="item">
+                                <div
+                                    class="rw-field"
+                                    t-att-data-id="item.id"
+                                    t-att-data-field-type="item.field_type"
+                                    t-att-data-label="item.label"
+                                    t-att-data-required="'1' if item.required else '0'"
+                                    t-att-data-page="item.page"
+                                    t-att-style="'left:%s%%;top:%s%%;width:%s%%;height:%s%%;' % (item.pos_x, item.pos_y, item.width, item.height)"
+                                >
+                                    <span t-out="item.label"/>
+                                    <i class="rw-resize"/>
+                                </div>
+                            </t>
+                        </div>
+                    </section>
+                    <aside class="rw-sidebar">
+                        <h2>Fields</h2>
+                        <button class="rw-btn rw-tool" data-type="signature" draggable="true">Signature</button>
+                        <button class="rw-btn rw-tool" data-type="initial" draggable="true">Initials</button>
+                        <button class="rw-btn rw-tool" data-type="date" draggable="true">Date</button>
+                        <button class="rw-btn rw-tool" data-type="text" draggable="true">Text</button>
+                        <div class="rw-props">
+                            <h2>Selected Field</h2>
+                            <label>Label</label>
+                            <input id="rw-prop-label"/>
+                            <label>Type</label>
+                            <select id="rw-prop-type">
+                                <option value="signature">Signature</option>
+                                <option value="initial">Initials</option>
+                                <option value="date">Date</option>
+                                <option value="text">Text</option>
+                            </select>
+                            <label>Page</label>
+                            <input id="rw-prop-page" type="number" min="1"/>
+                            <label>X Position (%)</label>
+                            <input id="rw-prop-x" type="number" min="0" max="100" step="0.1"/>
+                            <label>Y Position (%)</label>
+                            <input id="rw-prop-y" type="number" min="0" max="100" step="0.1"/>
+                            <label>Width (%)</label>
+                            <input id="rw-prop-width" type="number" min="3" max="100" step="0.1"/>
+                            <label>Height (%)</label>
+                            <input id="rw-prop-height" type="number" min="2" max="100" step="0.1"/>
+                            <label>
+                                <input id="rw-prop-required" type="checkbox" style="width:auto;"/>
+                                Required
+                            </label>
+                            <div class="rw-actions">
+                                <button class="rw-btn rw-btn-secondary" id="rw-delete-field">Delete</button>
+                            </div>
+                        </div>
+                    </aside>
+                </main>
+                <script>
+                    (function () {
+                        const doc = document.getElementById("rw-document");
+                        const saveButton = document.getElementById("rw-save-fields");
+                        const addButton = document.getElementById("rw-add-signature");
+                        const propLabel = document.getElementById("rw-prop-label");
+                        const propType = document.getElementById("rw-prop-type");
+                        const propPage = document.getElementById("rw-prop-page");
+                        const propX = document.getElementById("rw-prop-x");
+                        const propY = document.getElementById("rw-prop-y");
+                        const propWidth = document.getElementById("rw-prop-width");
+                        const propHeight = document.getElementById("rw-prop-height");
+                        const propRequired = document.getElementById("rw-prop-required");
+                        const deleteButton = document.getElementById("rw-delete-field");
+                        let active = null;
+                        let drag = null;
+
+                        function rectPercent(element) {
+                            const parent = doc.getBoundingClientRect();
+                            const rect = element.getBoundingClientRect();
+                            return {
+                                pos_x: ((rect.left - parent.left) / parent.width) * 100,
+                                pos_y: ((rect.top - parent.top) / parent.height) * 100,
+                                width: (rect.width / parent.width) * 100,
+                                height: (rect.height / parent.height) * 100,
+                            };
+                        }
+
+                        function selectField(field) {
+                            if (active) {
+                                active.classList.remove("active");
+                            }
+                            active = field;
+                            if (!active) {
+                                return;
+                            }
+                            active.classList.add("active");
+                            propLabel.value = active.dataset.label || active.textContent.trim();
+                            propType.value = active.dataset.fieldType || "signature";
+                            propPage.value = active.dataset.page || "1";
+                            propRequired.checked = active.dataset.required !== "0";
+                            syncPropsFromActive();
+                        }
+
+                        function cleanPercent(value) {
+                            return parseFloat(String(value || "0").replace("%", "")) || 0;
+                        }
+
+                        function syncPropsFromActive() {
+                            if (!active) {
+                                return;
+                            }
+                            propX.value = cleanPercent(active.style.left).toFixed(1);
+                            propY.value = cleanPercent(active.style.top).toFixed(1);
+                            propWidth.value = cleanPercent(active.style.width).toFixed(1);
+                            propHeight.value = cleanPercent(active.style.height).toFixed(1);
+                        }
+
+                        function addField(type, point) {
+                            const field = document.createElement("div");
+                            field.className = "rw-field";
+                            field.dataset.id = "";
+                            field.dataset.fieldType = type || "signature";
+                            field.dataset.label = type === "date" ? "Date" : type === "text" ? "Text" : type === "initial" ? "Initials" : "Signature";
+                            field.dataset.required = "1";
+                            field.dataset.page = "1";
+                            field.style.left = point ? point.left + "%" : "8%";
+                            field.style.top = point ? point.top + "%" : "70%";
+                            field.style.width = type === "date" ? "16%" : "28%";
+                            field.style.height = "8%";
+                            field.innerHTML = "<span>" + field.dataset.label + "</span><i class='rw-resize'></i>";
+                            doc.appendChild(field);
+                            bindField(field);
+                            selectField(field);
+                        }
+
+                        function bindField(field) {
+                            field.addEventListener("mousedown", function (event) {
+                                selectField(field);
+                                const isResize = event.target.classList.contains("rw-resize");
+                                const parent = doc.getBoundingClientRect();
+                                const start = field.getBoundingClientRect();
+                                drag = {
+                                    field,
+                                    isResize,
+                                    startX: event.clientX,
+                                    startY: event.clientY,
+                                    left: start.left - parent.left,
+                                    top: start.top - parent.top,
+                                    width: start.width,
+                                    height: start.height,
+                                    parent,
+                                };
+                                event.preventDefault();
+                            });
+                        }
+
+                        document.querySelectorAll(".rw-field").forEach(bindField);
+                        document.querySelectorAll(".rw-tool").forEach(function (button) {
+                            button.addEventListener("click", function () {
+                                addField(button.dataset.type);
+                            });
+                            button.addEventListener("dragstart", function (event) {
+                                event.dataTransfer.setData("text/plain", button.dataset.type);
+                            });
+                        });
+                        doc.addEventListener("dragover", function (event) {
+                            event.preventDefault();
+                        });
+                        doc.addEventListener("drop", function (event) {
+                            event.preventDefault();
+                            const type = event.dataTransfer.getData("text/plain") || "signature";
+                            const parent = doc.getBoundingClientRect();
+                            addField(type, {
+                                left: Math.max(0, Math.min(92, ((event.clientX - parent.left) / parent.width) * 100)),
+                                top: Math.max(0, Math.min(92, ((event.clientY - parent.top) / parent.height) * 100)),
+                            });
+                        });
+                        addButton.addEventListener("click", function () { addField("signature"); });
+                        document.addEventListener("mousemove", function (event) {
+                            if (!drag) {
+                                return;
+                            }
+                            const dx = event.clientX - drag.startX;
+                            const dy = event.clientY - drag.startY;
+                            if (drag.isResize) {
+                                const width = Math.max(80, drag.width + dx);
+                                const height = Math.max(34, drag.height + dy);
+                                drag.field.style.width = (width / drag.parent.width) * 100 + "%";
+                                drag.field.style.height = (height / drag.parent.height) * 100 + "%";
+                            } else {
+                                const left = Math.max(0, Math.min(drag.parent.width - drag.width, drag.left + dx));
+                                const top = Math.max(0, Math.min(drag.parent.height - drag.height, drag.top + dy));
+                                drag.field.style.left = (left / drag.parent.width) * 100 + "%";
+                                drag.field.style.top = (top / drag.parent.height) * 100 + "%";
+                            }
+                            if (drag.field === active) {
+                                syncPropsFromActive();
+                            }
+                        });
+                        document.addEventListener("mouseup", function () { drag = null; });
+                        propLabel.addEventListener("input", function () {
+                            if (!active) { return; }
+                            active.dataset.label = propLabel.value;
+                            active.querySelector("span").textContent = propLabel.value;
+                        });
+                        propType.addEventListener("change", function () {
+                            if (!active) { return; }
+                            active.dataset.fieldType = propType.value;
+                        });
+                        propPage.addEventListener("input", function () {
+                            if (!active) { return; }
+                            active.dataset.page = propPage.value || "1";
+                        });
+                        function bindPercentInput(input, property) {
+                            input.addEventListener("input", function () {
+                                if (!active) { return; }
+                                active.style[property] = Math.max(0, Math.min(100, parseFloat(input.value || "0"))) + "%";
+                            });
+                        }
+                        bindPercentInput(propX, "left");
+                        bindPercentInput(propY, "top");
+                        bindPercentInput(propWidth, "width");
+                        bindPercentInput(propHeight, "height");
+                        propRequired.addEventListener("change", function () {
+                            if (!active) { return; }
+                            active.dataset.required = propRequired.checked ? "1" : "0";
+                        });
+                        deleteButton.addEventListener("click", function () {
+                            if (!active) { return; }
+                            active.remove();
+                            active = null;
+                        });
+                        saveButton.addEventListener("click", function () {
+                            const items = Array.from(document.querySelectorAll(".rw-field")).map(function (field) {
+                                const pct = rectPercent(field);
+                                return {
+                                    id: field.dataset.id ? parseInt(field.dataset.id, 10) : false,
+                                    field_type: field.dataset.fieldType || "signature",
+                                    label: field.dataset.label || field.textContent.trim(),
+                                    required: field.dataset.required !== "0",
+                                    page: parseInt(field.dataset.page || "1", 10),
+                                    pos_x: pct.pos_x,
+                                    pos_y: pct.pos_y,
+                                    width: pct.width,
+                                    height: pct.height,
+                                };
+                            });
+                            fetch("/radwan/sign/request/<t t-out='sign_request.id'/>/items/save", {
+                                method: "POST",
+                                headers: {"Content-Type": "application/json"},
+                                body: JSON.stringify({jsonrpc: "2.0", method: "call", params: {items: items}}),
+                            }).then(function (response) {
+                                return response.json();
+                            }).then(function () {
+                                alert("Signing fields saved.");
+                                window.location.reload();
+                            });
+                        });
+                    })();
+                </script>
+            </body>
+        </html>
+    </template>
+
     <template id="portal_sign_page" name="Radwan Document Signature Page">
         <html>
             <head>
@@ -15,10 +431,7 @@
                         background: #eef5fa;
                         color: #172331;
                     }
-                    .rw-page {
-                        width: min(920px, calc(100% - 28px));
-                        margin: 32px auto;
-                    }
+                    .rw-page { width: min(1000px, calc(100% - 28px)); margin: 24px auto; }
                     .rw-card {
                         border: 1px solid #d9e5ef;
                         border-radius: 14px;
@@ -29,76 +442,92 @@
                     .rw-header {
                         background: linear-gradient(135deg, #003756, #0b82bd);
                         color: #fff;
-                        padding: 24px;
+                        padding: 22px;
                     }
-                    .rw-header h1 {
-                        margin: 0 0 8px;
-                        font-size: 28px;
-                        line-height: 1.2;
-                    }
-                    .rw-document {
-                        opacity: 0.92;
-                    }
-                    .rw-body {
-                        padding: 24px;
-                    }
-                    .rw-muted {
-                        color: #607487;
-                        font-size: 15px;
-                    }
+                    .rw-header h1 { margin: 0 0 8px; font-size: 26px; }
+                    .rw-body { padding: 22px; }
                     .rw-alert {
                         padding: 14px 16px;
                         border-radius: 10px;
                         margin-bottom: 18px;
                     }
-                    .rw-alert-danger {
-                        background: #fff0f0;
-                        border: 1px solid #ffd1d1;
-                        color: #8a1f1f;
-                    }
-                    .rw-alert-success {
-                        background: #ecfdf4;
-                        border: 1px solid #bcefd2;
-                        color: #075b33;
-                    }
-                    .rw-alert-warning {
-                        background: #fff8e6;
-                        border: 1px solid #f4d89a;
-                        color: #6a4a00;
-                    }
+                    .rw-alert-danger { background: #fff0f0; border: 1px solid #ffd1d1; color: #8a1f1f; }
+                    .rw-alert-success { background: #ecfdf4; border: 1px solid #bcefd2; color: #075b33; }
+                    .rw-alert-warning { background: #fff8e6; border: 1px solid #f4d89a; color: #6a4a00; }
                     .rw-grid {
                         display: grid;
                         grid-template-columns: repeat(2, minmax(0, 1fr));
                         gap: 14px;
-                        margin: 18px 0;
+                        margin-bottom: 18px;
                     }
-                    .rw-field label {
+                    .rw-field-control label {
                         display: block;
                         font-size: 14px;
                         font-weight: 700;
                         margin-bottom: 7px;
                     }
-                    .rw-field input {
+                    .rw-field-control input {
                         width: 100%;
                         border: 1px solid #cfdbe6;
                         border-radius: 10px;
                         padding: 11px 12px;
                         font-size: 16px;
                     }
-                    .rw-sign-pad {
+                    .rw-document {
+                        position: relative;
+                        width: min(900px, 100%);
+                        height: 1180px;
+                        margin: 18px auto;
+                        background: #fff;
+                        border: 1px solid #cbd6df;
+                        box-shadow: 0 10px 28px rgba(30, 53, 73, 0.12);
+                    }
+                    .rw-document iframe {
                         width: 100%;
-                        height: 230px;
-                        border: 1px dashed #8bb9d6;
+                        height: 100%;
+                        border: 0;
+                        pointer-events: none;
+                    }
+                    .rw-sign-box {
+                        position: absolute;
+                        border: 2px solid #0b82bd;
+                        background: rgba(235, 248, 255, 0.86);
+                        border-radius: 8px;
+                        padding: 4px;
+                    }
+                    .rw-sign-box label {
+                        display: block;
+                        color: #075985;
+                        font-size: 12px;
+                        font-weight: 800;
+                        margin-bottom: 3px;
+                    }
+                    .rw-sign-box canvas {
+                        width: 100%;
+                        height: calc(100% - 18px);
+                        min-height: 34px;
+                        background: #fff;
+                        border-radius: 5px;
+                        touch-action: none;
+                    }
+                    .rw-sign-box input {
+                        width: 100%;
+                        height: calc(100% - 18px);
+                        border: 0;
+                        background: #fff;
+                        border-radius: 5px;
+                        padding: 6px;
+                    }
+                    .rw-actions { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 16px; }
+                    .rw-sign-tools {
+                        display: flex;
+                        gap: 10px;
+                        flex-wrap: wrap;
+                        align-items: center;
+                        padding: 12px;
+                        border: 1px solid #d9e5ef;
                         border-radius: 12px;
                         background: #f8fbfd;
-                        touch-action: none;
-                        display: block;
-                    }
-                    .rw-actions {
-                        display: flex;
-                        gap: 12px;
-                        flex-wrap: wrap;
-                        margin-top: 16px;
                     }
                     .rw-btn {
                         border: 0;
@@ -108,19 +537,14 @@
                         font-weight: 700;
                         cursor: pointer;
                     }
-                    .rw-btn-primary {
-                        background: #0b5e93;
-                        color: #fff;
-                    }
-                    .rw-btn-secondary {
-                        background: #e7f0f7;
-                        color: #174361;
-                    }
+                    .rw-btn-primary { background: #0b5e93; color: #fff; }
+                    .rw-btn-secondary { background: #e7f0f7; color: #174361; }
                     @media (max-width: 640px) {
-                        .rw-page { margin: 14px auto; width: calc(100% - 18px); }
-                        .rw-header, .rw-body { padding: 18px; }
+                        .rw-page { margin: 12px auto; width: calc(100% - 18px); }
+                        .rw-header, .rw-body { padding: 16px; }
                         .rw-grid { grid-template-columns: 1fr; }
-                        .rw-header h1 { font-size: 24px; }
+                        .rw-header h1 { font-size: 23px; }
+                        .rw-document { height: 760px; }
                     }
                 </style>
             </head>
@@ -129,7 +553,7 @@
                     <section class="rw-card">
                         <header class="rw-header">
                             <h1>Electronic Signature</h1>
-                            <div class="rw-document" t-out="sign_request.document_id.display_name"/>
+                            <div t-out="sign_request.document_id.display_name"/>
                         </header>
                         <div class="rw-body">
                             <t t-if="sign_request.state == 'signed'">
@@ -144,26 +568,46 @@
                                 <div class="rw-alert rw-alert-warning">This signature request has been cancelled.</div>
                             </t>
                             <t t-else="">
-                                <p class="rw-muted">Please review the document request and draw your signature below.</p>
-                                <t t-if="error">
-                                    <div class="rw-alert rw-alert-danger" t-out="error"/>
-                                </t>
+                                <t t-if="error"><div class="rw-alert rw-alert-danger" t-out="error"/></t>
                                 <form t-att-action="'/radwan/sign/%s/submit' % sign_request.token" method="post" id="rw-sign-form">
                                     <input type="hidden" name="csrf_token" t-att-value="csrf_token"/>
                                     <input type="hidden" name="signature_data" id="signature_data"/>
+                                    <input type="hidden" name="item_payload" id="item_payload"/>
                                     <div class="rw-grid">
-                                        <div class="rw-field">
+                                        <div class="rw-field-control">
                                             <label>Signer Name</label>
-                                            <input name="signer_name" t-att-value="sign_request.partner_id.name" required="required"/>
+                                            <input name="signer_name" id="rw-signer-name" t-att-value="sign_request.partner_id.name" required="required"/>
                                         </div>
-                                        <div class="rw-field">
+                                        <div class="rw-field-control">
                                             <label>Signer Email</label>
                                             <input type="email" name="signer_email" t-att-value="sign_request.partner_id.email"/>
                                         </div>
                                     </div>
-                                    <div class="rw-field">
-                                        <label>Signature</label>
-                                        <canvas id="rw-sign-canvas" class="rw-sign-pad"></canvas>
+                                    <div class="rw-sign-tools">
+                                        <button type="button" class="rw-btn rw-btn-secondary" id="rw-auto-signature">Auto Signature</button>
+                                        <button type="button" class="rw-btn rw-btn-secondary" id="rw-upload-trigger">Upload Signature</button>
+                                        <span>or draw directly inside each signature box.</span>
+                                        <input type="file" id="rw-upload-signature" accept="image/*" style="display:none;"/>
+                                    </div>
+                                    <div class="rw-document">
+                                        <t t-if="preview_url"><iframe t-att-src="preview_url"/></t>
+                                        <t t-foreach="sign_request.item_ids" t-as="item">
+                                            <div
+                                                class="rw-sign-box"
+                                                t-att-data-item-id="item.id"
+                                                t-att-data-type="item.field_type"
+                                                t-att-data-required="'1' if item.required else '0'"
+                                                t-att-style="'left:%s%%;top:%s%%;width:%s%%;height:%s%%;' % (item.pos_x, item.pos_y, item.width, item.height)"
+                                            >
+                                                <label t-out="item.label"/>
+                                                <t t-if="item.field_type in ('signature', 'initial')">
+                                                    <canvas t-att-data-canvas-id="item.id"/>
+                                                </t>
+                                                <t t-else="">
+                                                    <input t-att-data-input-id="item.id" t-att-placeholder="item.label"/>
+                                                </t>
+                                            </div>
+                                        </t>
                                     </div>
                                     <div class="rw-actions">
                                         <button type="button" class="rw-btn rw-btn-secondary" id="rw-clear-signature">Clear</button>
@@ -176,18 +620,22 @@
                 </main>
                 <script>
                     (function () {
-                        const canvas = document.getElementById("rw-sign-canvas");
-                        if (!canvas) {
-                            return;
-                        }
-                        const clearButton = document.getElementById("rw-clear-signature");
                         const form = document.getElementById("rw-sign-form");
-                        const signatureInput = document.getElementById("signature_data");
-                        const context = canvas.getContext("2d");
+                        if (!form) { return; }
+                        const payloadInput = document.getElementById("item_payload");
+                        const firstSignatureInput = document.getElementById("signature_data");
+                        const signerNameInput = document.getElementById("rw-signer-name");
+                        const canvases = Array.from(document.querySelectorAll("canvas[data-canvas-id]"));
+                        const contexts = new Map();
+                        let activeCanvas = null;
                         let drawing = false;
-                        let signed = false;
 
-                        function resizeCanvas() {
+                        function setupCanvas(canvas) {
+                            const context = canvas.getContext("2d");
+                            contexts.set(canvas.dataset.canvasId, {canvas: canvas, context: context, signed: false});
+                            resizeCanvas(canvas, context);
+                        }
+                        function resizeCanvas(canvas, context) {
                             const ratio = Math.max(window.devicePixelRatio || 1, 1);
                             const rect = canvas.getBoundingClientRect();
                             canvas.width = rect.width * ratio;
@@ -195,67 +643,129 @@
                             context.setTransform(ratio, 0, 0, ratio, 0, 0);
                             context.lineCap = "round";
                             context.lineJoin = "round";
-                            context.lineWidth = 2.4;
+                            context.lineWidth = 2.2;
                             context.strokeStyle = "#082f49";
                         }
-
-                        function point(event) {
+                        function point(canvas, event) {
                             const rect = canvas.getBoundingClientRect();
                             const source = event.touches ? event.touches[0] : event;
-                            return {
-                                x: source.clientX - rect.left,
-                                y: source.clientY - rect.top,
-                            };
+                            return {x: source.clientX - rect.left, y: source.clientY - rect.top};
                         }
-
                         function start(event) {
-                            event.preventDefault();
+                            const canvas = event.target;
+                            const item = contexts.get(canvas.dataset.canvasId);
+                            activeCanvas = canvas;
                             drawing = true;
-                            signed = true;
-                            const p = point(event);
-                            context.beginPath();
-                            context.moveTo(p.x, p.y);
+                            item.signed = true;
+                            const p = point(canvas, event);
+                            item.context.beginPath();
+                            item.context.moveTo(p.x, p.y);
+                            event.preventDefault();
                         }
-
                         function draw(event) {
-                            if (!drawing) {
-                                return;
-                            }
+                            if (!drawing || !activeCanvas) { return; }
+                            const item = contexts.get(activeCanvas.dataset.canvasId);
+                            const p = point(activeCanvas, event);
+                            item.context.lineTo(p.x, p.y);
+                            item.context.stroke();
                             event.preventDefault();
-                            const p = point(event);
-                            context.lineTo(p.x, p.y);
-                            context.stroke();
                         }
-
                         function stop(event) {
-                            if (!drawing) {
-                                return;
-                            }
-                            event.preventDefault();
                             drawing = false;
+                            activeCanvas = null;
+                            if (event) { event.preventDefault(); }
                         }
-
-                        resizeCanvas();
-                        window.addEventListener("resize", resizeCanvas);
-                        canvas.addEventListener("mousedown", start);
-                        canvas.addEventListener("mousemove", draw);
-                        canvas.addEventListener("mouseup", stop);
-                        canvas.addEventListener("mouseleave", stop);
-                        canvas.addEventListener("touchstart", start, { passive: false });
-                        canvas.addEventListener("touchmove", draw, { passive: false });
-                        canvas.addEventListener("touchend", stop, { passive: false });
-                        clearButton.addEventListener("click", function () {
+                        function fillAutoSignature(item, text) {
+                            const canvas = item.canvas;
+                            const context = item.context;
                             context.clearRect(0, 0, canvas.width, canvas.height);
-                            signed = false;
-                            signatureInput.value = "";
+                            const rect = canvas.getBoundingClientRect();
+                            context.save();
+                            context.font = "600 " + Math.max(18, rect.height * 0.36) + "px Segoe UI, Arial";
+                            context.fillStyle = "#172554";
+                            context.textAlign = "center";
+                            context.textBaseline = "middle";
+                            context.fillText(text || "Signature", rect.width / 2, rect.height / 2);
+                            context.restore();
+                            item.signed = true;
+                        }
+                        function fillUploadedSignature(item, image) {
+                            const canvas = item.canvas;
+                            const context = item.context;
+                            const rect = canvas.getBoundingClientRect();
+                            context.clearRect(0, 0, canvas.width, canvas.height);
+                            context.drawImage(image, 8, 8, Math.max(20, rect.width - 16), Math.max(20, rect.height - 16));
+                            item.signed = true;
+                        }
+                        canvases.forEach(function (canvas) {
+                            setupCanvas(canvas);
+                            canvas.addEventListener("mousedown", start);
+                            canvas.addEventListener("mousemove", draw);
+                            canvas.addEventListener("mouseup", stop);
+                            canvas.addEventListener("mouseleave", stop);
+                            canvas.addEventListener("touchstart", start, { passive: false });
+                            canvas.addEventListener("touchmove", draw, { passive: false });
+                            canvas.addEventListener("touchend", stop, { passive: false });
+                        });
+                        window.addEventListener("resize", function () {
+                            contexts.forEach(function (item) { resizeCanvas(item.canvas, item.context); });
+                        });
+                        document.getElementById("rw-clear-signature").addEventListener("click", function () {
+                            contexts.forEach(function (item) {
+                                item.context.clearRect(0, 0, item.canvas.width, item.canvas.height);
+                                item.signed = false;
+                            });
+                            document.querySelectorAll("input[data-input-id]").forEach(function (input) { input.value = ""; });
+                        });
+                        document.getElementById("rw-auto-signature").addEventListener("click", function () {
+                            contexts.forEach(function (item) {
+                                fillAutoSignature(item, signerNameInput.value);
+                            });
+                        });
+                        document.getElementById("rw-upload-trigger").addEventListener("click", function () {
+                            document.getElementById("rw-upload-signature").click();
+                        });
+                        document.getElementById("rw-upload-signature").addEventListener("change", function (event) {
+                            const file = event.target.files &amp;&amp; event.target.files[0];
+                            if (!file) { return; }
+                            const reader = new FileReader();
+                            reader.onload = function () {
+                                const image = new Image();
+                                image.onload = function () {
+                                    contexts.forEach(function (item) {
+                                        fillUploadedSignature(item, image);
+                                    });
+                                };
+                                image.src = reader.result;
+                            };
+                            reader.readAsDataURL(file);
                         });
                         form.addEventListener("submit", function (event) {
-                            if (!signed) {
+                            const payload = {};
+                            let firstSignature = "";
+                            let missing = false;
+                            document.querySelectorAll(".rw-sign-box").forEach(function (box) {
+                                const id = box.dataset.itemId;
+                                if (box.dataset.type === "signature" || box.dataset.type === "initial") {
+                                    const item = contexts.get(id);
+                                    const data = item &amp;&amp; item.signed ? item.canvas.toDataURL("image/png") : "";
+                                    if (box.dataset.required === "1" &amp;&amp; !data) { missing = true; }
+                                    payload[id] = {signature_data: data};
+                                    if (!firstSignature &amp;&amp; data) { firstSignature = data; }
+                                } else {
+                                    const input = box.querySelector("input");
+                                    const value = input ? input.value : "";
+                                    if (box.dataset.required === "1" &amp;&amp; !value) { missing = true; }
+                                    payload[id] = {value: value};
+                                }
+                            });
+                            if (missing) {
                                 event.preventDefault();
-                                alert("Please draw your signature first.");
+                                alert("Please complete all required fields.");
                                 return;
                             }
-                            signatureInput.value = canvas.toDataURL("image/png");
+                            payloadInput.value = JSON.stringify(payload);
+                            firstSignatureInput.value = firstSignature;
                         });
                     })();
                 </script>
