@@ -70,6 +70,19 @@
                         place-items: center;
                         color: #607487;
                     }
+                    .rw-html-preview {
+                        height: 100%;
+                        overflow: auto;
+                        padding: 24px;
+                        color: #172331;
+                        background: #fff;
+                    }
+                    .rw-html-preview img,
+                    .rw-html-preview iframe,
+                    .rw-html-preview object,
+                    .rw-html-preview embed {
+                        max-width: 100%;
+                    }
                     .rw-sidebar {
                         background: #fff;
                         border-left: 1px solid #d8e1ea;
@@ -176,6 +189,9 @@
                         <div class="rw-document" id="rw-document">
                             <t t-if="preview_url">
                                 <iframe t-att-src="preview_url"/>
+                            </t>
+                            <t t-elif="document_html">
+                                <div class="rw-html-preview" t-out="document_html"/>
                             </t>
                             <t t-else="">
                                 <div class="rw-empty-preview">No previewable document attachment found.</div>
@@ -605,6 +621,19 @@
                         place-items: center;
                         color: #607487;
                     }
+                    .rw-html-preview {
+                        height: 100%;
+                        overflow: auto;
+                        padding: 24px;
+                        color: #172331;
+                        background: #fff;
+                    }
+                    .rw-html-preview img,
+                    .rw-html-preview iframe,
+                    .rw-html-preview object,
+                    .rw-html-preview embed {
+                        max-width: 100%;
+                    }
                     .rw-sign-box {
                         position: absolute;
                         border: 2px solid #0b82bd;
@@ -720,6 +749,9 @@
                                         <section class="rw-document-area">
                                             <div class="rw-document">
                                                 <t t-if="preview_url"><iframe t-att-src="preview_url"/></t>
+                                                <t t-elif="document_html">
+                                                    <div class="rw-html-preview" t-out="document_html"/>
+                                                </t>
                                                 <t t-else="">
                                                     <div class="rw-empty-preview">No previewable document attachment found.</div>
                                                 </t>

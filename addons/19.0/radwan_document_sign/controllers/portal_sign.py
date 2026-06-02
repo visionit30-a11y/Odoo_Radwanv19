@@ -7,6 +7,7 @@ from urllib.parse import parse_qsl, urlencode, urlsplit, urlunsplit
 from odoo import http
 from odoo.exceptions import UserError
 from odoo.http import request
+from markupsafe import Markup
 from werkzeug.exceptions import NotFound
 
 
@@ -20,6 +21,7 @@ class RadwanDocumentSignPortal(http.Controller):
             {
                 "sign_request": sign_request,
                 "preview_url": self._get_request_document_url(sign_request, public=True),
+                "document_html": self._get_document_html(sign_request.document_id),
                 "error": kwargs.get("error"),
                 "csrf_token": request.csrf_token(),
             },
@@ -36,6 +38,7 @@ class RadwanDocumentSignPortal(http.Controller):
             {
                 "sign_request": sign_request,
                 "preview_url": self._get_request_document_url(sign_request),
+                "document_html": self._get_document_html(sign_request.document_id),
                 "csrf_token": request.csrf_token(),
             },
         )
@@ -125,6 +128,7 @@ class RadwanDocumentSignPortal(http.Controller):
                 {
                     "sign_request": sign_request,
                     "preview_url": self._get_request_document_url(sign_request, public=True),
+                    "document_html": self._get_document_html(sign_request.document_id),
                     "error": error.args[0],
                     "csrf_token": request.csrf_token(),
                 },
@@ -142,6 +146,11 @@ class RadwanDocumentSignPortal(http.Controller):
         if not sign_request:
             raise NotFound()
         return sign_request
+
+    def _get_document_html(self, document):
+        if not document or "content" not in document._fields or not document.content:
+            return False
+        return Markup(document.sudo().content)
 
     def _get_request_document_url(self, sign_request, public=False):
         attachment = self._get_document_attachment(sign_request.document_id)
