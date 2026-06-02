@@ -88,7 +88,7 @@ class RadwanDocumentSignPortal(http.Controller):
         sign_request = request.env["radwan.document.sign.request"].sudo().browse(request_id).exists()
         if not sign_request:
             raise NotFound()
-        attachment = self._get_document_attachment(sign_request.document_id)
+        attachment = self._get_request_attachment(sign_request)
         if not attachment:
             raise NotFound()
         return self._make_attachment_preview_response(attachment)
@@ -100,7 +100,7 @@ class RadwanDocumentSignPortal(http.Controller):
     )
     def public_preview_document(self, token, **kwargs):
         sign_request = self._get_request(token)
-        attachment = self._get_document_attachment(sign_request.document_id)
+        attachment = self._get_request_attachment(sign_request)
         if not attachment:
             raise NotFound()
         return self._make_attachment_preview_response(attachment)
@@ -153,7 +153,7 @@ class RadwanDocumentSignPortal(http.Controller):
         return Markup(document.sudo().content)
 
     def _get_request_document_url(self, sign_request, public=False):
-        attachment = self._get_document_attachment(sign_request.document_id)
+        attachment = self._get_request_attachment(sign_request)
         if attachment and public:
             return "/radwan/sign/%s/document" % sign_request.token
         if attachment:
@@ -178,10 +178,20 @@ class RadwanDocumentSignPortal(http.Controller):
             return "/web/content/%s?download=false" % attachment.id
         return False
 
-    def _get_document_attachment(self, document):
+    def _get_request_attachment(self, sign_request):
+        if "attachment_id" in sign_request._fields and sign_request.attachment_id:
+            return sign_request.attachment_id.sudo()
+        return self._get_document_attachment(sign_request.document_id)
+
+    def _get_document_attachment(self, document, visited=None):
         document = document.sudo()
         if not document:
             return False
+        visited = visited or set()
+        if document.id in visited:
+            return False
+        visited.add(document.id)
+
         if "attachment_id" in document._fields and document.attachment_id:
             return document.attachment_id.sudo()
         if "attachment_ids" in document._fields and document.attachment_ids:
@@ -205,7 +215,24 @@ class RadwanDocumentSignPortal(http.Controller):
             attachment = self._get_attachment_from_url(url)
             if attachment:
                 return attachment
+        for child in self._get_document_children(document):
+            attachment = self._get_document_attachment(child, visited)
+            if attachment:
+                return attachment
         return False
+
+    def _get_document_children(self, document):
+        Document = request.env["document.document"].sudo()
+        children = Document.browse()
+        for field_name in ("child_ids", "children_ids", "document_child_ids", "document_ids"):
+            if field_name not in document._fields:
+                continue
+            value = document.sudo()[field_name]
+            if hasattr(value, "_name") and value._name == "document.document":
+                children |= value.sudo()
+        if "parent_id" in document._fields:
+            children |= Document.search([("parent_id", "=", document.id)], order="id desc")
+        return children.exists()
 
     def _make_attachment_preview_response(self, attachment):
         attachment = attachment.sudo()

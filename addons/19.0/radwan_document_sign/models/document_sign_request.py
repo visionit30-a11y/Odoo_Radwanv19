@@ -21,6 +21,13 @@ class RadwanDocumentSignRequest(models.Model):
         tracking=True,
         index=True,
     )
+    attachment_id = fields.Many2one(
+        "ir.attachment",
+        string="Document Attachment",
+        readonly=True,
+        copy=False,
+        help="The actual PDF or binary attachment used for preview and signing.",
+    )
     partner_id = fields.Many2one("res.partner", string="Signer", required=True, tracking=True)
     employee_id = fields.Many2one("hr.employee", tracking=True)
     requester_id = fields.Many2one(

@@ -47,6 +47,7 @@
                     <group>
                         <group string="Document">
                             <field name="document_id"/>
+                            <field name="attachment_id" readonly="1"/>
                             <field name="requester_id"/>
                             <field name="company_id" groups="base.group_multi_company"/>
                         </group>

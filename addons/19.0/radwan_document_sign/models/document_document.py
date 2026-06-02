@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+import re
+
 from odoo import _, fields, models
 from odoo.exceptions import UserError
 
@@ -53,6 +55,7 @@ class DocumentDocument(models.Model):
         self.ensure_one()
         partner = self.partner_id
         employee = self.employee_id
+        attachment = self._get_signature_attachment()
         if not partner and employee:
             for field_name in ("work_contact_id", "address_home_id", "user_partner_id"):
                 if field_name in employee._fields and employee[field_name]:
@@ -64,6 +67,7 @@ class DocumentDocument(models.Model):
             raise UserError(_("Select a related partner or employee before requesting a signature."))
         request = self.env["radwan.document.sign.request"].create({
             "document_id": self.id,
+            "attachment_id": attachment.id if attachment else False,
             "partner_id": partner.id,
             "employee_id": employee.id if employee else False,
             "subject": _("Please sign: %s") % (self.display_name,),
@@ -87,3 +91,100 @@ class DocumentDocument(models.Model):
             "domain": [("document_id", "=", self.id)],
             "context": {"default_document_id": self.id},
         }
+
+    def _get_signature_attachment(self):
+        self.ensure_one()
+        return self._find_signature_attachment(set())
+
+    def _find_signature_attachment(self, visited):
+        self.ensure_one()
+        if self.id in visited:
+            return self.env["ir.attachment"]
+        visited.add(self.id)
+
+        attachment = self._get_direct_signature_attachment()
+        if attachment:
+            return attachment
+
+        for child in self._get_signature_child_documents():
+            attachment = child._find_signature_attachment(visited)
+            if attachment:
+                return attachment
+        return self.env["ir.attachment"]
+
+    def _get_direct_signature_attachment(self):
+        self.ensure_one()
+        if "attachment_id" in self._fields and self.attachment_id:
+            return self.attachment_id.sudo()
+
+        if "attachment_ids" in self._fields and self.attachment_ids:
+            binary_attachments = self.attachment_ids.sudo().filtered(
+                lambda attachment: attachment.type == "binary"
+            )
+            if binary_attachments:
+                return binary_attachments[-1]
+
+        Attachment = self.env["ir.attachment"].sudo()
+        attachment = Attachment.search(
+            [
+                ("res_model", "=", "document.document"),
+                ("res_id", "=", self.id),
+                ("type", "=", "binary"),
+            ],
+            order="id desc",
+            limit=1,
+        )
+        if attachment:
+            return attachment
+
+        url = False
+        if hasattr(self, "_get_first_attachment_url"):
+            url = self.sudo()._get_first_attachment_url()
+        elif "content" in self._fields and self.content:
+            url = self._extract_signature_attachment_url(self.content)
+        return self._get_signature_attachment_from_url(url)
+
+    def _get_signature_child_documents(self):
+        self.ensure_one()
+        Document = self.env["document.document"].sudo()
+        children = Document.browse()
+
+        for field_name in ("child_ids", "children_ids", "document_child_ids", "document_ids"):
+            if field_name not in self._fields:
+                continue
+            value = self.sudo()[field_name]
+            if hasattr(value, "_name") and value._name == "document.document":
+                children |= value.sudo()
+
+        if "parent_id" in self._fields:
+            children |= Document.search([("parent_id", "=", self.id)], order="id desc")
+
+        return children.exists()
+
+    def _extract_signature_attachment_url(self, content):
+        urls = re.findall(
+            r"""(?:href|src|data)=["']([^"']+)["']""",
+            content or "",
+            flags=re.IGNORECASE,
+        )
+        urls.extend(
+            re.findall(
+                r"""(/web/(?:content|image)[^"' <>\)]*)""",
+                content or "",
+                flags=re.IGNORECASE,
+            )
+        )
+        for url in urls:
+            if "/web/content" in url or "/web/image" in url:
+                return url
+        return False
+
+    def _get_signature_attachment_from_url(self, url):
+        if not url:
+            return self.env["ir.attachment"]
+        match = re.search(r"/web/(?:content|image)/(?:ir\.attachment/)?(\d+)", url)
+        if not match:
+            match = re.search(r"[?&]id=(\d+)", url)
+        if not match:
+            return self.env["ir.attachment"]
+        return self.env["ir.attachment"].sudo().browse(int(match.group(1))).exists()
