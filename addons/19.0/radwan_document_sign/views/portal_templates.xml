@@ -62,7 +62,6 @@
                         height: 100%;
                         border: 0;
                         display: block;
-                        pointer-events: none;
                     }
                     .rw-empty-preview {
                         height: 100%;
@@ -109,8 +108,19 @@
                         outline: 3px dashed rgba(124, 77, 255, 0.45);
                         outline-offset: 8px;
                     }
+                    .rw-drop-layer {
+                        display: none;
+                        position: absolute;
+                        inset: 0;
+                        z-index: 4;
+                        background: rgba(124, 77, 255, 0.03);
+                    }
+                    .rw-document.rw-document-drop-target .rw-drop-layer {
+                        display: block;
+                    }
                     .rw-field {
                         position: absolute;
+                        z-index: 5;
                         border: 2px solid #7c4dff;
                         background: rgba(124, 77, 255, 0.14);
                         color: #2e1e78;
@@ -206,6 +216,7 @@
                             <t t-else="">
                                 <div class="rw-empty-preview">No previewable document attachment found.</div>
                             </t>
+                            <div class="rw-drop-layer" id="rw-drop-layer"></div>
                             <t t-foreach="sign_request.item_ids" t-as="item">
                                 <div
                                     class="rw-field"
@@ -263,6 +274,7 @@
                     (function () {
                         const workspace = document.querySelector(".rw-workspace");
                         const doc = document.getElementById("rw-document");
+                        const dropLayer = document.getElementById("rw-drop-layer");
                         const saveUrl = workspace.dataset.saveUrl;
                         const saveButton = document.getElementById("rw-save-fields");
                         const addButton = document.getElementById("rw-add-signature");
@@ -467,6 +479,7 @@
                                 event.dataTransfer.setData("application/x-radwan-sign-field", button.dataset.type);
                                 event.dataTransfer.setData("text/plain", button.dataset.type);
                                 button.classList.add("dragging");
+                                doc.classList.add("rw-document-drop-target");
                                 if (toolDrag &amp;&amp; toolDrag.ghost) {
                                     toolDrag.ghost.remove();
                                     toolDrag = null;
@@ -520,21 +533,34 @@
                             document.body.appendChild(ghost);
                             return ghost;
                         }
-                        doc.addEventListener("dragover", function (event) {
-                            event.preventDefault();
-                            event.dataTransfer.dropEffect = "copy";
-                            doc.classList.add("rw-document-drop-target");
-                        });
-                        doc.addEventListener("dragleave", function (event) {
-                            if (!doc.contains(event.relatedTarget)) {
+                        function bindDropTarget(target) {
+                            target.addEventListener("dragover", function (event) {
+                                event.preventDefault();
+                                event.stopPropagation();
+                                event.dataTransfer.dropEffect = "copy";
+                                doc.classList.add("rw-document-drop-target");
+                            });
+                            target.addEventListener("dragleave", function (event) {
+                                event.stopPropagation();
+                                if (!doc.contains(event.relatedTarget)) {
+                                    doc.classList.remove("rw-document-drop-target");
+                                }
+                            });
+                            target.addEventListener("drop", function (event) {
+                                event.preventDefault();
+                                event.stopPropagation();
                                 doc.classList.remove("rw-document-drop-target");
-                            }
-                        });
-                        doc.addEventListener("drop", function (event) {
-                            event.preventDefault();
-                            doc.classList.remove("rw-document-drop-target");
-                            const type = event.dataTransfer.getData("application/x-radwan-sign-field") || event.dataTransfer.getData("text/plain") || "signature";
-                            addField(type, pointFromClient(event.clientX, event.clientY));
+                                const type = event.dataTransfer.getData("application/x-radwan-sign-field") || event.dataTransfer.getData("text/plain") || "signature";
+                                addField(type, pointFromClient(event.clientX, event.clientY));
+                            });
+                        }
+                        bindDropTarget(doc);
+                        if (dropLayer) {
+                            bindDropTarget(dropLayer);
+                        }
+                        doc.addEventListener("click", function (event) {
+                            if (event.target !== doc) { return; }
+                            selectField(null);
                         });
                         addButton.addEventListener("click", function () { addField("signature"); });
                         propLabel.addEventListener("input", function () {
