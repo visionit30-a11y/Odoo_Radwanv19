@@ -98,6 +98,16 @@
                         text-align: start;
                         background: #eee4f5;
                         color: #2e2640;
+                        cursor: grab;
+                        user-select: none;
+                        touch-action: none;
+                    }
+                    .rw-tool.dragging {
+                        opacity: 0.7;
+                    }
+                    .rw-document.rw-document-drop-target {
+                        outline: 3px dashed rgba(124, 77, 255, 0.45);
+                        outline-offset: 8px;
                     }
                     .rw-field {
                         position: absolute;
@@ -308,6 +318,35 @@
                             return parseFloat(String(value || "0").replace("%", "")) || 0;
                         }
 
+                        function clamp(value, min, max) {
+                            return Math.max(min, Math.min(max, value));
+                        }
+
+                        function defaultFieldSize(type) {
+                            return {
+                                width: type === "date" ? 16 : 28,
+                                height: type === "text" ? 7 : 8,
+                            };
+                        }
+
+                        function pointFromClient(clientX, clientY) {
+                            const parent = doc.getBoundingClientRect();
+                            return {
+                                left: ((clientX - parent.left) / parent.width) * 100,
+                                top: ((clientY - parent.top) / parent.height) * 100,
+                            };
+                        }
+
+                        function isInsideDocument(clientX, clientY) {
+                            const parent = doc.getBoundingClientRect();
+                            return (
+                                clientX >= parent.left &amp;&amp;
+                                clientX &lt;= parent.right &amp;&amp;
+                                clientY >= parent.top &amp;&amp;
+                                clientY &lt;= parent.bottom
+                            );
+                        }
+
                         function syncPropsFromActive() {
                             if (!active) {
                                 return;
@@ -319,17 +358,19 @@
                         }
 
                         function addField(type, point) {
+                            const safeType = type || "signature";
+                            const size = defaultFieldSize(safeType);
                             const field = document.createElement("div");
                             field.className = "rw-field";
                             field.dataset.id = "";
-                            field.dataset.fieldType = type || "signature";
-                            field.dataset.label = type === "date" ? "Date" : type === "text" ? "Text" : type === "initial" ? "Initials" : "Signature";
+                            field.dataset.fieldType = safeType;
+                            field.dataset.label = safeType === "date" ? "Date" : safeType === "text" ? "Text" : safeType === "initial" ? "Initials" : "Signature";
                             field.dataset.required = "1";
                             field.dataset.page = "1";
-                            field.style.left = point ? point.left + "%" : "8%";
-                            field.style.top = point ? point.top + "%" : "70%";
-                            field.style.width = type === "date" ? "16%" : "28%";
-                            field.style.height = "8%";
+                            field.style.width = size.width + "%";
+                            field.style.height = size.height + "%";
+                            field.style.left = point ? clamp(point.left - (size.width / 2), 0, 100 - size.width) + "%" : "8%";
+                            field.style.top = point ? clamp(point.top - (size.height / 2), 0, 100 - size.height) + "%" : "70%";
                             field.innerHTML = "<span>" + field.dataset.label + "</span><i class='rw-resize'></i>";
                             doc.appendChild(field);
                             bindField(field);
@@ -408,41 +449,68 @@
                                 addField(button.dataset.type);
                             });
                             button.addEventListener("pointerdown", function (event) {
+                                if (event.pointerType === "mouse") {
+                                    return;
+                                }
                                 toolDrag = {
                                     type: button.dataset.type,
                                     ghost: makeToolGhost(button.textContent.trim(), event.clientX, event.clientY),
+                                    startX: event.clientX,
+                                    startY: event.clientY,
+                                    moved: false,
                                 };
+                                button.classList.add("dragging");
                                 event.preventDefault();
                             });
                             button.addEventListener("dragstart", function (event) {
                                 event.dataTransfer.effectAllowed = "copy";
+                                event.dataTransfer.setData("application/x-radwan-sign-field", button.dataset.type);
                                 event.dataTransfer.setData("text/plain", button.dataset.type);
+                                button.classList.add("dragging");
+                                if (toolDrag &amp;&amp; toolDrag.ghost) {
+                                    toolDrag.ghost.remove();
+                                    toolDrag = null;
+                                }
+                            });
+                            button.addEventListener("dragend", function () {
+                                button.classList.remove("dragging");
+                                doc.classList.remove("rw-document-drop-target");
                             });
                         });
                         document.addEventListener("pointermove", function (event) {
                             if (!toolDrag) { return; }
+                            const dx = event.clientX - toolDrag.startX;
+                            const dy = event.clientY - toolDrag.startY;
+                            if (Math.abs(dx) + Math.abs(dy) > 4) {
+                                toolDrag.moved = true;
+                            }
                             toolDrag.ghost.style.left = event.clientX + 12 + "px";
                             toolDrag.ghost.style.top = event.clientY + 12 + "px";
-                        });
+                            doc.classList.toggle("rw-document-drop-target", isInsideDocument(event.clientX, event.clientY));
+                            event.preventDefault();
+                        }, true);
                         document.addEventListener("pointerup", function (event) {
                             if (!toolDrag) { return; }
-                            const parent = doc.getBoundingClientRect();
-                            const inside = (
-                                event.clientX >= parent.left &amp;&amp;
-                                event.clientX &lt;= parent.right &amp;&amp;
-                                event.clientY >= parent.top &amp;&amp;
-                                event.clientY &lt;= parent.bottom
-                            );
-                            if (inside) {
-                                addField(toolDrag.type, {
-                                    left: Math.max(0, Math.min(92, ((event.clientX - parent.left) / parent.width) * 100)),
-                                    top: Math.max(0, Math.min(92, ((event.clientY - parent.top) / parent.height) * 100)),
-                                });
+                            if (toolDrag.moved &amp;&amp; isInsideDocument(event.clientX, event.clientY)) {
+                                addField(toolDrag.type, pointFromClient(event.clientX, event.clientY));
                                 suppressToolClick = true;
                             }
+                            document.querySelectorAll(".rw-tool.dragging").forEach(function (button) {
+                                button.classList.remove("dragging");
+                            });
+                            doc.classList.remove("rw-document-drop-target");
                             toolDrag.ghost.remove();
                             toolDrag = null;
-                        });
+                        }, true);
+                        document.addEventListener("pointercancel", function () {
+                            if (!toolDrag) { return; }
+                            document.querySelectorAll(".rw-tool.dragging").forEach(function (button) {
+                                button.classList.remove("dragging");
+                            });
+                            doc.classList.remove("rw-document-drop-target");
+                            toolDrag.ghost.remove();
+                            toolDrag = null;
+                        }, true);
                         function makeToolGhost(label, x, y) {
                             const ghost = document.createElement("div");
                             ghost.className = "rw-tool-ghost";
@@ -454,15 +522,19 @@
                         }
                         doc.addEventListener("dragover", function (event) {
                             event.preventDefault();
+                            event.dataTransfer.dropEffect = "copy";
+                            doc.classList.add("rw-document-drop-target");
+                        });
+                        doc.addEventListener("dragleave", function (event) {
+                            if (!doc.contains(event.relatedTarget)) {
+                                doc.classList.remove("rw-document-drop-target");
+                            }
                         });
                         doc.addEventListener("drop", function (event) {
                             event.preventDefault();
-                            const type = event.dataTransfer.getData("text/plain") || "signature";
-                            const parent = doc.getBoundingClientRect();
-                            addField(type, {
-                                left: Math.max(0, Math.min(92, ((event.clientX - parent.left) / parent.width) * 100)),
-                                top: Math.max(0, Math.min(92, ((event.clientY - parent.top) / parent.height) * 100)),
-                            });
+                            doc.classList.remove("rw-document-drop-target");
+                            const type = event.dataTransfer.getData("application/x-radwan-sign-field") || event.dataTransfer.getData("text/plain") || "signature";
+                            addField(type, pointFromClient(event.clientX, event.clientY));
                         });
                         addButton.addEventListener("click", function () { addField("signature"); });
                         propLabel.addEventListener("input", function () {
