@@ -10,8 +10,8 @@
                 <field name="type_id"/>
                 <field name="criteria_count" string="المعايير"/>
                 <field name="total_weight" string="إجمالي الأوزان %"
-                       decoration-danger="abs(total_weight - 100) &gt; 0.1"
-                       decoration-success="abs(total_weight - 100) &lt;= 0.1"/>
+                       decoration-danger="total_weight &lt; 99.9 or total_weight &gt; 100.1"
+                       decoration-success="total_weight &gt;= 99.9 and total_weight &lt;= 100.1"/>
                 <field name="active" column_invisible="True"/>
             </list>
         </field>
@@ -35,8 +35,7 @@
                         </group>
                         <group>
                             <field name="criteria_count" string="عدد المعايير"/>
-                            <field name="total_weight" string="إجمالي الأوزان %"
-                                   decoration-danger="abs(total_weight - 100) &gt; 0.1"/>
+                            <field name="total_weight" string="إجمالي الأوزان %"/>
                         </group>
                     </group>
                     <notebook>

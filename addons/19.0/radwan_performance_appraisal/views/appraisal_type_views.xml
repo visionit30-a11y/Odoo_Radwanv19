@@ -10,7 +10,7 @@
                 <field name="name"/>
                 <field name="code"/>
                 <field name="frequency"/>
-                <field name="color" widget="color_index"/>
+                <field name="color" widget="color_picker"/>
                 <field name="appraisal_count" string="التقييمات"/>
                 <field name="active" column_invisible="True"/>
             </list>
@@ -39,7 +39,7 @@
                         </group>
                         <group string="الإعدادات">
                             <field name="sequence"/>
-                            <field name="color" widget="color_index"/>
+                            <field name="color" widget="color_picker"/>
                             <field name="active"/>
                         </group>
                     </group>

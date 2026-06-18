@@ -124,14 +124,14 @@
                                            sum="إجمالي الأوزان"/>
                                     <field name="self_score"
                                            string="الذاتي"
-                                           column_readonly="parent.state not in ('self_review')"/>
+                                           readonly="parent.state not in ('self_review')"/>
                                     <field name="weighted_self_score"
                                            string="الذاتي الموزون"
                                            optional="show"
                                            sum="إجمالي الذاتي"/>
                                     <field name="manager_score"
                                            string="المدير"
-                                           column_readonly="parent.state not in ('manager_review', 'hr_review')"/>
+                                           readonly="parent.state not in ('manager_review', 'hr_review')"/>
                                     <field name="weighted_manager_score"
                                            string="المدير الموزون"
                                            optional="show"
@@ -210,9 +210,8 @@
                 <field name="state"
                        widget="badge"
                        decoration-success="state == 'done'"
-                       decoration-primary="state in ('confirmed', 'self_review')"
+                       decoration-info="state in ('confirmed', 'self_review')"
                        decoration-warning="state in ('manager_review', 'hr_review')"
-                       decoration-secondary="state == 'draft'"
                        decoration-danger="state == 'cancelled'"/>
             </list>
         </field>
@@ -278,7 +277,7 @@
                                     <div class="oe_kanban_bottom_left">
                                         <t t-if="record.total_score.raw_value &gt; 0">
                                             <span t-attf-class="badge #{record.total_score.raw_value &gt;= 90 ? 'text-bg-success' : record.total_score.raw_value &gt;= 70 ? 'text-bg-primary' : record.total_score.raw_value &gt;= 60 ? 'text-bg-warning' : 'text-bg-danger'}">
-                                                <field name="total_score" digits="[4,1]"/>%
+                                                <field name="total_score"/>%
                                             </span>
                                         </t>
                                         <t t-if="record.rating_id.raw_value">
@@ -288,8 +287,7 @@
                                         </t>
                                     </div>
                                     <div class="oe_kanban_bottom_right">
-                                        <span class="badge"
-                                              t-attf-class="#{record.state.raw_value == 'done' ? 'text-bg-success' : record.state.raw_value in ['manager_review', 'hr_review'] ? 'text-bg-warning' : record.state.raw_value == 'cancelled' ? 'text-bg-danger' : 'text-bg-secondary'}">
+                                        <span t-attf-class="badge #{record.state.raw_value == 'done' ? 'text-bg-success' : ['manager_review', 'hr_review'].includes(record.state.raw_value) ? 'text-bg-warning' : record.state.raw_value == 'cancelled' ? 'text-bg-danger' : 'text-bg-secondary'}">
                                             <field name="state"/>
                                         </span>
                                     </div>
