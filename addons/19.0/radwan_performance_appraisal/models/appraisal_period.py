@@ -41,14 +41,9 @@ class RadwanAppraisalPeriod(models.Model):
                 raise ValidationError('تاريخ البدء يجب أن يكون قبل تاريخ الانتهاء!')
 
     def _compute_appraisal_count(self):
-        data = self.env['radwan.appraisal'].read_group(
-            [('period_id', 'in', self.ids)],
-            ['period_id'],
-            ['period_id'],
-        )
-        count_map = {d['period_id'][0]: d['period_id_count'] for d in data}
+        Appraisal = self.env['radwan.appraisal']
         for rec in self:
-            rec.appraisal_count = count_map.get(rec.id, 0)
+            rec.appraisal_count = Appraisal.search_count([('period_id', '=', rec.id)])
 
     def action_open(self):
         for rec in self:

@@ -27,14 +27,9 @@ class RadwanAppraisalType(models.Model):
     )
 
     def _compute_appraisal_count(self):
-        data = self.env['radwan.appraisal'].read_group(
-            [('type_id', 'in', self.ids)],
-            ['type_id'],
-            ['type_id'],
-        )
-        count_map = {d['type_id'][0]: d['type_id_count'] for d in data}
+        Appraisal = self.env['radwan.appraisal']
         for rec in self:
-            rec.appraisal_count = count_map.get(rec.id, 0)
+            rec.appraisal_count = Appraisal.search_count([('type_id', '=', rec.id)])
 
     def action_view_appraisals(self):
         return {
