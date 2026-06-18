@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="seq_hr_ai_training_knowledge" model="ir.sequence">
+        <field name="name">HR AI Training Knowledge</field>
+        <field name="code">radwan.hr.ai.training.knowledge</field>
+        <field name="prefix">AIK/%(year)s/</field>
+        <field name="padding">5</field>
+        <field name="company_id" eval="False"/>
+    </record>
+</odoo>

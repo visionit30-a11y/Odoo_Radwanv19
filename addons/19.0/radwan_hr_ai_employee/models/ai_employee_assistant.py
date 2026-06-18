@@ -261,6 +261,14 @@ class RadwanHrAiEmployeeAssistant(models.Model):
             return False
         secure_context = self._compose_secure_context(scope)
         scope_text = self._scope_text(scope)
+        employee = self.env["hr.employee"].browse(scope["employee_id"]) if scope["employee_id"] else self.env["hr.employee"]
+        training_context, training_records = self.env["radwan.hr.ai.training.knowledge"]._build_ai_training_context(
+            self.env.user,
+            question,
+            employee=employee,
+        )
+        if training_context:
+            secure_context = "\n\n".join([training_context, secure_context])
         if self._is_payslip_report_request(question):
             answer = self._compose_payslip_report_answer(question, scope)
             model_names = ", ".join(dict.fromkeys(source["model"] for source in scope["allowed_sources"]))
@@ -287,9 +295,11 @@ class RadwanHrAiEmployeeAssistant(models.Model):
                     "question": question,
                     "answer": answer,
                     "allowed_model_names": model_names,
+                    "training_knowledge_ids": [(6, 0, training_records.ids)],
                     "visible_employee_count": len(scope["visible_employee_ids"]),
                 }
             )
+            self._log_used_training_knowledge(training_records, question, answer)
             return True
         if self._is_employee_report_request(question):
             answer = self._compose_employee_report_answer(scope)
@@ -317,9 +327,11 @@ class RadwanHrAiEmployeeAssistant(models.Model):
                     "question": question,
                     "answer": answer,
                     "allowed_model_names": model_names,
+                    "training_knowledge_ids": [(6, 0, training_records.ids)],
                     "visible_employee_count": len(scope["visible_employee_ids"]),
                 }
             )
+            self._log_used_training_knowledge(training_records, question, answer)
             return True
         llm_answer = self.env["radwan.hr.ai.llm.gateway"].generate(
             question,
@@ -351,10 +363,20 @@ class RadwanHrAiEmployeeAssistant(models.Model):
                 "question": question,
                 "answer": answer,
                 "allowed_model_names": model_names,
+                "training_knowledge_ids": [(6, 0, training_records.ids)],
                 "visible_employee_count": len(scope["visible_employee_ids"]),
             }
         )
+        self._log_used_training_knowledge(training_records, question, answer)
         return True
+
+    def _log_used_training_knowledge(self, training_records, question, answer):
+        for training in training_records.sudo():
+            training._log_training_history(
+                "used_in_answer",
+                notes=(question or "")[:500],
+                result_message=(answer or "")[:500],
+            )
 
     def _write_blocked(self, reason):
         reason = self._plain_chat_body(reason)

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_hr_ai_training_test_wizard_form" model="ir.ui.view">
+        <field name="name">radwan.hr.ai.training.test.wizard.form</field>
+        <field name="model">radwan.hr.ai.training.test.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Test AI Training Knowledge">
+                <group>
+                    <field name="training_id"/>
+                    <field name="test_question"/>
+                    <field name="result_status"/>
+                </group>
+                <notebook>
+                    <page string="Context">
+                        <field name="expected_context" readonly="1" nolabel="1"/>
+                    </page>
+                    <page string="AI Response">
+                        <field name="ai_response" readonly="1" nolabel="1"/>
+                    </page>
+                    <page string="Notes">
+                        <field name="notes" nolabel="1"/>
+                    </page>
+                </notebook>
+                <footer>
+                    <button name="action_generate_test_answer" type="object" string="Generate Test Answer" class="btn-primary"/>
+                    <button name="action_mark_passed" type="object" string="Passed" class="btn-secondary"/>
+                    <button name="action_mark_needs_review" type="object" string="Needs Review" class="btn-secondary"/>
+                    <button name="action_mark_failed" type="object" string="Failed" class="btn-secondary"/>
+                    <button string="Close" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

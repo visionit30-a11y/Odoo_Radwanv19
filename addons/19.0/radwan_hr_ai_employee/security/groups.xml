@@ -9,11 +9,25 @@
         <field name="implied_ids" eval="[(4, ref('group_hr_ai_employee_user'))]"/>
     </record>
 
+    <record id="group_hr_ai_trainer" model="res.groups">
+        <field name="name">HR AI Trainer</field>
+        <field name="implied_ids" eval="[(4, ref('group_hr_ai_employee_user'))]"/>
+    </record>
+
+    <record id="group_hr_ai_admin" model="res.groups">
+        <field name="name">HR AI Administrator</field>
+        <field name="implied_ids" eval="[(4, ref('group_hr_ai_manager')), (4, ref('group_hr_ai_trainer'))]"/>
+    </record>
+
     <record id="base.group_user" model="res.groups">
         <field name="implied_ids" eval="[(4, ref('group_hr_ai_employee_user'))]"/>
     </record>
 
     <record id="hr.group_hr_manager" model="res.groups">
-        <field name="implied_ids" eval="[(4, ref('group_hr_ai_manager'))]"/>
+        <field name="implied_ids" eval="[(4, ref('group_hr_ai_manager')), (4, ref('group_hr_ai_trainer'))]"/>
+    </record>
+
+    <record id="base.group_system" model="res.groups">
+        <field name="implied_ids" eval="[(4, ref('group_hr_ai_admin'))]"/>
     </record>
 </odoo>

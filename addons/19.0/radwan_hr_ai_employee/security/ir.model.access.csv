@@ -8,3 +8,16 @@ access_hr_ai_employee_assistant_user,hr.ai.employee.assistant.user,model_radwan_
 access_hr_ai_employee_assistant_manager,hr.ai.employee.assistant.manager,model_radwan_hr_ai_employee_assistant,group_hr_ai_manager,1,1,1,1
 access_hr_ai_employee_message_user,hr.ai.employee.message.user,model_radwan_hr_ai_employee_message,group_hr_ai_employee_user,1,1,1,0
 access_hr_ai_employee_message_manager,hr.ai.employee.message.manager,model_radwan_hr_ai_employee_message,group_hr_ai_manager,1,1,1,1
+access_hr_ai_training_tag_user,hr.ai.training.tag.user,model_radwan_hr_ai_training_tag,group_hr_ai_employee_user,1,0,0,0
+access_hr_ai_training_tag_trainer,hr.ai.training.tag.trainer,model_radwan_hr_ai_training_tag,group_hr_ai_trainer,1,1,1,0
+access_hr_ai_training_tag_admin,hr.ai.training.tag.admin,model_radwan_hr_ai_training_tag,group_hr_ai_admin,1,1,1,1
+access_hr_ai_training_knowledge_user,hr.ai.training.knowledge.user,model_radwan_hr_ai_training_knowledge,group_hr_ai_employee_user,1,0,0,0
+access_hr_ai_training_knowledge_trainer,hr.ai.training.knowledge.trainer,model_radwan_hr_ai_training_knowledge,group_hr_ai_trainer,1,1,1,0
+access_hr_ai_training_knowledge_admin,hr.ai.training.knowledge.admin,model_radwan_hr_ai_training_knowledge,group_hr_ai_admin,1,1,1,1
+access_hr_ai_training_example_user,hr.ai.training.example.user,model_radwan_hr_ai_training_example,group_hr_ai_employee_user,1,0,0,0
+access_hr_ai_training_example_trainer,hr.ai.training.example.trainer,model_radwan_hr_ai_training_example,group_hr_ai_trainer,1,1,1,0
+access_hr_ai_training_example_admin,hr.ai.training.example.admin,model_radwan_hr_ai_training_example,group_hr_ai_admin,1,1,1,1
+access_hr_ai_training_history_user,hr.ai.training.history.user,model_radwan_hr_ai_training_history,group_hr_ai_employee_user,1,0,0,0
+access_hr_ai_training_history_trainer,hr.ai.training.history.trainer,model_radwan_hr_ai_training_history,group_hr_ai_trainer,1,1,1,0
+access_hr_ai_training_history_admin,hr.ai.training.history.admin,model_radwan_hr_ai_training_history,group_hr_ai_admin,1,1,1,1
+access_hr_ai_training_test_wizard_trainer,hr.ai.training.test.wizard.trainer,model_radwan_hr_ai_training_test_wizard,group_hr_ai_trainer,1,1,1,1

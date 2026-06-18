@@ -134,6 +134,25 @@ class RadwanHrAiSecurity(models.AbstractModel):
         except Exception:
             return 0
 
+    def _get_allowed_ai_context(self, user, model_name, records=None):
+        """Return only records the given user can read and the AI access layer allows."""
+        if model_name not in self.env:
+            return self.env["ir.model"].browse()
+        security = self.with_user(user)
+        if not security._can_use_model_in_ai(model_name):
+            return self.env[model_name].browse()
+        if records is None:
+            return self.env[model_name].with_user(user).search([])
+        allowed_ids = []
+        for record in records.with_user(user):
+            try:
+                with self.env.cr.savepoint():
+                    record.read(["id"])
+                    allowed_ids.append(record.id)
+            except Exception:
+                continue
+        return self.env[model_name].browse(allowed_ids).with_user(user)
+
     def _allowed_sources(self):
         configs = self._ai_access_configs()
         if configs:

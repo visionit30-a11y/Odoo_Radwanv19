@@ -25,6 +25,14 @@ class RadwanHrAiQueryLog(models.Model):
     question = fields.Text(required=True, readonly=True)
     answer = fields.Text(readonly=True)
     allowed_model_names = fields.Char(readonly=True)
+    training_knowledge_ids = fields.Many2many(
+        "radwan.hr.ai.training.knowledge",
+        "radwan_hr_ai_query_training_rel",
+        "query_log_id",
+        "training_id",
+        string="Training Knowledge Used",
+        readonly=True,
+    )
     visible_employee_count = fields.Integer(readonly=True)
     is_blocked = fields.Boolean(readonly=True)
     blocked_reason = fields.Char(readonly=True)

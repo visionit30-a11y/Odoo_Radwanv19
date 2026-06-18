@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <record id="tag_hr_ai_policy" model="radwan.hr.ai.training.tag">
+        <field name="name">Policy</field>
+        <field name="color">2</field>
+    </record>
+    <record id="tag_hr_ai_security" model="radwan.hr.ai.training.tag">
+        <field name="name">Security</field>
+        <field name="color">1</field>
+    </record>
+    <record id="tag_hr_ai_attendance" model="radwan.hr.ai.training.tag">
+        <field name="name">Attendance</field>
+        <field name="color">4</field>
+    </record>
+    <record id="tag_hr_ai_payroll" model="radwan.hr.ai.training.tag">
+        <field name="name">Payroll</field>
+        <field name="color">8</field>
+    </record>
+
+    <record id="training_hr_ai_security_scope" model="radwan.hr.ai.training.knowledge">
+        <field name="name">Security Scope First</field>
+        <field name="knowledge_type">restriction</field>
+        <field name="hr_domain">general</field>
+        <field name="state">approved</field>
+        <field name="priority">1</field>
+        <field name="confidentiality_level">internal</field>
+        <field name="tags_ids" eval="[(6, 0, [ref('tag_hr_ai_security')])]"/>
+        <field name="content" type="html">
+            <p>Always answer using only records and fields allowed by Odoo access rights, record rules, and HR AI Data Access configuration. If a field or record is not available, say that the information is not available under current permissions.</p>
+        </field>
+        <field name="response_constraints">Do not invent HR, payroll, attendance, loan, or contract data.</field>
+    </record>
+
+    <record id="training_hr_ai_employee_summary" model="radwan.hr.ai.training.knowledge">
+        <field name="name">Employee Profile Answer Style</field>
+        <field name="knowledge_type">template</field>
+        <field name="hr_domain">general</field>
+        <field name="state">approved</field>
+        <field name="priority">5</field>
+        <field name="confidentiality_level">internal</field>
+        <field name="tags_ids" eval="[(6, 0, [ref('tag_hr_ai_policy')])]"/>
+        <field name="content" type="html">
+            <p>When answering employee self-service questions, keep the answer short and direct. Mention the employee name, the exact field value when available, and the source model when useful.</p>
+        </field>
+    </record>
+
+    <record id="training_hr_ai_attendance" model="radwan.hr.ai.training.knowledge">
+        <field name="name">Attendance Questions</field>
+        <field name="knowledge_type">procedure</field>
+        <field name="hr_domain">attendance</field>
+        <field name="state">approved</field>
+        <field name="priority">10</field>
+        <field name="confidentiality_level">internal</field>
+        <field name="tags_ids" eval="[(6, 0, [ref('tag_hr_ai_attendance')])]"/>
+        <field name="content" type="html">
+            <p>For attendance questions, prefer the latest attendance records. Include check-in time, check-out time, worked hours, status, and location status when those fields are available in the authorized context.</p>
+        </field>
+    </record>
+
+    <record id="training_hr_ai_payroll" model="radwan.hr.ai.training.knowledge">
+        <field name="name">Payroll Answers</field>
+        <field name="knowledge_type">procedure</field>
+        <field name="hr_domain">payroll</field>
+        <field name="state">approved</field>
+        <field name="priority">10</field>
+        <field name="confidentiality_level">hr_only</field>
+        <field name="tags_ids" eval="[(6, 0, [ref('tag_hr_ai_payroll')])]"/>
+        <field name="content" type="html">
+            <p>Payroll answers must be based on approved payslips or authorized salary records only. Show salary components clearly and avoid exposing another employee payroll unless the current user has HR permissions.</p>
+        </field>
+    </record>
+</odoo>

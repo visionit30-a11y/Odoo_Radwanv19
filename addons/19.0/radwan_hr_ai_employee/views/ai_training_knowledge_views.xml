@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_hr_ai_training_tag_list" model="ir.ui.view">
+        <field name="name">radwan.hr.ai.training.tag.list</field>
+        <field name="model">radwan.hr.ai.training.tag</field>
+        <field name="arch" type="xml">
+            <list editable="bottom">
+                <field name="name"/>
+                <field name="color" widget="color_picker"/>
+                <field name="active"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_hr_ai_training_tag_form" model="ir.ui.view">
+        <field name="name">radwan.hr.ai.training.tag.form</field>
+        <field name="model">radwan.hr.ai.training.tag</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="color"/>
+                        <field name="active"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_hr_ai_training_example_list" model="ir.ui.view">
+        <field name="name">radwan.hr.ai.training.example.list</field>
+        <field name="model">radwan.hr.ai.training.example</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="training_id"/>
+                <field name="question"/>
+                <field name="expected_answer"/>
+                <field name="active"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_hr_ai_training_example_form" model="ir.ui.view">
+        <field name="name">radwan.hr.ai.training.example.form</field>
+        <field name="model">radwan.hr.ai.training.example</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="training_id"/>
+                        <field name="active"/>
+                    </group>
+                    <group>
+                        <field name="question"/>
+                        <field name="expected_answer"/>
+                        <field name="notes"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_hr_ai_training_history_list" model="ir.ui.view">
+        <field name="name">radwan.hr.ai.training.history.list</field>
+        <field name="model">radwan.hr.ai.training.history</field>
+        <field name="arch" type="xml">
+            <list create="0" edit="0">
+                <field name="date"/>
+                <field name="training_id"/>
+                <field name="user_id"/>
+                <field name="action_type"/>
+                <field name="old_state"/>
+                <field name="new_state"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_hr_ai_training_history_form" model="ir.ui.view">
+        <field name="name">radwan.hr.ai.training.history.form</field>
+        <field name="model">radwan.hr.ai.training.history</field>
+        <field name="arch" type="xml">
+            <form create="0" edit="0">
+                <sheet>
+                    <group>
+                        <field name="training_id"/>
+                        <field name="date"/>
+                        <field name="user_id"/>
+                        <field name="action_type"/>
+                        <field name="old_state"/>
+                        <field name="new_state"/>
+                    </group>
+                    <group>
+                        <field name="notes"/>
+                        <field name="result_message"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_hr_ai_training_knowledge_list" model="ir.ui.view">
+        <field name="name">radwan.hr.ai.training.knowledge.list</field>
+        <field name="model">radwan.hr.ai.training.knowledge</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="code"/>
+                <field name="name"/>
+                <field name="knowledge_type"/>
+                <field name="hr_domain"/>
+                <field name="state"/>
+                <field name="priority"/>
+                <field name="confidentiality_level"/>
+                <field name="last_trained_on"/>
+                <field name="active"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_hr_ai_training_knowledge_search" model="ir.ui.view">
+        <field name="name">radwan.hr.ai.training.knowledge.search</field>
+        <field name="model">radwan.hr.ai.training.knowledge</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="code"/>
+                <field name="knowledge_type"/>
+                <field name="hr_domain"/>
+                <field name="tags_ids"/>
+                <filter name="approved" string="Approved" domain="[('state','=','approved')]"/>
+                <filter name="draft" string="Draft" domain="[('state','=','draft')]"/>
+                <filter name="active" string="Active" domain="[('active','=',True)]"/>
+                <group expand="0" string="Group By">
+                    <filter name="group_by_type" string="Type" context="{'group_by':'knowledge_type'}"/>
+                    <filter name="group_by_domain" string="HR Domain" context="{'group_by':'hr_domain'}"/>
+                    <filter name="group_by_state" string="State" context="{'group_by':'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="view_hr_ai_training_knowledge_form" model="ir.ui.view">
+        <field name="name">radwan.hr.ai.training.knowledge.form</field>
+        <field name="model">radwan.hr.ai.training.knowledge</field>
+        <field name="arch" type="xml">
+            <form string="AI Training Knowledge">
+                <header>
+                    <button name="action_submit_review" type="object" string="Submit Review" class="btn-secondary"/>
+                    <button name="action_approve" type="object" string="Approve" class="btn-primary"/>
+                    <button name="action_train_rebuild" type="object" string="Train / Rebuild" class="btn-primary"/>
+                    <button name="action_test_this_knowledge" type="object" string="Test This Knowledge" class="btn-secondary"/>
+                    <button name="action_set_draft" type="object" string="Set Draft"/>
+                    <button name="action_archive_training" type="object" string="Archive"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,under_review,approved,archived"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_query_logs" type="object" class="oe_stat_button" icon="fa-history">
+                            <field name="query_log_count" widget="statinfo" string="Query Logs"/>
+                        </button>
+                        <button name="action_view_attachments" type="object" class="oe_stat_button" icon="fa-paperclip">
+                            <field name="attachment_count" widget="statinfo" string="Attachments"/>
+                        </button>
+                        <button name="action_view_examples" type="object" class="oe_stat_button" icon="fa-question-circle">
+                            <field name="example_count" widget="statinfo" string="Examples"/>
+                        </button>
+                        <button name="action_view_history" type="object" class="oe_stat_button" icon="fa-list">
+                            <field name="history_count" widget="statinfo" string="History"/>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1><field name="name"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="code"/>
+                            <field name="knowledge_type"/>
+                            <field name="hr_domain"/>
+                            <field name="priority"/>
+                            <field name="version"/>
+                            <field name="active"/>
+                        </group>
+                        <group>
+                            <field name="confidentiality_level"/>
+                            <field name="effective_date"/>
+                            <field name="expiry_date"/>
+                            <field name="last_trained_on"/>
+                            <field name="trained_by"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Knowledge">
+                            <group>
+                                <field name="description"/>
+                                <field name="tags_ids" widget="many2many_tags"/>
+                            </group>
+                            <field name="content" widget="html" nolabel="1"/>
+                        </page>
+                        <page string="Security and Scope">
+                            <group>
+                                <group>
+                                    <field name="allowed_groups_ids" widget="many2many_tags"/>
+                                    <field name="allowed_company_ids" widget="many2many_tags"/>
+                                    <field name="block_sensitive_data"/>
+                                </group>
+                                <group>
+                                    <field name="related_model_id"/>
+                                    <field name="related_field_ids" widget="many2many_tags"/>
+                                    <field name="sensitive_field_ids" widget="many2many_tags"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="AI Behavior">
+                            <group>
+                                <field name="allow_ai_read"/>
+                                <field name="allow_ai_summary"/>
+                                <field name="allow_ai_recommendation"/>
+                                <field name="forbidden_topics"/>
+                                <field name="response_constraints"/>
+                                <field name="escalation_rule"/>
+                            </group>
+                        </page>
+                        <page string="Examples">
+                            <field name="question_example"/>
+                            <field name="answer_example"/>
+                            <field name="example_ids">
+                                <list editable="bottom">
+                                    <field name="question"/>
+                                    <field name="expected_answer"/>
+                                    <field name="active"/>
+                                    <field name="notes"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Attachments">
+                            <field name="attachment_ids" widget="many2many_binary"/>
+                        </page>
+                        <page string="History">
+                            <field name="history_ids" readonly="1">
+                                <list>
+                                    <field name="date"/>
+                                    <field name="user_id"/>
+                                    <field name="action_type"/>
+                                    <field name="old_state"/>
+                                    <field name="new_state"/>
+                                    <field name="notes"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Internal Notes">
+                            <field name="notes" nolabel="1"/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_hr_ai_training_knowledge" model="ir.actions.act_window">
+        <field name="name">AI Training Center</field>
+        <field name="res_model">radwan.hr.ai.training.knowledge</field>
+        <field name="view_mode">list,form</field>
+        <field name="context">{'search_default_active': 1}</field>
+    </record>
+
+    <record id="action_hr_ai_training_tags" model="ir.actions.act_window">
+        <field name="name">AI Training Tags</field>
+        <field name="res_model">radwan.hr.ai.training.tag</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>
