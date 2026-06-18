@@ -124,17 +124,10 @@
             <search>
                 <field name="name"/>
                 <field name="code"/>
-                <field name="knowledge_type"/>
-                <field name="hr_domain"/>
                 <field name="tags_ids"/>
                 <filter name="approved" string="Approved" domain="[('state','=','approved')]"/>
                 <filter name="draft" string="Draft" domain="[('state','=','draft')]"/>
-                <filter name="active" string="Active" domain="[('active','=',True)]"/>
-                <group expand="0" string="Group By">
-                    <filter name="group_by_type" string="Type" context="{'group_by':'knowledge_type'}"/>
-                    <filter name="group_by_domain" string="HR Domain" context="{'group_by':'hr_domain'}"/>
-                    <filter name="group_by_state" string="State" context="{'group_by':'state'}"/>
-                </group>
+                <filter name="approved_active" string="Active Approved" domain="[('active','=',True),('state','=','approved')]"/>
             </search>
         </field>
     </record>
@@ -262,7 +255,7 @@
         <field name="name">AI Training Center</field>
         <field name="res_model">radwan.hr.ai.training.knowledge</field>
         <field name="view_mode">list,form</field>
-        <field name="context">{'search_default_active': 1}</field>
+        <field name="context">{'search_default_approved_active': 1}</field>
     </record>
 
     <record id="action_hr_ai_training_tags" model="ir.actions.act_window">
