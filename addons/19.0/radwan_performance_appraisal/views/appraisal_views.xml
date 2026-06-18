@@ -36,6 +36,11 @@
                             string="إتمام التقييم ✓"
                             class="oe_highlight"
                             invisible="state != 'hr_review'"/>
+                    <button name="action_grant_appraisal_badge"
+                            type="object"
+                            string="Grant Badge"
+                            class="btn-secondary"
+                            invisible="state != 'done' or not badge_id or badge_user_id"/>
                     <button name="action_cancel"
                             type="object"
                             string="إلغاء"
@@ -94,6 +99,9 @@
                             <field name="template_id"
                                    readonly="state not in ('draft', 'confirmed')"/>
                             <field name="hr_reviewer_id"/>
+                            <field name="hr_participant_ids" widget="many2many_tags"/>
+                            <field name="badge_id"/>
+                            <field name="badge_user_id" readonly="1" invisible="not badge_user_id"/>
                         </group>
                     </group>
 

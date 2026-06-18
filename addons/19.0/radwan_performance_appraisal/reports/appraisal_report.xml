@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_report_radwan_appraisal" model="ir.actions.report">
+        <field name="name">Appraisal Form</field>
+        <field name="model">radwan.appraisal</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">radwan_performance_appraisal.report_radwan_appraisal_document</field>
+        <field name="report_file">radwan_performance_appraisal.report_radwan_appraisal_document</field>
+        <field name="binding_model_id" ref="model_radwan_appraisal"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <template id="report_radwan_appraisal_document">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="web.external_layout">
+                    <div class="page" style="font-family: Arial, sans-serif; color: #0f172a;">
+                        <style>
+                            .rw-title { font-size: 26px; font-weight: 700; color: #0f3558; margin-bottom: 4px; }
+                            .rw-subtitle { color: #64748b; font-size: 13px; margin-bottom: 18px; }
+                            .rw-band { background: #0f5e93; color: white; padding: 14px 18px; border-radius: 10px; margin-bottom: 14px; }
+                            .rw-card { border: 1px solid #dbe4ee; border-radius: 10px; padding: 14px; margin-bottom: 14px; }
+                            .rw-card-title { font-weight: 700; color: #0f3558; margin-bottom: 10px; font-size: 15px; }
+                            .rw-grid { width: 100%; border-collapse: collapse; }
+                            .rw-grid td { padding: 7px 8px; vertical-align: top; border-bottom: 1px solid #edf2f7; }
+                            .rw-label { color: #64748b; width: 20%; font-size: 12px; }
+                            .rw-value { font-weight: 600; color: #1e293b; }
+                            .rw-table { width: 100%; border-collapse: collapse; margin-top: 8px; font-size: 12px; }
+                            .rw-table th { background: #eef6fb; color: #0f3558; padding: 8px; border: 1px solid #dbe4ee; text-align: left; }
+                            .rw-table td { padding: 8px; border: 1px solid #dbe4ee; }
+                            .rw-score { display: inline-block; padding: 8px 12px; background: #e0f2fe; color: #075985; border-radius: 999px; font-weight: 700; }
+                            .rw-muted { color: #64748b; }
+                        </style>
+
+                        <div class="rw-band">
+                            <div class="rw-title">Employee Performance Appraisal</div>
+                            <div class="rw-subtitle">
+                                <span t-field="doc.name"/>
+                                <span> - </span>
+                                <span t-field="doc.company_id"/>
+                            </div>
+                        </div>
+
+                        <div class="rw-card">
+                            <div class="rw-card-title">Employee Information</div>
+                            <table class="rw-grid">
+                                <tr>
+                                    <td class="rw-label">Employee</td>
+                                    <td class="rw-value"><span t-field="doc.employee_id"/></td>
+                                    <td class="rw-label">Department</td>
+                                    <td class="rw-value"><span t-field="doc.department_id"/></td>
+                                </tr>
+                                <tr>
+                                    <td class="rw-label">Job Position</td>
+                                    <td class="rw-value"><span t-field="doc.job_id"/></td>
+                                    <td class="rw-label">Direct Reviewer</td>
+                                    <td class="rw-value"><span t-field="doc.reviewer_id"/></td>
+                                </tr>
+                                <tr>
+                                    <td class="rw-label">HR Reviewer</td>
+                                    <td class="rw-value"><span t-field="doc.hr_reviewer_id"/></td>
+                                    <td class="rw-label">HR Participants</td>
+                                    <td class="rw-value">
+                                        <span t-esc="', '.join(doc.hr_participant_ids.mapped('name'))"/>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+
+                        <div class="rw-card">
+                            <div class="rw-card-title">Appraisal Summary</div>
+                            <table class="rw-grid">
+                                <tr>
+                                    <td class="rw-label">Period</td>
+                                    <td class="rw-value"><span t-field="doc.period_id"/></td>
+                                    <td class="rw-label">Type</td>
+                                    <td class="rw-value"><span t-field="doc.type_id"/></td>
+                                </tr>
+                                <tr>
+                                    <td class="rw-label">Open Date</td>
+                                    <td class="rw-value"><span t-field="doc.date_open"/></td>
+                                    <td class="rw-label">Close Date</td>
+                                    <td class="rw-value"><span t-field="doc.date_close"/></td>
+                                </tr>
+                                <tr>
+                                    <td class="rw-label">State</td>
+                                    <td class="rw-value"><span t-field="doc.state"/></td>
+                                    <td class="rw-label">Rating</td>
+                                    <td class="rw-value"><span t-field="doc.rating_id"/></td>
+                                </tr>
+                                <tr>
+                                    <td class="rw-label">Self Score</td>
+                                    <td><span class="rw-score"><span t-field="doc.self_score"/>%</span></td>
+                                    <td class="rw-label">Final Score</td>
+                                    <td><span class="rw-score"><span t-field="doc.total_score"/>%</span></td>
+                                </tr>
+                                <tr t-if="doc.badge_id">
+                                    <td class="rw-label">Completion Badge</td>
+                                    <td class="rw-value"><span t-field="doc.badge_id"/></td>
+                                    <td class="rw-label">Granted</td>
+                                    <td class="rw-value">
+                                        <span t-if="doc.badge_user_id">Yes</span>
+                                        <span t-else="">No</span>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+
+                        <div class="rw-card">
+                            <div class="rw-card-title">Appraisal Lines</div>
+                            <table class="rw-table">
+                                <thead>
+                                    <tr>
+                                        <th>Criteria</th>
+                                        <th>Category</th>
+                                        <th>Weight</th>
+                                        <th>Self Score</th>
+                                        <th>Manager Score</th>
+                                        <th>Comment</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr t-foreach="doc.line_ids" t-as="line">
+                                        <td><span t-field="line.criteria_id"/></td>
+                                        <td><span t-field="line.category"/></td>
+                                        <td><span t-field="line.weight"/>%</td>
+                                        <td><span t-field="line.self_score"/></td>
+                                        <td><span t-field="line.manager_score"/></td>
+                                        <td><span t-field="line.comment"/></td>
+                                    </tr>
+                                    <tr t-if="not doc.line_ids">
+                                        <td colspan="6" class="rw-muted">No appraisal lines.</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="rw-card" t-if="doc.notes">
+                            <div class="rw-card-title">Notes and Recommendations</div>
+                            <div t-field="doc.notes"/>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

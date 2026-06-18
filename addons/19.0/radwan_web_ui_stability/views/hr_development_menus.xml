@@ -7,11 +7,6 @@
         sequence="6"
     />
 
-    <record id="radwan_performance_appraisal.menu_radwan_appraisal_root" model="ir.ui.menu">
-        <field name="parent_id" ref="radwan_hr_development_menu"/>
-        <field name="sequence" eval="10"/>
-    </record>
-
     <record id="employee_orientation.employee_orientation_menu_root" model="ir.ui.menu">
         <field name="parent_id" ref="radwan_hr_development_menu"/>
         <field name="sequence" eval="20"/>

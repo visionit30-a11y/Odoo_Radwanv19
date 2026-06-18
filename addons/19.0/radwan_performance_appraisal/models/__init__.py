@@ -5,3 +5,4 @@ from . import appraisal_period
 from . import appraisal_criteria
 from . import appraisal_template
 from . import appraisal
+from . import hr_employee

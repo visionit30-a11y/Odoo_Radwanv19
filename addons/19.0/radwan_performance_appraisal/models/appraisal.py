@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from odoo import models, fields, api
+from odoo import models, fields, api, _
 from odoo.exceptions import UserError
 
 
@@ -31,6 +31,14 @@ class RadwanAppraisal(models.Model):
     hr_reviewer_id = fields.Many2one(
         'res.users',
         string='مراجع الموارد البشرية',
+    )
+    hr_participant_ids = fields.Many2many(
+        'res.users',
+        'radwan_appraisal_hr_participant_rel',
+        'appraisal_id',
+        'user_id',
+        string='HR Participants',
+        help='Human Resources users who can participate in this appraisal review.',
     )
     period_id = fields.Many2one(
         'radwan.appraisal.period',
@@ -102,6 +110,18 @@ class RadwanAppraisal(models.Model):
         string='التقدير',
     )
 
+    badge_id = fields.Many2one(
+        'gamification.badge',
+        string='Completion Badge',
+        help='Optional badge to grant to the employee after the appraisal is completed.',
+    )
+    badge_user_id = fields.Many2one(
+        'gamification.badge.user',
+        string='Granted Badge',
+        readonly=True,
+        copy=False,
+    )
+
     department_id = fields.Many2one(
         related='employee_id.department_id',
         store=True,
@@ -167,7 +187,22 @@ class RadwanAppraisal(models.Model):
         for vals in vals_list:
             if vals.get('name', 'جديد') == 'جديد':
                 vals['name'] = self.env['ir.sequence'].next_by_code('radwan.appraisal') or 'جديد'
-        return super().create(vals_list)
+        records = super().create(vals_list)
+        records._subscribe_hr_participants()
+        return records
+
+    def write(self, vals):
+        result = super().write(vals)
+        if {'hr_participant_ids', 'hr_reviewer_id'} & set(vals):
+            self._subscribe_hr_participants()
+        return result
+
+    def _subscribe_hr_participants(self):
+        for rec in self:
+            users = rec.hr_participant_ids | rec.hr_reviewer_id
+            partners = users.mapped('partner_id')
+            if partners:
+                rec.message_subscribe(partner_ids=partners.ids)
 
     def _load_template_lines(self):
         self.ensure_one()
@@ -214,6 +249,27 @@ class RadwanAppraisal(models.Model):
             'state': 'done',
             'date_close': fields.Date.today(),
         })
+
+    def action_grant_appraisal_badge(self):
+        for rec in self:
+            if rec.state != 'done':
+                raise UserError(_('The appraisal must be completed before granting a badge.'))
+            if not rec.badge_id:
+                raise UserError(_('Please select a completion badge first.'))
+            if not rec.employee_id.user_id:
+                raise UserError(_('The employee must be linked to an Odoo user before granting a badge.'))
+            if rec.badge_user_id:
+                raise UserError(_('A badge has already been granted for this appraisal.'))
+            badge_user = self.env['gamification.badge.user'].sudo().create({
+                'user_id': rec.employee_id.user_id.id,
+                'sender_id': self.env.user.id,
+                'badge_id': rec.badge_id.id,
+                'comment': _('Granted from appraisal %s') % rec.display_name,
+            })
+            badge_user._send_badge()
+            rec.badge_user_id = badge_user.id
+            rec.message_post(body=_('Badge granted: %s') % rec.badge_id.display_name)
+        return True
 
     def action_cancel(self):
         self.write({'state': 'cancelled'})

@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
-    <menuitem id="menu_radwan_appraisal_root"
-              name="Performance Appraisal"
-              parent="hr.menu_hr_root"
-              sequence="55"
-              groups="radwan_performance_appraisal.group_appraisal_user"/>
+    <record id="menu_radwan_appraisal_root" model="ir.ui.menu">
+        <field name="name">التقييم</field>
+        <field name="parent_id" eval="False"/>
+        <field name="sequence" eval="55"/>
+        <field name="groups_id" eval="[(4, ref('radwan_performance_appraisal.group_appraisal_user'))]"/>
+    </record>
 
     <menuitem id="menu_appraisal_main"
               name="Appraisals"

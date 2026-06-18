@@ -10,7 +10,7 @@
     """,
     "author": "Radwan",
     "category": "Human Resources",
-    "depends": ["hr", "mail"],
+    "depends": ["hr", "mail", "gamification"],
     "data": [
         "security/appraisal_security.xml",
         "security/ir.model.access.csv",
@@ -24,7 +24,9 @@
         "views/appraisal_criteria_views.xml",
         "views/appraisal_template_views.xml",
         "views/appraisal_views.xml",
+        "views/hr_employee_views.xml",
         "views/appraisal_menu.xml",
+        "reports/appraisal_report.xml",
     ],
     "installable": True,
     "application": True,
