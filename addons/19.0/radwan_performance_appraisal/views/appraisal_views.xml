@@ -341,7 +341,7 @@
                         domain="[('total_score','&gt;=',90)]"/>
                 <filter name="low_score" string="درجة ضعيفة (أقل من 60%)"
                         domain="[('total_score','&gt;',0),('total_score','&lt;',60)]"/>
-                <group expand="1" string="تجميع حسب">
+                <group string="تجميع حسب">
                     <filter name="group_state" string="الحالة"
                             context="{'group_by': 'state'}"/>
                     <filter name="group_period" string="الفترة"

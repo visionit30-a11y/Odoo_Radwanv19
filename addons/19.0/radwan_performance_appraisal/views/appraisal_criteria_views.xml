@@ -62,7 +62,7 @@
                 <separator/>
                 <filter name="active" string="نشط" domain="[('active','=',True)]"/>
                 <filter name="inactive" string="غير نشط" domain="[('active','=',False)]"/>
-                <group expand="0" string="تجميع حسب">
+                <group string="تجميع حسب">
                     <filter name="group_category" string="الفئة"
                             context="{'group_by': 'category'}"/>
                 </group>

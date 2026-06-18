@@ -85,7 +85,7 @@
                 <filter name="open" string="مفتوحة" domain="[('state','=','open')]"/>
                 <filter name="draft" string="مسودة" domain="[('state','=','draft')]"/>
                 <filter name="closed" string="مغلقة" domain="[('state','=','closed')]"/>
-                <group expand="0" string="تجميع حسب">
+                <group string="تجميع حسب">
                     <filter name="group_type" string="النوع"
                             context="{'group_by': 'type_id'}"/>
                     <filter name="group_state" string="الحالة"
