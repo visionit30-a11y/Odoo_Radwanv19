@@ -1,5 +1,15 @@
 /* Arabic-only employee form refinements.
-   Keep every rule scoped to RTL/Arabic so English and other languages stay untouched. */
+   Keep every rule scoped to RTL/Arabic so English and other languages stay untouched.
+
+   IMPORTANT: Odoo serves this backend bundle through rtlcss for RTL languages, which
+   would otherwise FLIP every directional rule (turning our `direction: rtl` into
+   `direction: ltr`, `text-align: right` into `text-align: left`, etc.) and break the
+   Arabic layout — that is why the employee form was still rendering left-to-right.
+   The rules below are already authored for RTL and must be emitted verbatim, so the
+   whole file is wrapped in an rtlcss ignore block. English/LTR stays untouched because
+   the selectors only match RTL/Arabic contexts (html[dir="rtl"], html[lang^="ar"],
+   .o_rtl / body.o_rtl). */
+/*rtl:begin:ignore*/
 
 html[dir="rtl"] .o_hr_employee_form_view,
 html[dir="rtl"] .radwan_employee_rtl_form,
@@ -542,3 +552,4 @@ body.o_rtl .radwan_employee_rtl_form,
         }
     }
 }
+/*rtl:end:ignore*/
