@@ -326,14 +326,13 @@
                 <filter name="in_progress" string="قيد التنفيذ" domain="[('state', 'not in', ['done', 'cancelled'])]"/>
                 <filter name="high_score" string="درجة ممتازة (90%+)" domain="[('total_score', '&gt;=', 90)]"/>
                 <filter name="low_score" string="درجة ضعيفة (أقل من 60%)" domain="[('total_score', '&gt;', 0), ('total_score', '&lt;', 60)]"/>
-                <group expand="0" string="تجميع حسب">
-                    <filter name="group_state" string="الحالة" context="{'group_by': 'state'}"/>
-                    <filter name="group_period" string="الفترة" context="{'group_by': 'period_id'}"/>
-                    <filter name="group_type" string="نوع التقييم" context="{'group_by': 'type_id'}"/>
-                    <filter name="group_department" string="القسم" context="{'group_by': 'department_id'}"/>
-                    <filter name="group_employee" string="الموظف" context="{'group_by': 'employee_id'}"/>
-                    <filter name="group_rating" string="التقدير" context="{'group_by': 'rating_id'}"/>
-                </group>
+                <separator/>
+                <filter name="group_state" string="الحالة" context="{'group_by': 'state'}"/>
+                <filter name="group_period" string="الفترة" context="{'group_by': 'period_id'}"/>
+                <filter name="group_type" string="نوع التقييم" context="{'group_by': 'type_id'}"/>
+                <filter name="group_department" string="القسم" context="{'group_by': 'department_id'}"/>
+                <filter name="group_employee" string="الموظف" context="{'group_by': 'employee_id'}"/>
+                <filter name="group_rating" string="التقدير" context="{'group_by': 'rating_id'}"/>
             </search>
         </field>
     </record>

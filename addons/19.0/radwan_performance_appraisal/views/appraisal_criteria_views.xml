@@ -56,9 +56,8 @@
                 <filter name="cat_leadership" string="القيادة" domain="[('category', '=', 'leadership')]"/>
                 <filter name="filter_active" string="نشط" domain="[('active', '=', True)]"/>
                 <filter name="filter_inactive" string="غير نشط" domain="[('active', '=', False)]"/>
-                <group expand="0" string="تجميع حسب">
-                    <filter name="group_category" string="الفئة" context="{'group_by': 'category'}"/>
-                </group>
+                <separator/>
+                <filter name="group_category" string="الفئة" context="{'group_by': 'category'}"/>
             </search>
         </field>
     </record>
