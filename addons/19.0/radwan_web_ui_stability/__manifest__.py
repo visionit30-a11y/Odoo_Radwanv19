@@ -2,7 +2,7 @@
 
 {
     "name": "Radwan Web UI Stability",
-    "version": "19.0.1.4.0",
+    "version": "19.0.1.4.1",
     "summary": "Small UI compatibility fixes for Radwan custom modules",
     "author": "Radwan",
     "category": "Technical",
@@ -13,7 +13,7 @@
         "hr_skills",
         "employee_orientation",
         "i8_knowledge_management",
-        "mj_appraisal",
+        "radwan_performance_appraisal",
     ],
     "data": [
         "views/hr_development_menus.xml",

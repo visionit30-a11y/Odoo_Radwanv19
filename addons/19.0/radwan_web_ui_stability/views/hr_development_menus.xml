@@ -7,7 +7,7 @@
         sequence="6"
     />
 
-    <record id="mj_appraisal.performance_appraisal_menu" model="ir.ui.menu">
+    <record id="radwan_performance_appraisal.menu_radwan_appraisal_root" model="ir.ui.menu">
         <field name="parent_id" ref="radwan_hr_development_menu"/>
         <field name="sequence" eval="10"/>
     </record>
