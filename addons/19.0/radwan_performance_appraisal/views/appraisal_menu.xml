@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ══════════════════════════════════════════ -->
+    <!--    ROOT MENU — القائمة الجذر في الشريط    -->
+    <!-- ══════════════════════════════════════════ -->
+
+    <menuitem id="menu_radwan_appraisal_root"
+              name="التقييم"
+              sequence="85"
+              groups="radwan_performance_appraisal.group_appraisal_user"/>
+
+    <!-- ══════════════════════════════════════════ -->
+    <!--          MAIN MENU — القائمة الرئيسية     -->
+    <!-- ══════════════════════════════════════════ -->
+
+    <menuitem id="menu_appraisal_main"
+              name="التقييمات"
+              parent="menu_radwan_appraisal_root"
+              sequence="10"/>
+
+    <menuitem id="menu_appraisal_all"
+              name="جميع التقييمات"
+              parent="menu_appraisal_main"
+              action="action_appraisal_all"
+              sequence="10"
+              groups="radwan_performance_appraisal.group_appraisal_manager"/>
+
+    <menuitem id="menu_appraisal_inprogress"
+              name="التقييمات الجارية"
+              parent="menu_appraisal_main"
+              action="action_appraisal"
+              sequence="20"/>
+
+    <menuitem id="menu_appraisal_done"
+              name="التقييمات المكتملة"
+              parent="menu_appraisal_main"
+              action="action_appraisal_done"
+              sequence="30"/>
+
+    <!-- ══════════════════════════════════════════ -->
+    <!--       PERIODS MENU — فترات التقييم        -->
+    <!-- ══════════════════════════════════════════ -->
+
+    <menuitem id="menu_appraisal_periods_root"
+              name="الفترات"
+              parent="menu_radwan_appraisal_root"
+              sequence="20"
+              groups="radwan_performance_appraisal.group_appraisal_manager"/>
+
+    <menuitem id="menu_appraisal_periods"
+              name="فترات التقييم"
+              parent="menu_appraisal_periods_root"
+              action="action_appraisal_period"
+              sequence="10"/>
+
+    <!-- ══════════════════════════════════════════ -->
+    <!--      CONFIG MENU — قائمة الإعدادات        -->
+    <!-- ══════════════════════════════════════════ -->
+
+    <menuitem id="menu_appraisal_config"
+              name="الإعدادات"
+              parent="menu_radwan_appraisal_root"
+              sequence="100"
+              groups="radwan_performance_appraisal.group_appraisal_manager"/>
+
+    <menuitem id="menu_appraisal_types"
+              name="أنواع التقييم"
+              parent="menu_appraisal_config"
+              action="action_appraisal_type"
+              sequence="10"/>
+
+    <menuitem id="menu_appraisal_templates"
+              name="قوالب التقييم"
+              parent="menu_appraisal_config"
+              action="action_appraisal_template"
+              sequence="20"/>
+
+    <menuitem id="menu_appraisal_criteria"
+              name="معايير التقييم"
+              parent="menu_appraisal_config"
+              action="action_appraisal_criteria"
+              sequence="30"/>
+
+    <menuitem id="menu_appraisal_ratings"
+              name="مقاييس التقدير"
+              parent="menu_appraisal_config"
+              action="action_appraisal_rating"
+              sequence="40"/>
+
+</odoo>

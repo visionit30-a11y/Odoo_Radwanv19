@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_appraisal_rating_list" model="ir.ui.view">
+        <field name="name">radwan.appraisal.rating.list</field>
+        <field name="model">radwan.appraisal.rating</field>
+        <field name="arch" type="xml">
+            <list string="مقاييس التقييم" editable="bottom">
+                <field name="name"/>
+                <field name="code"/>
+                <field name="score_from" string="من %"/>
+                <field name="score_to" string="إلى %"/>
+                <field name="color" widget="color_index"/>
+                <field name="active" column_invisible="True"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_appraisal_rating_form" model="ir.ui.view">
+        <field name="name">radwan.appraisal.rating.form</field>
+        <field name="model">radwan.appraisal.rating</field>
+        <field name="arch" type="xml">
+            <form string="مقياس التقييم">
+                <sheet>
+                    <group>
+                        <group string="معلومات المستوى">
+                            <field name="name"/>
+                            <field name="code"/>
+                            <field name="color" widget="color_index"/>
+                        </group>
+                        <group string="نطاق الدرجات">
+                            <field name="score_from" string="الدرجة من %"/>
+                            <field name="score_to" string="الدرجة إلى %"/>
+                            <field name="active"/>
+                        </group>
+                    </group>
+                    <group string="الوصف">
+                        <field name="description" nolabel="1"
+                               placeholder="وصف هذا المستوى وما يعنيه للموظف..."/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_appraisal_rating" model="ir.actions.act_window">
+        <field name="name">مقاييس التقييم</field>
+        <field name="res_model">radwan.appraisal.rating</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+</odoo>

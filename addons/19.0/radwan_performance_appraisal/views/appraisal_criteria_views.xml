@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_appraisal_criteria_list" model="ir.ui.view">
+        <field name="name">radwan.appraisal.criteria.list</field>
+        <field name="model">radwan.appraisal.criteria</field>
+        <field name="arch" type="xml">
+            <list string="معايير التقييم">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="code"/>
+                <field name="category"/>
+                <field name="max_score"/>
+                <field name="active" column_invisible="True"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_appraisal_criteria_form" model="ir.ui.view">
+        <field name="name">radwan.appraisal.criteria.form</field>
+        <field name="model">radwan.appraisal.criteria</field>
+        <field name="arch" type="xml">
+            <form string="معيار التقييم">
+                <sheet>
+                    <group>
+                        <group string="معلومات المعيار">
+                            <field name="name"/>
+                            <field name="code"/>
+                            <field name="category"/>
+                        </group>
+                        <group string="الإعدادات">
+                            <field name="sequence"/>
+                            <field name="max_score"/>
+                            <field name="active"/>
+                        </group>
+                    </group>
+                    <group string="الوصف والتوضيح">
+                        <field name="description" nolabel="1"
+                               placeholder="اشرح هذا المعيار وكيف يتم قياسه وما الذي يُعدّ أداءً متميزاً..."/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_appraisal_criteria_search" model="ir.ui.view">
+        <field name="name">radwan.appraisal.criteria.search</field>
+        <field name="model">radwan.appraisal.criteria</field>
+        <field name="arch" type="xml">
+            <search string="بحث في معايير التقييم">
+                <field name="name" string="المعيار"/>
+                <field name="code" string="الرمز"/>
+                <separator/>
+                <filter name="cat_performance" string="الأداء الوظيفي"
+                        domain="[('category','=','performance')]"/>
+                <filter name="cat_behavior" string="السلوك"
+                        domain="[('category','=','behavior')]"/>
+                <filter name="cat_goals" string="الأهداف"
+                        domain="[('category','=','goals')]"/>
+                <filter name="cat_leadership" string="القيادة"
+                        domain="[('category','=','leadership')]"/>
+                <separator/>
+                <filter name="active" string="نشط" domain="[('active','=',True)]"/>
+                <filter name="inactive" string="غير نشط" domain="[('active','=',False)]"/>
+                <group expand="0" string="تجميع حسب">
+                    <filter name="group_category" string="الفئة"
+                            context="{'group_by': 'category'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_appraisal_criteria" model="ir.actions.act_window">
+        <field name="name">معايير التقييم</field>
+        <field name="res_model">radwan.appraisal.criteria</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_appraisal_criteria_search"/>
+        <field name="context">{'search_default_active': 1}</field>
+    </record>
+
+</odoo>

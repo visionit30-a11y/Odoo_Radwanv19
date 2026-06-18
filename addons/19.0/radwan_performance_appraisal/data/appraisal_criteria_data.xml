@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ═══════════════════════════════════════ -->
+    <!--          الأداء الوظيفي               -->
+    <!-- ═══════════════════════════════════════ -->
+
+    <record id="criteria_job_quality" model="radwan.appraisal.criteria">
+        <field name="name">جودة العمل ودقته</field>
+        <field name="code">JQ</field>
+        <field name="sequence">10</field>
+        <field name="category">performance</field>
+        <field name="description">مدى دقة وجودة المنجزات والمهام الوظيفية وخلوها من الأخطاء</field>
+    </record>
+
+    <record id="criteria_productivity" model="radwan.appraisal.criteria">
+        <field name="name">الإنتاجية والكفاءة</field>
+        <field name="code">PROD</field>
+        <field name="sequence">20</field>
+        <field name="category">performance</field>
+        <field name="description">كمية العمل المنجز والقدرة على إدارة المهام وإنجازها في الوقت المحدد</field>
+    </record>
+
+    <record id="criteria_problem_solving" model="radwan.appraisal.criteria">
+        <field name="name">حل المشكلات واتخاذ القرار</field>
+        <field name="code">PS</field>
+        <field name="sequence">30</field>
+        <field name="category">performance</field>
+        <field name="description">القدرة على تحليل المشكلات وإيجاد حلول فعّالة واتخاذ قرارات صائبة</field>
+    </record>
+
+    <!-- ═══════════════════════════════════════ -->
+    <!--         السلوك والانضباط              -->
+    <!-- ═══════════════════════════════════════ -->
+
+    <record id="criteria_punctuality" model="radwan.appraisal.criteria">
+        <field name="name">الالتزام بالوقت والحضور</field>
+        <field name="code">PUNCT</field>
+        <field name="sequence">10</field>
+        <field name="category">behavior</field>
+        <field name="description">الانضباط في الحضور والانصراف والالتزام بمواعيد العمل وعدم الغياب بلا عذر</field>
+    </record>
+
+    <record id="criteria_teamwork" model="radwan.appraisal.criteria">
+        <field name="name">روح الفريق والتعاون</field>
+        <field name="code">TEAM</field>
+        <field name="sequence">20</field>
+        <field name="category">behavior</field>
+        <field name="description">مدى التعاون مع الزملاء والمساهمة في بناء بيئة عمل إيجابية</field>
+    </record>
+
+    <record id="criteria_ethics" model="radwan.appraisal.criteria">
+        <field name="name">الأخلاقيات المهنية والالتزام</field>
+        <field name="code">ETH</field>
+        <field name="sequence">30</field>
+        <field name="category">behavior</field>
+        <field name="description">مدى الالتزام بأخلاقيات المهنة وسياسات الشركة والحفاظ على سرية المعلومات</field>
+    </record>
+
+    <!-- ═══════════════════════════════════════ -->
+    <!--        الكفاءات والمهارات             -->
+    <!-- ═══════════════════════════════════════ -->
+
+    <record id="criteria_communication" model="radwan.appraisal.criteria">
+        <field name="name">مهارات التواصل</field>
+        <field name="code">COMM</field>
+        <field name="sequence">10</field>
+        <field name="category">competency</field>
+        <field name="description">القدرة على التواصل الفعّال شفهياً وكتابياً مع الزملاء والإدارة والعملاء</field>
+    </record>
+
+    <record id="criteria_technical" model="radwan.appraisal.criteria">
+        <field name="name">الكفاءة التقنية والمعرفة الوظيفية</field>
+        <field name="code">TECH</field>
+        <field name="sequence">20</field>
+        <field name="category">competency</field>
+        <field name="description">مستوى الإتقان التقني والمعرفة المتخصصة المطلوبة لأداء المهام الوظيفية</field>
+    </record>
+
+    <!-- ═══════════════════════════════════════ -->
+    <!--        الأهداف والإنجازات             -->
+    <!-- ═══════════════════════════════════════ -->
+
+    <record id="criteria_goals" model="radwan.appraisal.criteria">
+        <field name="name">تحقيق الأهداف المحددة</field>
+        <field name="code">GOAL</field>
+        <field name="sequence">10</field>
+        <field name="category">goals</field>
+        <field name="description">مدى الوصول للأهداف الفردية المتفق عليها في بداية فترة التقييم</field>
+    </record>
+
+    <record id="criteria_kpi" model="radwan.appraisal.criteria">
+        <field name="name">مؤشرات الأداء الرئيسية (KPIs)</field>
+        <field name="code">KPI</field>
+        <field name="sequence">20</field>
+        <field name="category">goals</field>
+        <field name="description">مدى تحقيق مؤشرات الأداء الرئيسية المرتبطة بالقسم والمنظومة</field>
+    </record>
+
+    <!-- ═══════════════════════════════════════ -->
+    <!--         القيادة والإدارة              -->
+    <!-- ═══════════════════════════════════════ -->
+
+    <record id="criteria_leadership" model="radwan.appraisal.criteria">
+        <field name="name">القيادة وتطوير الفريق</field>
+        <field name="code">LEAD</field>
+        <field name="sequence">10</field>
+        <field name="category">leadership</field>
+        <field name="description">القدرة على قيادة وتحفيز الفريق وتطوير أفراده ورفع كفاءتهم</field>
+    </record>
+
+    <record id="criteria_delegation" model="radwan.appraisal.criteria">
+        <field name="name">تفويض المهام وتوزيع العمل</field>
+        <field name="code">DEL</field>
+        <field name="sequence">20</field>
+        <field name="category">leadership</field>
+        <field name="description">القدرة على التفويض الفعّال وتوزيع المهام بما يحقق الكفاءة التنظيمية</field>
+    </record>
+
+    <!-- ═══════════════════════════════════════ -->
+    <!--        التطوير والابتكار              -->
+    <!-- ═══════════════════════════════════════ -->
+
+    <record id="criteria_initiative" model="radwan.appraisal.criteria">
+        <field name="name">المبادرة والإبداع</field>
+        <field name="code">INIT</field>
+        <field name="sequence">10</field>
+        <field name="category">development</field>
+        <field name="description">مدى تقديم مقترحات وأفكار إبداعية لتحسين الأعمال وتطوير الأساليب</field>
+    </record>
+
+    <record id="criteria_learning" model="radwan.appraisal.criteria">
+        <field name="name">التعلم والتطوير الذاتي</field>
+        <field name="code">LEARN</field>
+        <field name="sequence">20</field>
+        <field name="category">development</field>
+        <field name="description">مدى السعي لاكتساب مهارات ومعارف جديدة وتطبيقها في بيئة العمل</field>
+    </record>
+
+</odoo>

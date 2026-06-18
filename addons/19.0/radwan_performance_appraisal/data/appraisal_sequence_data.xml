@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="seq_radwan_appraisal" model="ir.sequence">
+        <field name="name">تسلسل تقييم الأداء</field>
+        <field name="code">radwan.appraisal</field>
+        <field name="prefix">APR/%(year)s/</field>
+        <field name="padding">4</field>
+        <field name="number_next">1</field>
+        <field name="number_increment">1</field>
+        <field name="use_date_range" eval="False"/>
+    </record>
+
+</odoo>

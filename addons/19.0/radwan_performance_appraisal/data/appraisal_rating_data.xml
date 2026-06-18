@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="rating_excellent" model="radwan.appraisal.rating">
+        <field name="name">ممتاز</field>
+        <field name="code">EXCELLENT</field>
+        <field name="score_from">90.0</field>
+        <field name="score_to">100.0</field>
+        <field name="color">10</field>
+        <field name="description">أداء استثنائي يتجاوز جميع التوقعات ويستحق التقدير والمكافأة</field>
+    </record>
+
+    <record id="rating_very_good" model="radwan.appraisal.rating">
+        <field name="name">جيد جداً</field>
+        <field name="code">VERY_GOOD</field>
+        <field name="score_from">80.0</field>
+        <field name="score_to">89.9</field>
+        <field name="color">4</field>
+        <field name="description">أداء مرتفع يفوق معظم التوقعات ويعكس احترافية عالية</field>
+    </record>
+
+    <record id="rating_good" model="radwan.appraisal.rating">
+        <field name="name">جيد</field>
+        <field name="code">GOOD</field>
+        <field name="score_from">70.0</field>
+        <field name="score_to">79.9</field>
+        <field name="color">3</field>
+        <field name="description">أداء يلبي التوقعات بشكل عام ويستوفي متطلبات الوظيفة</field>
+    </record>
+
+    <record id="rating_acceptable" model="radwan.appraisal.rating">
+        <field name="name">مقبول</field>
+        <field name="code">ACCEPTABLE</field>
+        <field name="score_from">60.0</field>
+        <field name="score_to">69.9</field>
+        <field name="color">2</field>
+        <field name="description">أداء يلبي الحد الأدنى من التوقعات ويحتاج إلى تحسين</field>
+    </record>
+
+    <record id="rating_poor" model="radwan.appraisal.rating">
+        <field name="name">ضعيف</field>
+        <field name="code">POOR</field>
+        <field name="score_from">0.0</field>
+        <field name="score_to">59.9</field>
+        <field name="color">1</field>
+        <field name="description">أداء دون مستوى التوقعات ويتطلب خطة تحسين عاجلة</field>
+    </record>
+
+</odoo>

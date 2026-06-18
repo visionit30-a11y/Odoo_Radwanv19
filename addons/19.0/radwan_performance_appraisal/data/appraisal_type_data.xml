@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="type_annual" model="radwan.appraisal.type">
+        <field name="name">التقييم السنوي</field>
+        <field name="code">ANN</field>
+        <field name="sequence">10</field>
+        <field name="frequency">annual</field>
+        <field name="color">4</field>
+        <field name="description">التقييم الشامل السنوي لأداء الموظف في جميع المحاور</field>
+    </record>
+
+    <record id="type_semi_annual" model="radwan.appraisal.type">
+        <field name="name">التقييم نصف السنوي</field>
+        <field name="code">SEMI</field>
+        <field name="sequence">20</field>
+        <field name="frequency">semi_annual</field>
+        <field name="color">3</field>
+        <field name="description">تقييم منتصف العام لمتابعة مسار الأداء وتعديل المسار</field>
+    </record>
+
+    <record id="type_quarterly" model="radwan.appraisal.type">
+        <field name="name">التقييم الربع سنوي</field>
+        <field name="code">QRT</field>
+        <field name="sequence">30</field>
+        <field name="frequency">quarterly</field>
+        <field name="color">2</field>
+        <field name="description">تقييم كل ثلاثة أشهر لضمان تحقيق الأهداف المرحلية</field>
+    </record>
+
+    <record id="type_monthly" model="radwan.appraisal.type">
+        <field name="name">التقييم الشهري</field>
+        <field name="code">MON</field>
+        <field name="sequence">40</field>
+        <field name="frequency">monthly</field>
+        <field name="color">1</field>
+        <field name="description">متابعة شهرية دورية لمستوى الأداء</field>
+    </record>
+
+    <record id="type_probation" model="radwan.appraisal.type">
+        <field name="name">تقييم فترة التجربة</field>
+        <field name="code">PROB</field>
+        <field name="sequence">50</field>
+        <field name="frequency">probation</field>
+        <field name="color">5</field>
+        <field name="description">تقييم أداء الموظف الجديد خلال فترة الاختبار لتحديد صلاحيته للتثبيت</field>
+    </record>
+
+    <record id="type_special" model="radwan.appraisal.type">
+        <field name="name">تقييم خاص</field>
+        <field name="code">SPEC</field>
+        <field name="sequence">60</field>
+        <field name="frequency">special</field>
+        <field name="color">9</field>
+        <field name="description">تقييم استثنائي لحالات خاصة خارج الدورية المعتادة</field>
+    </record>
+
+</odoo>
