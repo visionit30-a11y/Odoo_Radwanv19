@@ -1,0 +1,80 @@
+# Translation of Odoo Module.
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-06-18 00:00+0000\n"
+"PO-Revision-Date: 2026-06-18 00:00+0000\n"
+"Last-Translator: Radwan\n"
+"Language-Team: Arabic\n"
+"Language: ar_001\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: radwan_performance_appraisal
+#: model:ir.module.module,shortdesc:radwan_performance_appraisal.module_meta_information
+msgid "Radwan Performance Appraisal"
+msgstr "تقييم الأداء"
+
+#. module: radwan_performance_appraisal
+#: model:ir.ui.menu,name:radwan_performance_appraisal.menu_radwan_appraisal_root
+msgid "Performance Appraisal"
+msgstr "تقييم الأداء"
+
+#. module: radwan_performance_appraisal
+#: model:ir.ui.menu,name:radwan_performance_appraisal.menu_appraisal_main
+msgid "Appraisals"
+msgstr "التقييمات"
+
+#. module: radwan_performance_appraisal
+#: model:ir.ui.menu,name:radwan_performance_appraisal.menu_appraisal_all
+msgid "All Appraisals"
+msgstr "جميع التقييمات"
+
+#. module: radwan_performance_appraisal
+#: model:ir.ui.menu,name:radwan_performance_appraisal.menu_appraisal_inprogress
+msgid "In Progress Appraisals"
+msgstr "التقييمات الجارية"
+
+#. module: radwan_performance_appraisal
+#: model:ir.ui.menu,name:radwan_performance_appraisal.menu_appraisal_done
+msgid "Completed Appraisals"
+msgstr "التقييمات المكتملة"
+
+#. module: radwan_performance_appraisal
+#: model:ir.ui.menu,name:radwan_performance_appraisal.menu_appraisal_periods_root
+msgid "Periods"
+msgstr "الفترات"
+
+#. module: radwan_performance_appraisal
+#: model:ir.ui.menu,name:radwan_performance_appraisal.menu_appraisal_periods
+msgid "Appraisal Periods"
+msgstr "فترات التقييم"
+
+#. module: radwan_performance_appraisal
+#: model:ir.ui.menu,name:radwan_performance_appraisal.menu_appraisal_config
+msgid "Configuration"
+msgstr "الإعدادات"
+
+#. module: radwan_performance_appraisal
+#: model:ir.ui.menu,name:radwan_performance_appraisal.menu_appraisal_types
+msgid "Appraisal Types"
+msgstr "أنواع التقييم"
+
+#. module: radwan_performance_appraisal
+#: model:ir.ui.menu,name:radwan_performance_appraisal.menu_appraisal_templates
+msgid "Appraisal Templates"
+msgstr "قوالب التقييم"
+
+#. module: radwan_performance_appraisal
+#: model:ir.ui.menu,name:radwan_performance_appraisal.menu_appraisal_criteria
+msgid "Appraisal Criteria"
+msgstr "معايير التقييم"
+
+#. module: radwan_performance_appraisal
+#: model:ir.ui.menu,name:radwan_performance_appraisal.menu_appraisal_ratings
+msgid "Rating Scales"
+msgstr "مقاييس التقدير"
+
