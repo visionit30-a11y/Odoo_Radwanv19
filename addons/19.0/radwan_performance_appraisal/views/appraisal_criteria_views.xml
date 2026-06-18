@@ -47,24 +47,17 @@
         <field name="name">radwan.appraisal.criteria.search</field>
         <field name="model">radwan.appraisal.criteria</field>
         <field name="arch" type="xml">
-            <search string="بحث في معايير التقييم">
-                <field name="name" string="المعيار"/>
-                <field name="code" string="الرمز"/>
-                <separator/>
-                <filter name="cat_performance" string="الأداء الوظيفي"
-                        domain="[('category','=','performance')]"/>
-                <filter name="cat_behavior" string="السلوك"
-                        domain="[('category','=','behavior')]"/>
-                <filter name="cat_goals" string="الأهداف"
-                        domain="[('category','=','goals')]"/>
-                <filter name="cat_leadership" string="القيادة"
-                        domain="[('category','=','leadership')]"/>
-                <separator/>
-                <filter name="active" string="نشط" domain="[('active','=',True)]"/>
-                <filter name="inactive" string="غير نشط" domain="[('active','=',False)]"/>
-                <group string="تجميع حسب">
-                    <filter name="group_category" string="الفئة"
-                            context="{'group_by': 'category'}"/>
+            <search>
+                <field name="name"/>
+                <field name="code"/>
+                <filter name="cat_performance" string="الأداء الوظيفي" domain="[('category', '=', 'performance')]"/>
+                <filter name="cat_behavior" string="السلوك" domain="[('category', '=', 'behavior')]"/>
+                <filter name="cat_goals" string="الأهداف" domain="[('category', '=', 'goals')]"/>
+                <filter name="cat_leadership" string="القيادة" domain="[('category', '=', 'leadership')]"/>
+                <filter name="filter_active" string="نشط" domain="[('active', '=', True)]"/>
+                <filter name="filter_inactive" string="غير نشط" domain="[('active', '=', False)]"/>
+                <group expand="0" string="تجميع حسب">
+                    <filter name="group_category" string="الفئة" context="{'group_by': 'category'}"/>
                 </group>
             </search>
         </field>
@@ -75,7 +68,7 @@
         <field name="res_model">radwan.appraisal.criteria</field>
         <field name="view_mode">list,form</field>
         <field name="search_view_id" ref="view_appraisal_criteria_search"/>
-        <field name="context">{'search_default_active': 1}</field>
+        <field name="context">{'search_default_filter_active': 1}</field>
     </record>
 
 </odoo>

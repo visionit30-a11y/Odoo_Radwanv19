@@ -78,18 +78,15 @@
         <field name="name">radwan.appraisal.period.search</field>
         <field name="model">radwan.appraisal.period</field>
         <field name="arch" type="xml">
-            <search string="بحث في فترات التقييم">
-                <field name="name" string="اسم الفترة"/>
-                <field name="type_id" string="نوع التقييم"/>
-                <separator/>
-                <filter name="open" string="مفتوحة" domain="[('state','=','open')]"/>
-                <filter name="draft" string="مسودة" domain="[('state','=','draft')]"/>
-                <filter name="closed" string="مغلقة" domain="[('state','=','closed')]"/>
-                <group string="تجميع حسب">
-                    <filter name="group_type" string="النوع"
-                            context="{'group_by': 'type_id'}"/>
-                    <filter name="group_state" string="الحالة"
-                            context="{'group_by': 'state'}"/>
+            <search>
+                <field name="name"/>
+                <field name="type_id"/>
+                <filter name="filter_open" string="مفتوحة" domain="[('state', '=', 'open')]"/>
+                <filter name="filter_draft" string="مسودة" domain="[('state', '=', 'draft')]"/>
+                <filter name="filter_closed" string="مغلقة" domain="[('state', '=', 'closed')]"/>
+                <group expand="0" string="تجميع حسب">
+                    <filter name="group_type" string="النوع" context="{'group_by': 'type_id'}"/>
+                    <filter name="group_state" string="الحالة" context="{'group_by': 'state'}"/>
                 </group>
             </search>
         </field>

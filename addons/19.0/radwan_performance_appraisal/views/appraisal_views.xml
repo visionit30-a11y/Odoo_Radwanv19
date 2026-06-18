@@ -308,52 +308,31 @@
         <field name="name">radwan.appraisal.search</field>
         <field name="model">radwan.appraisal</field>
         <field name="arch" type="xml">
-            <search string="بحث في تقييمات الأداء">
-                <field name="name" string="رقم التقييم"/>
-                <field name="employee_id" string="الموظف"/>
-                <field name="period_id" string="الفترة"/>
-                <field name="department_id" string="القسم"/>
-                <field name="type_id" string="نوع التقييم"/>
-                <field name="reviewer_id" string="المقيِّم"/>
-                <separator/>
-                <filter name="my_appraisals" string="تقييماتي"
-                        domain="[('reviewer_id.user_id', '=', uid)]"/>
-                <separator/>
-                <filter name="state_draft" string="مسودة"
-                        domain="[('state','=','draft')]"/>
-                <filter name="state_confirmed" string="مؤكد"
-                        domain="[('state','=','confirmed')]"/>
-                <filter name="state_self" string="تقييم ذاتي"
-                        domain="[('state','=','self_review')]"/>
-                <filter name="state_manager" string="مراجعة المدير"
-                        domain="[('state','=','manager_review')]"/>
-                <filter name="state_hr" string="مراجعة الموارد البشرية"
-                        domain="[('state','=','hr_review')]"/>
-                <filter name="state_done" string="مكتملة"
-                        domain="[('state','=','done')]"/>
-                <filter name="state_cancelled" string="ملغاة"
-                        domain="[('state','=','cancelled')]"/>
-                <separator/>
-                <filter name="in_progress" string="قيد التنفيذ"
-                        domain="[('state','not in',['done','cancelled'])]"/>
-                <separator/>
-                <filter name="high_score" string="درجة ممتازة (90%+)"
-                        domain="[('total_score','&gt;=',90)]"/>
-                <filter name="low_score" string="درجة ضعيفة (أقل من 60%)"
-                        domain="[('total_score','&gt;',0),('total_score','&lt;',60)]"/>
-                <group string="تجميع حسب">
-                    <filter name="group_state" string="الحالة"
-                            context="{'group_by': 'state'}"/>
-                    <filter name="group_period" string="الفترة"
-                            context="{'group_by': 'period_id'}"/>
-                    <filter name="group_type" string="نوع التقييم"
-                            context="{'group_by': 'type_id'}"/>
-                    <filter name="group_department" string="القسم"
-                            context="{'group_by': 'department_id'}"/>
-                    <filter name="group_employee" string="الموظف"
-                            context="{'group_by': 'employee_id'}"/>
-                    <filter name="group_rating" string="التقدير"
-                            context="{'group_by': 'rating_id'}"/>
+            <search>
+                <field name="name"/>
+                <field name="employee_id"/>
+                <field name="period_id"/>
+                <field name="department_id"/>
+                <field name="type_id"/>
+                <field name="reviewer_id"/>
+                <filter name="my_appraisals" string="تقييماتي" domain="[('reviewer_id.user_id', '=', uid)]"/>
+                <filter name="state_draft" string="مسودة" domain="[('state', '=', 'draft')]"/>
+                <filter name="state_confirmed" string="مؤكد" domain="[('state', '=', 'confirmed')]"/>
+                <filter name="state_self" string="تقييم ذاتي" domain="[('state', '=', 'self_review')]"/>
+                <filter name="state_manager" string="مراجعة المدير" domain="[('state', '=', 'manager_review')]"/>
+                <filter name="state_hr" string="مراجعة الموارد البشرية" domain="[('state', '=', 'hr_review')]"/>
+                <filter name="state_done" string="مكتملة" domain="[('state', '=', 'done')]"/>
+                <filter name="state_cancelled" string="ملغاة" domain="[('state', '=', 'cancelled')]"/>
+                <filter name="in_progress" string="قيد التنفيذ" domain="[('state', 'not in', ['done', 'cancelled'])]"/>
+                <filter name="high_score" string="درجة ممتازة (90%+)" domain="[('total_score', '&gt;=', 90)]"/>
+                <filter name="low_score" string="درجة ضعيفة (أقل من 60%)" domain="[('total_score', '&gt;', 0), ('total_score', '&lt;', 60)]"/>
+                <group expand="0" string="تجميع حسب">
+                    <filter name="group_state" string="الحالة" context="{'group_by': 'state'}"/>
+                    <filter name="group_period" string="الفترة" context="{'group_by': 'period_id'}"/>
+                    <filter name="group_type" string="نوع التقييم" context="{'group_by': 'type_id'}"/>
+                    <filter name="group_department" string="القسم" context="{'group_by': 'department_id'}"/>
+                    <filter name="group_employee" string="الموظف" context="{'group_by': 'employee_id'}"/>
+                    <filter name="group_rating" string="التقدير" context="{'group_by': 'rating_id'}"/>
                 </group>
             </search>
         </field>
