@@ -49,6 +49,7 @@ body.o_rtl .radwan_employee_rtl_form,
     }
 
     .o_notebook .nav-link {
+        direction: rtl !important;
         max-width: 12rem;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -89,6 +90,18 @@ body.o_rtl .radwan_employee_rtl_form,
         text-align: right !important;
         justify-content: flex-start !important;
         align-items: center !important;
+    }
+
+    .o_employee_form_header_info .o_field_widget,
+    .o_employee_form_header_info .o_field_widget input,
+    .o_employee_form_header_info .o_field_widget textarea,
+    .o_employee_form_header_info .o_field_widget .o_input,
+    .o_employee_form_header_info .o_field_widget .o-autocomplete--input,
+    .o_employee_form_header_info .o_field_char,
+    .o_employee_form_header_info .o_field_text {
+        direction: rtl !important;
+        text-align: right !important;
+        unicode-bidi: plaintext;
     }
 
     .o_employee_form_header_info h1 {
