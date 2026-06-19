@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_report_employee_orientation" model="ir.actions.report">
+        <field name="name">Orientation Report</field>
+        <field name="model">employee.orientation</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">radwan_hr_employee_profile_details.report_employee_orientation_document</field>
+        <field name="report_file">radwan_hr_employee_profile_details.report_employee_orientation_document</field>
+        <field name="binding_model_id" ref="employee_orientation.model_employee_orientation"/>
+        <field name="binding_type">report</field>
+        <field name="print_report_name">'Orientation - %s' % (object.name or object.employee_id.name or 'Employee')</field>
+    </record>
+
+    <template id="report_employee_orientation_document">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="web.external_layout">
+                    <t t-set="company" t-value="doc.employee_company_id or doc.env.company"/>
+                    <t t-set="lines" t-value="doc.orientation_request_ids"/>
+                    <t t-set="completed_lines" t-value="lines.filtered(lambda line: line.state == 'complete')"/>
+                    <div class="page" style="font-family: Arial, sans-serif; color: #0f172a;">
+                        <style>
+                            .rw-orientation-header {
+                                background: linear-gradient(135deg, #063957 0%, #0b5e93 58%, #2294cc 100%);
+                                color: #ffffff;
+                                border-radius: 12px;
+                                padding: 18px 20px;
+                                margin-bottom: 16px;
+                            }
+                            .rw-orientation-title {
+                                font-size: 25px;
+                                font-weight: 700;
+                                margin: 0 0 5px 0;
+                            }
+                            .rw-orientation-subtitle {
+                                font-size: 13px;
+                                color: #dbeafe;
+                            }
+                            .rw-status-pill {
+                                display: inline-block;
+                                background: rgba(255, 255, 255, 0.16);
+                                border: 1px solid rgba(255, 255, 255, 0.35);
+                                border-radius: 999px;
+                                padding: 6px 12px;
+                                font-size: 12px;
+                                font-weight: 700;
+                                margin-top: 10px;
+                            }
+                            .rw-card {
+                                border: 1px solid #d9e4ef;
+                                border-radius: 10px;
+                                padding: 14px;
+                                margin-bottom: 14px;
+                                background: #ffffff;
+                            }
+                            .rw-card-title {
+                                color: #063957;
+                                font-size: 15px;
+                                font-weight: 700;
+                                margin-bottom: 10px;
+                            }
+                            .rw-grid {
+                                width: 100%;
+                                border-collapse: collapse;
+                            }
+                            .rw-grid td {
+                                border-bottom: 1px solid #edf2f7;
+                                padding: 7px 8px;
+                                vertical-align: top;
+                            }
+                            .rw-label {
+                                width: 18%;
+                                color: #64748b;
+                                font-size: 12px;
+                            }
+                            .rw-value {
+                                width: 32%;
+                                color: #1e293b;
+                                font-weight: 600;
+                            }
+                            .rw-summary-box {
+                                border: 1px solid #dbeafe;
+                                background: #f0f8ff;
+                                border-radius: 9px;
+                                padding: 10px 12px;
+                                min-height: 54px;
+                            }
+                            .rw-summary-number {
+                                display: block;
+                                color: #075985;
+                                font-size: 21px;
+                                font-weight: 700;
+                                line-height: 1.2;
+                            }
+                            .rw-summary-label {
+                                color: #64748b;
+                                font-size: 11px;
+                            }
+                            .rw-table {
+                                width: 100%;
+                                border-collapse: collapse;
+                                font-size: 12px;
+                            }
+                            .rw-table th {
+                                background: #eaf4fb;
+                                color: #063957;
+                                border: 1px solid #d9e4ef;
+                                padding: 8px;
+                                text-align: left;
+                                font-weight: 700;
+                            }
+                            .rw-table td {
+                                border: 1px solid #d9e4ef;
+                                padding: 8px;
+                                vertical-align: top;
+                            }
+                            .rw-muted {
+                                color: #64748b;
+                            }
+                            .rw-signature {
+                                height: 70px;
+                                border-top: 1px solid #94a3b8;
+                                margin-top: 34px;
+                                padding-top: 8px;
+                                color: #475569;
+                                font-size: 12px;
+                            }
+                        </style>
+
+                        <div class="rw-orientation-header">
+                            <div class="row">
+                                <div class="col-9">
+                                    <div class="rw-orientation-title">Employee Orientation Report</div>
+                                    <div class="rw-orientation-subtitle">
+                                        <span t-field="doc.name"/>
+                                        <span> - </span>
+                                        <span t-field="company.name"/>
+                                    </div>
+                                    <div class="rw-status-pill">
+                                        <span>Status: </span>
+                                        <span t-field="doc.state"/>
+                                    </div>
+                                </div>
+                                <div class="col-3 text-end">
+                                    <img t-if="company.logo"
+                                         t-att-src="'/web/image/res.company/%s/logo' % company.id"
+                                         style="max-height: 58px; max-width: 130px; background: #ffffff; border-radius: 8px; padding: 6px;"/>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="rw-card">
+                            <div class="rw-card-title">Employee Details</div>
+                            <table class="rw-grid">
+                                <tr>
+                                    <td class="rw-label">Employee</td>
+                                    <td class="rw-value"><span t-field="doc.employee_id"/></td>
+                                    <td class="rw-label">Department</td>
+                                    <td class="rw-value"><span t-field="doc.department_id"/></td>
+                                </tr>
+                                <tr>
+                                    <td class="rw-label">Job Title</td>
+                                    <td class="rw-value"><span t-field="doc.job_id"/></td>
+                                    <td class="rw-label">Manager</td>
+                                    <td class="rw-value"><span t-field="doc.parent_id"/></td>
+                                </tr>
+                                <tr>
+                                    <td class="rw-label">Responsible User</td>
+                                    <td class="rw-value"><span t-field="doc.responsible_user_id"/></td>
+                                    <td class="rw-label">Orientation Date</td>
+                                    <td class="rw-value"><span t-field="doc.date"/></td>
+                                </tr>
+                                <tr>
+                                    <td class="rw-label">Checklist</td>
+                                    <td class="rw-value"><span t-field="doc.orientation_id"/></td>
+                                    <td class="rw-label">Company</td>
+                                    <td class="rw-value"><span t-field="company.name"/></td>
+                                </tr>
+                            </table>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-4">
+                                <div class="rw-summary-box">
+                                    <span class="rw-summary-number" t-esc="len(lines)"/>
+                                    <span class="rw-summary-label">Checklist Items</span>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="rw-summary-box">
+                                    <span class="rw-summary-number" t-esc="len(completed_lines)"/>
+                                    <span class="rw-summary-label">Completed Items</span>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="rw-summary-box">
+                                    <span class="rw-summary-number">
+                                        <t t-if="lines" t-esc="'%.0f' % ((len(completed_lines) * 100.0) / len(lines))"/>
+                                        <t t-else="">0</t>%
+                                    </span>
+                                    <span class="rw-summary-label">Completion Rate</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="rw-card" style="margin-top: 14px;">
+                            <div class="rw-card-title">Orientation Checklist</div>
+                            <table class="rw-table">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 25%;">Item</th>
+                                        <th style="width: 18%;">Responsible User</th>
+                                        <th style="width: 14%;">Expected Date</th>
+                                        <th style="width: 14%;">Completed On</th>
+                                        <th style="width: 12%;">Status</th>
+                                        <th style="width: 17%;">Email Sent On</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr t-foreach="lines" t-as="line">
+                                        <td><span t-field="line.request_name"/></td>
+                                        <td><span t-field="line.partner_id"/></td>
+                                        <td><span t-field="line.request_expected_date"/></td>
+                                        <td>
+                                            <span t-if="line.completed_datetime" t-field="line.completed_datetime"/>
+                                            <span t-else="" class="rw-muted">-</span>
+                                        </td>
+                                        <td><span t-field="line.state"/></td>
+                                        <td>
+                                            <span t-if="line.email_sent_date" t-field="line.email_sent_date"/>
+                                            <span t-elif="line.email_sent">Sent</span>
+                                            <span t-else="" class="rw-muted">Not sent</span>
+                                        </td>
+                                    </tr>
+                                    <tr t-if="not lines">
+                                        <td colspan="6" class="rw-muted">No orientation checklist lines were found.</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="rw-card" t-if="doc.note">
+                            <div class="rw-card-title">Notes</div>
+                            <div t-field="doc.note"/>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-4">
+                                <div class="rw-signature">HR Signature</div>
+                            </div>
+                            <div class="col-4">
+                                <div class="rw-signature">Manager Signature</div>
+                            </div>
+                            <div class="col-4">
+                                <div class="rw-signature">Employee Signature</div>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

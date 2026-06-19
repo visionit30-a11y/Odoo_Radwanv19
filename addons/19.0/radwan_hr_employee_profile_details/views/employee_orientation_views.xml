@@ -11,6 +11,11 @@
                         type="object"
                         class="btn-secondary"
                         invisible="state not in ['confirm', 'complete']"/>
+                <button name="%(radwan_hr_employee_profile_details.action_report_employee_orientation)d"
+                        string="Print Orientation"
+                        type="action"
+                        class="btn-secondary"
+                        invisible="state == 'draft'"/>
             </xpath>
             <xpath expr="//field[@name='orientation_request_ids']/list/field[@name='request_expected_date']" position="after">
                 <field name="completed_datetime" readonly="1"/>
