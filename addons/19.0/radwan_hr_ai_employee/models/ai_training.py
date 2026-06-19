@@ -63,7 +63,7 @@ class RadwanHrAiTrainingKnowledge(models.Model):
         tracking=True,
     )
     description = fields.Text()
-    content = fields.Html(string="Training Content", required=True, sanitize=True, tracking=True)
+    content = fields.Html(string="Training Content", required=True, sanitize=True)
     question_example = fields.Text(string="Example User Question")
     answer_example = fields.Text(string="Expected Answer Example")
     priority = fields.Integer(default=10, tracking=True)
@@ -84,7 +84,6 @@ class RadwanHrAiTrainingKnowledge(models.Model):
         "training_id",
         "group_id",
         string="Allowed Groups",
-        tracking=True,
     )
     allowed_company_ids = fields.Many2many(
         "res.company",
@@ -92,7 +91,6 @@ class RadwanHrAiTrainingKnowledge(models.Model):
         "training_id",
         "company_id",
         string="Allowed Companies",
-        tracking=True,
     )
     related_model_id = fields.Many2one("ir.model", string="Related Model", ondelete="set null")
     related_field_ids = fields.Many2many(
