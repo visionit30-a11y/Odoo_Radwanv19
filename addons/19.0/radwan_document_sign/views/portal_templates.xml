@@ -56,6 +56,7 @@
                         background: #fff;
                         border: 1px solid #cbd6df;
                         box-shadow: 0 12px 32px rgba(30, 53, 73, 0.14);
+                        overflow: hidden;
                     }
                     .rw-document iframe {
                         width: 100%;
@@ -109,18 +110,20 @@
                         outline-offset: 8px;
                     }
                     .rw-drop-layer {
-                        display: none;
+                        display: block;
                         position: absolute;
                         inset: 0;
                         z-index: 4;
-                        background: rgba(124, 77, 255, 0.03);
+                        pointer-events: none;
+                        background: transparent;
                     }
                     .rw-document.rw-document-drop-target .rw-drop-layer {
-                        display: block;
+                        pointer-events: auto;
+                        background: rgba(124, 77, 255, 0.05);
                     }
                     .rw-field {
                         position: absolute;
-                        z-index: 5;
+                        z-index: 6;
                         border: 2px solid #7c4dff;
                         background: rgba(124, 77, 255, 0.14);
                         color: #2e1e78;
@@ -270,12 +273,12 @@
                         </div>
                     </aside>
                 </main>
-                <script>
+                <script><![CDATA[
                     (function () {
                         const workspace = document.querySelector(".rw-workspace");
                         const doc = document.getElementById("rw-document");
                         const dropLayer = document.getElementById("rw-drop-layer");
-                        const saveUrl = workspace.dataset.saveUrl;
+                        const saveUrl = workspace ? workspace.dataset.saveUrl : "";
                         const saveButton = document.getElementById("rw-save-fields");
                         const addButton = document.getElementById("rw-add-signature");
                         const status = document.getElementById("rw-status");
@@ -288,10 +291,20 @@
                         const propHeight = document.getElementById("rw-prop-height");
                         const propRequired = document.getElementById("rw-prop-required");
                         const deleteButton = document.getElementById("rw-delete-field");
+                        const labels = {
+                            signature: "Signature",
+                            initial: "Initials",
+                            date: "Date",
+                            text: "Text",
+                        };
                         let active = null;
-                        let drag = null;
+                        let fieldDrag = null;
                         let toolDrag = null;
                         let suppressToolClick = false;
+
+                        if (!doc) {
+                            return;
+                        }
 
                         function setStatus(message) {
                             if (status) {
@@ -299,160 +312,308 @@
                             }
                         }
 
-                        function rectPercent(element) {
-                            const parent = doc.getBoundingClientRect();
-                            const rect = element.getBoundingClientRect();
+                        function clamp(value, min, max) {
+                            const numeric = Number.isFinite(value) ? value : min;
+                            return Math.max(min, Math.min(max, numeric));
+                        }
+
+                        function percent(value, fallback) {
+                            const parsed = parseFloat(String(value || "").replace("%", ""));
+                            return Number.isFinite(parsed) ? parsed : fallback;
+                        }
+
+                        function fieldSize(type) {
+                            if (type === "date") {
+                                return {width: 18, height: 4.8};
+                            }
+                            if (type === "text") {
+                                return {width: 30, height: 6};
+                            }
+                            if (type === "initial") {
+                                return {width: 18, height: 7};
+                            }
+                            return {width: 28, height: 8};
+                        }
+
+                        function normalizeType(type) {
+                            return labels[type] ? type : "signature";
+                        }
+
+                        function metricsFromField(field) {
                             return {
-                                pos_x: ((rect.left - parent.left) / parent.width) * 100,
-                                pos_y: ((rect.top - parent.top) / parent.height) * 100,
-                                width: (rect.width / parent.width) * 100,
-                                height: (rect.height / parent.height) * 100,
+                                pos_x: percent(field.style.left, 8),
+                                pos_y: percent(field.style.top, 70),
+                                width: percent(field.style.width, 28),
+                                height: percent(field.style.height, 8),
                             };
+                        }
+
+                        function applyMetrics(field, metrics) {
+                            const minWidth = 6;
+                            const minHeight = 3;
+                            const width = clamp(metrics.width, minWidth, 100);
+                            const height = clamp(metrics.height, minHeight, 100);
+                            const left = clamp(metrics.pos_x, 0, 100 - width);
+                            const top = clamp(metrics.pos_y, 0, 100 - height);
+                            field.style.left = left.toFixed(3) + "%";
+                            field.style.top = top.toFixed(3) + "%";
+                            field.style.width = width.toFixed(3) + "%";
+                            field.style.height = height.toFixed(3) + "%";
+                        }
+
+                        function pointFromClient(clientX, clientY) {
+                            const rect = doc.getBoundingClientRect();
+                            return {
+                                left: ((clientX - rect.left) / rect.width) * 100,
+                                top: ((clientY - rect.top) / rect.height) * 100,
+                            };
+                        }
+
+                        function isInsideDocument(clientX, clientY) {
+                            const rect = doc.getBoundingClientRect();
+                            return clientX >= rect.left && clientX <= rect.right && clientY >= rect.top && clientY <= rect.bottom;
+                        }
+
+                        function visibleDefaultPoint() {
+                            const rect = doc.getBoundingClientRect();
+                            const top = Math.max(rect.top, 72);
+                            const bottom = Math.min(rect.bottom, window.innerHeight - 56);
+                            const safeHeight = Math.max(120, bottom - top);
+                            return pointFromClient(rect.left + rect.width * 0.22, top + safeHeight * 0.68);
+                        }
+
+                        function setFieldLabel(field, label) {
+                            const safeLabel = label || labels[normalizeType(field.dataset.fieldType)] || "Signature";
+                            field.dataset.label = safeLabel;
+                            const span = field.querySelector("span");
+                            if (span) {
+                                span.textContent = safeLabel;
+                            }
+                        }
+
+                        function createFieldElement(type) {
+                            const safeType = normalizeType(type);
+                            const field = document.createElement("div");
+                            field.className = "rw-field";
+                            field.dataset.id = "";
+                            field.dataset.fieldType = safeType;
+                            field.dataset.required = "1";
+                            field.dataset.page = "1";
+
+                            const label = document.createElement("span");
+                            label.textContent = labels[safeType];
+                            const resize = document.createElement("i");
+                            resize.className = "rw-resize";
+                            field.appendChild(label);
+                            field.appendChild(resize);
+                            field.dataset.label = labels[safeType];
+                            return field;
+                        }
+
+                        function addField(type, point) {
+                            const safeType = normalizeType(type);
+                            const size = fieldSize(safeType);
+                            const dropPoint = point || visibleDefaultPoint();
+                            const field = createFieldElement(safeType);
+                            applyMetrics(field, {
+                                pos_x: dropPoint.left - size.width / 2,
+                                pos_y: dropPoint.top - size.height / 2,
+                                width: size.width,
+                                height: size.height,
+                            });
+                            doc.appendChild(field);
+                            bindField(field);
+                            selectField(field);
+                            setStatus("");
+                            return field;
                         }
 
                         function selectField(field) {
                             if (active) {
                                 active.classList.remove("active");
                             }
-                            active = field;
+                            active = field || null;
                             if (!active) {
                                 return;
                             }
                             active.classList.add("active");
-                            propLabel.value = active.dataset.label || active.textContent.trim();
-                            propType.value = active.dataset.fieldType || "signature";
+                            propLabel.value = active.dataset.label || labels[normalizeType(active.dataset.fieldType)];
+                            propType.value = normalizeType(active.dataset.fieldType);
                             propPage.value = active.dataset.page || "1";
                             propRequired.checked = active.dataset.required !== "0";
                             syncPropsFromActive();
-                        }
-
-                        function cleanPercent(value) {
-                            return parseFloat(String(value || "0").replace("%", "")) || 0;
-                        }
-
-                        function clamp(value, min, max) {
-                            return Math.max(min, Math.min(max, value));
-                        }
-
-                        function defaultFieldSize(type) {
-                            return {
-                                width: type === "date" ? 16 : 28,
-                                height: type === "text" ? 7 : 8,
-                            };
-                        }
-
-                        function pointFromClient(clientX, clientY) {
-                            const parent = doc.getBoundingClientRect();
-                            return {
-                                left: ((clientX - parent.left) / parent.width) * 100,
-                                top: ((clientY - parent.top) / parent.height) * 100,
-                            };
-                        }
-
-                        function isInsideDocument(clientX, clientY) {
-                            const parent = doc.getBoundingClientRect();
-                            return (
-                                clientX >= parent.left &amp;&amp;
-                                clientX &lt;= parent.right &amp;&amp;
-                                clientY >= parent.top &amp;&amp;
-                                clientY &lt;= parent.bottom
-                            );
                         }
 
                         function syncPropsFromActive() {
                             if (!active) {
                                 return;
                             }
-                            propX.value = cleanPercent(active.style.left).toFixed(1);
-                            propY.value = cleanPercent(active.style.top).toFixed(1);
-                            propWidth.value = cleanPercent(active.style.width).toFixed(1);
-                            propHeight.value = cleanPercent(active.style.height).toFixed(1);
-                        }
-
-                        function addField(type, point) {
-                            const safeType = type || "signature";
-                            const size = defaultFieldSize(safeType);
-                            const field = document.createElement("div");
-                            field.className = "rw-field";
-                            field.dataset.id = "";
-                            field.dataset.fieldType = safeType;
-                            field.dataset.label = safeType === "date" ? "Date" : safeType === "text" ? "Text" : safeType === "initial" ? "Initials" : "Signature";
-                            field.dataset.required = "1";
-                            field.dataset.page = "1";
-                            field.style.width = size.width + "%";
-                            field.style.height = size.height + "%";
-                            field.style.left = point ? clamp(point.left - (size.width / 2), 0, 100 - size.width) + "%" : "8%";
-                            field.style.top = point ? clamp(point.top - (size.height / 2), 0, 100 - size.height) + "%" : "70%";
-                            field.innerHTML = "<span>" + field.dataset.label + "</span><i class='rw-resize'></i>";
-                            doc.appendChild(field);
-                            bindField(field);
-                            selectField(field);
-                            setStatus("");
+                            const metrics = metricsFromField(active);
+                            propX.value = metrics.pos_x.toFixed(1);
+                            propY.value = metrics.pos_y.toFixed(1);
+                            propWidth.value = metrics.width.toFixed(1);
+                            propHeight.value = metrics.height.toFixed(1);
                         }
 
                         function bindField(field) {
+                            if (field.dataset.bound === "1") {
+                                return;
+                            }
+                            field.dataset.bound = "1";
                             field.addEventListener("pointerdown", function (event) {
+                                if (event.button && event.button !== 0) {
+                                    return;
+                                }
+                                const metrics = metricsFromField(field);
                                 selectField(field);
-                                const isResize = event.target.classList.contains("rw-resize");
-                                const parent = doc.getBoundingClientRect();
-                                const start = field.getBoundingClientRect();
                                 field.setPointerCapture(event.pointerId);
-                                drag = {
-                                    field,
-                                    isResize,
+                                fieldDrag = {
+                                    field: field,
+                                    pointerId: event.pointerId,
+                                    mode: event.target.classList.contains("rw-resize") ? "resize" : "move",
                                     startX: event.clientX,
                                     startY: event.clientY,
-                                    left: start.left - parent.left,
-                                    top: start.top - parent.top,
-                                    width: start.width,
-                                    height: start.height,
-                                    parent,
-                                    pointerId: event.pointerId,
+                                    startMetrics: metrics,
+                                    docRect: doc.getBoundingClientRect(),
                                 };
                                 event.preventDefault();
+                                event.stopPropagation();
                             });
-                            field.addEventListener("pointermove", moveField);
-                            field.addEventListener("pointerup", stopField);
-                            field.addEventListener("pointercancel", stopField);
                         }
 
-                        function moveField(event) {
-                            if (!drag) {
+                        function moveSelectedField(event) {
+                            if (!fieldDrag || fieldDrag.pointerId !== event.pointerId) {
                                 return;
                             }
-                            if (drag.pointerId !== event.pointerId) {
-                                return;
-                            }
-                            const dx = event.clientX - drag.startX;
-                            const dy = event.clientY - drag.startY;
-                            if (drag.isResize) {
-                                const width = Math.max(80, drag.width + dx);
-                                const height = Math.max(34, drag.height + dy);
-                                drag.field.style.width = (width / drag.parent.width) * 100 + "%";
-                                drag.field.style.height = (height / drag.parent.height) * 100 + "%";
+                            const dx = ((event.clientX - fieldDrag.startX) / fieldDrag.docRect.width) * 100;
+                            const dy = ((event.clientY - fieldDrag.startY) / fieldDrag.docRect.height) * 100;
+                            const next = Object.assign({}, fieldDrag.startMetrics);
+                            if (fieldDrag.mode === "resize") {
+                                next.width = fieldDrag.startMetrics.width + dx;
+                                next.height = fieldDrag.startMetrics.height + dy;
                             } else {
-                                const left = Math.max(0, Math.min(drag.parent.width - drag.width, drag.left + dx));
-                                const top = Math.max(0, Math.min(drag.parent.height - drag.height, drag.top + dy));
-                                drag.field.style.left = (left / drag.parent.width) * 100 + "%";
-                                drag.field.style.top = (top / drag.parent.height) * 100 + "%";
+                                next.pos_x = fieldDrag.startMetrics.pos_x + dx;
+                                next.pos_y = fieldDrag.startMetrics.pos_y + dy;
                             }
-                            if (drag.field === active) {
+                            applyMetrics(fieldDrag.field, next);
+                            if (fieldDrag.field === active) {
                                 syncPropsFromActive();
                             }
                             event.preventDefault();
                         }
 
-                        function stopField(event) {
-                            if (!drag) {
-                                return;
-                            }
-                            if (drag.pointerId === event.pointerId) {
-                                drag = null;
+                        function stopSelectedField(event) {
+                            if (fieldDrag && fieldDrag.pointerId === event.pointerId) {
+                                syncPropsFromActive();
+                                fieldDrag = null;
                             }
                         }
 
-                        document.querySelectorAll(".rw-field").forEach(bindField);
+                        function makeToolGhost(label, x, y) {
+                            const ghost = document.createElement("div");
+                            ghost.className = "rw-tool-ghost";
+                            ghost.textContent = label;
+                            ghost.style.left = (x + 12) + "px";
+                            ghost.style.top = (y + 12) + "px";
+                            document.body.appendChild(ghost);
+                            return ghost;
+                        }
+
+                        function clearToolDrag() {
+                            document.querySelectorAll(".rw-tool.dragging").forEach(function (button) {
+                                button.classList.remove("dragging");
+                            });
+                            doc.classList.remove("rw-document-drop-target");
+                            if (toolDrag && toolDrag.ghost) {
+                                toolDrag.ghost.remove();
+                            }
+                            toolDrag = null;
+                        }
+
+                        function startToolDrag(button, event) {
+                            if (event.button && event.button !== 0) {
+                                return;
+                            }
+                            const type = normalizeType(button.dataset.type);
+                            toolDrag = {
+                                pointerId: event.pointerId,
+                                type: type,
+                                startX: event.clientX,
+                                startY: event.clientY,
+                                moved: false,
+                                ghost: makeToolGhost(labels[type], event.clientX, event.clientY),
+                            };
+                            button.classList.add("dragging");
+                            button.setPointerCapture(event.pointerId);
+                            event.preventDefault();
+                        }
+
+                        function moveTool(event) {
+                            if (!toolDrag || toolDrag.pointerId !== event.pointerId) {
+                                return;
+                            }
+                            const dx = event.clientX - toolDrag.startX;
+                            const dy = event.clientY - toolDrag.startY;
+                            if (Math.abs(dx) + Math.abs(dy) > 4) {
+                                toolDrag.moved = true;
+                            }
+                            toolDrag.ghost.style.left = (event.clientX + 12) + "px";
+                            toolDrag.ghost.style.top = (event.clientY + 12) + "px";
+                            doc.classList.toggle("rw-document-drop-target", isInsideDocument(event.clientX, event.clientY));
+                            event.preventDefault();
+                        }
+
+                        function stopTool(event) {
+                            if (!toolDrag || toolDrag.pointerId !== event.pointerId) {
+                                return;
+                            }
+                            if (toolDrag.moved && isInsideDocument(event.clientX, event.clientY)) {
+                                addField(toolDrag.type, pointFromClient(event.clientX, event.clientY));
+                                suppressToolClick = true;
+                            }
+                            clearToolDrag();
+                        }
+
+                        function bindNativeDrop(target) {
+                            target.addEventListener("dragover", function (event) {
+                                event.preventDefault();
+                                event.stopPropagation();
+                                doc.classList.add("rw-document-drop-target");
+                            });
+                            target.addEventListener("drop", function (event) {
+                                event.preventDefault();
+                                event.stopPropagation();
+                                const type = normalizeType(
+                                    event.dataTransfer.getData("application/x-radwan-sign-field") ||
+                                    event.dataTransfer.getData("text/plain")
+                                );
+                                addField(type, pointFromClient(event.clientX, event.clientY));
+                                clearToolDrag();
+                            });
+                        }
+
+                        function updateActiveMetricsFromInputs() {
+                            if (!active) {
+                                return;
+                            }
+                            applyMetrics(active, {
+                                pos_x: parseFloat(propX.value || "0"),
+                                pos_y: parseFloat(propY.value || "0"),
+                                width: parseFloat(propWidth.value || "0"),
+                                height: parseFloat(propHeight.value || "0"),
+                            });
+                            syncPropsFromActive();
+                        }
+
+                        document.querySelectorAll(".rw-field").forEach(function (field) {
+                            applyMetrics(field, metricsFromField(field));
+                            bindField(field);
+                        });
+
                         document.querySelectorAll(".rw-tool").forEach(function (button) {
+                            button.addEventListener("pointerdown", function (event) {
+                                startToolDrag(button, event);
+                            });
                             button.addEventListener("click", function () {
                                 if (suppressToolClick) {
                                     suppressToolClick = false;
@@ -460,143 +621,85 @@
                                 }
                                 addField(button.dataset.type);
                             });
-                            button.addEventListener("pointerdown", function (event) {
-                                if (event.pointerType === "mouse") {
-                                    return;
-                                }
-                                toolDrag = {
-                                    type: button.dataset.type,
-                                    ghost: makeToolGhost(button.textContent.trim(), event.clientX, event.clientY),
-                                    startX: event.clientX,
-                                    startY: event.clientY,
-                                    moved: false,
-                                };
-                                button.classList.add("dragging");
-                                event.preventDefault();
-                            });
                             button.addEventListener("dragstart", function (event) {
+                                const type = normalizeType(button.dataset.type);
                                 event.dataTransfer.effectAllowed = "copy";
-                                event.dataTransfer.setData("application/x-radwan-sign-field", button.dataset.type);
-                                event.dataTransfer.setData("text/plain", button.dataset.type);
+                                event.dataTransfer.setData("application/x-radwan-sign-field", type);
+                                event.dataTransfer.setData("text/plain", type);
                                 button.classList.add("dragging");
                                 doc.classList.add("rw-document-drop-target");
-                                if (toolDrag &amp;&amp; toolDrag.ghost) {
-                                    toolDrag.ghost.remove();
-                                    toolDrag = null;
-                                }
-                            });
-                            button.addEventListener("dragend", function () {
-                                button.classList.remove("dragging");
-                                doc.classList.remove("rw-document-drop-target");
                             });
                         });
+
                         document.addEventListener("pointermove", function (event) {
-                            if (!toolDrag) { return; }
-                            const dx = event.clientX - toolDrag.startX;
-                            const dy = event.clientY - toolDrag.startY;
-                            if (Math.abs(dx) + Math.abs(dy) > 4) {
-                                toolDrag.moved = true;
-                            }
-                            toolDrag.ghost.style.left = event.clientX + 12 + "px";
-                            toolDrag.ghost.style.top = event.clientY + 12 + "px";
-                            doc.classList.toggle("rw-document-drop-target", isInsideDocument(event.clientX, event.clientY));
-                            event.preventDefault();
+                            moveSelectedField(event);
+                            moveTool(event);
                         }, true);
                         document.addEventListener("pointerup", function (event) {
-                            if (!toolDrag) { return; }
-                            if (toolDrag.moved &amp;&amp; isInsideDocument(event.clientX, event.clientY)) {
-                                addField(toolDrag.type, pointFromClient(event.clientX, event.clientY));
-                                suppressToolClick = true;
+                            stopSelectedField(event);
+                            stopTool(event);
+                        }, true);
+                        document.addEventListener("pointercancel", function (event) {
+                            stopSelectedField(event);
+                            if (toolDrag && toolDrag.pointerId === event.pointerId) {
+                                clearToolDrag();
                             }
-                            document.querySelectorAll(".rw-tool.dragging").forEach(function (button) {
-                                button.classList.remove("dragging");
-                            });
-                            doc.classList.remove("rw-document-drop-target");
-                            toolDrag.ghost.remove();
-                            toolDrag = null;
                         }, true);
-                        document.addEventListener("pointercancel", function () {
-                            if (!toolDrag) { return; }
-                            document.querySelectorAll(".rw-tool.dragging").forEach(function (button) {
-                                button.classList.remove("dragging");
-                            });
-                            doc.classList.remove("rw-document-drop-target");
-                            toolDrag.ghost.remove();
-                            toolDrag = null;
-                        }, true);
-                        function makeToolGhost(label, x, y) {
-                            const ghost = document.createElement("div");
-                            ghost.className = "rw-tool-ghost";
-                            ghost.textContent = label;
-                            ghost.style.left = x + 12 + "px";
-                            ghost.style.top = y + 12 + "px";
-                            document.body.appendChild(ghost);
-                            return ghost;
-                        }
-                        function bindDropTarget(target) {
-                            target.addEventListener("dragover", function (event) {
-                                event.preventDefault();
-                                event.stopPropagation();
-                                event.dataTransfer.dropEffect = "copy";
-                                doc.classList.add("rw-document-drop-target");
-                            });
-                            target.addEventListener("dragleave", function (event) {
-                                event.stopPropagation();
-                                if (!doc.contains(event.relatedTarget)) {
-                                    doc.classList.remove("rw-document-drop-target");
-                                }
-                            });
-                            target.addEventListener("drop", function (event) {
-                                event.preventDefault();
-                                event.stopPropagation();
-                                doc.classList.remove("rw-document-drop-target");
-                                const type = event.dataTransfer.getData("application/x-radwan-sign-field") || event.dataTransfer.getData("text/plain") || "signature";
-                                addField(type, pointFromClient(event.clientX, event.clientY));
-                            });
-                        }
-                        bindDropTarget(doc);
+
+                        bindNativeDrop(doc);
                         if (dropLayer) {
-                            bindDropTarget(dropLayer);
+                            bindNativeDrop(dropLayer);
                         }
-                        doc.addEventListener("click", function (event) {
-                            if (event.target !== doc) { return; }
-                            selectField(null);
-                        });
-                        addButton.addEventListener("click", function () { addField("signature"); });
+
+                        if (addButton) {
+                            addButton.addEventListener("click", function () {
+                                addField("signature");
+                            });
+                        }
+
                         propLabel.addEventListener("input", function () {
-                            if (!active) { return; }
-                            active.dataset.label = propLabel.value;
-                            active.querySelector("span").textContent = propLabel.value;
+                            if (!active) {
+                                return;
+                            }
+                            setFieldLabel(active, propLabel.value);
                         });
                         propType.addEventListener("change", function () {
-                            if (!active) { return; }
-                            active.dataset.fieldType = propType.value;
+                            if (!active) {
+                                return;
+                            }
+                            const oldLabel = active.dataset.label || "";
+                            const oldType = normalizeType(active.dataset.fieldType);
+                            const newType = normalizeType(propType.value);
+                            active.dataset.fieldType = newType;
+                            if (!oldLabel || oldLabel === labels[oldType]) {
+                                setFieldLabel(active, labels[newType]);
+                                propLabel.value = labels[newType];
+                            }
                         });
                         propPage.addEventListener("input", function () {
-                            if (!active) { return; }
-                            active.dataset.page = propPage.value || "1";
+                            if (active) {
+                                active.dataset.page = propPage.value || "1";
+                            }
                         });
-                        function bindPercentInput(input, property) {
-                            input.addEventListener("input", function () {
-                                if (!active) { return; }
-                                const value = Math.max(0, Math.min(100, parseFloat(input.value || "0")));
-                                active.style[property] = value + "%";
-                                syncPropsFromActive();
-                            });
-                        }
-                        bindPercentInput(propX, "left");
-                        bindPercentInput(propY, "top");
-                        bindPercentInput(propWidth, "width");
-                        bindPercentInput(propHeight, "height");
+                        [propX, propY, propWidth, propHeight].forEach(function (input) {
+                            input.addEventListener("input", updateActiveMetricsFromInputs);
+                            input.addEventListener("change", updateActiveMetricsFromInputs);
+                        });
                         propRequired.addEventListener("change", function () {
-                            if (!active) { return; }
-                            active.dataset.required = propRequired.checked ? "1" : "0";
+                            if (active) {
+                                active.dataset.required = propRequired.checked ? "1" : "0";
+                            }
                         });
                         deleteButton.addEventListener("click", function () {
-                            if (!active) { return; }
-                            active.remove();
+                            if (!active) {
+                                return;
+                            }
+                            const previous = active;
                             active = null;
+                            previous.remove();
+                            setStatus("");
                         });
+
                         saveButton.addEventListener("click", function () {
                             if (!saveUrl) {
                                 setStatus("Save URL is missing.");
@@ -604,29 +707,32 @@
                             }
                             saveButton.disabled = true;
                             setStatus("Saving...");
-                            const items = Array.from(document.querySelectorAll(".rw-field")).map(function (field) {
-                                const pct = rectPercent(field);
+                            const items = Array.from(doc.querySelectorAll(".rw-field")).map(function (field) {
+                                const metrics = metricsFromField(field);
                                 return {
                                     id: field.dataset.id ? parseInt(field.dataset.id, 10) : false,
-                                    field_type: field.dataset.fieldType || "signature",
-                                    label: field.dataset.label || field.textContent.trim(),
+                                    field_type: normalizeType(field.dataset.fieldType),
+                                    label: field.dataset.label || labels[normalizeType(field.dataset.fieldType)],
                                     required: field.dataset.required !== "0",
                                     page: parseInt(field.dataset.page || "1", 10),
-                                    pos_x: pct.pos_x,
-                                    pos_y: pct.pos_y,
-                                    width: pct.width,
-                                    height: pct.height,
+                                    pos_x: metrics.pos_x,
+                                    pos_y: metrics.pos_y,
+                                    width: metrics.width,
+                                    height: metrics.height,
                                 };
                             });
                             fetch(saveUrl, {
                                 method: "POST",
-                                headers: {"Content-Type": "application/json"},
+                                headers: {
+                                    "Content-Type": "application/json",
+                                    "X-Requested-With": "XMLHttpRequest",
+                                },
                                 body: JSON.stringify({jsonrpc: "2.0", method: "call", params: {items: items}}),
                             }).then(function (response) {
                                 return response.json();
                             }).then(function (payload) {
                                 if (payload.error) {
-                                    throw new Error(payload.error.data &amp;&amp; payload.error.data.message ? payload.error.data.message : "Save failed.");
+                                    throw new Error(payload.error.data && payload.error.data.message ? payload.error.data.message : "Save failed.");
                                 }
                                 setStatus("Saved.");
                                 window.location.reload();
@@ -635,8 +741,13 @@
                                 saveButton.disabled = false;
                             });
                         });
+
+                        const firstField = doc.querySelector(".rw-field");
+                        if (firstField) {
+                            selectField(firstField);
+                        }
                     })();
-                </script>
+                ]]></script>
             </body>
         </html>
     </template>
