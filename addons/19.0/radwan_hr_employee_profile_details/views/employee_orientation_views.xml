@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="employee_orientation_view_form_inherit_radwan_email" model="ir.ui.view">
+        <field name="name">employee.orientation.view.form.inherit.radwan.email</field>
+        <field name="model">employee.orientation</field>
+        <field name="inherit_id" ref="employee_orientation.employee_orientation_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header/button[@name='action_complete_orientation']" position="after">
+                <button name="action_send_all_orientation_emails"
+                        string="Send All Emails"
+                        type="object"
+                        class="btn-secondary"
+                        invisible="state not in ['confirm', 'complete']"/>
+            </xpath>
+            <xpath expr="//field[@name='orientation_request_ids']/list/field[@name='request_expected_date']" position="after">
+                <field name="completed_datetime" readonly="1"/>
+            </xpath>
+            <xpath expr="//field[@name='orientation_request_ids']/list/field[@name='state']" position="after">
+                <field name="email_sent" readonly="1"/>
+                <field name="email_sent_date" readonly="1" optional="hide"/>
+                <button name="action_send_orientation_email"
+                        string="Send Email"
+                        type="object"
+                        icon="fa-envelope-o"/>
+            </xpath>
+            <xpath expr="//field[@name='orientation_request_ids']/form//field[@name='request_expected_date']" position="after">
+                <field name="completed_datetime" readonly="1"/>
+                <field name="email_sent" readonly="1"/>
+                <field name="email_sent_date" readonly="1"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

@@ -23,6 +23,7 @@
         "views/radwan_work_injury_views.xml",
         "views/hr_employee_form_tabs.xml",
         "views/hr_employee_profile_sections.xml",
+        "views/employee_orientation_views.xml",
         "views/expiry_monitoring_views.xml",
     ],
     "installable": True,

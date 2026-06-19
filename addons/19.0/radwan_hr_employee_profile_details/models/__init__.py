@@ -5,3 +5,4 @@ from . import radwan_employee_religion
 from . import radwan_employee_sponser
 from . import radwan_employee_travel_ticket
 from . import radwan_work_injury
+from . import employee_orientation
