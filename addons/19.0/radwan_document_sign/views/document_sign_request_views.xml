@@ -19,6 +19,7 @@
                 <field name="requester_id"/>
                 <field name="sent_date"/>
                 <field name="signed_date"/>
+                <field name="signed_attachment_id" optional="hide"/>
                 <field name="state" widget="badge"/>
             </list>
         </field>
@@ -33,6 +34,8 @@
                     <button name="action_prepare_fields" string="Prepare Fields" type="object" class="btn-secondary" invisible="state == 'signed'"/>
                     <button name="action_send" string="Send" type="object" class="btn-primary" invisible="state not in ('draft', 'sent')"/>
                     <button name="action_open_portal" string="Open Signing Page" type="object" invisible="not access_url"/>
+                    <button name="action_preview_signed_file" string="Preview Signed File" type="object" class="btn-secondary" invisible="not signed_attachment_id"/>
+                    <button name="action_download_signed_file" string="Download Signed File" type="object" invisible="not signed_attachment_id"/>
                     <button name="action_cancel" string="Cancel" type="object" invisible="state in ('signed', 'cancelled')"/>
                     <button name="action_reset_to_draft" string="Reset to Draft" type="object" invisible="state != 'cancelled'"/>
                     <field name="state" widget="statusbar" statusbar_visible="draft,sent,signed"/>
@@ -48,6 +51,8 @@
                         <group string="Document">
                             <field name="document_id"/>
                             <field name="attachment_id" readonly="1"/>
+                            <field name="signed_attachment_id" readonly="1" invisible="not signed_attachment_id"/>
+                            <field name="signed_document_id" readonly="1" invisible="not signed_document_id"/>
                             <field name="requester_id"/>
                             <field name="company_id" groups="base.group_multi_company"/>
                         </group>
@@ -108,6 +113,7 @@
                 <field name="employee_id"/>
                 <filter name="waiting" string="Waiting Signature" domain="[('state', '=', 'sent')]"/>
                 <filter name="signed" string="Signed" domain="[('state', '=', 'signed')]"/>
+                <filter name="signed_files" string="Signed Files" domain="[('signed_attachment_id', '!=', False)]"/>
                 <filter name="group_by_state" string="Status" context="{'group_by': 'state'}"/>
                 <filter name="group_by_signer" string="Signer" context="{'group_by': 'partner_id'}"/>
             </search>

@@ -28,6 +28,14 @@
                         icon="fa-pencil-square-o"
                         class="btn-link"
                     />
+                    <button
+                        name="action_view_signed_signature_files"
+                        type="object"
+                        string="Signed Files"
+                        icon="fa-file-pdf-o"
+                        class="btn-link"
+                        invisible="sign_state != 'signed'"
+                    />
                 </group>
             </xpath>
         </field>
@@ -43,4 +51,32 @@
             </xpath>
         </field>
     </record>
+
+    <record id="view_document_search_inherit_signature" model="ir.ui.view">
+        <field name="name">document.document.search.inherit.radwan.signature</field>
+        <field name="model">document.document</field>
+        <field name="inherit_id" ref="radwan_document_employee_link.view_document_search"/>
+        <field name="arch" type="xml">
+            <xpath expr="//search" position="inside">
+                <filter name="radwan_signed_documents" string="Signed Files" domain="[('sign_state', '=', 'signed')]"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="action_radwan_signed_documents" model="ir.actions.act_window">
+        <field name="name">Signed Files</field>
+        <field name="res_model">document.document</field>
+        <field name="view_mode">kanban,list,form</field>
+        <field name="domain">[('sign_state', '=', 'signed')]</field>
+        <field name="context">{'search_default_radwan_signed_documents': 1}</field>
+        <field name="search_view_id" ref="radwan_document_employee_link.view_document_search"/>
+    </record>
+
+    <menuitem
+        id="menu_radwan_signed_documents"
+        name="Signed Files"
+        action="action_radwan_signed_documents"
+        sequence="82"
+        groups="document_management_system.group_document_user,document_management_system.group_document_manager"
+    />
 </odoo>

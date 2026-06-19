@@ -94,6 +94,20 @@ class RadwanDocumentSignPortal(http.Controller):
         return self._make_attachment_preview_response(attachment)
 
     @http.route(
+        "/radwan/sign/request/<int:request_id>/signed",
+        type="http",
+        auth="user",
+    )
+    def preview_signed_document(self, request_id, **kwargs):
+        sign_request = request.env["radwan.document.sign.request"].sudo().browse(request_id).exists()
+        if not sign_request:
+            raise NotFound()
+        attachment = sign_request._get_signed_attachment()
+        if not attachment:
+            raise NotFound()
+        return self._make_attachment_preview_response(attachment, download=self._is_download(kwargs))
+
+    @http.route(
         "/radwan/sign/<string:token>/document",
         type="http",
         auth="public",
@@ -104,6 +118,20 @@ class RadwanDocumentSignPortal(http.Controller):
         if not attachment:
             raise NotFound()
         return self._make_attachment_preview_response(attachment)
+
+    @http.route(
+        "/radwan/sign/<string:token>/signed",
+        type="http",
+        auth="public",
+    )
+    def public_preview_signed_document(self, token, **kwargs):
+        sign_request = self._get_request(token)
+        if sign_request.state != "signed":
+            raise NotFound()
+        attachment = sign_request._get_signed_attachment()
+        if not attachment:
+            raise NotFound()
+        return self._make_attachment_preview_response(attachment, download=self._is_download(kwargs))
 
     @http.route(
         "/radwan/sign/<string:token>/submit",
@@ -234,7 +262,7 @@ class RadwanDocumentSignPortal(http.Controller):
             children |= Document.search([("parent_id", "=", document.id)], order="id desc")
         return children.exists()
 
-    def _make_attachment_preview_response(self, attachment):
+    def _make_attachment_preview_response(self, attachment, download=False):
         attachment = attachment.sudo()
         raw = attachment.raw
         if not raw and attachment.datas:
@@ -242,11 +270,15 @@ class RadwanDocumentSignPortal(http.Controller):
         if not raw:
             raise NotFound()
         filename = (attachment.name or "document").replace('"', "")
+        disposition = "attachment" if download else "inline"
         headers = [
             ("Content-Type", attachment.mimetype or "application/octet-stream"),
-            ("Content-Disposition", 'inline; filename="%s"' % filename),
+            ("Content-Disposition", '%s; filename="%s"' % (disposition, filename)),
         ]
         return request.make_response(raw, headers=headers)
+
+    def _is_download(self, kwargs):
+        return str(kwargs.get("download") or "").lower() in ("1", "true", "yes")
 
     def _get_attachment_from_url(self, url):
         if not url:

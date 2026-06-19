@@ -140,6 +140,28 @@
                     .rw-field.active {
                         box-shadow: 0 0 0 3px rgba(124, 77, 255, 0.18);
                     }
+                    .rw-field-delete {
+                        position: absolute;
+                        top: -12px;
+                        right: -12px;
+                        width: 24px;
+                        height: 24px;
+                        border: 0;
+                        border-radius: 50%;
+                        background: #ef4444;
+                        color: #fff;
+                        font-size: 16px;
+                        font-weight: 800;
+                        line-height: 24px;
+                        cursor: pointer;
+                        display: none;
+                        align-items: center;
+                        justify-content: center;
+                        box-shadow: 0 6px 16px rgba(239, 68, 68, 0.26);
+                    }
+                    .rw-field.active .rw-field-delete {
+                        display: inline-flex;
+                    }
                     .rw-resize {
                         position: absolute;
                         right: -7px;
@@ -231,6 +253,7 @@
                                     t-att-style="item.css_style"
                                 >
                                     <span t-out="item.label"/>
+                                    <button type="button" class="rw-field-delete" title="Delete field">x</button>
                                     <i class="rw-resize"/>
                                 </div>
                             </t>
@@ -402,9 +425,15 @@
 
                             const label = document.createElement("span");
                             label.textContent = labels[safeType];
+                            const removeButton = document.createElement("button");
+                            removeButton.type = "button";
+                            removeButton.className = "rw-field-delete";
+                            removeButton.title = "Delete field";
+                            removeButton.textContent = "x";
                             const resize = document.createElement("i");
                             resize.className = "rw-resize";
                             field.appendChild(label);
+                            field.appendChild(removeButton);
                             field.appendChild(resize);
                             field.dataset.label = labels[safeType];
                             return field;
@@ -434,6 +463,14 @@
                             }
                             active = field || null;
                             if (!active) {
+                                propLabel.value = "";
+                                propType.value = "signature";
+                                propPage.value = "";
+                                propX.value = "";
+                                propY.value = "";
+                                propWidth.value = "";
+                                propHeight.value = "";
+                                propRequired.checked = false;
                                 return;
                             }
                             active.classList.add("active");
@@ -455,11 +492,34 @@
                             propHeight.value = metrics.height.toFixed(1);
                         }
 
+                        function removeField(field) {
+                            if (!field) {
+                                return;
+                            }
+                            if (active === field) {
+                                active = null;
+                            }
+                            field.remove();
+                            selectField(null);
+                            setStatus("Field removed. Save to apply changes.");
+                        }
+
                         function bindField(field) {
                             if (field.dataset.bound === "1") {
                                 return;
                             }
                             field.dataset.bound = "1";
+                            const removeButton = field.querySelector(".rw-field-delete");
+                            if (removeButton) {
+                                removeButton.addEventListener("pointerdown", function (event) {
+                                    event.stopPropagation();
+                                });
+                                removeButton.addEventListener("click", function (event) {
+                                    event.preventDefault();
+                                    event.stopPropagation();
+                                    removeField(field);
+                                });
+                            }
                             field.addEventListener("pointerdown", function (event) {
                                 if (event.button && event.button !== 0) {
                                     return;
@@ -694,10 +754,7 @@
                             if (!active) {
                                 return;
                             }
-                            const previous = active;
-                            active = null;
-                            previous.remove();
-                            setStatus("");
+                            removeField(active);
                         });
 
                         saveButton.addEventListener("click", function () {
@@ -1208,12 +1265,34 @@
                     }
                     h1 { margin: 0 0 10px; color: #075b33; }
                     p { margin: 0; color: #475a6b; }
+                    .rw-actions {
+                        display: flex;
+                        flex-wrap: wrap;
+                        gap: 10px;
+                        margin-top: 20px;
+                    }
+                    .rw-action-link {
+                        border-radius: 10px;
+                        padding: 11px 16px;
+                        background: #e7f0f7;
+                        color: #064b75;
+                        font-weight: 800;
+                        text-decoration: none;
+                    }
+                    .rw-action-link-primary {
+                        background: #0b5e93;
+                        color: #fff;
+                    }
                 </style>
             </head>
             <body>
                 <section class="rw-success">
                     <h1>Signature saved successfully</h1>
                     <p>Thank you. The document signature was recorded securely.</p>
+                    <div class="rw-actions" t-if="sign_request.signed_attachment_id">
+                        <a class="rw-action-link rw-action-link-primary" t-att-href="'/radwan/sign/%s/signed' % sign_request.token" target="_blank">Preview signed file</a>
+                        <a class="rw-action-link" t-att-href="'/radwan/sign/%s/signed?download=1' % sign_request.token">Download signed file</a>
+                    </div>
                 </section>
             </body>
         </html>

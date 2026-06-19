@@ -2,7 +2,7 @@
 
 import re
 
-from odoo import _, fields, models
+from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 
 
@@ -22,6 +22,7 @@ class DocumentDocument(models.Model):
             ("signed", "Signed"),
         ],
         compute="_compute_sign_state",
+        store=True,
         string="Signature Status",
     )
 
@@ -41,6 +42,7 @@ class DocumentDocument(models.Model):
         for document in self:
             document.sign_request_count = counts.get(document.id, 0)
 
+    @api.depends("sign_request_ids.state")
     def _compute_sign_state(self):
         for document in self:
             requests = document.sign_request_ids
@@ -89,6 +91,20 @@ class DocumentDocument(models.Model):
             "res_model": "radwan.document.sign.request",
             "view_mode": "list,form",
             "domain": [("document_id", "=", self.id)],
+            "context": {"default_document_id": self.id},
+        }
+
+    def action_view_signed_signature_files(self):
+        self.ensure_one()
+        return {
+            "type": "ir.actions.act_window",
+            "name": _("Signed Files"),
+            "res_model": "radwan.document.sign.request",
+            "view_mode": "list,form",
+            "domain": [
+                ("document_id", "=", self.id),
+                ("signed_attachment_id", "!=", False),
+            ],
             "context": {"default_document_id": self.id},
         }
 

@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+import base64
 import json
 import secrets
 
@@ -63,6 +64,20 @@ class RadwanDocumentSignRequest(models.Model):
     signature_filename = fields.Char(default="signature.png", readonly=True, copy=False)
     signer_ip = fields.Char(readonly=True, copy=False)
     signer_user_agent = fields.Char(readonly=True, copy=False)
+    signed_attachment_id = fields.Many2one(
+        "ir.attachment",
+        string="Signed File",
+        readonly=True,
+        copy=False,
+        help="Signed document file generated after the signer completes the request.",
+    )
+    signed_document_id = fields.Many2one(
+        "document.document",
+        string="Signed Document Record",
+        readonly=True,
+        copy=False,
+        help="Document Management record created for the signed file.",
+    )
     access_url = fields.Char(compute="_compute_access_url")
     item_ids = fields.One2many(
         "radwan.document.sign.item",
@@ -136,6 +151,28 @@ class RadwanDocumentSignRequest(models.Model):
     def action_reset_to_draft(self):
         self.filtered(lambda item: item.state != "signed").write({"state": "draft"})
 
+    def action_preview_signed_file(self):
+        self.ensure_one()
+        if not self._get_signed_attachment():
+            raise UserError(_("No signed file is available yet."))
+        return {
+            "type": "ir.actions.act_url",
+            "name": _("Signed File"),
+            "target": "new",
+            "url": "/radwan/sign/request/%s/signed" % self.id,
+        }
+
+    def action_download_signed_file(self):
+        self.ensure_one()
+        if not self._get_signed_attachment():
+            raise UserError(_("No signed file is available yet."))
+        return {
+            "type": "ir.actions.act_url",
+            "name": _("Download Signed File"),
+            "target": "self",
+            "url": "/radwan/sign/request/%s/signed?download=1" % self.id,
+        }
+
     def _send_signature_email(self):
         self.ensure_one()
         body = self.env["ir.qweb"]._render(
@@ -202,7 +239,67 @@ class RadwanDocumentSignRequest(models.Model):
             self.document_id.message_post(
                 body=_("Document signed by %s.") % (self.signer_name or self.partner_id.name)
             )
+        self._create_signed_file_records()
         return True
+
+    def _get_signed_attachment(self):
+        self.ensure_one()
+        return self.signed_attachment_id or self.attachment_id or self.document_id._get_signature_attachment()
+
+    def _create_signed_file_records(self):
+        Attachment = self.env["ir.attachment"].sudo()
+        Document = self.env["document.document"].sudo()
+        for request in self:
+            source = request.attachment_id or request.document_id._get_signature_attachment()
+            if not source:
+                continue
+            raw = source.raw
+            if not raw and source.datas:
+                raw = base64.b64decode(source.datas)
+            if not raw:
+                continue
+
+            if request.signed_attachment_id:
+                request.signed_attachment_id.sudo().unlink()
+
+            filename = source.name or request.document_id.display_name or request.name or _("Signed Document")
+            if not filename.lower().startswith("signed - "):
+                filename = _("Signed - %s") % filename
+            attachment = Attachment.create({
+                "name": filename,
+                "type": "binary",
+                "raw": raw,
+                "mimetype": source.mimetype or "application/pdf",
+                "res_model": "radwan.document.sign.request",
+                "res_id": request.id,
+            })
+            values = {"signed_attachment_id": attachment.id}
+
+            if request.employee_id and "related_to" in Document._fields and "employee_id" in Document._fields:
+                content = '<p><a href="/web/content/%s?download=false">%s</a></p>' % (
+                    attachment.id,
+                    filename,
+                )
+                document_values = {
+                    "name": filename,
+                    "content": content,
+                    "related_to": "employee",
+                    "employee_id": request.employee_id.id,
+                }
+                try:
+                    with self.env.cr.savepoint():
+                        signed_document = Document.create(document_values)
+                        attachment.write({
+                            "res_model": "document.document",
+                            "res_id": signed_document.id,
+                        })
+                        values["signed_document_id"] = signed_document.id
+                except Exception:
+                    attachment.write({
+                        "res_model": "radwan.document.sign.request",
+                        "res_id": request.id,
+                    })
+            request.write(values)
 
     def _parse_item_payload(self, item_payload):
         if not item_payload:
