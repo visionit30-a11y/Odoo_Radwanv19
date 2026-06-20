@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import base64
+import hashlib
 import json
 import logging
 import secrets
@@ -10,6 +11,7 @@ from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 
 _logger = logging.getLogger(__name__)
+_SIGNATURE_BLUE = (0, 91, 147)
 
 
 class RadwanDocumentSignRequest(models.Model):
@@ -82,6 +84,14 @@ class RadwanDocumentSignRequest(models.Model):
         copy=False,
         help="Document Management record created for the signed file.",
     )
+    certificate_attachment_id = fields.Many2one(
+        "ir.attachment",
+        string="Signing Certificate",
+        readonly=True,
+        copy=False,
+        help="Automatically generated completion certificate for the signing transaction.",
+    )
+    certificate_filename = fields.Char(default="signing-certificate.pdf", readonly=True, copy=False)
     access_url = fields.Char(compute="_compute_access_url")
     item_ids = fields.One2many(
         "radwan.document.sign.item",
@@ -194,6 +204,36 @@ class RadwanDocumentSignRequest(models.Model):
             "url": "/radwan/sign/request/%s/signed?download=1" % self.id,
         }
 
+    def action_preview_certificate(self):
+        self.ensure_one()
+        if self.state != "signed":
+            raise UserError(_("The signing certificate is available after the document is signed."))
+        if not self._get_certificate_attachment():
+            self._ensure_signing_certificate()
+        if not self._get_certificate_attachment():
+            raise UserError(_("No signing certificate is available yet."))
+        return {
+            "type": "ir.actions.act_url",
+            "name": _("Signing Certificate"),
+            "target": "new",
+            "url": "/radwan/sign/request/%s/certificate" % self.id,
+        }
+
+    def action_download_certificate(self):
+        self.ensure_one()
+        if self.state != "signed":
+            raise UserError(_("The signing certificate is available after the document is signed."))
+        if not self._get_certificate_attachment():
+            self._ensure_signing_certificate()
+        if not self._get_certificate_attachment():
+            raise UserError(_("No signing certificate is available yet."))
+        return {
+            "type": "ir.actions.act_url",
+            "name": _("Download Signing Certificate"),
+            "target": "self",
+            "url": "/radwan/sign/request/%s/certificate?download=1" % self.id,
+        }
+
     def _send_signature_email(self):
         self.ensure_one()
         body = self.env["ir.qweb"]._render(
@@ -266,6 +306,7 @@ class RadwanDocumentSignRequest(models.Model):
         mime, payload = first_signature.split(",", 1)
         if "image/png" not in mime:
             raise UserError(_("Only PNG signatures are supported."))
+        payload = self._normalize_signature_payload(payload)
         self.write({
             "state": "signed",
             "signature_image": payload,
@@ -287,6 +328,10 @@ class RadwanDocumentSignRequest(models.Model):
         self.ensure_one()
         return self.signed_attachment_id
 
+    def _get_certificate_attachment(self):
+        self.ensure_one()
+        return self.certificate_attachment_id
+
     def _create_signed_file_records(self):
         Attachment = self.env["ir.attachment"].sudo()
         Document = self.env["document.document"].sudo()
@@ -303,6 +348,8 @@ class RadwanDocumentSignRequest(models.Model):
 
             if request.signed_attachment_id:
                 request.signed_attachment_id.sudo().unlink()
+            if request.certificate_attachment_id:
+                request.certificate_attachment_id.sudo().unlink()
             signed_raw = request._render_signed_pdf(raw, source)
 
             filename = source.name or request.document_id.display_name or request.name or _("Signed Document")
@@ -317,6 +364,12 @@ class RadwanDocumentSignRequest(models.Model):
                 "res_id": request.id,
             })
             values = {"signed_attachment_id": attachment.id}
+            certificate = request._create_signing_certificate_attachment(signed_raw, attachment)
+            if certificate:
+                values.update({
+                    "certificate_attachment_id": certificate.id,
+                    "certificate_filename": certificate.name,
+                })
 
             if request.employee_id and "related_to" in Document._fields and "employee_id" in Document._fields:
                 content = '<p><a href="/web/content/%s?download=false">%s</a></p>' % (
@@ -343,6 +396,164 @@ class RadwanDocumentSignRequest(models.Model):
                         "res_id": request.id,
                     })
             request.write(values)
+
+    def _ensure_signing_certificate(self):
+        for request in self:
+            if request.certificate_attachment_id:
+                continue
+            signed_attachment = request._get_signed_attachment()
+            if not signed_attachment:
+                continue
+            signed_raw = signed_attachment.raw
+            if not signed_raw and signed_attachment.datas:
+                signed_raw = base64.b64decode(signed_attachment.datas)
+            if not signed_raw:
+                continue
+            certificate = request._create_signing_certificate_attachment(signed_raw, signed_attachment)
+            if certificate:
+                request.write({
+                    "certificate_attachment_id": certificate.id,
+                    "certificate_filename": certificate.name,
+                })
+        return True
+
+    def _create_signing_certificate_attachment(self, signed_raw, signed_attachment):
+        self.ensure_one()
+        certificate_raw = self._render_signing_certificate_pdf(signed_raw, signed_attachment)
+        if not certificate_raw:
+            return False
+        filename = _("Certificate of Completion - %s.pdf") % (self.name or self.id)
+        return self.env["ir.attachment"].sudo().create({
+            "name": filename,
+            "type": "binary",
+            "raw": certificate_raw,
+            "mimetype": "application/pdf",
+            "res_model": "radwan.document.sign.request",
+            "res_id": self.id,
+        })
+
+    def _render_signing_certificate_pdf(self, signed_raw, signed_attachment):
+        self.ensure_one()
+        try:
+            from reportlab.lib import colors
+            from reportlab.lib.pagesizes import A4
+            from reportlab.lib.units import mm
+            from reportlab.lib.utils import ImageReader
+            from reportlab.pdfgen import canvas
+        except Exception:
+            _logger.exception("PDF certificate libraries are not available.")
+            return False
+
+        packet = BytesIO()
+        pdf_canvas = canvas.Canvas(packet, pagesize=A4)
+        page_width, page_height = A4
+        blue = colors.Color(_SIGNATURE_BLUE[0] / 255.0, _SIGNATURE_BLUE[1] / 255.0, _SIGNATURE_BLUE[2] / 255.0)
+        light_blue = colors.Color(232 / 255.0, 245 / 255.0, 252 / 255.0)
+        border = colors.Color(190 / 255.0, 220 / 255.0, 235 / 255.0)
+        text = colors.Color(29 / 255.0, 45 / 255.0, 60 / 255.0)
+        muted = colors.Color(91 / 255.0, 107 / 255.0, 122 / 255.0)
+
+        margin = 22 * mm
+        pdf_canvas.setFillColor(blue)
+        pdf_canvas.rect(0, page_height - 38 * mm, page_width, 38 * mm, fill=1, stroke=0)
+        pdf_canvas.setFillColor(colors.white)
+        pdf_canvas.setFont("Helvetica-Bold", 22)
+        pdf_canvas.drawString(margin, page_height - 20 * mm, "Certificate of Completion")
+        pdf_canvas.setFont("Helvetica", 10)
+        pdf_canvas.drawString(margin, page_height - 29 * mm, "Electronic Signature Transaction")
+
+        y = page_height - 55 * mm
+        pdf_canvas.setFillColor(text)
+        pdf_canvas.setFont("Helvetica-Bold", 13)
+        pdf_canvas.drawString(margin, y, "Document")
+        pdf_canvas.setFont("Helvetica", 11)
+        pdf_canvas.drawString(margin, y - 8 * mm, self._certificate_text(signed_attachment.name or self.document_id.display_name))
+
+        y -= 26 * mm
+        self._draw_certificate_row(pdf_canvas, margin, y, "Reference", self.name or "-", "Status", "Signed")
+        y -= 16 * mm
+        self._draw_certificate_row(pdf_canvas, margin, y, "Signer", self.signer_name or self.partner_id.name or "-", "Email", self.signer_email or self.partner_id.email or "-")
+        y -= 16 * mm
+        self._draw_certificate_row(pdf_canvas, margin, y, "Signed On", self._format_certificate_datetime(self.signed_date), "IP Address", self.signer_ip or "-")
+
+        y -= 28 * mm
+        pdf_canvas.setFillColor(light_blue)
+        pdf_canvas.roundRect(margin, y - 31 * mm, page_width - (margin * 2), 38 * mm, 6, fill=1, stroke=0)
+        pdf_canvas.setStrokeColor(border)
+        pdf_canvas.roundRect(margin, y - 31 * mm, page_width - (margin * 2), 38 * mm, 6, fill=0, stroke=1)
+        pdf_canvas.setFillColor(blue)
+        pdf_canvas.setFont("Helvetica-Bold", 12)
+        pdf_canvas.drawString(margin + 7 * mm, y - 4 * mm, "Signed With")
+        pdf_canvas.setFillColor(text)
+        pdf_canvas.setFont("Helvetica", 10)
+        pdf_canvas.drawString(margin + 7 * mm, y - 13 * mm, "Radwan Document E-Signature")
+        self._draw_signature_on_certificate(pdf_canvas, ImageReader, margin + 110 * mm, y - 25 * mm, 55 * mm, 18 * mm)
+
+        y -= 54 * mm
+        digest = hashlib.sha256(signed_raw or b"").hexdigest()
+        pdf_canvas.setFillColor(text)
+        pdf_canvas.setFont("Helvetica-Bold", 11)
+        pdf_canvas.drawString(margin, y, "Document SHA-256")
+        pdf_canvas.setFont("Courier", 8)
+        pdf_canvas.setFillColor(muted)
+        pdf_canvas.drawString(margin, y - 8 * mm, digest[:64])
+
+        y -= 28 * mm
+        pdf_canvas.setFillColor(muted)
+        pdf_canvas.setFont("Helvetica", 8)
+        pdf_canvas.drawString(
+            margin,
+            y,
+            "This certificate was generated automatically after the document was signed and recorded in Odoo.",
+        )
+        pdf_canvas.drawString(margin, y - 6 * mm, "Generated from request ID %s." % self.id)
+
+        pdf_canvas.showPage()
+        pdf_canvas.save()
+        packet.seek(0)
+        return packet.getvalue()
+
+    def _draw_certificate_row(self, pdf_canvas, x_pos, y_pos, left_label, left_value, right_label, right_value):
+        pdf_canvas.setFillColorRGB(0.36, 0.43, 0.50)
+        pdf_canvas.setFont("Helvetica", 8)
+        pdf_canvas.drawString(x_pos, y_pos, left_label)
+        pdf_canvas.drawString(x_pos + 92 * 2.83465, y_pos, right_label)
+        pdf_canvas.setFillColorRGB(0.11, 0.18, 0.25)
+        pdf_canvas.setFont("Helvetica-Bold", 10)
+        pdf_canvas.drawString(x_pos, y_pos - 6 * 2.83465, self._certificate_text(left_value))
+        pdf_canvas.drawString(x_pos + 92 * 2.83465, y_pos - 6 * 2.83465, self._certificate_text(right_value))
+
+    def _draw_signature_on_certificate(self, pdf_canvas, image_reader_class, x_pos, y_pos, width, height):
+        payload = self.signature_image
+        if not payload:
+            return
+        try:
+            image = image_reader_class(BytesIO(base64.b64decode(payload)))
+            pdf_canvas.drawImage(
+                image,
+                x_pos,
+                y_pos,
+                width=width,
+                height=height,
+                preserveAspectRatio=True,
+                mask="auto",
+                anchor="c",
+            )
+        except Exception:
+            _logger.exception("Could not draw signature on certificate for request %s.", self.id)
+
+    def _certificate_text(self, value):
+        value = str(value or "-")
+        return value.replace("\n", " ")[:110]
+
+    def _format_certificate_datetime(self, value):
+        if not value:
+            return "-"
+        try:
+            value = fields.Datetime.context_timestamp(self, value)
+        except Exception:
+            pass
+        return value.strftime("%Y-%m-%d %H:%M:%S")
 
     def _render_signed_pdf(self, raw, source):
         self.ensure_one()
@@ -445,7 +656,11 @@ class RadwanDocumentSignRequest(models.Model):
                 if not text:
                     continue
                 font_size = max(8.0, min(14.0, box_height * 0.45))
-                pdf_canvas.setFillColorRGB(0.05, 0.12, 0.20)
+                pdf_canvas.setFillColorRGB(
+                    _SIGNATURE_BLUE[0] / 255.0,
+                    _SIGNATURE_BLUE[1] / 255.0,
+                    _SIGNATURE_BLUE[2] / 255.0,
+                )
                 pdf_canvas.setFont("Helvetica", font_size)
                 pdf_canvas.drawString(x_pos + 3.0, y_pos + (box_height - font_size) / 2.0, text)
                 has_content = True
@@ -521,6 +736,7 @@ class RadwanDocumentSignRequest(models.Model):
                     mime, payload = signature_data.split(",", 1)
                     if "image/png" not in mime:
                         raise UserError(_("Only PNG signatures are supported."))
+                    payload = self._normalize_signature_payload(payload)
                     item.write({
                         "signature_image": payload,
                         "signature_filename": "%s-%s.png" % (self.name or "sign", item.id),
@@ -537,3 +753,27 @@ class RadwanDocumentSignRequest(models.Model):
                 })
         if missing:
             raise UserError(_("Please complete required fields: %s") % ", ".join(missing))
+
+    def _normalize_signature_payload(self, payload):
+        if not payload:
+            return payload
+        try:
+            from PIL import Image
+        except Exception:
+            return payload
+        try:
+            raw = base64.b64decode(payload)
+            image = Image.open(BytesIO(raw)).convert("RGBA")
+            pixels = []
+            for red, green, blue, alpha in image.getdata():
+                if alpha < 8 or (red > 245 and green > 245 and blue > 245):
+                    pixels.append((255, 255, 255, 0))
+                else:
+                    pixels.append((_SIGNATURE_BLUE[0], _SIGNATURE_BLUE[1], _SIGNATURE_BLUE[2], alpha))
+            image.putdata(pixels)
+            output = BytesIO()
+            image.save(output, format="PNG")
+            return base64.b64encode(output.getvalue()).decode()
+        except Exception:
+            _logger.exception("Could not normalize signature ink color.")
+            return payload

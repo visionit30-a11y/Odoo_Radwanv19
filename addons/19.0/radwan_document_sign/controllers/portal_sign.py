@@ -111,6 +111,22 @@ class RadwanDocumentSignPortal(http.Controller):
         return self._make_attachment_preview_response(attachment, download=self._is_download(kwargs))
 
     @http.route(
+        "/radwan/sign/request/<int:request_id>/certificate",
+        type="http",
+        auth="user",
+    )
+    def preview_certificate(self, request_id, **kwargs):
+        sign_request = request.env["radwan.document.sign.request"].sudo().browse(request_id).exists()
+        if not sign_request or sign_request.state != "signed":
+            raise NotFound()
+        if not sign_request._get_certificate_attachment():
+            sign_request._ensure_signing_certificate()
+        attachment = sign_request._get_certificate_attachment()
+        if not attachment:
+            raise NotFound()
+        return self._make_attachment_preview_response(attachment, download=self._is_download(kwargs))
+
+    @http.route(
         "/radwan/sign/<string:token>/document",
         type="http",
         auth="public",
@@ -133,6 +149,22 @@ class RadwanDocumentSignPortal(http.Controller):
         if sign_request.state != "signed":
             raise NotFound()
         attachment = sign_request._get_signed_attachment()
+        if not attachment:
+            raise NotFound()
+        return self._make_attachment_preview_response(attachment, download=self._is_download(kwargs))
+
+    @http.route(
+        "/radwan/sign/<string:token>/certificate",
+        type="http",
+        auth="public",
+    )
+    def public_preview_certificate(self, token, **kwargs):
+        sign_request = self._get_request(token)
+        if sign_request.state != "signed":
+            raise NotFound()
+        if not sign_request.sudo()._get_certificate_attachment():
+            sign_request.sudo()._ensure_signing_certificate()
+        attachment = sign_request.sudo()._get_certificate_attachment()
         if not attachment:
             raise NotFound()
         return self._make_attachment_preview_response(attachment, download=self._is_download(kwargs))

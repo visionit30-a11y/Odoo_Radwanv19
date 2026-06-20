@@ -1096,7 +1096,7 @@
                             context.lineCap = "round";
                             context.lineJoin = "round";
                             context.lineWidth = 2.2;
-                            context.strokeStyle = "#082f49";
+                            context.strokeStyle = "#005b93";
                         }
                         function point(canvas, event) {
                             const rect = canvas.getBoundingClientRect();
@@ -1134,7 +1134,7 @@
                             const rect = canvas.getBoundingClientRect();
                             context.save();
                             context.font = "600 " + Math.max(18, rect.height * 0.36) + "px Segoe UI, Arial";
-                            context.fillStyle = "#172554";
+                            context.fillStyle = "#005b93";
                             context.textAlign = "center";
                             context.textBaseline = "middle";
                             context.fillText(text || "Signature", rect.width / 2, rect.height / 2);
@@ -1371,7 +1371,11 @@
                             <a class="rw-action-link rw-action-link-primary" t-att-href="'/radwan/sign/%s/signed' % sign_request.token" target="_blank">Preview signed file</a>
                             <a class="rw-action-link" t-att-href="'/radwan/sign/%s/signed?download=1' % sign_request.token">Download signed file</a>
                         </div>
-                        <div class="rw-missing" t-else="">
+                        <div class="rw-actions" t-if="sign_request.signed_attachment_id">
+                            <a class="rw-action-link rw-action-link-primary" t-att-href="'/radwan/sign/%s/certificate' % sign_request.token" target="_blank">Preview signing certificate</a>
+                            <a class="rw-action-link" t-att-href="'/radwan/sign/%s/certificate?download=1' % sign_request.token">Download certificate</a>
+                        </div>
+                        <div class="rw-missing" t-if="not sign_request.signed_attachment_id">
                             The signature was saved, but the completed file is still being generated. Please refresh the request from Odoo.
                         </div>
                     </section>
