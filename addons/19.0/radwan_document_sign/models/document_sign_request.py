@@ -2,10 +2,14 @@
 
 import base64
 import json
+import logging
 import secrets
+from io import BytesIO
 
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
+
+_logger = logging.getLogger(__name__)
 
 
 class RadwanDocumentSignRequest(models.Model):
@@ -281,8 +285,7 @@ class RadwanDocumentSignRequest(models.Model):
 
     def _get_signed_attachment(self):
         self.ensure_one()
-        self._ensure_document_attachment()
-        return self.signed_attachment_id or self.attachment_id or self.document_id._get_signature_attachment()
+        return self.signed_attachment_id
 
     def _create_signed_file_records(self):
         Attachment = self.env["ir.attachment"].sudo()
@@ -300,6 +303,7 @@ class RadwanDocumentSignRequest(models.Model):
 
             if request.signed_attachment_id:
                 request.signed_attachment_id.sudo().unlink()
+            signed_raw = request._render_signed_pdf(raw, source)
 
             filename = source.name or request.document_id.display_name or request.name or _("Signed Document")
             if not filename.lower().startswith("signed - "):
@@ -307,7 +311,7 @@ class RadwanDocumentSignRequest(models.Model):
             attachment = Attachment.create({
                 "name": filename,
                 "type": "binary",
-                "raw": raw,
+                "raw": signed_raw,
                 "mimetype": source.mimetype or "application/pdf",
                 "res_model": "radwan.document.sign.request",
                 "res_id": request.id,
@@ -339,6 +343,153 @@ class RadwanDocumentSignRequest(models.Model):
                         "res_id": request.id,
                     })
             request.write(values)
+
+    def _render_signed_pdf(self, raw, source):
+        self.ensure_one()
+        if not self._is_pdf_attachment(source):
+            return raw
+        signed_items = self.item_ids.filtered(
+            lambda item: item.page and (
+                item.signature_image
+                or item.value_text
+                or item.field_type == "date"
+                or (item.field_type in ("signature", "initial") and self.signature_image)
+            )
+        )
+        if not signed_items:
+            return raw
+        try:
+            from odoo.tools.pdf import PdfFileReader, PdfFileWriter
+            from reportlab.lib.utils import ImageReader
+            from reportlab.pdfgen import canvas
+        except Exception:
+            _logger.exception("PDF signing libraries are not available.")
+            return raw
+
+        try:
+            reader = self._pdf_reader(PdfFileReader, raw)
+            writer = PdfFileWriter()
+            page_count = self._pdf_page_count(reader)
+            items_by_page = {}
+            for item in signed_items:
+                page_no = max(int(item.page or 1), 1)
+                items_by_page.setdefault(page_no, self.env["radwan.document.sign.item"])
+                items_by_page[page_no] |= item
+
+            for page_index in range(page_count):
+                page = self._pdf_get_page(reader, page_index)
+                page_width, page_height = self._pdf_page_size(page)
+                page_items = items_by_page.get(page_index + 1)
+                if page_items:
+                    overlay = self._build_signature_overlay(
+                        canvas,
+                        ImageReader,
+                        page_width,
+                        page_height,
+                        page_items,
+                    )
+                    if overlay:
+                        overlay_reader = self._pdf_reader(PdfFileReader, overlay)
+                        overlay_page = self._pdf_get_page(overlay_reader, 0)
+                        self._pdf_merge_page(page, overlay_page)
+                self._pdf_add_page(writer, page)
+
+            output = BytesIO()
+            writer.write(output)
+            return output.getvalue()
+        except Exception:
+            _logger.exception("Could not render signed PDF for request %s.", self.id)
+            return raw
+
+    def _is_pdf_attachment(self, attachment):
+        self.ensure_one()
+        mimetype = (attachment.mimetype or "").lower()
+        filename = (attachment.name or "").lower()
+        return mimetype == "application/pdf" or filename.endswith(".pdf")
+
+    def _build_signature_overlay(self, canvas_class, image_reader_class, width, height, page_items):
+        packet = BytesIO()
+        pdf_canvas = canvas_class.Canvas(packet, pagesize=(width, height))
+        has_content = False
+        for item in page_items:
+            box_width = max(18.0, width * max(float(item.width or 0.0), 1.0) / 100.0)
+            box_height = max(10.0, height * max(float(item.height or 0.0), 1.0) / 100.0)
+            x_pos = width * max(float(item.pos_x or 0.0), 0.0) / 100.0
+            y_pos = height - (height * max(float(item.pos_y or 0.0), 0.0) / 100.0) - box_height
+            x_pos = max(0.0, min(x_pos, width - box_width))
+            y_pos = max(0.0, min(y_pos, height - box_height))
+
+            if item.field_type in ("signature", "initial"):
+                payload = item.signature_image or self.signature_image
+                if not payload:
+                    continue
+                try:
+                    image = image_reader_class(BytesIO(base64.b64decode(payload)))
+                    pdf_canvas.drawImage(
+                        image,
+                        x_pos,
+                        y_pos,
+                        width=box_width,
+                        height=box_height,
+                        preserveAspectRatio=True,
+                        mask="auto",
+                        anchor="c",
+                    )
+                    has_content = True
+                except Exception:
+                    _logger.exception("Could not draw signature field %s.", item.id)
+            else:
+                text = item.value_text
+                if item.field_type == "date":
+                    text = fields.Date.to_string(fields.Date.context_today(self))
+                if not text:
+                    continue
+                font_size = max(8.0, min(14.0, box_height * 0.45))
+                pdf_canvas.setFillColorRGB(0.05, 0.12, 0.20)
+                pdf_canvas.setFont("Helvetica", font_size)
+                pdf_canvas.drawString(x_pos + 3.0, y_pos + (box_height - font_size) / 2.0, text)
+                has_content = True
+        pdf_canvas.save()
+        if not has_content:
+            return False
+        packet.seek(0)
+        return packet.getvalue()
+
+    def _pdf_reader(self, reader_class, raw):
+        try:
+            return reader_class(BytesIO(raw), strict=False)
+        except TypeError:
+            return reader_class(BytesIO(raw))
+
+    def _pdf_page_count(self, reader):
+        if hasattr(reader, "getNumPages"):
+            return reader.getNumPages()
+        return len(reader.pages)
+
+    def _pdf_get_page(self, reader, index):
+        if hasattr(reader, "getPage"):
+            return reader.getPage(index)
+        return reader.pages[index]
+
+    def _pdf_add_page(self, writer, page):
+        if hasattr(writer, "addPage"):
+            return writer.addPage(page)
+        return writer.add_page(page)
+
+    def _pdf_merge_page(self, page, overlay_page):
+        if hasattr(page, "merge_page"):
+            return page.merge_page(overlay_page)
+        return page.mergePage(overlay_page)
+
+    def _pdf_page_size(self, page):
+        media_box = getattr(page, "mediabox", None) or getattr(page, "mediaBox")
+        width = getattr(media_box, "width", None)
+        height = getattr(media_box, "height", None)
+        if width is None:
+            width = media_box.getWidth()
+        if height is None:
+            height = media_box.getHeight()
+        return float(width), float(height)
 
     def _parse_item_payload(self, item_payload):
         if not item_payload:
