@@ -67,6 +67,8 @@ class DocumentDocument(models.Model):
                 partner = employee.user_id.partner_id
         if not partner:
             raise UserError(_("Select a related partner or employee before requesting a signature."))
+        if not attachment:
+            raise UserError(_("Attach a PDF or binary document before requesting a signature."))
         request = self.env["radwan.document.sign.request"].create({
             "document_id": self.id,
             "attachment_id": attachment.id if attachment else False,

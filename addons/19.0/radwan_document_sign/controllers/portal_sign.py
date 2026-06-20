@@ -15,6 +15,7 @@ class RadwanDocumentSignPortal(http.Controller):
     @http.route("/radwan/sign/<string:token>", type="http", auth="public")
     def sign_document(self, token, **kwargs):
         sign_request = self._get_request(token)
+        sign_request.sudo()._ensure_document_attachment()
         sign_request.sudo()._ensure_default_items()
         return request.render(
             "radwan_document_sign.portal_sign_page",
@@ -32,6 +33,7 @@ class RadwanDocumentSignPortal(http.Controller):
         sign_request = request.env["radwan.document.sign.request"].sudo().browse(request_id).exists()
         if not sign_request:
             raise NotFound()
+        sign_request._ensure_document_attachment()
         sign_request._ensure_default_items()
         return request.render(
             "radwan_document_sign.prepare_sign_fields_page",
@@ -88,6 +90,7 @@ class RadwanDocumentSignPortal(http.Controller):
         sign_request = request.env["radwan.document.sign.request"].sudo().browse(request_id).exists()
         if not sign_request:
             raise NotFound()
+        sign_request._ensure_document_attachment()
         attachment = self._get_request_attachment(sign_request)
         if not attachment:
             raise NotFound()
@@ -114,6 +117,7 @@ class RadwanDocumentSignPortal(http.Controller):
     )
     def public_preview_document(self, token, **kwargs):
         sign_request = self._get_request(token)
+        sign_request.sudo()._ensure_document_attachment()
         attachment = self._get_request_attachment(sign_request)
         if not attachment:
             raise NotFound()
@@ -207,6 +211,7 @@ class RadwanDocumentSignPortal(http.Controller):
         return False
 
     def _get_request_attachment(self, sign_request):
+        sign_request.sudo()._ensure_document_attachment()
         if "attachment_id" in sign_request._fields and sign_request.attachment_id:
             return sign_request.attachment_id.sudo()
         return self._get_document_attachment(sign_request.document_id)

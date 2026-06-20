@@ -98,7 +98,21 @@ class RadwanDocumentSignRequest(models.Model):
             if vals.get("name", "New") == "New":
                 vals["name"] = sequence.next_by_code("radwan.document.sign.request") or "New"
             vals.setdefault("token", secrets.token_urlsafe(32))
+            if vals.get("document_id") and not vals.get("attachment_id"):
+                vals["attachment_id"] = self._get_document_signature_attachment_id(vals["document_id"])
         return super().create(vals_list)
+
+    def write(self, vals):
+        result = super().write(vals)
+        if vals.get("document_id") and "attachment_id" not in vals:
+            self._ensure_document_attachment()
+        return result
+
+    @api.onchange("document_id")
+    def _onchange_document_id(self):
+        for request in self:
+            if request.document_id and not request.attachment_id:
+                request.attachment_id = request.document_id._get_signature_attachment()
 
     @api.depends("token")
     def _compute_access_url(self):
@@ -116,6 +130,7 @@ class RadwanDocumentSignRequest(models.Model):
 
     def action_send(self):
         for request in self:
+            request._ensure_document_attachment(required=True)
             if not request.partner_id.email:
                 raise UserError(_("The signer must have an email address."))
             request.write({
@@ -131,6 +146,7 @@ class RadwanDocumentSignRequest(models.Model):
 
     def action_open_portal(self):
         self.ensure_one()
+        self._ensure_document_attachment(required=True)
         return {
             "type": "ir.actions.act_url",
             "name": _("Signature Page"),
@@ -140,6 +156,7 @@ class RadwanDocumentSignRequest(models.Model):
 
     def action_prepare_fields(self):
         self.ensure_one()
+        self._ensure_document_attachment(required=True)
         self._ensure_default_items()
         return {
             "type": "ir.actions.act_url",
@@ -203,6 +220,26 @@ class RadwanDocumentSignRequest(models.Model):
                 "height": 8.0,
             })
 
+    @api.model
+    def _get_document_signature_attachment_id(self, document_id):
+        document = self.env["document.document"].sudo().browse(document_id).exists()
+        if not document:
+            return False
+        attachment = document._get_signature_attachment()
+        return attachment.id if attachment else False
+
+    def _ensure_document_attachment(self, required=False):
+        for request in self:
+            if request.attachment_id:
+                continue
+            attachment = request.document_id._get_signature_attachment() if request.document_id else False
+            if attachment:
+                request.sudo().write({"attachment_id": attachment.id})
+            elif required:
+                raise UserError(_(
+                    "No previewable document attachment was found. Please attach a PDF or binary file to the document before preparing the signature fields."
+                ))
+
     def _portal_sign(
         self,
         signature_data=False,
@@ -244,12 +281,14 @@ class RadwanDocumentSignRequest(models.Model):
 
     def _get_signed_attachment(self):
         self.ensure_one()
+        self._ensure_document_attachment()
         return self.signed_attachment_id or self.attachment_id or self.document_id._get_signature_attachment()
 
     def _create_signed_file_records(self):
         Attachment = self.env["ir.attachment"].sudo()
         Document = self.env["document.document"].sudo()
         for request in self:
+            request._ensure_document_attachment()
             source = request.attachment_id or request.document_id._get_signature_attachment()
             if not source:
                 continue
